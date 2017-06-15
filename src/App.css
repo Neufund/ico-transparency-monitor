@@ -1,0 +1,176 @@
+body{
+  font-family: 'Montserrat', sans-serif;
+}
+.App {
+  text-align: left;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 29.88px;	width: 29.54px;
+  float: left;
+}
+
+.App-header {
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color:black;
+  border: 1px solid #D9DBDC;
+}
+.header-paragraph , .ico-box{
+ margin-bottom: 20px;
+}
+.App-header .App-name,
+.App-header img,
+.App-header span{
+  float: left;
+}
+.App-header h4{
+  height: 19px;
+  width: 238px;
+  color: #262B2F;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 20px;
+  padding-left: 20px;
+  border-left: 1px solid black;
+
+}
+.App-header span.powerd-by-neufund {
+  height: 20px;
+  color: #4A4A4A;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+  margin-top:5px;
+}
+
+.header-paragraph{
+  height: 206px;
+  background-color: #F5F9F3;
+}
+
+.header-paragraph .title{
+  float: left;
+  margin-bottom: 10px;
+}
+.header-paragraph .title h6{
+  height: 24px;
+  margin-bottom:4px;
+  display: block;
+  color: #000000;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 24px;
+  clear: both;
+}
+.header-paragraph p{
+  clear: both;
+  height: 91px;
+  width: 532px;
+  color: #4A4A4A;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.ico-box{
+  height: 139px;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px 0 #BBC2C7;
+}
+.ico-box .name{
+  margin-top:13px;
+}
+.ico-box  .name  .ico-logo img{
+  height: 36.8px;
+  width: auto;
+}
+.ico-box  .name  h4{
+  height: 24px;
+  color: #000000;
+  font-size: 22px;
+  line-height: 24px;
+  margin: 0px;
+  margin-bottom: 2px;
+}
+
+.ico-box .ico-logo img{
+  float: right;
+}
+
+.ico-box .name{
+  height: 40px;
+  color: #4A4A4A;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+
+.ico-box .ico-quick-stats{
+  height: 139px;
+  background-color: #F7F8F9;
+}
+
+.ico-box .ico-quick-stats .title{
+  height: 20px;
+  color: #4A4A4A;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+}
+.ico-box .ico-quick-stats .desc{
+   height: 24px;
+   color: #000000;
+   font-size: 16px;
+   line-height: 24px;
+  padding-right:19px;
+}
+.ico-box .part{
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.container {
+  box-sizing: border-box;
+  padding: .5em;
+}
+.transparency-button{
+  height:54px;
+  border-radius: 2px 0 0 2px;
+  border: 0;
+  width:100%;
+  background-color: #D9DBDC;
+  text-align: left;
+}
+.transparency-button .title{
+  margin:0px;
+}
+.none-transparent-status{
+  border-left:10px #FF0000 solid;
+}
+.transparent-issues-status{
+  border-left:10px #FFB600 solid;
+}
+.transparent-status{
+  border-left:10px #2BD822 solid;
+}
+
+.part.transparency p{
+  margin:0px;
+}
+.part.transparency strong{
+  font-size: large;
+  font-weight:300;
+}

@@ -1,0 +1,68 @@
+.scanbox{
+  height: 194px;
+  background-color: #F7F8F9;
+}
+.scan-ico-for-detaile {
+  height: 24px;
+  width: 328px;
+  color: #000000;
+  font-family: 'Montserrat';
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 24px;
+}
+.select-ico {
+  height: 50px;
+  width: 100%;
+  font-size: large;
+  border:0px;
+  border-radius: 3px;
+  background-color: #FFFFFF;
+  box-shadow: inset 0 1px 3px 0 #D9DBDC;
+}
+
+.scan-button {
+  height: 50px;
+  color:white;
+  border:0px;
+  width:100%;
+  border-radius: 4px;
+  background-color: #09719B;
+  box-shadow: 0 2px 4px 0 #A3C0CC;
+  font-size:large;
+}
+.scan-content{
+  padding:20px;
+}
+
+.scanbox-details .statistics .title{
+  color: #000000;
+  font-family: 'Montserrat';
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 24px;
+}
+.scanbox-details{
+  background-color: #F7F8F9;
+}
+
+.scanbox-details .stats table{
+  margin-left:60px;
+}
+.scanbox-details .stats table td {
+  padding-left:60px;
+}
+.scanbox-details .stats table th {
+  color: #4A4A4A;
+  font-family: 'Montserrat';
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.inner-table {
+  margin-left:120px !important;
+}
+.inner-table  table th{
+  padding-left: 50px !important;;
+}

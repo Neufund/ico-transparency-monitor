@@ -1433,17 +1433,17 @@ module.exports = {
             decimal: 6,
             etherFactor: 1000,
             matrix: {
-                q1: {answer: true, reason: null}, // Y/N
-                q2: {answer: true, reason: null}, // Y/N
-                q3: {answer: true, reason: null}, // Y/N -- not critical
-                q4: {answer: true, reason: null}, // Y/N
+                q1: {answer: false, reason: null}, // Y/N
+                q2: {answer: false, reason: null}, // Y/N
+                q3: {answer: false, reason: null}, // Y/N -- not critical
+                q4: {answer: false, reason: null}, // Y/N
                 q5: {answer: false, reason: null}, // Y/N
                 q6: {answer: false, reason: null}, // Y N/A
-                q7: {answer: true, reason: null}, // Y/N N/A -- not critical
+                q7: {answer: false, reason: null}, // Y/N N/A -- not critical
                 q8: {answer: true, reason: null}, // Y N/A
                 q9: {answer: false, reason: null},// Y/N N/A -- not critical
-                q10: {answer: true, reason: null}, // Y/N -- not critical
-                q11: {answer: true, reason: null} // Y/N
+                q10: {answer: false, reason: null}, // Y/N -- not critical
+                q11: {answer: false, reason: null} // Y/N
             },
             summary :{
                 startDate: new Date(),

@@ -14,11 +14,10 @@ const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js');
 
 const moment = require('moment');
 
-
-export const makePromise = (func) => (...args) => new Promise((resolve, fail) =>
-    func(...args, (error, result) => error ? fail(error) : resolve(result))
-);
-
+export const toPromise = func => (...args) =>
+    new Promise((resolve, reject) =>
+        func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
+    );
 
 export const formateDate = (datetime) => {
     return `${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`;
@@ -32,55 +31,38 @@ export const formatNumber = (number) => {
     });
 };
 
-export const web3Connect = ()=> {
+const engineWithProviders = (providers) => {
+    const engine = new ProviderEngine();
+    providers.forEach(provider => (provider !== null ? engine.addProvider(provider) : engine));
+    return engine;
+};
 
-    let engine = new ProviderEngine();
-    let web3 = new Web3(engine);
+export const createEngine = (rpcUrl) =>
+    engineWithProviders([
+        new FixtureSubprovider({
+            web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
+            net_listening: true,
+            eth_hashrate: '0x00',
+            eth_mining: false,
+            eth_syncing: true,
+        }),
+        new CacheSubprovider(),
+        new FilterSubprovider(),
+        new NonceSubprovider(),
+        new VmSubprovider(),
+        new RpcSubprovider({ rpcUrl }),
+    ]);
 
-// static results
-    engine.addProvider(new FixtureSubprovider({
-        web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
-        net_listening: true,
-        eth_hashrate: '0x00',
-        eth_mining: false,
-        eth_syncing: true,
-    }));
+export const web3Connect = (rpcUrl) => {
+    if (rpcUrl === 'window.web3') {
+        return window.web3;
+    }
 
-// cache layer
-    engine.addProvider(new CacheSubprovider());
-
-// filters
-    engine.addProvider(new FilterSubprovider());
-
-// pending nonce
-    engine.addProvider(new NonceSubprovider());
-
-// vm
-    engine.addProvider(new VmSubprovider());
-
-// id mgmt
-    engine.addProvider(new HookedWalletSubprovider({
-        getAccounts: function (cb) {
-            console.log(cb)
-        },
-        approveTransaction: function (cb) {
-            console.log(cb)
-        },
-        signTransaction: function (cb) {
-            console.log(cb)
-        },
-    }));
-
-
-// data source
-    engine.addProvider(new RpcSubprovider({
-        rpcUrl: `${config.rpcHost}`,
-    }));
-
+    const engine = createEngine(config.rpcHost);
     engine.start();
-
-    return web3
-
+    console.log(`${config.rpcHost} connected`);
+    window.web3 = new Web3(engine);
+    return window.web3;
 };
 
 export const decisionMatrix = (matrix) => {
@@ -98,6 +80,7 @@ export const decisionMatrix = (matrix) => {
         const isNotApplicable = notApplicableQuestions.indexOf(questionNumber) === -1;
 
         if ( item.answer === true || item.answer === null && isNotApplicable){
+            //TODO
         } else if(item.answer === false && !isCritical){ //Not Critical Question
             transparentWithIssues.push(questionNumber);
 
@@ -106,11 +89,11 @@ export const decisionMatrix = (matrix) => {
             nonTransparent.push(questionNumber);
 
         }else{
-            throw "Impossible";
+            //todo
         }
     });
     if (nonTransparent.length === 0 && transparentWithIssues.length === 0)
-        return "Transparent";
+        return ["Transparent"];
 
     else if (nonTransparent.length !== 0)
         return ["Non Transparent", nonTransparent];
@@ -125,7 +108,7 @@ export const getEtherPerCurrency = (callback) => {
     jQuery.ajax({
         url: 'https://api.coinbase.com/v2/exchange-rates?currency=ETH',
         success: function (result) {
-            callback(result , null)
+            callback(result.data , null)
         },
         error: function (err, message) {
             console.log(`Coinbase error ${message}`);
@@ -134,23 +117,38 @@ export const getEtherPerCurrency = (callback) => {
     });
 };
 
+
+export const getICOs = ()=>{
+    let icos = [];
+    const icosObject = config['ICOS'];
+    Object.keys(icosObject).map((icoKey) => {
+            const ico = icosObject[icoKey]['summary'];
+            ico['name'] = icoKey;
+            ico['matrix'] = icosObject[icoKey]['matrix'];
+            icos.push(ico);
+        }
+    );
+    return icos;
+
+};
+
 export const getICOLogs = async(icoName , callback) => {
     const ICO = config.ICOS[icoName];
     const customArgs = ICO.hasOwnProperty('customArgs') ? ICO.customArgs : {};
-    const web3 = web3Connect();
+    const web3 = web3Connect(config.rpcUrl);
     const address = ICO.address;
     const abi = ICO.abi;
 
     const smartContract = web3.eth.contract(abi).at(address);
 
-    let event = smartContract[ICO.event](customArgs, {fromBlock: 0, toBlock: 3607800});
+    let event = smartContract[ICO.event](customArgs, {fromBlock: 0, toBlock: 'latest'});
     jQuery.ajax({
         type: "POST",
         url: config.rpcHost,
         Accept: "application/json",
         contentType: "application/json",
         data: JSON.stringify({
-            "id": 1496936096059709,
+            "id": 1497353430507566,
             "jsonrpc": "2.0",
             "params": [{
                 "fromBlock": event.options.fromBlock, "toBlock": event.options.toBlock,
@@ -169,8 +167,39 @@ export const getICOLogs = async(icoName , callback) => {
     });
 };
 
+export const initStatistics = () => {
+    return {
+        general: {
+            transactionsCount: 0
+        },
+        time: {
+            startDate: null,
+            endDate: null
+        },
+        investors: {
+            numberInvestorsMoreThanOne100kEuro: 0,
+            numberInvestorsBetween5to100kEruo: 0,
+            numberInvestorsLessThan500K: 0,
+            numberInvestorsWhoInvestedMoreThanOnce: 0,
+            maxInvestmentsMoney: 0,
+            maxInvestmentsTokens: 0,
+            minInvestments: 999999999999,
+            senders: {}
+        },
+        money: {
+            tokenIssued: 0,
+            totalETH: 0,
+        },
+        charts: {
+            tokensCount: null,
+            tokensAmount: null,
+            invetorsDistribution: null
+        }
+    };
+}
+
 export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEther) => {
-    const web3 = web3Connect();
+    const web3 = web3Connect(config.rpcUrl);
     const factor = selectedICO.hasOwnProperty('decimal') ? 10 ** selectedICO['decimal'] : 10 ** config['defaultDecimal'];
 
     statisticsICO.general.transactionsCount = this.length;
@@ -243,7 +272,7 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
 
     for (let [key, value] of Object.entries(statisticsICO.investors.senders)) {
 
-        let currencyValue = value['ETH'] * parseFloat(currencyPerEther.value);
+        let currencyValue = value['ETH'] * parseFloat(currencyPerEther);
         if (currencyValue > 100000)
             statisticsICO.investors.numberInvestorsMoreThanOne100kEuro += 1;
         if (currencyValue > 5000 && currencyValue < 100000)
@@ -278,3 +307,24 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
     statisticsICO.charts.invetorsDistribution = chartInvetorsDistibution;
     return statisticsICO;
 };
+
+export const objectMap = (obj, map) =>
+    Object.keys(obj).reduce(
+        (others, key) => ({
+            ...others,
+            [key]: map(obj[key], key),
+        }),
+        {}
+    );
+
+export const objectZip = (keys, values) =>
+    keys.reduce(
+        (others, key, index) => ({
+            ...others,
+            [key]: values[index],
+        }),
+        {}
+    );
+
+export const objectPromise = async obj =>
+    objectZip(Object.keys(obj), await Promise.all(Object.values(obj)));

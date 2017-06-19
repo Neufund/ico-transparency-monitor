@@ -4,23 +4,33 @@ import App from './App';
 import Scan from './Scan';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
-// import {Router, Route} from 'react-router';
-// using CommonJS modules
-import {
-    BrowserRouter,
-    Route,
-    Link,Switch
-} from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Layout from './views/Layout';
+import { Provider} from 'react-redux'
+import { createStore } from 'redux'
+import LoadingBar from 'react-redux-loading-bar'
 
-ReactDOM.render(
-    <BrowserRouter >
+import TransparencyModal from './components/transparency';
+import reducer from './reducers';
 
-        <Switch>
-            <Route exact path="/" component={App}/>
-            <Route exact path="/:name" component={Scan}/>
-        </Switch>
+const root = document.getElementById('root');
 
-    </BrowserRouter>
+const render = (store) => {
+    ReactDOM.render(
+        <Provider store={store}>
+            <Layout>
+                <LoadingBar />
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path="/" component={App}/>
+                        <Route exact path="/:name" component={Scan}/>
+                    </Switch>
+                </BrowserRouter>
+                <TransparencyModal/>
+            </Layout>
+        </Provider> , root);
+};
 
-    , document.getElementById('root'));
+const store = createStore(reducer);
+render(store);
 registerServiceWorker();

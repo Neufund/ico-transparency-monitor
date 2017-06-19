@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import logo from '../logo.svg';
 
-
-const TopHeader = ({logo}) => (
+const TopHeader = () => (
 <Grid fluid className="App-header">
     <Row >
         <Col md={12} >
@@ -15,4 +15,3 @@ const TopHeader = ({logo}) => (
 );
 
 export default TopHeader;
-

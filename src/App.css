@@ -157,7 +157,7 @@ body{
 .transparency-button .title{
   margin:0px;
 }
-.none-transparent-status{
+.non-transparent-status{
   border-left:10px #FF0000 solid;
 }
 .transparent-issues-status{

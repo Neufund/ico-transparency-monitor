@@ -4,17 +4,14 @@ import './ScanBox.css';
 
 
 const ScanBox = ({onClickScanHandler,  icoName}) => (
-    <Grid className="scanbox">
+    <Grid className="scanbox" >
         <Row >
             <Col md={12} className="scan-content">
 
                 <h3 className="scan-ico-for-detaile">Scan ICO for details statistics</h3>
                 <Row>
                     <Col md={9}>
-                        <select className="select-ico">
-                            <option>Golem</option>
-                            <option>Meano</option>
-                        </select>
+                        <textarea className="console"></textarea>
                     </Col>
                     <Col md={3}>
                         <button className="scan-button" onClick={onClickScanHandler}>Scan</button>

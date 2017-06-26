@@ -9,6 +9,7 @@ ul.currency-buttons >li{
     float:left;
 }
 ul.currency-buttons >li> a{
+    cursor: pointer;
     display:block;
     text-decoration:none;
     color:#000;
@@ -38,7 +39,7 @@ li a:hover{
     background: -o-linear-gradient(top,#fff 25%,#eee 100%);
     background: linear-gradient(top,#fff 25%,#eee 100%);
 }
-li a:active{
+li a:active,li a.active{
     text-shadow:0 -1px #fff;
     background:#ccc;
     background:-webkit-gradient(linear,left top,left bottom,color-stop(.25, #eee),color-stop(1, #fff));

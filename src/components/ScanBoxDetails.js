@@ -10,7 +10,6 @@ import {TokensBarChart , DoubleBarChart} from './charts'
 const ScanBoxDetails = ({...props}) =>
 
     (props.currency && <Grid className="scanbox-details">
-            <h1>{props.stats.time.startDate}</h1>
             <Row className="statistics">
                 <Col md={12} className="scan-content">
                     <Row>
@@ -36,16 +35,16 @@ const ScanBoxDetails = ({...props}) =>
 
             <Col md={6} className="scan-content">
 
-                <Investors investors={props.stats.investors} />
+                <Investors investors={props.stats.investors} currency={props.currency}/>
 
             </Col>
             <Col md={6}>
-                <DoubleBarChart data={props.stats.invetorsDistribution}/>
+                <DoubleBarChart data={props.stats.charts.invetorsDistribution}/>
             </Col>
         </Row>
 
     </Grid>
-)
+);
 
 export default connect(
     state => ({

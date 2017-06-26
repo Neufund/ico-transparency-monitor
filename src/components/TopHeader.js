@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import logo from '../logo.svg';
+import logo from '../assets/logo.svg';
 
 const TopHeader = () => (
 <Grid fluid className="App-header">

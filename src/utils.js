@@ -1,18 +1,11 @@
+import React from 'react';
+import {web3Connect, getSmartContract} from './utils/web3';
 import jQuery from "jquery";
-
-import Web3 from 'web3';
 import {default as config} from './config.js';
-
-const ProviderEngine = require('web3-provider-engine');
-const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
-const FixtureSubprovider = require('web3-provider-engine/subproviders/fixture.js');
-const FilterSubprovider = require('web3-provider-engine/subproviders/filters.js');
-const VmSubprovider = require('web3-provider-engine/subproviders/vm.js');
-const HookedWalletSubprovider = require('web3-provider-engine/subproviders/hooked-wallet.js');
-const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker.js');
-const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js');
+import {store} from "./index";
 
 const moment = require('moment');
+
 
 export const toPromise = func => (...args) =>
     new Promise((resolve, reject) =>
@@ -20,7 +13,7 @@ export const toPromise = func => (...args) =>
     );
 
 export const formateDate = (datetime) => {
-    return `${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`;
+    return `${datetime.getFullYear()}-${("0" + (datetime.getMonth() + 1)).slice(-2)}-${datetime.getDate()}`;
 };
 
 export const formatNumber = (number) => {
@@ -31,41 +24,9 @@ export const formatNumber = (number) => {
     });
 };
 
-const engineWithProviders = (providers) => {
-    const engine = new ProviderEngine();
-    providers.forEach(provider => (provider !== null ? engine.addProvider(provider) : engine));
-    return engine;
-};
-
-export const createEngine = (rpcUrl) =>
-    engineWithProviders([
-        new FixtureSubprovider({
-            web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
-            net_listening: true,
-            eth_hashrate: '0x00',
-            eth_mining: false,
-            eth_syncing: true,
-        }),
-        new CacheSubprovider(),
-        new FilterSubprovider(),
-        new NonceSubprovider(),
-        new VmSubprovider(),
-        new RpcSubprovider({ rpcUrl }),
-    ]);
-
-export const web3Connect = (rpcUrl) => {
-    if (rpcUrl === 'window.web3') {
-        return window.web3;
-    }
-
-    const engine = createEngine(config.rpcHost);
-    engine.start();
-    console.log(`${config.rpcHost} connected`);
-    window.web3 = new Web3(engine);
-    return window.web3;
-};
 
 export const decisionMatrix = (matrix) => {
+
     const notApplicableQuestions = [6, 7, 8, 9];
     const notCritical = [3,9,10];
 
@@ -104,19 +65,29 @@ export const decisionMatrix = (matrix) => {
         return [];
 };
 
-export const getEtherPerCurrency = (callback) => {
+Date.prototype.yyyymmdd = function() {
+    const mm = this.getMonth() +1;
+    const dd = this.getDate();
+
+    return [this.getFullYear(),
+        (mm > 9 ? '' : '0') + mm,
+        (dd > 9 ? '' : '0') + dd
+    ].join('-');
+};
+
+export const getEtherPerCurrency = (callback ,currency = "ETH-EUR", date=new Date().yyyymmdd()) => {
     jQuery.ajax({
-        url: 'https://api.coinbase.com/v2/exchange-rates?currency=ETH',
+        // url: 'https://api.coinbase.com/v2/exchange-rates?currency=ETH',
+        url : `https://api.coinbase.com/v2/prices/${currency}/spot?date=${date}`,
         success: function (result) {
-            callback(result.data , null)
+            console.log(result);
+            callback(result.data.amount , null)
         },
         error: function (err, message) {
-            console.log(`Coinbase error ${message}`);
             callback(null , err)
         }
     });
 };
-
 
 export const getICOs = ()=>{
     let icos = [];
@@ -132,16 +103,29 @@ export const getICOs = ()=>{
 
 };
 
+
+//TODO: Required Data must be validate.
 export const getICOLogs = async(icoName , callback) => {
     const ICO = config.ICOS[icoName];
-    const customArgs = ICO.hasOwnProperty('customArgs') ? ICO.customArgs : {};
-    const web3 = web3Connect(config.rpcUrl);
+
+    const customArgs = ICO['event'].hasOwnProperty('customArgs') ? ICO['event'].customArgs : {};
+
     const address = ICO.address;
-    const abi = ICO.abi;
 
-    const smartContract = web3.eth.contract(abi).at(address);
+    /**
+     * Zero index for the smart contract, One index for the constants
+     */
+    let smartContract = null;
+    let event = null;
+    try{
+        smartContract = getSmartContract(icoName)[0];
+        event = smartContract[ICO.event.name](customArgs, {fromBlock: 0, toBlock: 'latest'});
 
-    let event = smartContract[ICO.event](customArgs, {fromBlock: 0, toBlock: 'latest'});
+    }catch(error){
+        store.dispatch({ type: 'SHOW_MODAL_ERROR',message :`Cant read smart Contract for ${icoName} from RPC Host url ${config.rpcHost}.` })
+        return;
+    }
+
     jQuery.ajax({
         type: "POST",
         url: config.rpcHost,
@@ -159,9 +143,16 @@ export const getICOLogs = async(icoName , callback) => {
         }),
         success: (e) => {
             let res = e.result;
-            callback(null, res.map(function (log) {
-                return event.formatter ? event.formatter(log) : log;
-            }));
+            if(res.length == 0) {
+                store.dispatch({type: 'SHOW_MODAL_MESSAGE', message: `Empty result`})
+                callback('Empty result', res);
+            }else
+                callback(null, res.map(function (log) {
+                    return event.formatter ? event.formatter(log) : log;
+                }));
+        },
+        error:(status, error)=>{
+            store.dispatch({ type: 'SHOW_MODAL_ERROR',message :`Error ${status}` })
         },
         dataType: 'json'
     });
@@ -196,7 +187,35 @@ export const initStatistics = () => {
             invetorsDistribution: null
         }
     };
-}
+};
+
+export const prepareStatsInvestment = (senders , currencyPerEther) => {
+
+    let investors = initStatistics().investors;
+    investors.senders = senders;
+
+    for (let [key, value] of Object.entries(senders)) {
+
+        let currencyValue = value['ETH'] * parseFloat(currencyPerEther);
+        if (currencyValue > 100000)
+            investors.numberInvestorsMoreThanOne100kEuro += 1;
+        if (currencyValue > 5000 && currencyValue < 100000)
+            investors.numberInvestorsBetween5to100kEruo += 1;
+        if (currencyValue < 5000)
+            investors.numberInvestorsLessThan500K += 1;
+        if (value['times'] > 1)
+            investors.numberInvestorsWhoInvestedMoreThanOnce += 1;
+
+        if (currencyValue > investors.maxInvestmentsMoney) {
+            investors.maxInvestmentsMoney = currencyValue;
+            investors.maxInvestmentsTokens = value['tokens']
+        }
+
+        if (value['ETH'] < investors.minInvestments)
+            investors.minInvestments = value['ETH'];
+    }
+    return investors;
+};
 
 export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEther) => {
     const web3 = web3Connect(config.rpcUrl);
@@ -214,10 +233,10 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
     };
     events.map((item) => {
 
-        const tokenValue = item.args[selectedICO.args.tokens].valueOf() / factor;
+        const tokenValue = item.args[selectedICO.event.args.tokens].valueOf() / factor;
         let etherValue = web3.fromWei(item.value, "ether").valueOf();
 
-        const investor = item.args[selectedICO.args.sender];
+        const investor = item.args[selectedICO.event.args.sender];
 
         const datetime = new Date(item.timestamp * 1000);
         let blockDate = `${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`;
@@ -231,8 +250,8 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
 
         chartAmountTemp[blockDate] += tokenValue;
 
-        if (parseFloat(etherValue) === 0 && tokenValue !== 0)
-            etherValue = tokenValue / config['defaultEtherFactor'];
+        // if (parseFloat(etherValue) === 0 && tokenValue !== 0)
+        //     etherValue = tokenValue / config['defaultEtherFactor'];
 
 
         let senders = statisticsICO.investors.senders;
@@ -242,21 +261,22 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
 
         senders[investor]['ETH'] += parseFloat(etherValue);
         senders[investor]['tokens'] += parseFloat(tokenValue);
-        senders[investor]['times'] += 1;
+        senders[investor]['times'] += parseFloat(etherValue) >1?+1:+0;
 
         let investorKey = null;
-        if (senders[investor]['ETH'] <  10000){
+
+        if (senders[investor]['ETH'] <  10000)
             investorKey = 'l10k';
-        }else if (senders[investor]['ETH'] > 10000 && senders[investor]['ETH'] < 100000 ){
+        else if (senders[investor]['ETH'] > 10000 && senders[investor]['ETH'] < 100000 )
             investorKey = 'g10kl100k';
-        }else if (senders[investor]['ETH'] > 100000 && senders[investor]['ETH'] < 500000 ){
+        else if (senders[investor]['ETH'] > 100000 && senders[investor]['ETH'] < 500000 )
             investorKey = 'g100kl500k';
-        }else if (senders[investor]['ETH'] > 500000){
+        else if (senders[investor]['ETH'] > 500000)
             investorKey = 'g500k';
-        }
+
         if(investorKey){
             chartInvetorsDistibution[investorKey][0]+=senders[investor]['ETH']; //amount of ethers
-            chartInvetorsDistibution[investorKey][1]+=1; // number of invetors
+            chartInvetorsDistibution[investorKey][1]+=1; // number of investors
         }
 
 
@@ -270,32 +290,15 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
     Object.keys(chartAmountTemp).map((key)=>statisticsICO.charts.tokensAmount.push({name: key, 'Tokens/Time': chartAmountTemp[key], amt: chartAmountTemp[key]}));
     Object.keys(chartAmountTemp).map((key)=>statisticsICO.charts.tokensCount.push({name: key, 'Transactions/Time': chartTokenCountTemp[key], amt: chartTokenCountTemp[key]}));
 
-    for (let [key, value] of Object.entries(statisticsICO.investors.senders)) {
+    statisticsICO.investors = prepareStatsInvestment(statisticsICO.investors.senders , currencyPerEther);
 
-        let currencyValue = value['ETH'] * parseFloat(currencyPerEther);
-        if (currencyValue > 100000)
-            statisticsICO.investors.numberInvestorsMoreThanOne100kEuro += 1;
-        if (currencyValue > 5000 && currencyValue < 100000)
-            statisticsICO.investors.numberInvestorsBetween5to100kEruo += 1;
-        if (currencyValue < 5000)
-            statisticsICO.investors.numberInvestorsLessThan500K += 1;
-        if (value['times'] > 1)
-            statisticsICO.investors.numberInvestorsWhoInvestedMoreThanOnce += 1;
 
-        if (currencyValue > statisticsICO.investors.maxInvestmentsMoney) {
-            statisticsICO.investors.maxInvestmentsMoney = currencyValue;
-            statisticsICO.investors.maxInvestmentsTokens = value['tokens']
-        }
+    const startTime = new Date(events[0].timestamp*1000);
+    statisticsICO.time.startDate = formateDate(startTime);
 
-        if (value['ETH'] < statisticsICO.investors.minInvestments)
-            statisticsICO.investors.minInvestments = value['ETH'];
-    }
-    const starttime = new Date(events[0].timestamp*1000);
-    statisticsICO.time.startDate = formateDate(starttime);
-
-    const endtime = new Date(events[events.length-1].timestamp*1000);
-    statisticsICO.time.endDate = formateDate(endtime)
-    const duration = moment.duration(moment(endtime).diff(moment(starttime)));
+    const endTime = new Date(events[events.length-1].timestamp*1000);
+    statisticsICO.time.endDate = formateDate(endTime)
+    const duration = moment.duration(moment(endTime).diff(moment(startTime)));
 
     statisticsICO.time.duration= `Y: ${duration.get("years")}  -
               M: ${duration.get("months")}  -
@@ -307,24 +310,3 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
     statisticsICO.charts.invetorsDistribution = chartInvetorsDistibution;
     return statisticsICO;
 };
-
-export const objectMap = (obj, map) =>
-    Object.keys(obj).reduce(
-        (others, key) => ({
-            ...others,
-            [key]: map(obj[key], key),
-        }),
-        {}
-    );
-
-export const objectZip = (keys, values) =>
-    keys.reduce(
-        (others, key, index) => ({
-            ...others,
-            [key]: values[index],
-        }),
-        {}
-    );
-
-export const objectPromise = async obj =>
-    objectZip(Object.keys(obj), await Promise.all(Object.values(obj)));

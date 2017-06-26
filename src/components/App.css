@@ -91,13 +91,17 @@ body{
   height: 36.8px;
   width: auto;
 }
-.ico-box  .name  h4{
+.ico-box .name h4{
   height: 24px;
-  color: #000000;
-  font-size: 22px;
   line-height: 24px;
   margin: 0px;
   margin-bottom: 2px;
+}
+.ico-box .name h4 a{
+  color: #000000;
+  text-decoration: none;
+  font-size: 22px;
+  line-height:39px;
 }
 
 .ico-box .ico-logo img{
@@ -128,7 +132,7 @@ body{
 .ico-box .ico-quick-stats .desc{
    height: 24px;
    color: #000000;
-   font-size: 16px;
+   font-size: 12px;
    line-height: 24px;
   padding-right:19px;
 }
@@ -173,4 +177,29 @@ body{
 .part.transparency strong{
   font-size: large;
   font-weight:300;
+}
+.nav-buttons{
+  clear: both;
+  height: 45px;
+  margin-top:5px;
+}
+.nav-buttons > .back-list{
+  float :left;
+  line-height: 45px;
+}
+.nav-buttons > .next-list{
+  float :right;
+  line-height: 40px;
+}
+.nav-buttons > .back-list > a {
+  margin-left: 28px;
+}
+.nav-buttons > .next-list > a {
+  margin-right: 28px;
+}
+
+.nav-buttons > .next-list  a ,.nav-buttons > .back-list  a {
+  text-decoration: none;
+  color: #09719B;
+  font-size: 18px;
 }

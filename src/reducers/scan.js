@@ -1,7 +1,7 @@
 import {initStatistics} from '../utils'
 
 const scan = (state = { stats:initStatistics() , currency :null , currencyValue:0}, action) => {
-    console.log(`Scan Action ${action.type} , state`,state);
+    // console.log(`Scan Action ${action.type} , state`,state);
     switch (action.type) {
         case 'DRAW_STATS':
             return {

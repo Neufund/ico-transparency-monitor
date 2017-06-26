@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import Scan from './Scan';
+import App from './components/App';
+import Scan from './components/Scan';
 import registerServiceWorker from './registerServiceWorker';
-import './index.css';
+import './assets/css/index.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Layout from './views/Layout';
-import { Provider} from 'react-redux'
-import { createStore } from 'redux'
+import { Provider} from 'react-redux';
+import { createStore } from 'redux';
 import LoadingBar from 'react-redux-loading-bar'
 
 import TransparencyModal from './components/transparency';
@@ -31,6 +31,6 @@ const render = (store) => {
         </Provider> , root);
 };
 
-const store = createStore(reducer);
+export const store = createStore(reducer);
 render(store);
 registerServiceWorker();

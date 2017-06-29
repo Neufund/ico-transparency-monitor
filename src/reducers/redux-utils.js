@@ -20,6 +20,7 @@ export const onModalDispatchToProp = (dispatch) => {
             dispatch(doShowModal(currentICO))
         },
         onErrorMessage : (message)=>{
+
             dispatch({ type: 'SHOW_MODAL_ERROR',message :message });
         },
 

@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { createSelector } from 'reselect';
 import {default as config} from '../config.js';
-import {toPromise,formateDate} from '../utils';
+import {toPromise,formateDate,formatNumber} from '../utils';
 
 
 const ProviderEngine = require('web3-provider-engine');
@@ -20,6 +20,8 @@ const engineWithProviders = (providers) => {
     return engine;
 };
 
+
+// TODO: Find another solution
 const isConnected = ()=>{
     let web3 = new Web3();
     web3.setProvider(new web3.providers.HttpProvider(config.rpcHost));
@@ -45,12 +47,12 @@ export const createEngine = (rpcUrl) =>
 
 export const web3Connect = () => {
     /**
-     * TODO: check if the connection is valid
      * TODO: connection timeout
      */
 
     const engine = createEngine(config.rpcHost);
     window.web3 = new Web3(engine);
+// network connectivity error
 
     engine.start();
 
@@ -63,8 +65,6 @@ export const getSmartContract = (icoName)=>{
     const customArgs = ICO.hasOwnProperty('customArgs') ? ICO.customArgs : {};
     const web3 = getWeb3();
 
-    // console.log(web3.net)
-    //
     const address = ICO.address;
     const abi = ICO.abi;
 
@@ -78,7 +78,7 @@ export const getWeb3 = () => {
         throw Error("SHOW_MODAL_ERROR")
 
 
-    if (window.web3 != undefined)
+    if (window.web3 !== undefined)
         return window.web3;
 
     return web3Connect();
@@ -86,11 +86,12 @@ export const getWeb3 = () => {
 
 export const getSmartContractConstants = (icoName ) => {
     const token = getSmartContract(icoName);
+
     const smartContract = token[0]; // abi from the config
-    // console.log(smartContract);
+    console.log(smartContract);
     const constants = token[1]; // constants from the config
     let result = {};
-    // console.log(constants);
+
     Object.keys(constants).map((constant)=>{
 
         if(constants[constant] == null) return;
@@ -109,10 +110,10 @@ export const constantValueOf = async (constant , type) => {
     switch(type){
         case 'string' :return constant;
         case 'uint256' :return web3.fromWei(constant , "ether").valueOf();
-        case 'timestamp' : return formateDate(new Date(parseInt(constant.valueOf())*1000));
-        case 'blockNumber' :
+        case 'timestamp' :return formateDate(new Date(parseInt(constant.valueOf())*1000) , false);
+        case 'blockNumber':
             const timestamp = (await toPromise(web3.eth.getBlock)(constant.valueOf())).timestamp;
-            return formateDate(new Date(parseInt(timestamp )*1000));
+            return formateDate(new Date(parseInt(timestamp )*1000), false);
         default: return null;
     }
 };

@@ -1,8 +1,8 @@
 import React from 'react';
-import './App.css';
+import '../assets/css/App.css';
 import {Grid} from 'react-flexbox-grid';
-import ICO from './ICO';
-import Header from './Header';
+import ICO from '../components/ICO';
+import Header from '../components/Header';
 import {getICOs} from '../utils';
 
 const App = () =>{

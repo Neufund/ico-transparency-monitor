@@ -1,9 +1,9 @@
 import React ,{Component} from 'react';
 import { Row, Col } from 'react-flexbox-grid';
-import './GroupButtons.css';
+import '../assets/css/GroupButtons.css';
 import { connect } from 'react-redux';
 import {mapScanStatisticsToProps} from '../reducers/redux-utils';
-import {getEtherPerCurrency, prepareStatsInvestment} from '../utils';
+import {getEtherPerCurrency, prepareStatsInvestment, getDistributedDataFromDataset} from '../utils';
 
 class CurrencyButton extends Component{
     constructor({ currencyValue, currency}){
@@ -41,11 +41,12 @@ class CurrencyButton extends Component{
                 this.props.setCurrency(currency, currencyValue);
                 let currentStatistics = this.props.stats;
                 currentStatistics.investors = prepareStatsInvestment(this.props.stats.investors.senders, currencyValue);
+                currentStatistics.charts.invetorsDistribution = getDistributedDataFromDataset(currentStatistics.etherDataset,currencyValue)[0];
+                currentStatistics.charts.investmentDistribution = getDistributedDataFromDataset(currentStatistics.etherDataset,currencyValue)[1];
                 this.props.drawStatistics(currentStatistics);
             }
         }, currencyFormat , this.state.exchangeRateActiveClass === "NOW"?new Date().yyyymmdd():this.props.stats.time.endDate);
     }
-
 
     // TODO:Handle Bitcoin
     onDayofICOClick(exchangeRateDate = "NOW"){
@@ -75,15 +76,17 @@ class CurrencyButton extends Component{
 
     render() {
         return (
-            <Row >
+            <Row className="group-buttons">
                 <Col md={4}>
-                    <p>Converted to:</p>
-                    <ul className="currency-buttons">
-                        <li><a className={this.state.currencyActiveClass === "EUR"?"active" : ""} onClick={()=>{this.onCurrencyClick('EUR')}}>EUR</a></li>
-                        <li><a className={this.state.currencyActiveClass === "USD"?"active" : ""} onClick={()=>{this.onCurrencyClick('USD')}}>USD</a></li>
-                        <li><a className={this.state.currencyActiveClass === "BTC"?"active" : ""} onClick={()=>{this.onCurrencyClick('BTC')}}>BTC</a></li>
-                        <li><a className={this.state.currencyActiveClass === "ETH"?"active" : ""} onClick={()=>{this.onCurrencyClick('ETH')}}>ETH</a></li>
-                    </ul>
+                    <div>
+                        <p>Converted to:</p>
+                        <ul className="currency-buttons">
+                            <li><a className={this.state.currencyActiveClass === "EUR"?"active" : ""} onClick={()=>{this.onCurrencyClick('EUR')}}>EUR</a></li>
+                            <li><a className={this.state.currencyActiveClass === "USD"?"active" : ""} onClick={()=>{this.onCurrencyClick('USD')}}>USD</a></li>
+                            <li><a className={this.state.currencyActiveClass === "BTC"?"active" : ""} onClick={()=>{this.onCurrencyClick('BTC')}}>BTC</a></li>
+                            <li><a className={this.state.currencyActiveClass === "ETH"?"active" : ""} onClick={()=>{this.onCurrencyClick('ETH')}}>ETH</a></li>
+                        </ul>
+                    </div>
                 </Col>
 
                 <Col md={4}>
@@ -94,7 +97,9 @@ class CurrencyButton extends Component{
                     </ul>
                 </Col>
                 <Col md={4}>
+                    <p>
                     <span>On: </span> <storng>ETH 1 / {this.props.currency} {this.props.currencyValue} </storng>
+                    </p>
                 </Col>
             </Row>
         )

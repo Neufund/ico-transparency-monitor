@@ -3,20 +3,23 @@ body{
 }
 .App {
   text-align: left;
+  border-top: 1px solid #D9DBDC;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
+  position: absolute;
+  left: 97px;
+  top: 14px;
+}
+.App-logo img{
   height: 29.88px;	width: 29.54px;
-  float: left;
+
 }
 
 .App-header {
   background-color: white;
-  padding-top: 20px;
-  padding-bottom: 20px;
   color:black;
-  border: 1px solid #D9DBDC;
+  border-left: 1px solid #424A52;;
 }
 .header-paragraph , .ico-box{
  margin-bottom: 20px;
@@ -28,15 +31,13 @@ body{
 }
 .App-header h4{
   height: 19px;
-  width: 238px;
+  width: 253px;
   color: #262B2F;
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
-  margin-top: 5px;
-  margin-left: 20px;
   padding-left: 20px;
-  border-left: 1px solid black;
-
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .App-header span.powerd-by-neufund {
   height: 20px;
@@ -45,7 +46,7 @@ body{
   font-size: 14px;
   font-weight: 300;
   line-height: 20px;
-  margin-top:5px;
+  margin-top:11px;
 }
 
 .header-paragraph{
@@ -81,6 +82,11 @@ body{
 
 .ico-box{
   height: 139px;
+}
+.scanbox{
+  height:100%;
+}
+.ico-box,.scanbox{
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 0 #BBC2C7;
 }
@@ -92,8 +98,6 @@ body{
   width: auto;
 }
 .ico-box .name h4{
-  height: 24px;
-  line-height: 24px;
   margin: 0px;
   margin-bottom: 2px;
 }
@@ -101,7 +105,7 @@ body{
   color: #000000;
   text-decoration: none;
   font-size: 22px;
-  line-height:39px;
+  /*line-height:39px;*/
 }
 
 .ico-box .ico-logo img{
@@ -122,29 +126,31 @@ body{
   background-color: #F7F8F9;
 }
 
-.ico-box .ico-quick-stats .title{
+.ico-box .title,.ico-box-scan .title{
   height: 20px;
   color: #4A4A4A;
+  font-family: Montserrat;
   font-size: 14px;
   font-weight: 300;
   line-height: 20px;
+  margin:0px;
 }
-.ico-box .ico-quick-stats .desc{
+.ico-box .separator,.ico-box-scan .separator{
+  padding-right:5px;
+  padding-left:5px;
+}
+.ico-box .desc, .ico-box-scan .desc{
    height: 24px;
    color: #000000;
-   font-size: 12px;
+   font-size: 16px;
    line-height: 24px;
-  padding-right:19px;
+    /*padding-right:19px;*/
 }
-.ico-box .part{
+.ico-box .part, .ico-box-scan .part{
   padding-left: 20px;
-  padding-top: 20px;
+  padding-top: 33px;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
 
 .container {
   box-sizing: border-box;
@@ -164,19 +170,29 @@ body{
 .non-transparent-status{
   border-left:10px #FF0000 solid;
 }
-.transparent-issues-status{
+.with-issues-status{
   border-left:10px #FFB600 solid;
 }
 .transparent-status{
   border-left:10px #2BD822 solid;
 }
 
+.non-transparent-row{
+  border-left:10px #FF0000 solid;
+}
+.with-issues-row{
+  border-left:10px #FFB600 solid;
+}
+.transparent-row{
+  border-left:10px #2BD822 solid;
+}
+
 .part.transparency p{
   margin:0px;
 }
-.part.transparency strong{
-  font-size: large;
-  font-weight:300;
+.part.transparency strong,.scanbox-details .stats table td{
+  font-size: 16px;
+  font-weight:bold;
 }
 .nav-buttons{
   clear: both;

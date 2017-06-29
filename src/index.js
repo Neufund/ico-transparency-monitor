@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
-import Scan from './components/Scan';
+import App from './containers/App';
+import Scan from './containers/Scan';
 import registerServiceWorker from './registerServiceWorker';
 import './assets/css/index.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'

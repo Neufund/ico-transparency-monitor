@@ -1,3 +1,14 @@
+.group-buttons{
+ margin-top:20px;
+ margin-bottom:20px;
+}
+.group-buttons p{
+    line-height: 33px;
+}
+.group-buttons p,.group-buttons ul{
+    float: left;
+    padding-left: 10px
+}
 ul.currency-buttons{
     display:block;
     list-style:none;
@@ -12,8 +23,8 @@ ul.currency-buttons >li> a{
     cursor: pointer;
     display:block;
     text-decoration:none;
-    color:#000;
-    text-shadow:0 1px #fff;
+    color:black;
+    /*text-shadow:0 1px #fff;*/
     border:1px solid #d5d5d5;
     border-bottom-color:#ddd;
     padding:8px 12px 8px 16px;
@@ -40,8 +51,11 @@ li a:hover{
     background: linear-gradient(top,#fff 25%,#eee 100%);
 }
 li a:active,li a.active{
-    text-shadow:0 -1px #fff;
-    background:#ccc;
+    /*text-shadow:0 -1px #fff;*/
+    /*background:#ccc;*/
+    border-left: 0px !important;
+    background: silver !important;
+    color: #686E75 !important;
     background:-webkit-gradient(linear,left top,left bottom,color-stop(.25, #eee),color-stop(1, #fff));
     background: -webkit-linear-gradient(top,#eee 25%,#fff 100%);
     background: -moz-linear-gradient(top,#eee 25%,#fff 100%);

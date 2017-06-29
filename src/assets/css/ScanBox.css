@@ -1,5 +1,4 @@
 .scanbox{
-  height: 194px;
   background-color: #F7F8F9;
 }
 .scan-ico-for-detaile {
@@ -35,33 +34,34 @@ textarea.console{
   padding:20px;
 }
 
-.scanbox-details .statistics .title{
+.scanbox-details .statistics .title , .scan-content .title{
   color: #000000;
   font-family: 'Montserrat';
   font-size: 22px;
   font-weight: 300;
   line-height: 24px;
-}
-.scanbox-details{
-  background-color: #F7F8F9;
+  margin-bottom: 20px;
 }
 
+.scanbox-details .stats {
+  margin-bottom: 30px;
+}
 .scanbox-details .stats table{
-  margin-left:60px;
+  margin-left:39px;
 }
 .scanbox-details .stats table td {
-  padding-left:60px;
+  padding-left:150px;
 }
 .scanbox-details .stats table th {
   color: #4A4A4A;
   font-family: 'Montserrat';
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 300;
   line-height: 20px;
 }
 
 .inner-table {
-  margin-left:120px !important;
+  margin-left:80px !important;
 }
 .inner-table  table th{
   padding-left: 50px !important;;
@@ -109,4 +109,14 @@ textarea.console{
 }
 .mq-table-mq code {
   font-size: 0.875em;
+}
+
+.alarm{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background: #f9f9f9;
+  color: #09719b;
+  border: 1px solid #d9d9d9;
+  border-radius: 7px;
+  text-align: center;
 }

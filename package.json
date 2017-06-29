@@ -69,7 +69,7 @@
     "eslint-plugin-jsx-a11y": "^5.0.1",
     "eslint-plugin-react": "^7.0.1",
     "react-hot-loader": "next",
-    "react-scripts": "1.0.7"
+    "react-scripts": "1.0.9"
   },
   "scripts": {
     "start": "react-scripts start",

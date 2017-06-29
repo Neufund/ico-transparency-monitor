@@ -56,7 +56,7 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) =>
 
             <Row>
                 <Col md={6} className="scan-content">
-                    <Investors total={props.stats} investors={props.stats.investors} currency={props.currency}
+                    <Investors total={props.stats.money.tokenIssued} investors={props.stats.investors} currency={props.currency}
                                isProvidingEtherValue={props.isProvidingEtherValue}/>
                 </Col>
 

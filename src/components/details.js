@@ -43,13 +43,13 @@ export const TokenIssued = ({tokenIssued}) =>(
 
 
 const tokenHoldersPercentage = (total , investors) =>{
-
+    console.log(total , investors)
 };
 
-export const Investors = ({investors , currency}) => {
+export const Investors = ({total, investors , currency}) => {
     return(
         <div>
-            {console.log(tokenHoldersPercentage(investors.senders))}
+            {console.log(tokenHoldersPercentage(total,investors.senders))}
             <h3 className="title">Token distribution</h3>
             <div>
                 <div className="stats">

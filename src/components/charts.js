@@ -66,13 +66,15 @@ export const renderCustomizedLabel = ({cx, cy, midAngle, innerRadius, outerRadiu
 };
 
 export const TokenHoldersPieChart = ({data}) => (
-    data != null && <PieChart width={800} height={400}>
-        <Pie isAnimationActive={true} data={data} cx={200} cy={200} outerRadius={180}
-             fill="#8884d8"
-             label={renderCustomizedLabel}>
-            {data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)}
-        </Pie>
-        <Tooltip/>
-
-    </PieChart>
+    data != null &&
+    <ResponsiveContainer width="100%" height={400}>
+        <PieChart width={800} height={400}>
+            <Pie isAnimationActive={true} data={data} cx={200} cy={200} outerRadius={180}
+                 fill="#8884d8"
+                 label={renderCustomizedLabel}>
+                {data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)}
+            </Pie>
+            <Tooltip/>
+        </PieChart>
+    </ResponsiveContainer>
 );

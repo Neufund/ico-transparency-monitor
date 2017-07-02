@@ -50,9 +50,7 @@ textarea.console{
 .scanbox-details .stats table{
   margin-left:39px;
 }
-.scanbox-details .stats table td {
-  padding-left:150px;
-}
+
 .scanbox-details .stats table th {
   color: #4A4A4A;
   font-family: 'Montserrat';
@@ -77,7 +75,7 @@ textarea.console{
 
 .pure-table th,
 .pure-table td {
-  padding: 0.5em 1em;
+  padding: 7px;
 }
 
 .table-responsive {
@@ -194,4 +192,10 @@ font-weight: normal;
   margin: auto;
   padding-top: 33px;
   padding-bottom: 33px;
+}
+
+@media(min-width:767px){
+  .scanbox-details .stats table td {
+    padding-left:150px;
+  }
 }

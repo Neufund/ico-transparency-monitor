@@ -42,7 +42,7 @@ class CurrencyButton extends Component{
         return (
             <div>
                 <Row className="group-buttons">
-                    <Col md={8}>
+                    <Col md={6}>
                         <div>
                             <p>Converted to:</p>
                             <ul className="currency-buttons">
@@ -50,9 +50,13 @@ class CurrencyButton extends Component{
                             </ul>
                         </div>
                     </Col>
-                    <Col md={4}>
+                    <Col md={6}>
                         <p>
-                        <span>On: </span> <storng>ETH 1 / {this.props.currency} {this.props.currencyValue} </storng>
+                            <span>On: </span> <storng>ETH 1 / {this.props.currency} {this.props.currencyValue} </storng>
+                        </p>
+                        <p>
+                            This currency exchange based on coinbase service.
+                            <em>https://api.coinbase.com/v2/prices/</em>
                         </p>
                     </Col>
                 </Row>

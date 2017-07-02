@@ -43,17 +43,17 @@ class Scan extends Component {
         return (
             <div className="App">
                 <Grid fluid>
-                    <Row>
-                        <Col md={12}>
-                            <div className="nav-buttons">
-                                <div className="back-list">
-                                    <i className="fa fa-arrow-left" />
-                                    <a href="/" >Go back to the list</a>
-                                </div>
-                                <div className="next-list">
-                                    <a href="/" >Go back to the list</a>
-                                    <i className="fa fa-arrow-right"/>
-                                </div>
+                    <Row className="nav-buttons">
+                        <Col md={6}>
+                            <div className="back-list">
+
+                                <a href="/" ><i className="fa fa-arrow-left" /> Go back to the list </a>
+                            </div>
+                        </Col>
+                        <Col md={6}>
+                            <div className="next-list">
+                                <a href="/" >Go back to the list <i className="fa fa-arrow-right"/></a>
+
                             </div>
                         </Col>
                     </Row>

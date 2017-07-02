@@ -6,9 +6,9 @@ export const ICOScanHeader = ({...props, ...state}) => {
         <Row>
             <Grid className="ico-scan-header">
                 <Row>
-                    <Col md={3} className="name">
+                    <Col md={6} className="name">
                         <Row>
-                            <Col md={3} className="ico-logo">
+                            <Col md={2} className="ico-logo">
                                 <img src={props.ico.information.logo} alt={props.address}/>
                             </Col>
                             <Col md={8} className="ico-desc">
@@ -19,7 +19,7 @@ export const ICOScanHeader = ({...props, ...state}) => {
                         </Row>
                     </Col>
 
-                    <Col md={9}>
+                    <Col md={6}>
                         <Row>
                             <Col md={7}>
                             </Col>

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Grid, Row, Col} from 'react-flexbox-grid';
 import {constantValueOf, getSmartContractConstants} from '../utils/web3';
 import {connect} from 'react-redux';
-import {decisionMatrix, formatNumber, getValueOrNotAvailable} from '../utils';
+import {decisionMatrix} from '../utils';
 import {default as config} from '../config.js';
 import {onModalShow, onErrorMessage, onMessage} from '../actions/ModalAction';
 import {ICOApp} from './ICOApp';
@@ -24,15 +23,16 @@ class ICO extends Component {
     }
 
     componentWillMount() {
-        if (typeof this.props.ico.name === "undefined") return;
+        if (typeof this.props.address === "undefined") return;
+        const transparencyDecision = decisionMatrix(this.props.ico.matrix)[0];
 
-        this.setState({decision: decisionMatrix(this.props.ico.matrix)[0]});
+        this.setState({decision: transparencyDecision});
 
         let constansPromises = null;
         try {
-            constansPromises = getSmartContractConstants(this.props.ico.name);
+            constansPromises = getSmartContractConstants(this.props.address);
         } catch (error) {
-            this.props.onErrorMessage(`Cant read smart Contract for ${this.props.ico.name} from RPC Host url ${config.rpcHost}.`);
+            this.props.onErrorMessage(`Cant read smart Contract for ${this.props.address} from RPC Host url ${config.rpcHost}.`);
             return;
         }
 
@@ -44,14 +44,13 @@ class ICO extends Component {
             }).catch((error) =>
                 this.props.onErrorMessage(`Cant read smart Contract for ${this.props.ico.name} ${error}`))
         });
-
     }
 
     render() {
-        if ( this.props.inner )
-            return ( <ICOScan props={this.props} state={this.state} />);
+        if (this.props.inner)
+            return ( <ICOScan props={this.props} state={this.state} status={this.props.ico.information.status}/>);
         else
-            return ( <ICOApp props={this.props} state={this.state} />);
+            return ( <ICOApp props={this.props} state={this.state}/>);
     }
 }
 
@@ -59,7 +58,8 @@ class ICO extends Component {
 const mapStateToProps = (state) => {
     return {
         showModal: state.modal.showModal,
-        currentICO: state.modal.currentICO
+        currentICO: state.modal.currentICO,
+        showLoader: state.scan.showLoader
     }
 };
 
@@ -76,7 +76,6 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 };
-
 
 export default connect(
     mapStateToProps,

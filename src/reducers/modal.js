@@ -1,6 +1,5 @@
 
 export const modal = (state = { showModal: false , currentICO:{} , messageType:null,message:[] } , action) => {
-    console.log(`Modal Type ${action.type}`)
     switch (action.type) {
         case 'SHOW_MODAL':
             return { ...state , showModal : true , currentICO : action.ico , messageType:null};

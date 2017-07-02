@@ -12,12 +12,12 @@ export const ICOApp = ({props , state}) => {
                     <Col md={3} className="name">
                         <Row>
                             <Col md={3} className="ico-logo">
-                                <img src={props.ico.logo} alt={props.ico.name}/>
+                                <img src={props.ico.information.logo} alt={props.ico.name}/>
                             </Col>
                             <Col md={8} className="ico-desc">
 
-                                <h4><a href={props.ico.name}> {state.name || props.ico.name}</a></h4>
-                                <p>{props.ico.description}</p>
+                                <h4><a href={props.ico.address}> {state.name || props.ico.information.aliasName}</a></h4>
+                                <p>{props.ico.information.description}</p>
                             </Col>
                         </Row>
                     </Col>
@@ -33,10 +33,6 @@ export const ICOApp = ({props , state}) => {
                                 <p className="title">Tokens Supply</p>
                                 <strong className="desc">{formatNumber(parseFloat(state.totalSupply))}</strong>
                             </Col>
-                            {/*<Col md={2} className="part">*/}
-                            {/*<p className="title">Token symbol</p>*/}
-                            {/*<strong className="desc">{state.symbol}</strong>*/}
-                            {/*</Col>*/}
                             <Col md={3} className="part">
                                 <p className="title">Duration</p>
                                 <strong className="desc">{getValueOrNotAvailable(state,"startDate")}</strong>

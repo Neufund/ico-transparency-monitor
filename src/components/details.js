@@ -1,5 +1,7 @@
 import React from 'react';
 import {formatNumber} from '../utils';
+import {tokenHoldersPercentage} from '../utils/charts';
+
 export const TimeDetails = ({startDate, endDate, duration}) => (
     <div>
         <h3 className="title">Time</h3>
@@ -38,35 +40,30 @@ export const TokenIssued = ({tokenIssued}) =>(
         </tbody>
         </table>
         </div>
+        <div className="stats">
+            <table>
+                <tbody>
+                {/*<tr><th>Number of investors</th><td>{Object.keys(investors.senders).length}</td></tr>*/}
+                </tbody>
+            </table>
+            <table className="inner-table">
+                <tbody>
+                {/*<tr><th>Number of investors > 100k <strong>{currency}</strong></th><td>{formatNumber(investors.numberInvestorsMoreThanOne100kEuro)}</td></tr>*/}
+                {/*<tr><th>Number of investors between 5k to 100k <strong>{currency}</strong></th><td>{formatNumber(investors.numberInvestorsBetween5to100kEruo)}</td></tr>*/}
+                {/*<tr><th>Number of investors less than 500k <strong>{currency}</strong></th><td>{formatNumber(investors.numberInvestorsLessThan500K)}</td></tr>*/}
+                {/*<tr><th>Number of investors who invested more that once</th><td>{formatNumber(parseInt(investors.numberInvestorsWhoInvestedMoreThanOnce))}</td></tr>*/}
+                </tbody>
+            </table>
+        </div>
+
     </div>
 );
 
-
-const tokenHoldersPercentage = (total , investors) =>{
-    console.log(total , investors)
-};
-
-export const Investors = ({total, investors , currency}) => {
+export const Investors = ({total, investors , currency , percentages}) => {
     return(
         <div>
-            {console.log(tokenHoldersPercentage(total,investors.senders))}
             <h3 className="title">Token distribution</h3>
             <div>
-                <div className="stats">
-                    <table>
-                        <tbody>
-                        <tr><th>Number of investors</th><td>{Object.keys(investors.senders).length}</td></tr>
-                        </tbody>
-                    </table>
-                    <table className="inner-table">
-                        <tbody>
-                        {/*<tr><th>Number of investors > 100k <strong>{currency}</strong></th><td>{formatNumber(investors.numberInvestorsMoreThanOne100kEuro)}</td></tr>*/}
-                        {/*<tr><th>Number of investors between 5k to 100k <strong>{currency}</strong></th><td>{formatNumber(investors.numberInvestorsBetween5to100kEruo)}</td></tr>*/}
-                        {/*<tr><th>Number of investors less than 500k <strong>{currency}</strong></th><td>{formatNumber(investors.numberInvestorsLessThan500K)}</td></tr>*/}
-                        <tr><th>Number of investors who invested more that once</th><td>{formatNumber(parseInt(investors.numberInvestorsWhoInvestedMoreThanOnce))}</td></tr>
-                        </tbody>
-                    </table>
-                </div>
                 <div className="stats">
                     <table>
                         <tbody>
@@ -77,15 +74,17 @@ export const Investors = ({total, investors , currency}) => {
                     </table>
                 </div>
             </div>
-            <table>
+            <table className="table table-responsive">
                 <thead>
                     <tr><th>Investors percentage</th><th>Token percentage</th></tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
+                {
+                    tokenHoldersPercentage(total,investors.senders,percentages).map((item, index)=>{
+                        const key = Object.keys(item)[0];
+                        return <tr key={Math.random()}><td key={key}>{key*100}%</td><td>{item[key]}%</td></tr>
+                        })
+                }
                 </tbody>
             </table>
 

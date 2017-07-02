@@ -8,7 +8,7 @@ body{
 
 .App-logo {
   position: absolute;
-  left: 97px;
+  left: 56px;
   top: 14px;
 }
 .App-logo img{
@@ -218,4 +218,7 @@ body{
   text-decoration: none;
   color: #09719B;
   font-size: 18px;
+}
+.recharts-legend-item{
+  float: left !important;
 }

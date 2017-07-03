@@ -11,8 +11,8 @@ export const toPromise = func => (...args) =>
         func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
     );
 
-export const formateDate = (datetime , fullFormat = true) => {
-    return fullFormat?moment.utc(datetime).format("YYYY-MM-DD HH:mm:ss"):moment.utc(datetime).format("YYYY-MM-DD");
+export const formateDate = (datetime, fullFormat = true) => {
+    return fullFormat ? moment.utc(datetime).format("YYYY-MM-DD HH:mm:ss") : moment.utc(datetime).format("YYYY-MM-DD");
 
 };
 
@@ -29,17 +29,17 @@ export const formatNumber = (number) => {
 export const decisionMatrix = (matrix) => {
     let nonTransparent = [];
     let transparentWithIssues = [];
-    matrix.map((question,index)=>{
+    matrix.map((question, index) => {
         // question is important.
-        if(question.critical && question.notApplicable === false && question.answer === false)
+        if (question.critical && question.notApplicable === false && question.answer === false)
             nonTransparent.push(index);
-        else if(question.critical === false && question.notApplicable === false && question.answer === false){
+        else if (question.critical === false && question.notApplicable === false && question.answer === false) {
             transparentWithIssues.push(index);
         }
     });
 
     if (nonTransparent.length === 0 && transparentWithIssues.length === 0)
-        return ["Transparent" , []];
+        return ["Transparent", []];
 
     else if (nonTransparent.length !== 0)
         return ["Non Transparent", nonTransparent];
@@ -50,8 +50,8 @@ export const decisionMatrix = (matrix) => {
         return [];
 };
 
-Date.prototype.yyyymmdd = function() {
-    const mm = this.getMonth() +1;
+Date.prototype.yyyymmdd = function () {
+    const mm = this.getMonth() + 1;
     const dd = this.getDate();
 
     return [this.getFullYear(),
@@ -64,7 +64,7 @@ export const getEtherPerCurrency = async (currency, date) => {
     return axios.get(`https://api.coinbase.com/v2/prices/${currency}/spot?date=${date}`);
 };
 
-export const getICOs = ()=>{
+export const getICOs = () => {
     let icos = [];
     const icosObject = config.ICOs;
     Object.keys(icosObject).map((icoKey) => {
@@ -77,12 +77,12 @@ export const getICOs = ()=>{
 
 };
 
-const cache = (key , value) => {
-  localStorage.setItem(key , JSON.stringify(value));
+const cache = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
 };
 
-export const getValueOrNotAvailable = (object,input) => {
-    return object&&object[input]?object[input]:"Not Available";
+export const getValueOrNotAvailable = (object, input) => {
+    return object && object[input] ? object[input] : "Not Available";
 };
 
 /**
@@ -90,9 +90,9 @@ export const getValueOrNotAvailable = (object,input) => {
  * TODO: 2- Change the ID in getLog
  */
 
-export const getICOLogs = async(address , callback) => {
+export const getICOLogs = async (address, callback) => {
 
-    if(localStorage.getItem(address)){
+    if (localStorage.getItem(address)) {
         console.log(`${address} cached already.`);
         return callback(null, JSON.parse(localStorage.getItem(address)));
     }
@@ -107,12 +107,15 @@ export const getICOLogs = async(address , callback) => {
      */
     let smartContract = null;
     let event = null;
-    try{
+    try {
         smartContract = getSmartContract(address);
-        event = smartContract[ICO.event.name](customArgs, {fromBlock: 	0, toBlock: 'latest'});
-                                                                        // 3898983             3908029
-    }catch(error){
-        store.dispatch({ type: 'SHOW_MODAL_ERROR',message :`Cant read smart Contract for ${address} from RPC Host url ${config.rpcHost}.` })
+        event = smartContract[ICO.event.name](customArgs, {fromBlock: 0, toBlock: 'latest'});
+        // 3898983             3908029
+    } catch (error) {
+        store.dispatch({
+            type: 'SHOW_MODAL_ERROR',
+            message: `Cant read smart Contract for ${address} from RPC Host url ${config.rpcHost}.`
+        })
         return;
     }
 
@@ -133,10 +136,10 @@ export const getICOLogs = async(address , callback) => {
         }),
         success: (e) => {
             let res = e.result;
-            if(res.length === 0) {
+            if (res.length === 0) {
                 store.dispatch({type: 'SHOW_MODAL_MESSAGE', message: `Empty result`});
                 callback('Empty result', res);
-            }else{
+            } else {
                 const logsFormated = res.map(function (log) {
                     return event.formatter ? event.formatter(log) : log;
                 });
@@ -145,8 +148,8 @@ export const getICOLogs = async(address , callback) => {
 
             }
         },
-        error:(status, error)=>{
-            store.dispatch({ type: 'SHOW_MODAL_ERROR',message :`Error ${status}` })
+        error: (status, error) => {
+            store.dispatch({type: 'SHOW_MODAL_ERROR', message: `Error ${status}`})
         },
         dataType: 'json'
     });
@@ -184,7 +187,7 @@ export const initStatistics = () => {
     };
 };
 
-export const prepareStatsInvestment = (senders , currencyPerEther) => {
+export const prepareStatsInvestment = (senders, currencyPerEther) => {
 
     let investors = initStatistics().investors;
     investors.senders = senders;
@@ -212,7 +215,7 @@ export const prepareStatsInvestment = (senders , currencyPerEther) => {
     return investors;
 };
 
-const calculateTicks = (max) =>{
+const calculateTicks = (max) => {
     let tick = 0.001;
     let ticks = [];
     ticks.push(tick);
@@ -224,14 +227,14 @@ const calculateTicks = (max) =>{
     return ticks;
 };
 
-export const kFormatter= (num) => {
+export const kFormatter = (num) => {
     const ranges = [
-        { divider: 1e18 , suffix: 'P' },
-        { divider: 1e15 , suffix: 'E' },
-        { divider: 1e12 , suffix: 'T' },
-        { divider: 1e9 , suffix: 'G' },
-        { divider: 1e6 , suffix: 'M' },
-        { divider: 1e3 , suffix: 'k' }
+        {divider: 1e18, suffix: 'P'},
+        {divider: 1e15, suffix: 'E'},
+        {divider: 1e12, suffix: 'T'},
+        {divider: 1e9, suffix: 'G'},
+        {divider: 1e6, suffix: 'M'},
+        {divider: 1e3, suffix: 'k'}
     ];
 
     for (let i = 0; i < ranges.length; i++) {
@@ -243,7 +246,7 @@ export const kFormatter= (num) => {
 
 };
 
-export const getDistributedDataFromDataset = (ethersDataset = [] , currencyPerEther = 1)=>{
+export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEther = 1) => {
     let min = Number.MAX_SAFE_INTEGER;
     let max = 0;
 
@@ -253,42 +256,42 @@ export const getDistributedDataFromDataset = (ethersDataset = [] , currencyPerEt
     //investment
     let chartInvestmentDistibution = [];
 
-    ethersDataset.map((item , index)=>{
-        item = item*currencyPerEther;
+    ethersDataset.map((item, index) => {
+        item = item * currencyPerEther;
         if (item > max) max = item;
     });
     const ticks = calculateTicks(max);
 
-    ticks.map((tick)=> {
-        if(tick !== 0) chartInvetorsDistibution.push({name:`x<${kFormatter(tick)}`,Investors:0 , key:tick })
-        if(tick !== 0) chartInvestmentDistibution.push({name:`x<${kFormatter(tick)}`,Investments:0 , key:tick })
+    ticks.map((tick) => {
+        if (tick !== 0) chartInvetorsDistibution.push({name: `x<${kFormatter(tick)}`, Investors: 0, key: tick})
+        if (tick !== 0) chartInvestmentDistibution.push({name: `x<${kFormatter(tick)}`, Investments: 0, key: tick})
     });
 
-    for (let i = 0 ; i < ethersDataset.length ; i++){
-        const money = ethersDataset[i]*currencyPerEther;
-        for(let j =0 ; j < chartInvetorsDistibution.length ;j++){
-            if ( money < chartInvetorsDistibution[j].key){
-                chartInvetorsDistibution[j].Investors+= 1;
+    for (let i = 0; i < ethersDataset.length; i++) {
+        const money = ethersDataset[i] * currencyPerEther;
+        for (let j = 0; j < chartInvetorsDistibution.length; j++) {
+            if (money < chartInvetorsDistibution[j].key) {
+                chartInvetorsDistibution[j].Investors += 1;
                 break;
             }
         }
     }
-    for (let i = 0 ; i < ethersDataset.length ; i++){
-        const money = ethersDataset[i]*currencyPerEther;
-        for(let j =0 ; j < chartInvestmentDistibution.length ;j++){
-            if ( (ethersDataset[i]*currencyPerEther) < chartInvestmentDistibution[j].key){
-                chartInvestmentDistibution[j].Investments+=parseFloat(money.toFixed(2));
+    for (let i = 0; i < ethersDataset.length; i++) {
+        const money = ethersDataset[i] * currencyPerEther;
+        for (let j = 0; j < chartInvestmentDistibution.length; j++) {
+            if ((ethersDataset[i] * currencyPerEther) < chartInvestmentDistibution[j].key) {
+                chartInvestmentDistibution[j].Investments += parseFloat(money.toFixed(2));
                 break;
             }
         }
     }
 
-    return [ chartInvetorsDistibution , chartInvestmentDistibution];
+    return [chartInvetorsDistibution, chartInvestmentDistibution];
 };
 
-const getFilterFormat = (startTimestamp , endTimestamp) => (event) => {
+const getFilterFormat = (startTimestamp, endTimestamp) => (event) => {
 
-    const duration = moment.duration(moment(new Date(endTimestamp *1000)).diff(moment(new Date(startTimestamp *1000))));
+    const duration = moment.duration(moment(new Date(endTimestamp * 1000)).diff(moment(new Date(startTimestamp * 1000))));
     const daysNumber = duration._data.days;
 
     if (daysNumber === 0)
@@ -296,21 +299,21 @@ const getFilterFormat = (startTimestamp , endTimestamp) => (event) => {
 
     else if (daysNumber === 1) {
         const datetime = new Date(event.timestamp * 1000);
-        return formateDate(datetime , false)//`${datetime.getHours()} ${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`;
+        return formateDate(datetime, false)//`${datetime.getHours()} ${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`;
 
-    }else if (daysNumber > 1) {
+    } else if (daysNumber > 1) {
         const datetime = new Date(event.timestamp * 1000);
-        return formateDate(datetime , false)//`${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`;
+        return formateDate(datetime, false)//`${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`;
     }
 
 };
 
-export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEther) => {
-    console.log("Get ether value per",currencyPerEther)
+export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEther) => {
+    console.log("Get ether value per", currencyPerEther)
     let web3;
-    try{
+    try {
         web3 = getWeb3();
-    }catch (err){
+    } catch (err) {
         return;
     }
     const factor = selectedICO.hasOwnProperty('decimal') ? 10 ** selectedICO['decimal'] : 10 ** config['defaultDecimal'];
@@ -320,10 +323,10 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
     let chartAmountTemp = {};
     let chartTokenCountTemp = {};
 
-    let ethersDataset =[];
+    let ethersDataset = [];
 
-    const format = getFilterFormat(events[0].timestamp , events[events.length -1].timestamp);
-    console.log("BLOCK",events[0].blockNumber , events[events.length -1].blockNumber)
+    const format = getFilterFormat(events[0].timestamp, events[events.length - 1].timestamp);
+    console.log("BLOCK", events[0].blockNumber, events[events.length - 1].blockNumber)
     events.map((item) => {
 
         const tokenValue = item.args[selectedICO.event.args.tokens].valueOf() / factor;
@@ -347,21 +350,21 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
         let senders = statisticsICO.investors.senders;
 
         if (senders[investor] == undefined)
-            senders[investor] = {tokens: 0, ETH: 0 , times: 0};
+            senders[investor] = {tokens: 0, ETH: 0, times: 0};
 
         senders[investor]['ETH'] += parseFloat(etherValue);
         senders[investor]['tokens'] += parseFloat(tokenValue);
-        senders[investor]['times'] += parseFloat(etherValue) >1?+1:+0;
+        senders[investor]['times'] += parseFloat(etherValue) > 1 ? +1 : +0;
         ethersDataset.push(parseFloat(etherValue));
 
         statisticsICO.money.totalETH += parseFloat(etherValue);
         statisticsICO.money.tokenIssued += parseFloat(tokenValue);
     });
 
-    statisticsICO.charts.tokensAmount= [];
-    statisticsICO.charts.tokensCount= [];
+    statisticsICO.charts.tokensAmount = [];
+    statisticsICO.charts.tokensCount = [];
 
-    Object.keys(chartAmountTemp).map((key)=> {
+    Object.keys(chartAmountTemp).map((key) => {
         statisticsICO.charts.tokensAmount.push({
             name: key,
             'Tokens/Time': parseFloat(chartAmountTemp[key].toFixed(2)),
@@ -369,32 +372,36 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
         })
     });
 
-    Object.keys(chartAmountTemp).map((key)=>statisticsICO.charts.tokensCount.push({name: key, 'Transactions/Time': parseFloat(chartTokenCountTemp[key].toFixed(2)), amt: chartTokenCountTemp[key]}));
+    Object.keys(chartAmountTemp).map((key) => statisticsICO.charts.tokensCount.push({
+        name: key,
+        'Transactions/Time': parseFloat(chartTokenCountTemp[key].toFixed(2)),
+        amt: chartTokenCountTemp[key]
+    }));
 
-    statisticsICO.investors = prepareStatsInvestment(statisticsICO.investors.senders , currencyPerEther);
+    statisticsICO.investors = prepareStatsInvestment(statisticsICO.investors.senders, currencyPerEther);
 
 
-    const startTime = new Date(events[0].timestamp*1000);
+    const startTime = new Date(events[0].timestamp * 1000);
     statisticsICO.time.startDate = formateDate(startTime);
 
-    const endTime = new Date(events[events.length-1].timestamp*1000);
-    statisticsICO.time.endDate = formateDate(endTime );
+    const endTime = new Date(events[events.length - 1].timestamp * 1000);
+    statisticsICO.time.endDate = formateDate(endTime);
     const duration = moment.duration(moment(endTime).diff(moment(startTime)));
 
-    statisticsICO.time.durationDays=duration.get("days");
-    statisticsICO.time.duration=
-            `
-            ${duration.get("years") >0 ? duration.get("years") + " Years":""}
-            ${duration.get("months") >0 ? duration.get("months") + " Months":""}
-            ${duration.get("days") >0 ? duration.get("days") + " Days":""}
+    statisticsICO.time.durationDays = duration.get("days");
+    statisticsICO.time.duration =
+        `
+            ${duration.get("years") > 0 ? duration.get("years") + " Years" : ""}
+            ${duration.get("months") > 0 ? duration.get("months") + " Months" : ""}
+            ${duration.get("days") > 0 ? duration.get("days") + " Days" : ""}
 
-            ${duration.get("hours") >0 ? duration.get("hours") + " Hours":""}
-            ${duration.get("minutes") >0 ? duration.get("minutes") + " Minutes":""}
-            ${duration.get("seconds") >0 ? duration.get("seconds") + " Seconds":""}`;
+            ${duration.get("hours") > 0 ? duration.get("hours") + " Hours" : ""}
+            ${duration.get("minutes") > 0 ? duration.get("minutes") + " Minutes" : ""}
+            ${duration.get("seconds") > 0 ? duration.get("seconds") + " Seconds" : ""}`;
 
     //Initialize the chart of investors by ether value
     statisticsICO.etherDataset = ethersDataset;
-    const distribution = getDistributedDataFromDataset(ethersDataset , currencyPerEther);
+    const distribution = getDistributedDataFromDataset(ethersDataset, currencyPerEther);
     statisticsICO.charts.invetorsDistribution = distribution[0];
     statisticsICO.charts.investmentDistribution = distribution[1];
     return statisticsICO;

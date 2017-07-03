@@ -23,7 +23,6 @@ export const RaisedAmount = ({totalETH}) => (
             <table>
             <tbody>
             <tr><th>Total amount raised in ETH</th><td>{formatNumber(totalETH)}</td></tr>
-        <tr><th>Average increasement size in ETH</th><td>??</td></tr>
         </tbody>
         </table>
         </div>
@@ -89,4 +88,4 @@ export const Investors = ({total, investors , currency , percentages}) => {
             </table>
 
         </div>)
-}
+};

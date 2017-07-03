@@ -194,8 +194,16 @@ font-weight: normal;
   padding-bottom: 33px;
 }
 
+.chart-btn{
+  background: white;
+  border: 1px solid #D4E20F;
+  color: #424344;
+  margin-left: 50px;
+}
 @media(min-width:767px){
   .scanbox-details .stats table td {
     padding-left:150px;
   }
 }
+
+

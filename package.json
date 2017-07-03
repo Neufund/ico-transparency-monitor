@@ -26,10 +26,10 @@
     "file-loader": "^0.10.1",
     "jquery": "^3.2.1",
     "web3": "^0.18.4",
-    "web3-provider-engine": "^13.0.0"
+    "web3-provider-engine": "^13.0.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
-    "redux-promise-middleware": "^4.3.0",
+    "redux-promise-middleware": "4.2.1",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {

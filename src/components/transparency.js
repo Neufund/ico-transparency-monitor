@@ -2,10 +2,9 @@ import React,{Component} from 'react';
 import {Row, Col} from 'react-flexbox-grid';
 import {ModalContainer, ModalDialog} from 'react-modal-dialog';
 import { connect } from 'react-redux';
-import {onModalDispatchToProp} from '../reducers/redux-utils';
-// Map Redux actions to component props
 import {decisionMatrix} from '../utils'
-import {onModalClose ,onModalShow , onErrorMessage , onMessage} from '../actions/ModalAction';
+import {onModalClose ,onErrorMessage} from '../actions/ModalAction';
+import {default as config} from '../config.js';
 
 class ContentTable extends Component{
     constructor({currentICO}){
@@ -47,7 +46,7 @@ class ContentTable extends Component{
                             </thead>
                             <tbody>
                                 {this.state.matrix.map((item,index)=>
-                                    <tr key={item.question}><td  className={this.state.issuesArray.indexOf(index)>-1?`${this.state.decision.replace(/\s+/g, '-').toLowerCase() + "-row"}`:''}>{item.question}</td><td>{item.answer===null?"N/A":(item.answer===true?"Yes":"No")}</td></tr>
+                                    <tr key={index}><td  className={this.state.issuesArray.indexOf(index)>-1?`${this.state.decision.replace(/\s+/g, '-').toLowerCase() + "-row"}`:''}>{config.matrix[index]}</td><td>{item.answer===null?"N/A":(item.answer===true?"Yes":"No")}</td></tr>
                                 )}
                             </tbody>
                         </table>

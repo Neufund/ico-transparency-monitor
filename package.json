@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.16.2",
     "chai": "^4.0.2",
     "react": "^15.5.4",
     "chart.js": "^1.1.1",
@@ -26,6 +27,10 @@
     "jquery": "^3.2.1",
     "web3": "^0.18.4",
     "web3-provider-engine": "^13.0.0"
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6",
+    "redux-promise-middleware": "^4.3.0",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"

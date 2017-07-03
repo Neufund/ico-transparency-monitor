@@ -1,5 +1,6 @@
 .scanbox{
   background-color: #F7F8F9;
+  padding-top:0px;
 }
 .scan-ico-for-detaile {
   height: 24px;
@@ -49,9 +50,7 @@ textarea.console{
 .scanbox-details .stats table{
   margin-left:39px;
 }
-.scanbox-details .stats table td {
-  padding-left:150px;
-}
+
 .scanbox-details .stats table th {
   color: #4A4A4A;
   font-family: 'Montserrat';
@@ -76,7 +75,7 @@ textarea.console{
 
 .pure-table th,
 .pure-table td {
-  padding: 0.5em 1em;
+  padding: 7px;
 }
 
 .table-responsive {
@@ -119,4 +118,84 @@ textarea.console{
   border: 1px solid #d9d9d9;
   border-radius: 7px;
   text-align: center;
+}
+
+.table{
+  width: 100%;
+  border: solid thin;
+  border-collapse: collapse;
+
+}
+.table td {
+  white-space: nowrap;
+  border-style: none solid;
+  vertical-align: top;
+
+}
+.table th {
+font-weight: normal;
+  padding: 0.2em;
+  vertical-align: middle;
+  text-align: center;
+
+}
+.table td , .table th{
+  border: solid thin;
+  padding: 0.5rem 2rem;
+}
+
+.ico-scan-header{
+  background: white;
+  padding-top:20px;
+}
+
+.ico-scan-header .ico-logo{
+  text-align: center;
+  line-height: 75px;
+}
+.ico-scan-header .ico-logo img, .ico-box  .name  .ico-logo img{
+  height: 36.8px;
+  width: auto;
+}
+
+
+.ico-scan-header .name h4{
+  margin: 0px;
+  margin-bottom: 2px;
+}
+.ico-scan-header .name h4 a{
+  color: #000000;
+  text-decoration: none;
+  font-size: 22px;
+  /*line-height:39px;*/
+}
+
+.ico-scan-header .ico-logo img{
+  float: right;
+}
+
+.ico-scan-header .name{
+  height: 40px;
+  color: #4A4A4A;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.ico-scan-header .part {
+  padding-bottom: 26px;
+  padding-right: 0px;
+}
+
+.scan-message-loading p{
+  width: 300px;
+  margin: auto;
+  padding-top: 33px;
+  padding-bottom: 33px;
+}
+
+@media(min-width:767px){
+  .scanbox-details .stats table td {
+    padding-left:150px;
+  }
 }

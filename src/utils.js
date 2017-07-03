@@ -2,6 +2,7 @@ import {getWeb3, getSmartContract} from './utils/web3';
 import jQuery from "jquery";
 import {default as config} from './config.js';
 import {store} from "./index";
+import axios from 'axios';
 
 const moment = require('moment');
 
@@ -11,7 +12,6 @@ export const toPromise = func => (...args) =>
     );
 
 export const formateDate = (datetime , fullFormat = true) => {
-    console.log(fullFormat);
     return fullFormat?moment.utc(datetime).format("YYYY-MM-DD HH:mm:ss"):moment.utc(datetime).format("YYYY-MM-DD");
 
 };
@@ -31,9 +31,9 @@ export const decisionMatrix = (matrix) => {
     let transparentWithIssues = [];
     matrix.map((question,index)=>{
         // question is important.
-        if(question.required && question.notApplicable === false && question.answer === false)
+        if(question.critical && question.notApplicable === false && question.answer === false)
             nonTransparent.push(index);
-        else if(question.required === false && question.notApplicable === false && question.answer === false){
+        else if(question.critical === false && question.notApplicable === false && question.answer === false){
             transparentWithIssues.push(index);
         }
     });
@@ -60,26 +60,16 @@ Date.prototype.yyyymmdd = function() {
     ].join('-');
 };
 
-export const getEtherPerCurrency = (callback ,currency = "ETH-EUR", date=new Date().yyyymmdd()) => {
-    jQuery.ajax({
-        url : `https://api.coinbase.com/v2/prices/${currency}/spot?date=${date}`,
-        success: function (result) {
-            console.log(result);
-            callback(result.data.amount , null)
-        },
-        error: function (err, message) {
-            callback(null , err)
-        }
-    });
+export const getEtherPerCurrency = async (currency, date) => {
+    return axios.get(`https://api.coinbase.com/v2/prices/${currency}/spot?date=${date}`);
 };
 
 export const getICOs = ()=>{
     let icos = [];
-    const icosObject = config['ICOS'];
+    const icosObject = config.ICOs;
     Object.keys(icosObject).map((icoKey) => {
-            const ico = icosObject[icoKey]['summary'];
-            ico['name'] = icoKey;
-            ico['matrix'] = icosObject[icoKey]['matrix'];
+            const ico = icosObject[icoKey];
+            ico['address'] = icoKey;
             icos.push(ico);
         }
     );
@@ -95,19 +85,22 @@ export const getValueOrNotAvailable = (object,input) => {
     return object&&object[input]?object[input]:"Not Available";
 };
 
-//TODO: Required Data must be validate.
-export const getICOLogs = async(icoName , callback) => {
+/**
+ * TODO: 1- Required Data must be validate.
+ * TODO: 2- Change the ID in getLog
+ */
 
-    if(localStorage.getItem(icoName)){
-        console.log(`${icoName} cached already.`);
-        return callback(null, JSON.parse(localStorage.getItem(icoName)));
+export const getICOLogs = async(address , callback) => {
+
+    if(localStorage.getItem(address)){
+        console.log(`${address} cached already.`);
+        return callback(null, JSON.parse(localStorage.getItem(address)));
     }
 
-    const ICO = config.ICOS[icoName];
+    const ICO = config.ICOs[address];
 
     const customArgs = ICO['event'].hasOwnProperty('customArgs') ? ICO['event'].customArgs : {};
 
-    const address = ICO.address;
 
     /**
      * Zero index for the smart contract, One index for the constants
@@ -115,11 +108,11 @@ export const getICOLogs = async(icoName , callback) => {
     let smartContract = null;
     let event = null;
     try{
-        smartContract = getSmartContract(icoName)[0];
-        event = smartContract[ICO.event.name](customArgs, {fromBlock: 0, toBlock: 'latest'});
-
+        smartContract = getSmartContract(address);
+        event = smartContract[ICO.event.name](customArgs, {fromBlock: 	0, toBlock: 'latest'});
+                                                                        // 3898983             3908029
     }catch(error){
-        store.dispatch({ type: 'SHOW_MODAL_ERROR',message :`Cant read smart Contract for ${icoName} from RPC Host url ${config.rpcHost}.` })
+        store.dispatch({ type: 'SHOW_MODAL_ERROR',message :`Cant read smart Contract for ${address} from RPC Host url ${config.rpcHost}.` })
         return;
     }
 
@@ -141,14 +134,13 @@ export const getICOLogs = async(icoName , callback) => {
         success: (e) => {
             let res = e.result;
             if(res.length === 0) {
-                store.dispatch({type: 'SHOW_MODAL_MESSAGE', message: `Empty result`})
+                store.dispatch({type: 'SHOW_MODAL_MESSAGE', message: `Empty result`});
                 callback('Empty result', res);
             }else{
                 const logsFormated = res.map(function (log) {
                     return event.formatter ? event.formatter(log) : log;
                 });
-                console.log(logsFormated)
-                // cache(icoName,logsFormated);
+                // cache(address,logsFormated);
                 callback(null, logsFormated);
 
             }
@@ -291,7 +283,6 @@ export const getDistributedDataFromDataset = (ethersDataset = [] , currencyPerEt
         }
     }
 
-
     return [ chartInvetorsDistibution , chartInvestmentDistibution];
 };
 
@@ -315,7 +306,13 @@ const getFilterFormat = (startTimestamp , endTimestamp) => (event) => {
 };
 
 export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEther) => {
-    const web3 = getWeb3();
+    console.log("Get ether value per",currencyPerEther)
+    let web3;
+    try{
+        web3 = getWeb3();
+    }catch (err){
+        return;
+    }
     const factor = selectedICO.hasOwnProperty('decimal') ? 10 ** selectedICO['decimal'] : 10 ** config['defaultDecimal'];
 
     statisticsICO.general.transactionsCount = this.length;
@@ -326,7 +323,7 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
     let ethersDataset =[];
 
     const format = getFilterFormat(events[0].timestamp , events[events.length -1].timestamp);
-
+    console.log("BLOCK",events[0].blockNumber , events[events.length -1].blockNumber)
     events.map((item) => {
 
         const tokenValue = item.args[selectedICO.event.args.tokens].valueOf() / factor;
@@ -397,7 +394,7 @@ export const getStatistics = (selectedICO ,events, statisticsICO, currencyPerEth
 
     //Initialize the chart of investors by ether value
     statisticsICO.etherDataset = ethersDataset;
-    const distribution = getDistributedDataFromDataset(ethersDataset);
+    const distribution = getDistributedDataFromDataset(ethersDataset , currencyPerEther);
     statisticsICO.charts.invetorsDistribution = distribution[0];
     statisticsICO.charts.investmentDistribution = distribution[1];
     return statisticsICO;

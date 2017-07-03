@@ -12,7 +12,7 @@ const App = () =>{
 
             <Grid fluid>
                 {getICOs().map((ico) => {
-                    return <ICO key={ico.name} ico={ico}/>
+                    return <ICO key={ico.address} ico={ico} address={ico.address}/>
                 })}
             </Grid>
         </div>

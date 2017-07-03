@@ -8,7 +8,7 @@ body{
 
 .App-logo {
   position: absolute;
-  left: 97px;
+  left: 56px;
   top: 14px;
 }
 .App-logo img{
@@ -50,7 +50,7 @@ body{
 }
 
 .header-paragraph{
-  height: 206px;
+  min-height: 206px;
   background-color: #F5F9F3;
 }
 
@@ -71,8 +71,8 @@ body{
 }
 .header-paragraph p{
   clear: both;
-  height: 91px;
-  width: 532px;
+  /*height: 91px;*/
+  /*width: 532px;*/
   color: #4A4A4A;
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
@@ -80,9 +80,6 @@ body{
   line-height: 20px;
 }
 
-.ico-box{
-  height: 139px;
-}
 .scanbox{
   height:100%;
 }
@@ -113,7 +110,7 @@ body{
 }
 
 .ico-box .name{
-  height: 40px;
+  /*height: 40px;*/
   color: #4A4A4A;
   font-size: 14px;
   font-weight: 300;
@@ -122,7 +119,6 @@ body{
 
 
 .ico-box .ico-quick-stats{
-  height: 139px;
   background-color: #F7F8F9;
 }
 
@@ -196,26 +192,45 @@ body{
 }
 .nav-buttons{
   clear: both;
-  height: 45px;
+  /*height: 45px;*/
   margin-top:5px;
 }
-.nav-buttons > .back-list{
+.nav-buttons  .back-list{
   float :left;
   line-height: 45px;
 }
-.nav-buttons > .next-list{
+.nav-buttons  .next-list{
   float :right;
   line-height: 40px;
 }
-.nav-buttons > .back-list > a {
+.nav-buttons  .back-list > a {
   margin-left: 28px;
 }
-.nav-buttons > .next-list > a {
+.nav-buttons  .next-list > a {
   margin-right: 28px;
 }
 
-.nav-buttons > .next-list  a ,.nav-buttons > .back-list  a {
+.nav-buttons  .next-list  a ,.nav-buttons  .back-list  a {
   text-decoration: none;
   color: #09719B;
   font-size: 18px;
+}
+.recharts-legend-item{
+  float: left !important;
+}
+
+
+@media(max-width:767px) {
+  .transparency{
+    margin-bottom: 17px;
+  }
+}
+@media(min-width:767px){
+  .ico-box{
+    height: 139px;
+  }
+  .ico-box .ico-quick-stats{
+    height: 139px;
+    background-color: #F7F8F9;
+  }
 }

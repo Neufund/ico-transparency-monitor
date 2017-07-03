@@ -8,7 +8,6 @@ const ProviderEngine = require('web3-provider-engine');
 const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
 const FixtureSubprovider = require('web3-provider-engine/subproviders/fixture.js');
 const FilterSubprovider = require('web3-provider-engine/subproviders/filters.js');
-const VmSubprovider = require('web3-provider-engine/subproviders/vm.js');
 const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker.js');
 const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js');
 const HttpProvider = HttpProvider;
@@ -40,7 +39,6 @@ export const createEngine = (rpcUrl) =>
         new CacheSubprovider(),
         new FilterSubprovider(),
         new NonceSubprovider(),
-        // new VmSubprovider(),
         new RpcSubprovider({ rpcUrl }),
     ]);
 
@@ -52,30 +50,24 @@ export const web3Connect = () => {
 
     const engine = createEngine(config.rpcHost);
     window.web3 = new Web3(engine);
-// network connectivity error
 
     engine.start();
 
-    console.log(`${config.rpcHost} new conecttion`);
+    console.log(`${config.rpcHost} new connection`);
     return window.web3;
 };
 
-export const getSmartContract = (icoName)=>{
-    const ICO = config.ICOS[icoName];
-    const customArgs = ICO.hasOwnProperty('customArgs') ? ICO.customArgs : {};
+export const getSmartContract = (address)=>{
+    const abi = require(`../smart_contracts/${address}.json`);
     const web3 = getWeb3();
-
-    const address = ICO.address;
-    const abi = ICO.abi;
-
-    return [web3.eth.contract(abi).at(address) ,ICO['constants'] ];
+    return web3.eth.contract(abi).at(address);
 };
 
 
 export const getWeb3 = () => {
 
     if(isConnected() === false)
-        throw Error("SHOW_MODAL_ERROR")
+        throw Error("SHOW_MODAL_ERROR");
 
 
     if (window.web3 !== undefined)
@@ -84,12 +76,9 @@ export const getWeb3 = () => {
     return web3Connect();
 };
 
-export const getSmartContractConstants = (icoName ) => {
-    const token = getSmartContract(icoName);
-
-    const smartContract = token[0]; // abi from the config
-    console.log(smartContract);
-    const constants = token[1]; // constants from the config
+export const getSmartContractConstants = (address) => {
+    const smartContract = getSmartContract(address); // abi from the config
+    const constants = config.ICOs[address].constants; // constants from the config
     let result = {};
 
     Object.keys(constants).map((constant)=>{

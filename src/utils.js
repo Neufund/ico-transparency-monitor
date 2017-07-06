@@ -115,7 +115,7 @@ export const getICOLogs = async (address, callback) => {
         store.dispatch({
             type: 'SHOW_MODAL_ERROR',
             message: `Cant read smart Contract for ${address} from RPC Host url ${config.rpcHost}.`
-        })
+        });
         return;
     }
 
@@ -124,6 +124,7 @@ export const getICOLogs = async (address, callback) => {
         url: config.rpcHost,
         Accept: "application/json",
         contentType: "application/json",
+        headers: {'X-Cache-Long': 'true'}, // request data from cache
         data: JSON.stringify({
             "id": 1497353430507566,
             "jsonrpc": "2.0",

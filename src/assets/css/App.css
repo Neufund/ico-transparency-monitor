@@ -234,3 +234,19 @@ body{
     background-color: #F7F8F9;
   }
 }
+
+.alert-error{
+  position: absolute;
+  left: 46px;
+  margin-top: 39px;
+}
+
+.non-transparent-alert{
+  color: #FF0000;
+}
+.with-issues-alert{
+  color : #FFB600;
+}
+.transparent-alert{
+  color:#2BD822;
+}

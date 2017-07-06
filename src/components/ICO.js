@@ -28,27 +28,28 @@ class ICO extends Component {
 
         this.setState({decision: transparencyDecision});
 
-        let constansPromises = null;
-        try {
-            constansPromises = getSmartContractConstants(this.props.address);
-        } catch (error) {
-            this.props.onErrorMessage(`Cant read smart Contract for ${this.props.address} from RPC Host url ${config.rpcHost}.`);
-            return;
-        }
+        getSmartContractConstants(this.props.address).then((parameters)=>{
 
-        Object.keys(constansPromises).map((constant) => {
-            const tempResult = {};
-            constansPromises[constant].value.then(async (singlePromise) => {
-                tempResult[constant] = await constantValueOf(singlePromise, constansPromises[constant].type);
-                this.setState(tempResult);
-            }).catch((error) =>
-                this.props.onErrorMessage(`Cant read smart Contract for ${this.props.ico.name} ${error}`))
+            Object.keys(parameters).map((constant) => {
+                const parameter = parameters[constant];
+                if (parameter === null) return;
+                const tempResult = {};
+                if (typeof parameter === "object" && typeof parameter.then === "function")
+                    parameter.then((value)=>{
+                        tempResult[constant] = value;
+                        this.setState(tempResult);
+                    });
+                else{
+                    tempResult[constant] = parameter;
+                    this.setState(tempResult);
+                }
+            });
         });
     }
 
     render() {
         if (this.props.inner)
-            return ( <ICOScan props={this.props} state={this.state} status={this.props.ico.information.status}/>);
+            return ( <ICOScan props={this.props} state={this.state}/>);
         else
             return ( <ICOApp props={this.props} state={this.state}/>);
     }

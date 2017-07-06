@@ -27,7 +27,7 @@ export const tokenHoldersPercentage = (total , investors, percentages) =>{
     return result;
 };
 
-export const getToenHoldersChartData = (total , investors, percentages = [0.01 , 0.05 , 0.10]) => {
+export const getTokenHoldersChartData = (total , investors, percentages = [0.01 , 0.05 , 0.10]) => {
     const holders = tokenHoldersPercentage(total , investors, percentages);
     let prevValue = 0;
     const h = holders.map((item )=>{
@@ -84,6 +84,7 @@ export const downloadChartImage = (chartId) => {
         onrendered: function(canvas) {
             console.log(canvas);
             const image = canvas.toDataURL("image/png");
+
             window.open(image);
         }
     });

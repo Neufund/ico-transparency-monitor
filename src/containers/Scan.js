@@ -14,9 +14,11 @@ class Scan extends Component {
     constructor(props) {
         super(props);
         this.address = this.props.match.params.name;
+
         this.ico = config['ICOs'][this.address];
+        this.ico['address']= this.address;
         if(this.ico == undefined)
-            alert("Bye") // TODO: Redirect to 404 page
+            alert("404") // TODO: Redirect to 404 page
     }
 
     componentWillMount(){
@@ -24,19 +26,28 @@ class Scan extends Component {
     }
 
     componentDidMount(){
-        getICOLogs(this.address , (err, res)=>{
-            this.props.setCurrency('EUR','NOW', ()=>{
-                this.props.hideLoader();
-                if (res.length === 0 || err !== null){
-                    return false;
-                }
+        try{
+            getICOLogs(this.address , (err, res)=>{
+                if( err !== "SHOW_MODAL_MESSAGE") {
+                    this.props.dispatchErrorMessage(err ,res)
+                }else if (err !== null)
+                    this.props.dispatchErrorMessage(err ,res)
 
-                const s = getStatistics(this.ico , res, initStatistics() , this.props.currencyValue);
-                this.props.drawStatistics(s);
+                this.props.setCurrency('EUR','NOW', async ()=>{
+                    this.props.hideLoader();
+                    if (res.length === 0 || err !== null){
+                        return false;
+                    }
+                    const s = await getStatistics(this.ico , res, initStatistics() , this.props.currencyValue);
+                    this.props.drawStatistics(s);
+                });
 
             });
 
-        });
+        }catch(error){
+            this.props.dispatchErrorMessage('SHOW_MODAL_ERROR' ,
+                `Cant read smart Contract for ${this.address} from RPC Host url ${config.rpcHost}.`);
+        }
 
     }
     render() {
@@ -62,7 +73,7 @@ class Scan extends Component {
                 <Grid className="scanbox ico-box-scan">
                     <ICO ico={this.ico} inner={true} address={this.address}/>
                     <ScanBoxLoadingMessage show={this.props.showLoaderState}/>
-                    <ScanBoxDetails hasTokenPrice={this.ico['matrix'][5].answer}/>
+                    <ScanBoxDetails hasTokenPrice={this.ico['matrix']['q5'].answer}/>
                 </Grid>
             </div>
         );
@@ -73,7 +84,8 @@ class Scan extends Component {
 const mapStateToProps = (state) => {
     return {
         showLoaderState: state.scan.showLoader,
-        currencyValue : state.currency.value
+        currencyValue : state.currency.value,
+
     }
 };
 
@@ -89,7 +101,13 @@ const mapDispatchToProps= (dispatch) => {
         },
             hideLoader : () => {
             dispatch(hideLoader())
-        }
+        },
+        dispatchErrorMessage : (type, message)=>{
+            dispatch({
+                type: type,
+                message: message
+            })
+        },
     }
 };
 

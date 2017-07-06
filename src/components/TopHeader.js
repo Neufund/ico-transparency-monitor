@@ -3,6 +3,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import logo from '../assets/NeuFund_icon_white_300dpi.png';
 
 const TopHeader = () => (
+
 <div>
     <a href="/"  className="App-logo" > <img src={logo} alt="logo" /></a>
     <Grid>

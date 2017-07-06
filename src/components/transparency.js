@@ -10,22 +10,32 @@ class ContentTable extends Component{
     constructor({currentICO}){
         super();
         this.state = {
-            matrix: [],
-            issuesArray:[],
+            matrix: {},
+            issuesArray:{},
             decision : ""
         };
         this.currentICO = currentICO;
     }
     componentWillMount(){
         const result = decisionMatrix(this.currentICO.matrix);
+
         this.setState({
             matrix:this.currentICO.matrix,
             issuesArray : result[1] ,
             decision: result[0]
         });
     }
-    render () {
+    getRowClassName(questionKey){
+        if (typeof this.state.issuesArray[questionKey] !== "undefined")
+            return `${this.state.decision.replace(/\s+/g, '-').toLowerCase() + "-row"}`
+    }
 
+    getAlertClassName(questionKey){
+        if (typeof this.state.issuesArray[questionKey] !== "undefined")
+            return `${this.state.decision.replace(/\s+/g, '-').toLowerCase() + "-alert"}`
+    }
+
+    render () {
         return (
             <div>
                 <Row>
@@ -45,9 +55,20 @@ class ContentTable extends Component{
                             <tr><th>Question</th><th>Answer</th></tr>
                             </thead>
                             <tbody>
-                                {this.state.matrix.map((item,index)=>
-                                    <tr key={index}><td  className={this.state.issuesArray.indexOf(index)>-1?`${this.state.decision.replace(/\s+/g, '-').toLowerCase() + "-row"}`:''}>{config.matrix[index]}</td><td>{item.answer===null?"N/A":(item.answer===true?"Yes":"No")}</td></tr>
-                                )}
+                                {Object.keys(config.matrix).map((key,index)=>{
+                                    const currentQuestion = this.state.matrix[key];
+                                    const mappedQuestionMatrix = config.matrix[key];
+
+                                    return <tr key={index}>
+                                        <td className={this.getRowClassName(key)}>
+                                            {mappedQuestionMatrix.question}
+                                        </td>
+                                        <td>
+                                            <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>
+                                            <p>{currentQuestion.answer ===null?"N/A":(currentQuestion.answer===true?"Yes":"No")}</p>
+                                        </td>
+                                    </tr>
+                                })}
                             </tbody>
                         </table>
                     </Col>
@@ -68,7 +89,7 @@ const MessageModal = ({type , message}) => {
             </div>
         </div>
     );
-}
+};
 
 class TransparencyModal extends Component {
     constructor(){

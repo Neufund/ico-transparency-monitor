@@ -7,13 +7,12 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Layout from './views/Layout';
 import { Provider} from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import {promise} from "redux-promise-middleware";
 import thunk from 'redux-thunk';
 import TransparencyModal from './components/transparency';
 import reducer from './reducers';
 
-
 const root = document.getElementById('root');
+
 const render = (store) => {
     ReactDOM.render(
         <Provider store={store}>

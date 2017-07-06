@@ -1,10 +1,18 @@
 import {getWeb3, getSmartContract} from './utils/web3';
 import jQuery from "jquery";
 import {default as config} from './config.js';
-import {store} from "./index";
 import axios from 'axios';
 
 const moment = require('moment');
+
+export const deepFreeze = (obj) => {
+    if (obj !== null && typeof obj === 'object') {
+        Object.getOwnPropertyNames(obj).forEach((prop) => {
+            deepFreeze(obj[prop]);
+            });
+        }
+    return obj;
+};
 
 export const toPromise = func => (...args) =>
     new Promise((resolve, reject) =>
@@ -27,24 +35,29 @@ export const formatNumber = (number) => {
 };
 
 export const decisionMatrix = (matrix) => {
-    let nonTransparent = [];
-    let transparentWithIssues = [];
-    matrix.map((question, index) => {
-        // question is important.
-        if (question.critical && question.notApplicable === false && question.answer === false)
-            nonTransparent.push(index);
-        else if (question.critical === false && question.notApplicable === false && question.answer === false) {
-            transparentWithIssues.push(index);
+
+    const questionMatrix = config.matrix;
+    let nonTransparent = {};
+    let transparentWithIssues = {};
+
+    Object.keys(matrix).map((key, index)=>{
+        const currentQuestion = matrix[key];
+        const mappedQuestionMatrix = questionMatrix[key];
+
+        if( mappedQuestionMatrix.critical && mappedQuestionMatrix.notApplicable === false && currentQuestion.answer === false )
+            nonTransparent[key] = currentQuestion.comment;
+        else if (mappedQuestionMatrix.critical === false && mappedQuestionMatrix.notApplicable === false && currentQuestion.answer === false) {
+            transparentWithIssues[key]= currentQuestion.comment;
         }
     });
 
-    if (nonTransparent.length === 0 && transparentWithIssues.length === 0)
+    if (Object.keys(nonTransparent).length === 0 && Object.keys(transparentWithIssues).length === 0)
         return ["Transparent", []];
 
-    else if (nonTransparent.length !== 0)
+    else if (Object.keys(nonTransparent).length !== 0)
         return ["Non Transparent", nonTransparent];
 
-    else if (transparentWithIssues.length !== 0)
+    else if (Object.keys(transparentWithIssues).length !== 0)
         return ["With issues", transparentWithIssues];
     else
         return [];
@@ -90,9 +103,9 @@ export const getValueOrNotAvailable = (object, input) => {
  * TODO: 2- Change the ID in getLog
  */
 
-export const getICOLogs = async (address, callback) => {
+export const getICOLogs = (address, callback) => {
 
-    if (localStorage.getItem(address)) {
+    if (typeof localStorage != "undefined" && localStorage.getItem(address)) {
         console.log(`${address} cached already.`);
         return callback(null, JSON.parse(localStorage.getItem(address)));
     }
@@ -101,23 +114,13 @@ export const getICOLogs = async (address, callback) => {
 
     const customArgs = ICO['event'].hasOwnProperty('customArgs') ? ICO['event'].customArgs : {};
 
-
     /**
      * Zero index for the smart contract, One index for the constants
      */
-    let smartContract = null;
     let event = null;
-    try {
-        smartContract = getSmartContract(address);
-        event = smartContract[ICO.event.name](customArgs, {fromBlock: 0, toBlock: 'latest'});
-        // 3898983             3908029
-    } catch (error) {
-        store.dispatch({
-            type: 'SHOW_MODAL_ERROR',
-            message: `Cant read smart Contract for ${address} from RPC Host url ${config.rpcHost}.`
-        });
-        return;
-    }
+    const smartContract = getSmartContract(address);
+    event = smartContract[ICO.event.name](customArgs, {fromBlock: 0, toBlock: 'latest'});
+    // 3898983             3908029
 
     jQuery.ajax({
         type: "POST",
@@ -138,8 +141,7 @@ export const getICOLogs = async (address, callback) => {
         success: (e) => {
             let res = e.result;
             if (res.length === 0) {
-                store.dispatch({type: 'SHOW_MODAL_MESSAGE', message: `Empty result`});
-                callback('Empty result', res);
+                callback('SHOW_MODAL_MESSAGE', res);
             } else {
                 const logsFormated = res.map(function (log) {
                     return event.formatter ? event.formatter(log) : log;
@@ -150,7 +152,7 @@ export const getICOLogs = async (address, callback) => {
             }
         },
         error: (status, error) => {
-            store.dispatch({type: 'SHOW_MODAL_ERROR', message: `Error ${status}`})
+            callback('SHOW_MODAL_ERROR', `Error ${status}`)
         },
         dataType: 'json'
     });
@@ -300,26 +302,31 @@ const getFilterFormat = (startTimestamp, endTimestamp) => (event) => {
 
     else if (daysNumber === 1) {
         const datetime = new Date(event.timestamp * 1000);
-        return formateDate(datetime, false)//`${datetime.getHours()} ${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`;
+        return formateDate(datetime, false)
 
     } else if (daysNumber > 1) {
         const datetime = new Date(event.timestamp * 1000);
-        return formateDate(datetime, false)//`${datetime.getDate()}/${datetime.getMonth() + 1}/${datetime.getFullYear()}`;
+        return formateDate(datetime, false)
     }
 
 };
 
-export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEther) => {
-    console.log("Get ether value per", currencyPerEther)
+//TODO: Dispatch error message if any error raised by getWeb3 function
+export const getStatistics = async (selectedICO, events, statisticsICO, currencyPerEther) => {
     let web3;
     try {
         web3 = getWeb3();
     } catch (err) {
+        console.log(err);
         return;
     }
-    const factor = selectedICO.hasOwnProperty('decimal') ? 10 ** selectedICO['decimal'] : 10 ** config['defaultDecimal'];
+    const smartContract = getSmartContract(selectedICO.address);
 
-    statisticsICO.general.transactionsCount = this.length;
+    const decimals = await toPromise(smartContract.decimals)() || config['defaultDecimal'];
+
+    const factor = 10 ** decimals;
+
+    statisticsICO.general.transactionsCount = events.length;
 
     let chartAmountTemp = {};
     let chartTokenCountTemp = {};
@@ -327,7 +334,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     let ethersDataset = [];
 
     const format = getFilterFormat(events[0].timestamp, events[events.length - 1].timestamp);
-    console.log("BLOCK", events[0].blockNumber, events[events.length - 1].blockNumber)
+
     events.map((item) => {
 
         const tokenValue = item.args[selectedICO.event.args.tokens].valueOf() / factor;

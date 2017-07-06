@@ -5,7 +5,7 @@ import '../assets/css/ScanBox.css';
 import { connect } from 'react-redux';
 import {TimeDetails , RaisedAmount, TokenIssued, Investors} from './details'
 import {TokensBarChart , DoubleBarChart,TokenHoldersPieChart} from './charts'
-import {getToenHoldersChartData} from '../utils/charts';
+import {getTokenHoldersChartData} from '../utils/charts';
 
 
 const getChartFormat = (durationDays)=>{
@@ -69,9 +69,9 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
 
                 <Col md={6} >
 
-                    <TokenHoldersPieChart data={
-                        getToenHoldersChartData(props.stats.money.tokenIssued , props.stats.investors.senders, percentages)
-                    }/>
+                    {/*<TokenHoldersPieChart data={*/}
+                        {/*getTokenHoldersChartData(props.stats.money.tokenIssued , props.stats.investors.senders, percentages)*/}
+                    {/*}/>*/}
                 </Col>
             </Row>
 

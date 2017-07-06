@@ -58,7 +58,7 @@ export const TokenIssued = ({tokenIssued}) =>(
     </div>
 );
 
-export const Investors = ({total, investors , currency , percentages}) => {
+export const Investors = ({total, investors , percentages}) => {
     return(
         <div>
             <h3 className="title">Token distribution</h3>

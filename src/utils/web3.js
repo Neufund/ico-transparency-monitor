@@ -44,11 +44,13 @@ export const createEngine = (rpcUrl) =>
 
 
 export const web3Connect = () => {
-    /**
-     * TODO: connection timeout
-     */
 
     const engine = createEngine(config.rpcHost);
+
+    // if(window === "undefined"){
+    //     var window = {};
+    // }
+
     window.web3 = new Web3(engine);
 
     engine.start();
@@ -65,31 +67,49 @@ export const getSmartContract = (address)=>{
 
 
 export const getWeb3 = () => {
-
     if(isConnected() === false)
         throw Error("SHOW_MODAL_ERROR");
 
-
-    if (window.web3 !== undefined)
+    if (typeof window !== "undefined" && window.web3 !== undefined)
         return window.web3;
 
     return web3Connect();
 };
 
-export const getSmartContractConstants = (address) => {
-    const smartContract = getSmartContract(address); // abi from the config
-    const constants = config.ICOs[address].constants; // constants from the config
-    let result = {};
+
+const getSmartContractDirectParameters = async (address) => {
+
+    const smartContract = getSmartContract(address);
+
+    const name = name?await toPromise(smartContract.name)():null;
+    const totalSupply = smartContract.totalSupply?await toPromise(smartContract.totalSupply)():null;
+    const symbol = smartContract.symbol?await toPromise(smartContract.symbol)():null;
+    const decimals = smartContract.decimals?await toPromise(smartContract.decimals)():config.defaultDecimal;
+
+    return {
+        name : name,
+        totalSupply:totalSupply/10**decimals,
+        symbol:symbol ,
+        decimals:decimals
+    };
+};
+
+export const getSmartContractConstants = async (address) => {
+    let parameterAdress = address;
+
+    if ( typeof config.ICOs[address]['tokenContract'] !== "undefined" )
+        parameterAdress = config.ICOs[address]['tokenContract'];
+
+    let result = await getSmartContractDirectParameters(parameterAdress);
+
+    const smartContract = getSmartContract(address);
+    const constants = config.ICOs[address].icoParameters; // constants from the config
 
     Object.keys(constants).map((constant)=>{
-
-        if(constants[constant] == null) return;
-        const constantKey = constants[constant]['name'];
-        const constantDataType = constants[constant]['type'];
-        if(smartContract[constantKey] != undefined) {
-            result[constant] = {value:toPromise(smartContract[constantKey])() , type:constantDataType};
-        }
+        if(constants[constant] === null) return;
+        result[constant] = constants[constant](smartContract);
     });
+
     return result;
 };
 

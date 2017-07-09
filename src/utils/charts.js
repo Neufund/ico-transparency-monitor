@@ -14,6 +14,7 @@ export const tokenHoldersPercentage = (total , investors, percentages) =>{
 
     let result = [];
     percentages.map((percentageElement)=>{
+
         const percentage = investorsArray.length*percentageElement;
         let percentageAmount = new BigNumber(0);
 
@@ -22,7 +23,7 @@ export const tokenHoldersPercentage = (total , investors, percentages) =>{
         }
         let internalResult = {};
         internalResult[percentageElement] =new BigNumber((percentageAmount*100).toFixed(3)).dividedBy(total.toFixed(3)).valueOf();
-        result.push(internalResult);
+        result.push({name : `${percentageElement*100}%` , amt:parseFloat(internalResult[percentageElement]) , TokenHolders: parseFloat(internalResult[percentageElement])});
     });
     return result;
 };
@@ -82,7 +83,6 @@ export const downloadChartImage = (chartId) => {
         height:rect.height,
         width:rect.width,
         onrendered: function(canvas) {
-            console.log(canvas);
             const image = canvas.toDataURL("image/png");
 
             window.open(image);

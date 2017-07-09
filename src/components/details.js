@@ -1,6 +1,7 @@
 import React from 'react';
 import {formatNumber} from '../utils';
 import {tokenHoldersPercentage} from '../utils/charts';
+import {analyizeIssedTokens} from '../utils';
 
 export const TimeDetails = ({startDate, endDate, duration}) => (
     <div>
@@ -29,16 +30,20 @@ export const RaisedAmount = ({totalETH}) => (
     </div>
 );
 
-export const TokenIssued = ({tokenIssued}) =>(
+export const TokenIssued = ({totalSupply , tokenIssued}) =>(
     <div>
         <h3 className="title">Tokens issuance</h3>
         <div className="stats">
             <table>
             <tbody>
             <tr><th>Number of tokens created during the ICO</th><td>{formatNumber(tokenIssued)}</td></tr>
-        </tbody>
+            {analyizeIssedTokens(totalSupply,tokenIssued) < 0 &&
+            <tr><th>Number of tokens created before or after ICO: (totalSupply - created tokens)</th><td>{`${analyizeIssedTokens(totalSupply,tokenIssued)} tokens created outside ICO are not included in statistics below`}</td></tr>
+            }
+            </tbody>
         </table>
         </div>
+
         <div className="stats">
             <table>
                 <tbody>
@@ -80,8 +85,9 @@ export const Investors = ({total, investors , percentages}) => {
                 <tbody>
                 {
                     tokenHoldersPercentage(total,investors.senders,percentages).map((item, index)=>{
-                        const key = Object.keys(item)[0];
-                        return <tr key={Math.random()}><td key={key}>{key*100}%</td><td>{item[key]}%</td></tr>
+                        console.log(item);
+                        const key = item['name'];
+                        return <tr key={Math.random()}><td key={key}>{key}</td><td>{item['amt'].toFixed(2)}</td></tr>
                         })
                 }
                 </tbody>

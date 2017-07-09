@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 
-export const ICOScanHeader = ({...props, ...state}) => {
+export const ICOScanHeader = ({...props}) => {
     return (
         <Row>
             <Grid className="ico-scan-header">
@@ -9,12 +9,12 @@ export const ICOScanHeader = ({...props, ...state}) => {
                     <Col md={6} className="name">
                         <Row>
                             <Col md={2} className="ico-logo">
-                                <img src={props.ico.information.logo} alt={props.address}/>
+                                <img src={props.information.logo} alt={props.address}/>
                             </Col>
                             <Col md={8} className="ico-desc">
 
-                                <h4><a href="#"> {props.name || props.ico.information.aliasName }</a></h4>
-                                <p>{props.ico.information.description}</p>
+                                <h4><a href="#"> {props.name || props.information.aliasName }</a></h4>
+                                <p>{props.information.description}</p>
                             </Col>
                         </Row>
                     </Col>
@@ -26,12 +26,12 @@ export const ICOScanHeader = ({...props, ...state}) => {
                             <Col md={5} className="part transparency">
                                 <p className="title">Added by Person</p>
 
-                                <button className={"transparency-button " + state.decision.replace(/\s+/g, '-').toLowerCase() + "-status"}
+                                <button className={"transparency-button " + props.decision.replace(/\s+/g, '-').toLowerCase() + "-status"}
                                         onClick={() => {
-                                            props.onModalShow(props.ico)
+                                            props.onModalShow(props)
                                         }}>
                                     <p>Transparency</p>
-                                    <strong> {state.decision} <i className="fa fa-arrow-right"/>
+                                    <strong> {props.decision} <i className="fa fa-arrow-right"/>
                                     </strong>
                                 </button>
                             </Col>

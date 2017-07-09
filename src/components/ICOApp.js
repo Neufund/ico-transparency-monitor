@@ -1,9 +1,10 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import {formatNumber, getValueOrNotAvailable} from '../utils';
+import {connect} from 'react-redux';
+import {default as config} from '../config.js';
 
-
-export const ICOApp = ({props , state}) => {
+const ICOApp = ({...props}) => {
     return (
         <Row>
             <Grid>
@@ -11,12 +12,11 @@ export const ICOApp = ({props , state}) => {
                     <Col lg={3} md={4} className="name">
                         <Row>
                             <Col lg={3} xs={2} className="ico-logo">
-                                <img src={props.ico.information.logo} alt={props.ico.name}/>
+                                <img src={props.information.logo} alt={props.address}/>
                             </Col>
                             <Col lg={8} xs={9}className="ico-desc">
-
-                                <h4><a href={props.ico.address}> {state.name || props.ico.information.aliasName}</a></h4>
-                                <p>{props.ico.information.description}</p>
+                                <h4><a href={props.address}> {props.name || props.information.aliasName}</a></h4>
+                                <p>{props.information.description}</p>
                             </Col>
                         </Row>
                     </Col>
@@ -25,28 +25,28 @@ export const ICOApp = ({props , state}) => {
 
                             <Col lg={3} xs={6} className="part">
                                 <p className="title">Token Cap</p>
-                                <strong className="desc">{getValueOrNotAvailable(state, 'cap')}</strong>
+                                <strong className="desc">{props['cap']}</strong>
                             </Col>
                             <Col lg={3}  xs={6} className="part">
                                 <p className="title">Tokens Supply</p>
-                                <strong className="desc">{formatNumber(parseFloat(state.totalSupply))}</strong>
+                                <strong className="desc">{formatNumber(parseFloat(props.totalSupply))}</strong>
                             </Col>
                             <Col lg={3}  xs={6} className="part">
                                 <p className="title">Duration</p>
-                                <strong className="desc">{getValueOrNotAvailable(state,"startDate")}</strong>
+                                <strong className="desc">{getValueOrNotAvailable(props,"startDate")}</strong>
                                 <br/>
-                                <strong className="desc">{getValueOrNotAvailable(state,"endDate")}</strong>
+                                <strong className="desc">{getValueOrNotAvailable(props,"endDate")}</strong>
                             </Col>
                             <Col lg={3}  xs={12} className="part transparency">
                                 <p className="title">Added by Person</p>
 
-                                <button href={props.ico.name}
-                                        className={"transparency-button " + state.decision.replace(/\s+/g, '-').toLowerCase() + "-status"}
+                                <button href={props.name}
+                                        className={"transparency-button " + getValueOrNotAvailable(props,'decision').replace(/\s+/g, '-').toLowerCase() + "-status"}
                                         onClick={() => {
-                                            props.onModalShow(props.ico)
+                                            props.onModalShow(props)
                                         }}>
                                     <p>Transparency</p>
-                                    <strong> {state.decision} <i className="fa fa-arrow-right"/>
+                                    <strong> {getValueOrNotAvailable(props,'decision')} <i className="fa fa-arrow-right"/>
                                     </strong>
                                 </button>
                             </Col>
@@ -59,3 +59,14 @@ export const ICOApp = ({props , state}) => {
         </Row>
     );
 };
+
+const mapStateToProps = (state , props) => {
+    return {
+        ...state.ICO.icos[props.address],
+        ...config.ICOs[props.address]
+    }
+};
+export default connect(
+    mapStateToProps,
+    null
+)(ICOApp);

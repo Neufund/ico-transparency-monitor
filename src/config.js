@@ -18,9 +18,15 @@ export default {
                 customArgs: {
                     _from: "0x0000000000000000000000000000000000000000",
                 },
+                firstTransationBlockNumber:2607801 ,
+                lastTransationBlockNumber:2607939
             },
             icoParameters: {
                 cap: async (icoContract) => {
+                    const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
+                    return maxCap/10**18;
+                },
+                capString: async (icoContract) => {
                     const maxCap = await toPromise(icoContract.tokenCreationRate)().valueOf();
                     const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
                     return `Maximum Cap: ${maxCap/10**18}, Min Cap: ${minCap/10**18}`

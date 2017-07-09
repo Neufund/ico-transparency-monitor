@@ -2,6 +2,8 @@ import {getWeb3, getSmartContract} from './utils/web3';
 import jQuery from "jquery";
 import {default as config} from './config.js';
 import axios from 'axios';
+const BigNumber = require('bignumber.js');
+
 
 const moment = require('moment');
 
@@ -119,7 +121,10 @@ export const getICOLogs = (address, callback) => {
      */
     let event = null;
     const smartContract = getSmartContract(address);
-    event = smartContract[ICO.event.name](customArgs, {fromBlock: 0, toBlock: 'latest'});
+    const firstTxBlockNumber = ICO['events']['firstTransationBlockNumber'] || 0;
+    const lastTxBlockNumber = ICO['events']['lastTransationBlockNumber'] || 'latest';
+
+    event = smartContract[ICO.event.name](customArgs, {fromBlock: firstTxBlockNumber, toBlock: lastTxBlockNumber});
     // 3898983             3908029
 
     jQuery.ajax({
@@ -310,6 +315,11 @@ const getFilterFormat = (startTimestamp, endTimestamp) => (event) => {
 
 };
 
+export const analyizeIssedTokens = (tokenSupply, issuedToken) => {
+    const tokens = new BigNumber(tokenSupply.toFixed(2)).minus(issuedToken.toFixed(2));
+    return tokens.valueOf()
+};
+
 //TODO: Dispatch error message if any error raised by getWeb3 function
 export const getStatistics = async (selectedICO, events, statisticsICO, currencyPerEther) => {
     let web3;
@@ -321,7 +331,7 @@ export const getStatistics = async (selectedICO, events, statisticsICO, currency
     }
     const smartContract = getSmartContract(selectedICO.address);
 
-    const decimals = await toPromise(smartContract.decimals)() || config['defaultDecimal'];
+    const decimals = typeof smartContract.decimals !== "undefined" ?await toPromise(smartContract.decimals)(): config['defaultDecimal'];
 
     const factor = 10 ** decimals;
 
@@ -333,7 +343,7 @@ export const getStatistics = async (selectedICO, events, statisticsICO, currency
     let ethersDataset = [];
 
     const format = getFilterFormat(events[0].timestamp, events[events.length - 1].timestamp);
-
+    console.log(events[0].blockNumber, events[events.length - 1].blockNumber);
     events.map((item) => {
 
         const tokenValue = item.args[selectedICO.event.args.tokens].valueOf() / factor;

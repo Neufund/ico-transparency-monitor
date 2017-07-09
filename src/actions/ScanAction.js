@@ -9,3 +9,7 @@ export const showLoader = () => {
 export const hideLoader = () => {
     return {type:'HIDE_LOADER'}
 };
+
+export const setProperties = (address,prop) => {
+    return {type:'SET_ICO_PROPERTY' , address:address, prop:prop}
+};

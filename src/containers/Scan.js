@@ -73,7 +73,7 @@ class Scan extends Component {
                 <Grid className="scanbox ico-box-scan">
                     <ICO ico={this.ico} inner={true} address={this.address}/>
                     <ScanBoxLoadingMessage show={this.props.showLoaderState}/>
-                    <ScanBoxDetails hasTokenPrice={this.ico['matrix']['q5'].answer}/>
+                    <ScanBoxDetails address={this.address}/>
                 </Grid>
             </div>
         );
@@ -85,7 +85,6 @@ const mapStateToProps = (state) => {
     return {
         showLoaderState: state.scan.showLoader,
         currencyValue : state.currency.value,
-
     }
 };
 

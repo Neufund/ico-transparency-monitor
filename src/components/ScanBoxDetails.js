@@ -5,7 +5,7 @@ import '../assets/css/ScanBox.css';
 import { connect } from 'react-redux';
 import {TimeDetails , RaisedAmount, TokenIssued, Investors} from './details'
 import {TokensBarChart , DoubleBarChart,TokenHoldersPieChart} from './charts'
-import {getTokenHoldersChartData} from '../utils/charts';
+import {tokenHoldersPercentage} from '../utils/charts';
 
 
 const getChartFormat = (durationDays)=>{
@@ -17,7 +17,7 @@ const getChartFormat = (durationDays)=>{
         return 'Days';
 };
 
-const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
+const ScanBoxDetails = ({ ...props }) => {
     let percentages = [];
     let i = 1;
     while(i < 100){
@@ -32,7 +32,7 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
                     <Col md={6}>
                         <TimeDetails {...props.stats.time}/>
                         <RaisedAmount totalETH={props.stats.money.totalETH}/>
-                        <TokenIssued tokenIssued={props.stats.money.tokenIssued}/>
+                        {props.totalSupply && <TokenIssued totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}/> }
                     </Col>
                 </Row>
             </Col>
@@ -56,7 +56,7 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
             </Col>
         </Row>
 
-        {hasTokenPrice &&
+        {
         <div className="scan-content">
 
             <Row>
@@ -68,10 +68,9 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
                 </Col>
 
                 <Col md={6} >
-
-                    {/*<TokenHoldersPieChart data={*/}
-                        {/*getTokenHoldersChartData(props.stats.money.tokenIssued , props.stats.investors.senders, percentages)*/}
-                    {/*}/>*/}
+                    <TokenHoldersPieChart dataKey="TokenHolders" data={
+                        tokenHoldersPercentage(props.stats.money.tokenIssued , props.stats.investors.senders, percentages)
+                    }/>
                 </Col>
             </Row>
 
@@ -89,7 +88,8 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
                 </Col>
             </Row>
         </div>}
-        {!hasTokenPrice &&
+        {/*!props.martix.q5.answer*/}
+        {
         <div className="alarm">
             <p>No statistics: This ICO Is not providing information on token price in ETH</p>
         </div>}
@@ -97,12 +97,19 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
     </div>)
 };
 
-export default connect(
-    state => ({
+const mapStateToProps = (state , props) => {
+    // console.log(state.ICO.icos);
+    return {
         currency : state.currency.currency,
         currencyValue : state.currency.value,
-        stats: state.scan.stats
-    }),
+        stats: state.scan.stats,
+        ...state.ICO.icos[props.address],
+    }
+};
+
+
+export default connect(
+    mapStateToProps,
     null
 )(ScanBoxDetails)
 

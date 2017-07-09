@@ -1,23 +1,27 @@
-const initIco = {
-    cap: null,
-    endDate: null,
-    name: null,
-    startDate: null,
-    symbol: null,
-    totalSupply: null,
-    decision: "",
+const initialState = {
+    icos :{
+    }
 };
 
-const scan = (state = [] , action) => {
+
+const ICO = (state = initialState , action) => {
+
     switch (action.type) {
-        case 'ADD_ICO':
+        case 'SET_ICO_PROPERTY':
+
+            const key = Object.keys(action.prop)[0];
+
+            if( state['icos'][action.address] == undefined )
+                state['icos'][action.address]= {};
+            state['icos'][action.address][key] = action.prop[key];
+
             return {
                 ...state,
-                stats: {...action.stats}
+                icos : state['icos']
             };
         default:
             return state
     }
 };
 
-export default scan;
+export default ICO;

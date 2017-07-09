@@ -36,6 +36,7 @@ export const TokenIssued = ({tokenIssued}) =>(
             <table>
             <tbody>
             <tr><th>Number of tokens created during the ICO</th><td>{formatNumber(tokenIssued)}</td></tr>
+            <tr><th>Number of tokens created outside if ICO <i>*those tokens are not part of results below*</i></th><td>totalSupply - tokenIssued</td></tr>
         </tbody>
         </table>
         </div>
@@ -75,7 +76,7 @@ export const Investors = ({total, investors , percentages}) => {
             </div>
             <table className="table table-responsive">
                 <thead>
-                    <tr><th>Investors percentage</th><th>Token percentage</th></tr>
+                    <tr><th>Top Wealthiest Investors</th><th>Share of Tokens Owned</th></tr>
                 </thead>
                 <tbody>
                 {

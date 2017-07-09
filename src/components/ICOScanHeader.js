@@ -14,7 +14,7 @@ export const ICOScanHeader = ({...props, ...state}) => {
                             <Col md={8} className="ico-desc">
 
                                 <h4><a href="#"> {props.name || props.ico.information.aliasName }</a></h4>
-                                <p>{props.ico.information.description}</p>
+                                <p>PUT LINK TO PROJECT WEB PAGE!!!!</p>
                             </Col>
                         </Row>
                     </Col>

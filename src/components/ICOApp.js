@@ -16,7 +16,7 @@ export const ICOApp = ({props , state}) => {
                             <Col lg={8} xs={9}className="ico-desc">
 
                                 <h4><a href={props.ico.address}> {state.name || props.ico.information.aliasName}</a></h4>
-                                <p>{props.ico.information.description}</p>
+                                <p>PUT LINK TO PROJECT WEB PAGE!!!!</p>
                             </Col>
                         </Row>
                     </Col>
@@ -24,7 +24,7 @@ export const ICOApp = ({props , state}) => {
                         <Row>
 
                             <Col lg={3} xs={6} className="part">
-                                <p className="title">Token Cap</p>
+                                <p className="title">Declared Cap</p>
                                 <strong className="desc">{getValueOrNotAvailable(state, 'cap')}</strong>
                             </Col>
                             <Col lg={3}  xs={6} className="part">
@@ -32,7 +32,7 @@ export const ICOApp = ({props , state}) => {
                                 <strong className="desc">{formatNumber(parseFloat(state.totalSupply))}</strong>
                             </Col>
                             <Col lg={3}  xs={6} className="part">
-                                <p className="title">Duration</p>
+                                <p className="title">Declared Duration</p>
                                 <strong className="desc">{getValueOrNotAvailable(state,"startDate")}</strong>
                                 <br/>
                                 <strong className="desc">{getValueOrNotAvailable(state,"endDate")}</strong>

@@ -10,11 +10,11 @@ export const ICOScan = ({state, props}) => {
                 <div id="loadingProgressG" className={props.showLoader == true ? "show" : "hide"}>
                     <div id="loadingProgressG_1" className="loadingProgressG"></div>
                 </div>
-
+                ICO Terms as declared in Smart Contract:
                 <Col md={12}>
                     <Row>
                         <Col md={2} className="part">
-                            <p className="title">Token Cap</p>
+                            <p className="title">Declared Cap</p>
                             <strong className="desc">{getValueOrNotAvailable(state, 'cap')}</strong>
                         </Col>
                         <Col md={3} className="part">
@@ -26,7 +26,7 @@ export const ICOScan = ({state, props}) => {
                             <strong className="desc">{getValueOrNotAvailable(state, "symbol")}</strong>
                         </Col>
                         <Col md={3} className="part">
-                            <p className="title">Duration</p>
+                            <p className="title">Declared Duration</p>
                             <strong className="desc">{getValueOrNotAvailable(state, "startDate")}</strong>
                             <span className="separator">to</span>
                             <strong className="desc">{getValueOrNotAvailable(state, "endDate")}</strong>

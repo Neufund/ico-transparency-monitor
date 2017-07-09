@@ -26,6 +26,7 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
     }
 
     return (props.currencyValue && <div className="scanbox-details">
+        Actual values from ICO transactions analysis:
         <Row className="statistics">
             <Col md={12} className="scan-content">
                 <Row>
@@ -40,9 +41,15 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
 
         <Row className="statistics">
             <Col md={6}>
+                Chart Title: Tokens Created over Time
+                X Axis: depends on time scale (Blocks, Hours, Days)
+                Y Axis: Tokens Created
                 <TokensBarChart data={props.stats.charts.tokensAmount} dataKey="Tokens/Time"/>
             </Col>
             <Col md={6}>
+                Chart Title: Transactions over Time
+                X Axis: depends on time scale (Blocks, Hours, Days)
+                Y Axis: Transaction
                 <TokensBarChart data={props.stats.charts.tokensCount} dataKey="Transactions/Time"/>
             </Col>
         </Row>
@@ -50,7 +57,7 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
         <Row>
             <Col md={12}>
                 <div className="alarm">
-                    <p>Since the duration for this ICO is <strong>{props.stats.time.duration}</strong> so the results in the top will be
+                    <p>REMOVE THIS. Since the duration for this ICO is <strong>{props.stats.time.duration}</strong> so the results in the top will be
                         classified by <strong>{getChartFormat(props.stats.time.durationDays)}</strong></p>
                 </div>
             </Col>
@@ -80,11 +87,15 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
 
             <Row>
                 <Col md={6}>
-                    <p>Number investors distributed by different scale</p>
+                    <p>Title: Number of Investors with Ticket of Size
+                    X Axis: Ticket Size in [currency]
+                    Y Axis: Number of Investors</p>
                     <DoubleBarChart data={props.stats.charts.invetorsDistribution} ChartKey="Investors"/>
                 </Col>
                 <Col md={6}>
-                    <p>Amount of investment distributed by different scale</p>
+                    <p>Title: Total Amount Invested with Ticket of Size
+                    X Axis: Ticket Size in [currency]
+                    Y Axis: Total Amount Invested</p>
                     <DoubleBarChart data={props.stats.charts.investmentDistribution} ChartKey="Investments"/>
                 </Col>
             </Row>
@@ -93,7 +104,7 @@ const ScanBoxDetails = ({ hasTokenPrice, ...props }) => {
         <div className="alarm">
             <p>No statistics: This ICO Is not providing information on token price in ETH</p>
         </div>}
-
+        [Download Raw Data as CSV]
     </div>)
 };
 

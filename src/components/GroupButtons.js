@@ -44,7 +44,7 @@ class CurrencyButton extends Component{
                 <Row className="group-buttons">
                     <Col md={6}>
                         <div>
-                            <p>Converted to:</p>
+                            <p>Currency:</p>
                             <ul className="currency-buttons">
                                 {['EUR', 'USD','BTC','ETH'].map((item)=><li key={item}><a className={this.state.currencyActiveClass === item?"active" : ""} onClick={()=>{this.onCurrencyHandle(item)}}>{item}</a></li>)}
                             </ul>
@@ -52,11 +52,10 @@ class CurrencyButton extends Component{
                     </Col>
                     <Col md={6}>
                         <p>
-                            <span>On: </span> <storng>ETH 1 / {this.props.currency} {this.props.currencyValue} </storng>
+                            <span>Rate: </span> <storng>1 ETH = {this.props.currencyValue} {this.props.currency}</storng>
                         </p>
                         <p>
-                            This currency exchange based on coinbase service.
-                            <em>https://api.coinbase.com/v2/prices/</em>
+                            <em>https://api.coinbase.com/v2/prices/</em> on [exchange date]
                         </p>
                     </Col>
                 </Row>

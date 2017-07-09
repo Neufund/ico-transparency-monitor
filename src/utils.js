@@ -121,18 +121,20 @@ export const getICOLogs = (address, callback) => {
      */
     let event = null;
     const smartContract = getSmartContract(address);
-    const firstTxBlockNumber = ICO['events']['firstTransationBlockNumber'] || 0;
-    const lastTxBlockNumber = ICO['events']['lastTransationBlockNumber'] || 'latest';
 
+
+    const firstTxBlockNumber = typeof ICO['event']['firstTransationBlockNumber'] !== "undefined" ?ICO['event']['firstTransationBlockNumber']:0;
+    const lastTxBlockNumber = typeof ICO['event']['lastTransationBlockNumber'] !== "undefined"?ICO['event']['lastTransationBlockNumber']:'latest';
+    console.log(firstTxBlockNumber , lastTxBlockNumber);
     event = smartContract[ICO.event.name](customArgs, {fromBlock: firstTxBlockNumber, toBlock: lastTxBlockNumber});
-    // 3898983             3908029
 
     jQuery.ajax({
         type: "POST",
         url: config.rpcHost,
         Accept: "application/json",
         contentType: "application/json",
-        headers: {'X-Cache-Long': 'true'}, // request data from cache
+        //TODO: request data from cache
+        // headers: {'X-Cache-Long': 'true'},
         data: JSON.stringify({
             "id": 1497353430507566,
             "jsonrpc": "2.0",

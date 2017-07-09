@@ -37,8 +37,9 @@ export const TokenIssued = ({totalSupply , tokenIssued}) =>(
             <table>
             <tbody>
             <tr><th>Number of tokens created during the ICO</th><td>{formatNumber(tokenIssued)}</td></tr>
+
             {analyizeIssedTokens(totalSupply,tokenIssued) < 0 &&
-            <tr><th>Number of tokens created before or after ICO: (totalSupply - created tokens)</th><td>{`${analyizeIssedTokens(totalSupply,tokenIssued)} tokens created outside ICO are not included in statistics below`}</td></tr>
+            <tr><th>Number of tokens created outside if ICO <i>*those tokens are not part of results below*</i></th><td>{`${analyizeIssedTokens(totalSupply,tokenIssued)} tokens created outside ICO are not included in statistics below`}</td></tr>
             }
             </tbody>
         </table>
@@ -80,12 +81,11 @@ export const Investors = ({total, investors , percentages}) => {
             </div>
             <table className="table table-responsive">
                 <thead>
-                    <tr><th>Investors percentage</th><th>Token percentage</th></tr>
+                    <tr><th>Top Wealthiest Investors</th><th>Share of Tokens Owned</th></tr>
                 </thead>
                 <tbody>
                 {
                     tokenHoldersPercentage(total,investors.senders,percentages).map((item, index)=>{
-                        console.log(item);
                         const key = item['name'];
                         return <tr key={Math.random()}><td key={key}>{key}</td><td>{item['amt'].toFixed(2)}</td></tr>
                         })

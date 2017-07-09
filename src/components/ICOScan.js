@@ -6,19 +6,18 @@ import {connect} from 'react-redux';
 import {default as config} from '../config.js';
 
 const ICOScan = ({...props}) => {
-    console.log(props.showLoader);
     return (<div>
             <ICOScanHeader {...props} />
             <Row>
                 <div id="loadingProgressG" className={props.showLoader == true ? "show" : "hide"}>
                     <div id="loadingProgressG_1" className="loadingProgressG"></div>
                 </div>
-
                 {!props.showLoader && <Col md={12}>
                     <Row>
                         <Col md={2} className="part">
                             <p className="title">Token Cap</p>
                             <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>
+                ICO Terms as declared in Smart Contract:
                         </Col>
                         <Col md={3} className="part">
                             <p className="title">Tokens Supply</p>
@@ -29,7 +28,7 @@ const ICOScan = ({...props}) => {
                             <strong className="desc">{getValueOrNotAvailable(props, "symbol")}</strong>
                         </Col>
                         <Col md={3} className="part">
-                            <p className="title">Duration</p>
+                            <p className="title">Declared Duration</p>
                             <strong className="desc">{getValueOrNotAvailable(props, "startDate")}</strong>
                             <span className="separator">to</span>
                             <strong className="desc">{getValueOrNotAvailable(props, "endDate")}</strong>

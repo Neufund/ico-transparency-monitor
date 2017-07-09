@@ -17,6 +17,7 @@ const ICOApp = ({...props}) => {
                             <Col lg={8} xs={9}className="ico-desc">
                                 <h4><a href={props.address}> {props.name || props.information.aliasName}</a></h4>
                                 <p>{props.information.description}</p>
+                                <p>PUT LINK TO PROJECT WEB PAGE!!!!</p>
                             </Col>
                         </Row>
                     </Col>
@@ -24,15 +25,15 @@ const ICOApp = ({...props}) => {
                         <Row>
 
                             <Col lg={3} xs={6} className="part">
-                                <p className="title">Token Cap</p>
-                                <strong className="desc">{props['cap']}</strong>
+                                <p className="title">Declared Cap</p>
+                                <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>
                             </Col>
                             <Col lg={3}  xs={6} className="part">
                                 <p className="title">Tokens Supply</p>
                                 <strong className="desc">{formatNumber(parseFloat(props.totalSupply))}</strong>
                             </Col>
                             <Col lg={3}  xs={6} className="part">
-                                <p className="title">Duration</p>
+                                <p className="title">Declared Duration</p>
                                 <strong className="desc">{getValueOrNotAvailable(props,"startDate")}</strong>
                                 <br/>
                                 <strong className="desc">{getValueOrNotAvailable(props,"endDate")}</strong>

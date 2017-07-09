@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import {TimeDetails , RaisedAmount, TokenIssued, Investors} from './details'
 import {TokensBarChart , DoubleBarChart,TokenHoldersPieChart} from './charts'
 import {tokenHoldersPercentage} from '../utils/charts';
-
+import {default as config} from '../config.js';
 
 const getChartFormat = (durationDays)=>{
     if (durationDays === 0)
@@ -24,12 +24,12 @@ const ScanBoxDetails = ({ ...props }) => {
         percentages.push(i*0.01);
         i+= i<5?4:(i<9?5:10);
     }
-
     return (props.currencyValue && <div className="scanbox-details">
         <Row className="statistics">
             <Col md={12} className="scan-content">
                 <Row>
                     <Col md={6}>
+                        <p> Actual values from ICO transactions analysis: </p>
                         <TimeDetails {...props.stats.time}/>
                         <RaisedAmount totalETH={props.stats.money.totalETH}/>
                         {props.totalSupply && <TokenIssued totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}/> }
@@ -40,23 +40,24 @@ const ScanBoxDetails = ({ ...props }) => {
 
         <Row className="statistics">
             <Col md={6}>
+                <p>
+                Chart Title: Tokens Created over Time
+                X Axis: depends on time scale (Blocks, Hours, Days)
+                Y Axis: Tokens Created
+                </p>
                 <TokensBarChart data={props.stats.charts.tokensAmount} dataKey="Tokens/Time"/>
             </Col>
             <Col md={6}>
+                <p>
+                Chart Title: Transactions over Time
+                X Axis: depends on time scale (Blocks, Hours, Days)
+                Y Axis: Transaction
+                </p>
                 <TokensBarChart data={props.stats.charts.tokensCount} dataKey="Transactions/Time"/>
             </Col>
         </Row>
 
-        <Row>
-            <Col md={12}>
-                <div className="alarm">
-                    <p>Since the duration for this ICO is <strong>{props.stats.time.duration}</strong> so the results in the top will be
-                        classified by <strong>{getChartFormat(props.stats.time.durationDays)}</strong></p>
-                </div>
-            </Col>
-        </Row>
-
-        {
+        {props.matrix.q5.answer &&
         <div className="scan-content">
 
             <Row>
@@ -79,21 +80,25 @@ const ScanBoxDetails = ({ ...props }) => {
 
             <Row>
                 <Col md={6}>
-                    <p>Number investors distributed by different scale</p>
+                    <p>Title: Number of Investors with Ticket of Size
+                    X Axis: Ticket Size in [currency]
+                    Y Axis: Number of Investors</p>
                     <DoubleBarChart data={props.stats.charts.invetorsDistribution} ChartKey="Investors"/>
                 </Col>
                 <Col md={6}>
-                    <p>Amount of investment distributed by different scale</p>
+                    <p>Title: Total Amount Invested with Ticket of Size
+                    X Axis: Ticket Size in [currency]
+                    Y Axis: Total Amount Invested</p>
                     <DoubleBarChart data={props.stats.charts.investmentDistribution} ChartKey="Investments"/>
                 </Col>
             </Row>
         </div>}
-        {/*!props.martix.q5.answer*/}
-        {
+
+        {!props.matrix.q5.answer &&
         <div className="alarm">
             <p>No statistics: This ICO Is not providing information on token price in ETH</p>
         </div>}
-
+        [Download Raw Data as CSV]
     </div>)
 };
 
@@ -104,6 +109,8 @@ const mapStateToProps = (state , props) => {
         currencyValue : state.currency.value,
         stats: state.scan.stats,
         ...state.ICO.icos[props.address],
+        matrix : config.ICOs[props.address].matrix
+
     }
 };
 

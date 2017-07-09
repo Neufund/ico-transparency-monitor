@@ -132,6 +132,7 @@ export const getICOLogs = (address, callback) => {
         url: config.rpcHost,
         Accept: "application/json",
         contentType: "application/json",
+        headers: {'X-Cache-Long': 'true'}, // request data from cache
         data: JSON.stringify({
             "id": 1497353430507566,
             "jsonrpc": "2.0",
@@ -223,7 +224,7 @@ export const prepareStatsInvestment = (senders, currencyPerEther) => {
 };
 
 const calculateTicks = (max) => {
-    let tick = 0.001;
+    let tick = 0.1;
     let ticks = [];
     ticks.push(tick);
     while (tick < max) {
@@ -270,8 +271,8 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
     const ticks = calculateTicks(max);
 
     ticks.map((tick) => {
-        if (tick !== 0) chartInvetorsDistibution.push({name: `x<${kFormatter(tick)}`, Investors: 0, key: tick})
-        if (tick !== 0) chartInvestmentDistibution.push({name: `x<${kFormatter(tick)}`, Investments: 0, key: tick})
+        if (tick !== 0) chartInvetorsDistibution.push({name: `< ${kFormatter(tick)}`, Investors: 0, key: tick})
+        if (tick !== 0) chartInvestmentDistibution.push({name: `< ${kFormatter(tick)}`, Investments: 0, key: tick})
     });
 
     for (let i = 0; i < ethersDataset.length; i++) {

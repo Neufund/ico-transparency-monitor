@@ -334,6 +334,16 @@ export const analyizeIssedTokens = (tokenSupply, issuedToken) => {
     return tokens.valueOf()
 };
 
+const getDurationFromat = ( duration) => {
+    return `${duration.get("years") > 0 ? duration.get("years") + " Years" : ""}
+            ${duration.get("months") > 0 ? duration.get("months") + " Months" : ""}
+            ${duration.get("days") > 0 ? duration.get("days") + " Days" : ""}
+
+            ${duration.get("hours") > 0 ? duration.get("hours") + " Hours" : ""}
+            ${duration.get("minutes") > 0 ? duration.get("minutes") + " Minutes" : ""}
+            ${duration.get("seconds") > 0 ? duration.get("seconds") + " Seconds" : ""}`
+}
+
 //TODO: Dispatch error message if any error raised by getWeb3 function
 export const getStatistics = async (selectedICO, events, statisticsICO, currencyPerEther) => {
     let web3;
@@ -420,15 +430,7 @@ export const getStatistics = async (selectedICO, events, statisticsICO, currency
     const duration = moment.duration(moment(endTime).diff(moment(startTime)));
 
     statisticsICO.time.durationDays = duration.get("days");
-    statisticsICO.time.duration =
-        `
-            ${duration.get("years") > 0 ? duration.get("years") + " Years" : ""}
-            ${duration.get("months") > 0 ? duration.get("months") + " Months" : ""}
-            ${duration.get("days") > 0 ? duration.get("days") + " Days" : ""}
-
-            ${duration.get("hours") > 0 ? duration.get("hours") + " Hours" : ""}
-            ${duration.get("minutes") > 0 ? duration.get("minutes") + " Minutes" : ""}
-            ${duration.get("seconds") > 0 ? duration.get("seconds") + " Seconds" : ""}`;
+    statisticsICO.time.duration = getDurationFromat(duration);
 
     //Initialize the chart of investors by ether value
     statisticsICO.etherDataset = ethersDataset;

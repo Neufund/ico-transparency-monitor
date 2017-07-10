@@ -21,6 +21,7 @@ export const toPromise = func => (...args) =>
         func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
     );
 
+// todo: fix typo!!
 export const formateDate = (datetime, fullFormat = true) => {
     return fullFormat ? moment.utc(datetime).format("YYYY-MM-DD HH:mm:ss") : moment.utc(datetime).format("YYYY-MM-DD");
 
@@ -42,6 +43,7 @@ export const decisionMatrix = (matrix) => {
     let nonTransparent = {};
     let transparentWithIssues = {};
 
+    // todo: do not use map if you are not using the result! use for or forEach (for is faster)
     Object.keys(matrix).map((key, index)=>{
         const currentQuestion = matrix[key];
         const mappedQuestionMatrix = questionMatrix[key];
@@ -82,9 +84,11 @@ export const getEtherPerCurrency = async (currency, date) => {
 export const getICOs = () => {
     let icos = [];
     const icosObject = config.ICOs;
+    // todo: why you use push? can;t you use mapping properly??? return what mapping returns
     Object.keys(icosObject).map((icoKey) => {
             const ico = icosObject[icoKey];
             ico['address'] = icoKey;
+            // todo: return ico not push, do you know how map works?
             icos.push(ico);
         }
     );
@@ -167,6 +171,7 @@ export const getICOLogs = (address, callback) => {
 
 export const initStatistics = () => {
     return {
+        // todo: remove unused properties like numberInvestorsMoreThanOne100kEuro
         general: {
             transactionsCount: 0
         },
@@ -189,8 +194,11 @@ export const initStatistics = () => {
             totalETH: 0,
         },
         charts: {
+            // todo: this is transaction count
             tokensCount: null,
+            // todo: this is tokens count
             tokensAmount: null,
+            // todo: fix typo below
             invetorsDistribution: null,
             investmentDistribution: null,
         }
@@ -202,6 +210,7 @@ export const prepareStatsInvestment = (senders, currencyPerEther) => {
     let investors = initStatistics().investors;
     investors.senders = senders;
 
+    // todo: do we still need this? it was removed from UI
     for (let [key, value] of Object.entries(senders)) {
 
         let currencyValue = value['ETH'] * parseFloat(currencyPerEther);
@@ -261,6 +270,7 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
     let max = 0;
 
     //investors
+    // todo: fix typo in name
     let chartInvetorsDistibution = [];
 
     //investment
@@ -273,6 +283,11 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
     const ticks = calculateTicks(max);
 
     let previousTick = 0;
+    // todo: do no use mapping like that: (1) you do not use return value (2) you assume that mapping will be executed in the
+    // todo: order of ticks which may not be true
+    // todo: just use loop
+    // todo: why chartInvetorsDistibution and chartInvestmentDistibution? you need just one with Investors and Investments
+    // todo: then you can for sure choose proper one for diagram
     ticks.map((tick) => {
         const name = `${kFormatter(previousTick)} - ${kFormatter(tick)}`
         if (tick !== 0) chartInvetorsDistibution.push({name: `${name}`, Investors: 0, key: tick})
@@ -280,6 +295,7 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
         previousTick = tick;
     });
 
+    // todo: why two identical loops? ticks are the same so one loop but set both Investors and Investments
     for (let i = 0; i < ethersDataset.length; i++) {
         const money = ethersDataset[i] * currencyPerEther;
         for (let j = 0; j < chartInvetorsDistibution.length; j++) {
@@ -289,9 +305,12 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
             }
         }
     }
+
+    // todo: you do not need second loop
     for (let i = 0; i < ethersDataset.length; i++) {
         const money = ethersDataset[i] * currencyPerEther;
         for (let j = 0; j < chartInvestmentDistibution.length; j++) {
+            // todo: why ethersDataset[i] * currencyPerEther as you have `money` above
             if ((ethersDataset[i] * currencyPerEther) < chartInvestmentDistibution[j].key) {
                 chartInvestmentDistibution[j].Investments += parseFloat(money.toFixed(2));
                 break;
@@ -313,23 +332,30 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
 //
 
 const getChartTimescale= (startTimestamp, endTimestamp) => (event) => {
+    // todo: compute duration when you compute all stats and keep it in statisticsICO
     const duration = moment.duration(moment(new Date(endTimestamp * 1000)).diff(moment(new Date(startTimestamp * 1000))));
     const daysNumber = duration._data.days;
 
+    // todo: do you know that those conditions and also `duration` above is called for each event??
+    // todo: this will slow down computation extremely
+    // todo: instead return a function that just is processing event, without ifs
+    // todo: (startTimestamp, endTimestamp) => (event) => {} does not work as you think
     if (daysNumber === 0)
         return event.blockNumber;
-    else if (daysNumber === 1 ) {
+    else if (daysNumber < 4 ) {
         const datetime = new Date(event.timestamp * 1000);
         return moment.utc(datetime).format("YYYY-MM-DD HH");
 
-    } else if (daysNumber > 1) {
+    } else {
         const datetime = new Date(event.timestamp * 1000);
         return formateDate(datetime, false)
     }
 
 };
 
+// todo: fix spelling error below
 export const analyizeIssedTokens = (tokenSupply, issuedToken) => {
+    // todo why you need big number here? big numbers are slow
     const tokens = new BigNumber(tokenSupply.toFixed(2)).minus(issuedToken.toFixed(2));
     return tokens.valueOf()
 };
@@ -345,6 +371,7 @@ export const getStatistics = async (selectedICO, events, statisticsICO, currency
     }
     const smartContract = getSmartContract(selectedICO.address);
 
+    // todo: get everything from smart contract before you call this function, it should not be async
     const decimals = typeof smartContract.decimals !== "undefined" ?await toPromise(smartContract.decimals)(): config['defaultDecimal'];
 
     const factor = 10 ** decimals;
@@ -356,8 +383,11 @@ export const getStatistics = async (selectedICO, events, statisticsICO, currency
 
     let ethersDataset = [];
 
+    // todo: compute duration before
+    // todo: how are you going to know what timescale is used by getChartTimescale to set up axis display on chart properly?
     const format = getChartTimescale(events[0].timestamp, events[events.length - 1].timestamp);
     console.log(events[0].blockNumber, events[events.length - 1].blockNumber);
+    // todo: do not use map if you are not using the result! use for or forEach (for is faster)
     events.map((item) => {
 
         const tokenValue = item.args[selectedICO.event.args.tokens].valueOf() / factor;
@@ -395,6 +425,7 @@ export const getStatistics = async (selectedICO, events, statisticsICO, currency
     statisticsICO.charts.tokensAmount = [];
     statisticsICO.charts.tokensCount = [];
 
+    // todo: another misuse of map
     Object.keys(chartAmountTemp).map((key) => {
         statisticsICO.charts.tokensAmount.push({
             name: key,
@@ -403,6 +434,7 @@ export const getStatistics = async (selectedICO, events, statisticsICO, currency
         })
     });
 
+    // todo: another misuse of map
     Object.keys(chartAmountTemp).map((key) => statisticsICO.charts.tokensCount.push({
         name: key,
         'Transactions/Time': parseFloat(chartTokenCountTemp[key].toFixed(2)),
@@ -411,7 +443,7 @@ export const getStatistics = async (selectedICO, events, statisticsICO, currency
 
     statisticsICO.investors = prepareStatsInvestment(statisticsICO.investors.senders, currencyPerEther);
 
-
+    // todo: move to the beginning
     const startTime = new Date(events[0].timestamp * 1000);
     statisticsICO.time.startDate = formateDate(startTime);
 

@@ -110,6 +110,8 @@ export const getSmartContractConstants = async (address) => {
         result[constant] = constants[constant](smartContract);
     });
 
+    // todo: read 'decimals' here
+
     return result;
 };
 
@@ -126,4 +128,3 @@ export const constantValueOf = async (constant , type) => {
         default: return null;
     }
 };
-

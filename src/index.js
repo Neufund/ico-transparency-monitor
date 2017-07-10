@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './containers/App';
 import Scan from './containers/Scan';
 import './assets/css/index.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch ,HashRouter} from 'react-router-dom'
 import Layout from './views/Layout';
 import { Provider} from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -17,12 +17,12 @@ const render = (store) => {
     ReactDOM.render(
         <Provider store={store}>
             <Layout>
-                <BrowserRouter>
+                <HashRouter>
                     <Switch>
                         <Route exact path="/" component={App}/>
                         <Route exact path="/:name" component={Scan}/>
                     </Switch>
-                </BrowserRouter>
+                </HashRouter>
                 <TransparencyModal/>
             </Layout>
         </Provider> , root);

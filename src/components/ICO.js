@@ -19,6 +19,7 @@ class ICO extends Component {
         const transparencyDecision = decisionMatrix(this.props.ico.matrix)[0];
 
         this.props.setICOProperties(this.props.ico.address,{decision: transparencyDecision})
+
         getSmartContractConstants(this.props.address).then((parameters)=>{
             Object.keys(parameters).map((constant) => {
                 const parameter = parameters[constant];

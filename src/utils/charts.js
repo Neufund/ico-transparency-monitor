@@ -67,6 +67,9 @@ export const downloadChartImage = (chartId) => {
     );
     ctx.translate(-rect.left,-rect.top);
 
+
+
+
     html2canvas(div, {
         canvas:canvas,
         height:rect.height,

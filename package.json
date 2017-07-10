@@ -59,17 +59,19 @@
     "chai-http": "^3.0.0",
     "code-notes": "^1.0.1",
     "codecov": "^2.1.0",
+    "copy-webpack-plugin": "^4.0.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^5.0.1",
     "eslint-plugin-react": "^7.0.1",
+    "react-hot-loader": "next",
     "react-scripts": "1.0.7"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require node_modules/ignore-styles",
-    "eject": "react-scripts eject"
+    "serve": "babel-node node_modules/.bin/webpack-dev-server --https --colors --progress --history-api-fallback",
+    "build": "babel-node node_modules/.bin/webpack",
+    "test": "babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require node_modules/ignore-styles"
   }
 }

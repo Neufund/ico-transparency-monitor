@@ -1,5 +1,6 @@
 const BigNumber = require('bignumber.js');
 const html2canvas = require('html2canvas');
+const saveAs = require('file-saver').saveAs;
 
 export const tokenHoldersPercentage = (total , investors, percentages) =>{
     let investorsArray = [];
@@ -29,10 +30,13 @@ export const tokenHoldersPercentage = (total , investors, percentages) =>{
     return result;
 };
 
+const svgDataURL = (svg) => {
+    const svgAsXML = (new XMLSerializer).serializeToString(svg);
+    return "data:image/svg+xml," + encodeURIComponent(svgAsXML);
+};
+
 export const downloadChartImage = (chartId) => {
     const div= document.getElementById(chartId);
-
-    const watermark = '<h1>Neufund</h1>';
     const rect = div.getBoundingClientRect();
 
     const canvas = document.createElement("canvas");
@@ -53,23 +57,18 @@ export const downloadChartImage = (chartId) => {
 
     // Fill with gradient
     ctx.fillStyle=gradient;
-    ctx.fillText("Powered by Neufund",
-        canvas.width/2 - 90
-        ,40
-    );
-    ctx.translate(-rect.left,-rect.top);
 
-
-
-
-    html2canvas(div, {
-        canvas:canvas,
-        height:rect.height,
-        width:rect.width,
-        onrendered: function(canvas) {
-            const image = canvas.toDataURL("image/png");
-
-            window.open(image);
-        }
-    });
+    const svgTag = document.getElementById(chartId).getElementsByTagName('svg')[0];
+    const url = svgDataURL(svgTag);
+    const img = new Image;
+    img.width = canvas.width;
+    img.height = canvas.height;
+    img.onload = function () {
+        ctx.drawImage(img,0,0);
+        ctx.fillText("Powered by Neufund",canvas.width/2 - 90,canvas.height/2-40);
+        canvas.toBlob(function(blob) {
+            saveAs(blob, "pretty image.png");
+        });
+    };
+    img.src= url;
 };

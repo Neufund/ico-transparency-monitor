@@ -193,7 +193,22 @@ font-weight: normal;
   padding-top: 33px;
   padding-bottom: 33px;
 }
-
+.chart{
+  position: relative;
+}
+.chart .x-axis-label{
+  position: absolute;
+  left: 50%;
+}
+.chart .y-axis-label{
+  -webkit-transform:rotate(-91deg);
+  -moz-transform:rotate(-91deg);
+  -o-transform:rotate(-91deg);
+  transform:rotate(-91deg);
+  position: absolute;
+  top: 43%;
+  left: 20px;
+}
 .chart-btn{
   background: white;
   border: 1px solid #D4E20F;

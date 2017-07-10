@@ -20,7 +20,6 @@ const ScanBoxDetails = ({ ...props }) => {
             <Col md={12} className="scan-content">
                 <p> Actual values from ICO transactions analysis: </p>
                 <TimeDetails {...props.stats.time}/>
-                <RaisedAmount totalETH={props.stats.money.totalETH}/>
                 {props.totalSupply && <TokenIssued totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}/> }
             </Col>
         </Row>
@@ -40,7 +39,7 @@ const ScanBoxDetails = ({ ...props }) => {
                 X Axis: depends on time scale (Blocks, Hours, Days)
                 Y Axis: Transaction
                 </p>
-                <TokensBarChart data={props.stats.charts.tokensCount} dataKey="Transactions/Time"/>
+                <TokensBarChart data={props.stats.charts.tokensCount} dataKey="Transactions/Time" xLabel="Blocks" yLabel="Transactions"/>
             </Col>
         </Row>
 
@@ -62,9 +61,11 @@ const ScanBoxDetails = ({ ...props }) => {
                 </Col>
             </Row>
 
-            <h3 className="title">Funds distribution</h3>
-            <GroupButtons currencyValue={props.currencyValue} currency={props.currency}/>
+            <RaisedAmount totalETH={props.stats.money.totalETH}/>
 
+            <h3 className="title">Funds distribution</h3>
+
+            <GroupButtons currencyValue={props.currencyValue} currency={props.currency}/>
             <Row>
                 <Col md={12}>
                     <p>Title: Number of Investors with Ticket of Size

@@ -1,8 +1,6 @@
 import Web3 from 'web3';
-import { createSelector } from 'reselect';
 import {default as config} from '../config.js';
-import {toPromise,formateDate,formatNumber} from '../utils';
-
+import {toPromise,formateDate} from '../utils';
 
 const ProviderEngine = require('web3-provider-engine');
 const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
@@ -10,8 +8,6 @@ const FixtureSubprovider = require('web3-provider-engine/subproviders/fixture.js
 const FilterSubprovider = require('web3-provider-engine/subproviders/filters.js');
 const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker.js');
 const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js');
-const HttpProvider = HttpProvider;
-
 
 const engineWithProviders = (providers) => {
     const engine = new ProviderEngine();

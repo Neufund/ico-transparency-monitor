@@ -1,6 +1,8 @@
 import {toPromise} from './utils';
 import {constantValueOf, getSmartContract} from './utils/web3';
 
+const rpcHost = require('./env.json')['rpcHost'];
+
 export default {
     ICOs: {
         '0xa74476443119a942de498590fe1f2454d7d4ac0d': {
@@ -242,7 +244,8 @@ export default {
             }
         }
     },
-    rpcHost: 'http://localhost:8545',
+    //https://neufund.net/nodes/mainnet
+    rpcHost: rpcHost,
     defaultDecimal: 18,
     matrix: {
         q1: {question: 'Is ICO controlled by a smart contract?', critical: false, notApplicable: false},

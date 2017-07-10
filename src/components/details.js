@@ -87,7 +87,7 @@ export const Investors = ({total, investors , percentages}) => {
                 {
                     tokenHoldersPercentage(total,investors.senders,percentages).map((item, index)=>{
                         const key = item['name'];
-                        return <tr key={Math.random()}><td key={key}>{key}</td><td>{item['amt'].toFixed(2)}</td></tr>
+                        return <tr key={Math.random()}><td key={key}>{key}</td><td>{item['amt'].toFixed(2)} %</td></tr>
                         })
                 }
                 </tbody>

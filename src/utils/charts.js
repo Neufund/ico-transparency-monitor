@@ -3,7 +3,9 @@ const html2canvas = require('html2canvas');
 const saveAs = require('file-saver').saveAs;
 
 export const tokenHoldersPercentage = (total , investors, percentages) =>{
+    // todo: sorted investors should be computed in getStatistics
     let investorsArray = [];
+    // todo: another misuse of map
     Object.keys(investors).map((key)=>{
         investorsArray.push({
             investor : key,
@@ -15,16 +17,22 @@ export const tokenHoldersPercentage = (total , investors, percentages) =>{
     });
 
     let result = [];
+    // todo: another misuse of map
     percentages.map((percentageElement)=>{
 
         const percentage = investorsArray.length*percentageElement;
+        // todo: do not use BigNumber it is very slow
         let percentageAmount = new BigNumber(0);
 
+        // todo: do it in one pass! no loop inside loop
         for (let i = 0 ; i < parseInt(percentage); i ++){
             percentageAmount = percentageAmount.plus(investorsArray[i].tokens.toFixed(3));
         }
         let internalResult = {};
+        // todo: do not use BigNumber it is very slow
+        // todo: why internalResult is here? each percentageElement is only set once and never used so why you store it??
         internalResult[percentageElement] =new BigNumber((percentageAmount*100).toFixed(3)).dividedBy(total.toFixed(3)).valueOf();
+        // todo: amt and TokenHolders are the same values, why a duplicate?
         result.push({name : `${percentageElement*100}%` , amt:parseFloat(internalResult[percentageElement]) , TokenHolders: parseFloat(internalResult[percentageElement])});
     });
     return result;

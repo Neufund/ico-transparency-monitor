@@ -1,5 +1,6 @@
 const BigNumber = require('bignumber.js');
 const html2canvas = require('html2canvas');
+
 export const tokenHoldersPercentage = (total , investors, percentages) =>{
     let investorsArray = [];
     Object.keys(investors).map((key)=>{
@@ -26,26 +27,6 @@ export const tokenHoldersPercentage = (total , investors, percentages) =>{
         result.push({name : `${percentageElement*100}%` , amt:parseFloat(internalResult[percentageElement]) , TokenHolders: parseFloat(internalResult[percentageElement])});
     });
     return result;
-};
-
-export const getTokenHoldersChartData = (total , investors, percentages = [0.01 , 0.05 , 0.10]) => {
-    const holders = tokenHoldersPercentage(total , investors, percentages);
-    let prevValue = 0;
-    const h = holders.map((item )=>{
-        const key = Object.keys(item)[0];
-        const value = prevValue == 0 ?parseFloat(item[key]).toFixed(2):(parseFloat(item[key]) - parseFloat(prevValue)).toFixed(2)
-        const x ={
-            name : `${key}%` ,
-            value : parseFloat(value)
-        };
-        prevValue = item[key];
-        return x;
-    });
-    let s = 0;
-    h.map((item)=> s+= parseFloat(item.value));
-    h.push({name:'remains' , value:100 - s});
-
-    return h;
 };
 
 export const downloadChartImage = (chartId) => {

@@ -272,9 +272,12 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
     });
     const ticks = calculateTicks(max);
 
+    let previousTick = 0;
     ticks.map((tick) => {
-        if (tick !== 0) chartInvetorsDistibution.push({name: `< ${kFormatter(tick)}`, Investors: 0, key: tick})
-        if (tick !== 0) chartInvestmentDistibution.push({name: `< ${kFormatter(tick)}`, Investments: 0, key: tick})
+        const name = `${kFormatter(previousTick)} - ${kFormatter(tick)}`
+        if (tick !== 0) chartInvetorsDistibution.push({name: `${name}`, Investors: 0, key: tick})
+        if (tick !== 0) chartInvestmentDistibution.push({name: `${name}`, Investments: 0, key: tick})
+        previousTick = tick;
     });
 
     for (let i = 0; i < ethersDataset.length; i++) {
@@ -299,18 +302,17 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
     return [chartInvetorsDistibution, chartInvestmentDistibution];
 };
 
-const getChartFormat = (durationDays)=>{
-    if (durationDays === 0)
-        return 'Block Numbers';
-    else if (durationDays === 1)
-        return 'Hours';
-    else if (durationDays > 1)
-        return 'Days';
-};
+// const getChartFormat = (durationDays)=>{
+//     if (durationDays === 0)
+//         return 'Block Numbers';
+//     else if (durationDays === 1)
+//         return 'Hours';
+//     else if (durationDays > 1)
+//         return 'Days';
+// };
+//
 
-
-const getFilterFormat = (startTimestamp, endTimestamp) => (event) => {
-
+const getChartTimescale= (startTimestamp, endTimestamp) => (event) => {
     const duration = moment.duration(moment(new Date(endTimestamp * 1000)).diff(moment(new Date(startTimestamp * 1000))));
     const daysNumber = duration._data.days;
 
@@ -354,7 +356,7 @@ export const getStatistics = async (selectedICO, events, statisticsICO, currency
 
     let ethersDataset = [];
 
-    const format = getFilterFormat(events[0].timestamp, events[events.length - 1].timestamp);
+    const format = getChartTimescale(events[0].timestamp, events[events.length - 1].timestamp);
     console.log(events[0].blockNumber, events[events.length - 1].blockNumber);
     events.map((item) => {
 

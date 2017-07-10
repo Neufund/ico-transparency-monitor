@@ -66,13 +66,15 @@ const ScanBoxDetails = ({ ...props }) => {
             <GroupButtons currencyValue={props.currencyValue} currency={props.currency}/>
 
             <Row>
-                <Col md={6}>
+                <Col md={12}>
                     <p>Title: Number of Investors with Ticket of Size
                     X Axis: Ticket Size in [currency]
                     Y Axis: Number of Investors</p>
                     <DoubleBarChart data={props.stats.charts.invetorsDistribution} ChartKey="Investors"/>
                 </Col>
-                <Col md={6}>
+            </Row>
+            <Row>
+                <Col md={12}>
                     <p>Title: Total Amount Invested with Ticket of Size
                     X Axis: Ticket Size in [currency]
                     Y Axis: Total Amount Invested</p>

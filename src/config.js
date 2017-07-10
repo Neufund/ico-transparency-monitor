@@ -6,7 +6,7 @@ export default {
         '0xa74476443119a942de498590fe1f2454d7d4ac0d': {
             information: {
                 aliasName: "Golem",
-                description: 'Blockchain protocol for digital asset management',
+                website:"https://golem.network/",
                 logo: "https://golem.network/icons/apple-touch-icon.png",
             },
             event: {
@@ -64,9 +64,8 @@ export default {
             tokenContract:'0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',
             information: {
                 aliasName: "MelonPort",
-                description: 'Blockchain protocol for digital asset management',
+                website:"https://melonport.com/",
                 logo: "https://golem.network/icons/apple-touch-icon.png",
-                status: 'Closed'
             },
             event: {
                 args: {
@@ -113,9 +112,8 @@ export default {
         '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413': {
             information: {
                 aliasName: "TheDAO",
-                description: 'Blockchain protocol for digital asset management',
+                website:"https://dao.casino/",
                 logo: "https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg",
-                status: 'Closed'
             },
             event: {
                 args: {
@@ -151,8 +149,8 @@ export default {
             // tokenContract:'0x331d077518216c07c87f4f18ba64cd384c411f84',
             information: {
                 aliasName: "TAAS",
-                description: 'Blockchain protocol for digital asset management',
                 logo: "https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                website:"https://taas.fund/"
             },
             event: {
                 name: 'Transfer',
@@ -198,9 +196,8 @@ export default {
         '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E': {
             information: {
                 aliasName: "StatusNetwork",
-                description: 'Blockchain protocol for digital asset management',
                 logo: "https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg",
-                status: 'Closed'
+                website: "https://status.im/"
             },
             event: {
                 args: {
@@ -287,14 +284,14 @@ export default {
             critical: false,
             notApplicable: false
         },
-        q12: {question: 'is price of the token deterministic?', critical: false, notApplicable: false},
+        q12: {question: 'Is price of the token deterministic?', critical: false, notApplicable: false},
         q13: {
-            question: 'is ICO start condition deterministic? (block number, date are OK',
+            question: 'Is ICO start condition deterministic? (block number, date are OK',
             critical: false,
             notApplicable: false
         },
         q14: {
-            question: 'is ICO end condition specified? (block number, date, cap reached, price reached, any other algo in smart contract)',
+            question: 'Is ICO end condition specified? (block number, date, cap reached, price reached, any other algo in smart contract)',
             critical: false,
             notApplicable: false
         }

@@ -299,6 +299,16 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
     return [chartInvetorsDistibution, chartInvestmentDistibution];
 };
 
+const getChartFormat = (durationDays)=>{
+    if (durationDays === 0)
+        return 'Block Numbers';
+    else if (durationDays === 1)
+        return 'Hours';
+    else if (durationDays > 1)
+        return 'Days';
+};
+
+
 const getFilterFormat = (startTimestamp, endTimestamp) => (event) => {
 
     const duration = moment.duration(moment(new Date(endTimestamp * 1000)).diff(moment(new Date(startTimestamp * 1000))));
@@ -306,10 +316,9 @@ const getFilterFormat = (startTimestamp, endTimestamp) => (event) => {
 
     if (daysNumber === 0)
         return event.blockNumber;
-
-    else if (daysNumber === 1) {
+    else if (daysNumber === 1 ) {
         const datetime = new Date(event.timestamp * 1000);
-        return formateDate(datetime, false)
+        return moment.utc(datetime).format("YYYY-MM-DD HH");
 
     } else if (daysNumber > 1) {
         const datetime = new Date(event.timestamp * 1000);

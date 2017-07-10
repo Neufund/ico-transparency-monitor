@@ -81,7 +81,7 @@ const getSmartContractDirectParameters = async (address) => {
 
     const smartContract = getSmartContract(address);
 
-    const name = name?await toPromise(smartContract.name)():null;
+    const name = smartContract.name?await toPromise(smartContract.name)():null;
     const totalSupply = smartContract.totalSupply?await toPromise(smartContract.totalSupply)():null;
     const symbol = smartContract.symbol?await toPromise(smartContract.symbol)():null;
     const decimals = smartContract.decimals?await toPromise(smartContract.decimals)():config.defaultDecimal;

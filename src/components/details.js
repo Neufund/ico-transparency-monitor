@@ -39,7 +39,7 @@ export const TokenIssued = ({totalSupply , tokenIssued}) =>(
             <tr><th>Number of tokens created during the ICO</th><td>{formatNumber(tokenIssued)}</td></tr>
 
             {analyizeIssedTokens(totalSupply,tokenIssued) < 0 &&
-            <tr><th>Number of tokens created outside if ICO <i>*those tokens are not part of results below*</i></th><td>{`${analyizeIssedTokens(totalSupply,tokenIssued)} tokens created outside ICO are not included in statistics below`}</td></tr>
+            <tr><th>Number of tokens created outside if ICO <i>*those tokens are not part of results below*</i></th><td>{`${analyizeIssedTokens(totalSupply,tokenIssued)} tokens`}</td></tr>
             }
             </tbody>
         </table>

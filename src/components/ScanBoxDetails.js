@@ -8,15 +8,6 @@ import {TokensBarChart , DoubleBarChart,TokenHoldersPieChart} from './charts'
 import {tokenHoldersPercentage} from '../utils/charts';
 import {default as config} from '../config.js';
 
-const getChartFormat = (durationDays)=>{
-    if (durationDays === 0)
-        return 'Block Numbers';
-    else if (durationDays === 1)
-        return 'Hours';
-    else if (durationDays > 1)
-        return 'Days';
-};
-
 const ScanBoxDetails = ({ ...props }) => {
     let percentages = [];
     let i = 1;
@@ -27,14 +18,10 @@ const ScanBoxDetails = ({ ...props }) => {
     return (props.currencyValue && <div className="scanbox-details">
         <Row className="statistics">
             <Col md={12} className="scan-content">
-                <Row>
-                    <Col md={6}>
-                        <p> Actual values from ICO transactions analysis: </p>
-                        <TimeDetails {...props.stats.time}/>
-                        <RaisedAmount totalETH={props.stats.money.totalETH}/>
-                        {props.totalSupply && <TokenIssued totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}/> }
-                    </Col>
-                </Row>
+                <p> Actual values from ICO transactions analysis: </p>
+                <TimeDetails {...props.stats.time}/>
+                <RaisedAmount totalETH={props.stats.money.totalETH}/>
+                {props.totalSupply && <TokenIssued totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}/> }
             </Col>
         </Row>
 

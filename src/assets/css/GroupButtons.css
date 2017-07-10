@@ -1,6 +1,7 @@
 .group-buttons{
- margin-top:20px;
- margin-bottom:20px;
+    margin-top:20px;
+    margin-bottom:20px;
+    position: relative;
 }
 .group-buttons p{
     line-height: 33px;
@@ -8,6 +9,10 @@
 .group-buttons p,.group-buttons ul{
     float: left;
     padding-left: 10px
+}
+.exchangeRate{
+    position: absolute;
+    right:0;
 }
 ul.currency-buttons{
     display:block;

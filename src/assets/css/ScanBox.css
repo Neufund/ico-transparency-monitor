@@ -75,7 +75,8 @@ textarea.console{
 
 .pure-table th,
 .pure-table td {
-  padding: 7px;
+  padding-right: 7px;
+  padding-left: 7px;
 }
 
 .table-responsive {
@@ -193,18 +194,25 @@ font-weight: normal;
   padding-top: 33px;
   padding-bottom: 33px;
 }
-.chart{
+.chart-parent{
   position: relative;
-  height:400px;
+  height:320px;
+  margin-bottom:20px;
 }
-.chart .x-axis-label{
+.chart-body{
+  position: absolute;
+  top:20px;
+  width: 100%;
+}
+.chart-parent .x-axis-label{
   position: absolute;
   left: 50%;
+  bottom: 0;
 }
-.chart .y-axis-label{
+.chart-parent .y-axis-label{
   position: absolute;
   top: 0;
-  left: 0;
+  left: 20px;
 }
 .chart-btn{
   background: white;
@@ -219,3 +227,6 @@ font-weight: normal;
 }
 
 
+.row{
+  margin-bottom: 40px;
+}

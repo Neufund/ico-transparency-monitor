@@ -6,10 +6,12 @@ export const modal = (state = { showModal: false , currentICO:{} , messageType:n
         case 'HIDE_MODAL':
             return {...state , showModal : false , currentICO : {} , messageType:null};
         case 'SHOW_MODAL_MESSAGE':
-            state['message']= [];
         case 'SHOW_MODAL_ERROR':
+            state['message']= [];
             let allMessage =  state['message'];
-            allMessage.indexOf(action.message) === -1?allMessage.push(action.message):'';
+
+            if(allMessage.indexOf(action.message) === -1) allMessage.push(action.message);
+
             return {...state, showModal : true , messageType: action.type , message:allMessage};
         default:
             return state

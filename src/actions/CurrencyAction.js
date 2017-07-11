@@ -1,4 +1,4 @@
-import {getEtherPerCurrency,toPromise} from '../utils';
+import {getEtherPerCurrency} from '../utils';
 
 export const setCurrency = (currency , time = new Date().yyyymmdd() , callback) => (dispatch)=>{
     let currencyFromat = `ETH-${currency}`;
@@ -16,7 +16,7 @@ export const setCurrency = (currency , time = new Date().yyyymmdd() , callback) 
         dispatch({type:'HIDE_LOADER'});
         callback();
         return;
-    } else if (currency == "BTC"){
+    } else if (currency === "BTC"){
         currencyFromat = `BTC-EUR`;
     }
 

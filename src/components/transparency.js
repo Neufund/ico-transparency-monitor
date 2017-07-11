@@ -92,9 +92,6 @@ const MessageModal = ({type , message}) => {
 };
 
 class TransparencyModal extends Component {
-    constructor(){
-        super();
-    }
 
     render() {
         const {showModal ,onModalClose , messageType ,currentICO , message } = this.props;

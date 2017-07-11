@@ -1,27 +1,21 @@
 import React, {Component} from 'react';
-import {constantValueOf, getSmartContractConstants} from '../utils/web3';
+import {getSmartContractConstants} from '../utils/web3';
 import {connect} from 'react-redux';
 import {decisionMatrix} from '../utils';
 import {onModalShow, onErrorMessage, onMessage} from '../actions/ModalAction';
 import {setProperties} from '../actions/ScanAction';
 import ICOApp from './ICOApp';
 import ICOScan from './ICOScan';
-import {default as config} from '../config.js';
-
 
 class ICO extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentWillMount() {
         if (typeof this.props.address === "undefined") return;
         const transparencyDecision = decisionMatrix(this.props.ico.matrix)[0];
 
-        this.props.setICOProperties(this.props.ico.address,{decision: transparencyDecision})
+        this.props.setICOProperties(this.props.ico.address,{decision: transparencyDecision});
 
-        getSmartContractConstants(this.props.address).then((parameters)=>{
-            Object.keys(parameters).map((constant) => {
+        getSmartContractConstants(this.props.address).then((parameters) => {
+            Object.keys(parameters).forEach( constant => {
                 const parameter = parameters[constant];
                 if (parameter === null) return;
                 const tempResult = {};

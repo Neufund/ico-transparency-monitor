@@ -18,7 +18,7 @@ class Scan extends Component {
 
         this.ico = config['ICOs'][this.address];
         this.ico['address'] = this.address;
-        if (this.ico == undefined)
+        if (typeof this.ico === "undefined")
             alert("404") // TODO: Redirect to 404 page
     }
 

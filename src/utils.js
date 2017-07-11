@@ -24,7 +24,7 @@ export const formatDate = (datetime, fullFormat = true) => {
 };
 
 export const formatNumber = (number) => {
-    if (isNaN(number) || number == undefined)
+    if (isNaN(number) || typeof number === "undefined")
         return "Not Available";
     if (number === undefined || !number || typeof number !== "number")
         return number;
@@ -70,9 +70,9 @@ Date.prototype.yyyymmdd = function () {
         (dd > 9 ? '' : '0') + dd
     ].join('-');
 };
-String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-};
+String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function () {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    };
 
 export const getEtherPerCurrency = async (currency, date) => {
     return axios.get(`https://api.coinbase.com/v2/prices/${currency}/spot?date=${date}`);
@@ -87,10 +87,6 @@ export const getICOs = () => {
     );
 };
 
-const cache = (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
-};
-
 export const getValueOrNotAvailable = (object, input) => {
     return object && object[input] ? object[input] : "Not Available";
 };
@@ -102,7 +98,7 @@ export const getValueOrNotAvailable = (object, input) => {
 
 export const getICOLogs = (address, callback) => {
 
-    if (typeof localStorage != "undefined" && localStorage.getItem(address)) {
+    if (typeof localStorage !== "undefined" && localStorage.getItem(address)) {
         console.log(`${address} cached already.`);
         return callback(null, JSON.parse(localStorage.getItem(address)));
     }
@@ -116,7 +112,10 @@ export const getICOLogs = (address, callback) => {
     const firstTxBlockNumber = typeof ICO['event']['firstTransactionBlockNumber'] !== "undefined" ? ICO['event']['firstTransactionBlockNumber'] : 0;
     const lastTxBlockNumber = typeof ICO['event']['lastTransactionBlockNumber'] !== "undefined" ? ICO['event']['lastTransactionBlockNumber'] : 'latest';
     console.log(firstTxBlockNumber, lastTxBlockNumber);
-    const event = smartContract[ICO.event.name](customArgs, {fromBlock: firstTxBlockNumber, toBlock: lastTxBlockNumber});
+    const event = smartContract[ICO.event.name](customArgs, {
+        fromBlock: firstTxBlockNumber,
+        toBlock: lastTxBlockNumber
+    });
 
     jQuery.ajax({
         type: "POST",
@@ -146,7 +145,7 @@ export const getICOLogs = (address, callback) => {
                 callback(null, logsFormat);
             }
         },
-        error: (status, error) => {
+        error: (status) => {
             callback('SHOW_MODAL_ERROR', `Error ${status}`)
         },
         dataType: 'json'
@@ -160,11 +159,12 @@ export const initStatistics = () => {
         },
         time: {
             startDate: null,
-            endDate: null ,
-            scale : 'blocks'
+            endDate: null,
+            scale: 'blocks'
         },
         investors: {
             numberInvestorsWhoInvestedMoreThanOnce: 0,
+            sendersSortedArray :[],
             senders: {}
         },
         money: {
@@ -172,10 +172,11 @@ export const initStatistics = () => {
             totalETH: 0,
         },
         charts: {
-            transactionsCount: 0,
-            tokensCount: 0,
-            investorsDistribution: 0,
-            investmentDistribution: 0,
+            transactionsCount: [],
+            tokensCount: [],
+            investorsDistribution: [],
+            investmentDistribution: [],
+            tokenHolders:[]
         }
     };
 };
@@ -229,33 +230,23 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
     const ticks = calculateTicks(max);
 
     let previousTick = 0;
-    // todo: do no use mapping like that: (1) you do not use return value (2) you assume that mapping will be executed in the
-    // todo: order of ticks which may not be true
-    // todo: just use loop
-    // todo: why chartInvetorsDistibution and chartInvestmentDistibution? you need just one with Investors and Investments
-    // todo: then you can for sure choose proper one for diagram
 
     let xAxisLength = 0;
     for (let i = 0; i < ticks.length; i++) {
         const tick = ticks[i];
         const name = `${kFormatter(previousTick)} - ${kFormatter(tick)}`;
-        if (tick !== 0) investorsChartXAxis.push({name: `${name}`, amount: 0, key: tick});
-        if (tick !== 0) investmentChartXAxis.push({name: `${name}`, amount: 0, key: tick});
+        investorsChartXAxis.push({name: `${name}`, amount: 0});
+        investmentChartXAxis.push({name: `${name}`, amount: 0});
         previousTick = tick;
         xAxisLength = i;
     }
 
-    ethersDataset.forEach(item =>{
+    ethersDataset.forEach(item => {
         const money = item * currencyPerEther;
-        for (let i = 0; i < xAxisLength ; i++) {
-            if (money < investorsChartXAxis[i].key) {
+        for (let i = 0; i < xAxisLength; i++) {
+            if (money < ticks[i]) {
                 investorsChartXAxis[i].amount += 1;
-                break;
-            }
-        }
-        for (let i = 0; i < xAxisLength ; i++) {
-            if (money < investmentChartXAxis[i].key) {
-                investmentChartXAxis[i].amount+= parseFloat(money.toFixed(2));
+                investmentChartXAxis[i].amount += parseFloat(money.toFixed(2));
                 break;
             }
         }
@@ -264,7 +255,7 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
     return [investorsChartXAxis, investmentChartXAxis];
 };
 
-const getChartTimescale = (durationDays)=>{
+const getChartTimescale = (durationDays) => {
     if (durationDays === 0)
         return 'blocks';
     else if (durationDays === 1)
@@ -274,13 +265,13 @@ const getChartTimescale = (durationDays)=>{
 };
 
 
-const mapEventIntoTimeScale = (event , timeScale )=> {
+const mapEventIntoTimeScale = (event, timeScale) => {
     // todo: instead return a function that just is processing event, without ifs
     const datetime = new Date(event.timestamp * 1000);
     const data = {
-        'hours' : moment.utc(datetime).format("YYYY-MM-DD HH"),
-        'blocks' : event.blockNumber,
-        'days' :formatDate(datetime, false)
+        'hours': moment.utc(datetime).format("YYYY-MM-DD HH"),
+        'blocks': event.blockNumber,
+        'days': formatDate(datetime, false)
     };
     return data[timeScale];
 };
@@ -298,6 +289,50 @@ const getDurationFormat = (duration) => {
             ${duration.get("hours") > 0 ? duration.get("hours") + " Hours" : ""}
             ${duration.get("minutes") > 0 ? duration.get("minutes") + " Minutes" : ""}
             ${duration.get("seconds") > 0 ? duration.get("seconds") + " Seconds" : ""}`
+};
+
+
+const convertInvestorsToSortedArray = (investorsObject) => {
+    let investorsArray = [];
+    Object.keys(investorsObject).forEach(key => {
+        investorsArray.push({
+            investor: key,
+            tokens: investorsObject[key].tokens
+        })
+    });
+    investorsArray.sort((first, last) => {
+        return last.tokens - first.tokens;
+    });
+
+    return investorsArray;
+};
+export const getPercentagesDataSet = (limit = 100) => {
+    let percentages = [];
+    let i = 1;
+    while(i < limit){
+        percentages.push(i*0.01);
+        i+= i<5?4:(i<9?5:10);
+    }
+    return percentages;
+};
+
+
+export const tokenHoldersPercentage = (total, investorsArray) => {
+    const percentages = getPercentagesDataSet(100);
+    let totalTokens = 0;
+    let arrayIndex = 0;
+    return percentages.map(singlePercent => {
+        const iterationNumbers = parseInt(investorsArray.length * singlePercent);
+
+        while(arrayIndex < iterationNumbers){
+            totalTokens += investorsArray[arrayIndex].tokens;
+            arrayIndex++;
+        }
+        return {
+            name: `${singlePercent*100}%`,
+            amount: parseFloat(((totalTokens*100)/total).toFixed(2)),
+        }
+    });
 };
 
 //TODO: Dispatch error message if any error raised by getWeb3 function
@@ -390,10 +425,16 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
         amount: parseFloat(chartTokenCountTemp[key].toFixed(2))
     }));
 
+    statisticsICO.investors.sendersSortedArray = convertInvestorsToSortedArray(statisticsICO.investors.senders);
     //Initialize the chart of investors by ether value
     statisticsICO.etherDataset = ethersDataset;
     const distribution = getDistributedDataFromDataset(ethersDataset, currencyPerEther);
     statisticsICO.charts.investorsDistribution = distribution[0];
     statisticsICO.charts.investmentDistribution = distribution[1];
+
+    statisticsICO.charts.tokenHolders = tokenHoldersPercentage(
+        statisticsICO.money.tokenIssued ,
+        statisticsICO.investors.sendersSortedArray
+    );
     return statisticsICO;
 };

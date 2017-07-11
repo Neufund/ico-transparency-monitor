@@ -6,16 +6,15 @@ import {
     XAxis,
     YAxis,
     CartesianGrid,
-    Tooltip,
-    Legend
+    Tooltip
 } from 'recharts';
 import {kFormatter} from '../utils';
 import {downloadChartImage} from '../utils/charts';
 
 export const SingleBarChart = ({data, dataKey, xLabel, yLabel}) => (
-    data != null &&
-    <div className="chart">
-        <div id={dataKey}>
+    data != null && data.length > 0 &&
+    <div className="chart-parent">
+        <div id={dataKey} className="chart-body">
             <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={data} margin={{top: 5, right: 20, left: 50, bottom: 5}}>
                     <XAxis dataKey="name"/>
@@ -27,12 +26,13 @@ export const SingleBarChart = ({data, dataKey, xLabel, yLabel}) => (
                     <Bar dataKey="amount" fill="#8884d8"/>
                 </BarChart>
             </ResponsiveContainer>
-            <label className="x-axis-label">{xLabel}</label>
-            <label className="y-axis-label">{yLabel}</label>
+            <button className="chart-btn" onClick={() => {
+                downloadChartImage(dataKey)
+            }}>Download as image
+            </button>
         </div>
-        <button className="chart-btn" onClick={() => {
-            downloadChartImage(dataKey)
-        }}>Download as image
-        </button>
+        <label className="x-axis-label">{xLabel}</label>
+        <label className="y-axis-label">{yLabel}</label>
+
     </div>
 );

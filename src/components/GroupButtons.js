@@ -3,7 +3,7 @@ import {Row, Col} from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
 import {connect} from 'react-redux';
 import {setCurrency} from '../actions/CurrencyAction'
-import {prepareStatsInvestment, getDistributedDataFromDataset} from '../utils.js';
+import {getDistributedDataFromDataset} from '../utils.js';
 
 class CurrencyButton extends Component {
     constructor() {

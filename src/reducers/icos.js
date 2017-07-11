@@ -11,7 +11,7 @@ const ICO = (state = initialState , action) => {
 
             const key = Object.keys(action.prop)[0];
 
-            if( state['icos'][action.address] == undefined )
+            if( typeof state['icos'][action.address] === "undefined" )
                 state['icos'][action.address]= {};
             state['icos'][action.address][key] = action.prop[key];
 

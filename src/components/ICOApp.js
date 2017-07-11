@@ -17,7 +17,7 @@ const ICOApp = ({...props}) => {
                             <Col lg={8} xs={9}className="ico-desc">
                                 <h4><a href={"/#/"+props.address}> {props.name || props.information.aliasName}</a></h4>
                                 <p>{props.information.description}</p>
-                                <a target="_blank" href={props.information.website}>{props.information.website}</a>
+                                <a rel="noopener noreferrer" target="_blank" href={props.information.website}>{props.information.website}</a>
                             </Col>
                         </Row>
                     </Col>

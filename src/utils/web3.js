@@ -101,13 +101,13 @@ export const getSmartContractConstants = async (address) => {
     const smartContract = getSmartContract(address);
     const constants = config.ICOs[address].icoParameters; // constants from the config
 
-    Object.keys(constants).map((constant)=>{
+
+    Object.keys(constants).forEach( constant => {
         if(constants[constant] === null) return;
         result[constant] = constants[constant](smartContract);
     });
 
-    const decimals = typeof smartContract.decimals !== "undefined" ?await toPromise(smartContract.decimals)(): config['defaultDecimal'];
-    result['decimals'] = decimals;
+    result['decimals'] = typeof smartContract.decimals !== "undefined" ?await toPromise(smartContract.decimals)(): config['defaultDecimal'];
 
     return result;
 };

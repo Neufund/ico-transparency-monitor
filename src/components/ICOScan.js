@@ -9,7 +9,7 @@ const ICOScan = ({...props}) => {
     return (<div>
             <ICOScanHeader {...props} />
             <Row>
-                <div id="loadingProgressG" className={props.showLoader == true ? "show" : "hide"}>
+                <div id="loadingProgressG" className={props.showLoader === true ? "show" : "hide"}>
                     <div id="loadingProgressG_1" className="loadingProgressG"></div>
                 </div>
                 {!props.showLoader && <Col md={12}>
@@ -17,7 +17,6 @@ const ICOScan = ({...props}) => {
                         <Col md={2} className="part">
                             <p className="title">Token Cap</p>
                             <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>
-
                         </Col>
                         <Col md={3} className="part">
                             <p className="title">Tokens Supply</p>

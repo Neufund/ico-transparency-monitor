@@ -4,7 +4,7 @@ import GroupButtons from './GroupButtons';
 import '../assets/css/ScanBox.css';
 import { connect } from 'react-redux';
 import {TimeDetails , RaisedAmount, TokenIssued, Investors} from './details'
-import {TokensBarChart , DoubleBarChart,TokenHoldersPieChart} from './charts'
+import {SingleBarChart , DoubleBarChart,TokenHoldersPieChart} from './charts'
 import {tokenHoldersPercentage} from '../utils/charts';
 import {default as config} from '../config.js';
 
@@ -31,7 +31,7 @@ const ScanBoxDetails = ({ ...props }) => {
                 X Axis: depends on time scale (Blocks, Hours, Days)
                 Y Axis: Tokens Created
                 </p>
-                <TokensBarChart data={props.stats.charts.tokensAmount} dataKey="Tokens/Time"/>
+                <SingleBarChart data={props.stats.charts.transactionsCount} dataKey={'Tokens/'+props.stats.time.scale} xLabel={props.stats.time.scale.capitalizeTxt()} yLabel="Transactions"/>
             </Col>
             <Col md={6}>
                 <p>
@@ -39,7 +39,7 @@ const ScanBoxDetails = ({ ...props }) => {
                 X Axis: depends on time scale (Blocks, Hours, Days)
                 Y Axis: Transaction
                 </p>
-                <TokensBarChart data={props.stats.charts.tokensCount} dataKey="Transactions/Time" xLabel="Blocks" yLabel="Transactions"/>
+                <SingleBarChart data={props.stats.charts.tokensCount} dataKey="Transactions/Time" xLabel={props.stats.time.scale.capitalizeTxt()} yLabel="Tokens"/>
             </Col>
         </Row>
 
@@ -53,11 +53,10 @@ const ScanBoxDetails = ({ ...props }) => {
                                isProvidingEtherValue={props.isProvidingEtherValue}
                                percentages={percentages}/>
                 </Col>
-
                 <Col md={6} >
-                    <TokenHoldersPieChart dataKey="TokenHolders" data={
+                    <SingleBarChart dataKey="TokenHolders" data={
                         tokenHoldersPercentage(props.stats.money.tokenIssued , props.stats.investors.senders, percentages)
-                    }/>
+                    } xLabel={"Top Wealthiest Investors"} yLabel="Share of Tokens Owned"/>
                 </Col>
             </Row>
 
@@ -71,7 +70,7 @@ const ScanBoxDetails = ({ ...props }) => {
                     <p>Title: Number of Investors with Ticket of Size
                     X Axis: Ticket Size in [currency]
                     Y Axis: Number of Investors</p>
-                    <DoubleBarChart data={props.stats.charts.invetorsDistribution} ChartKey="Investors"/>
+                    <SingleBarChart data={props.stats.charts.investorsDistribution} dataKey="Investors"/>
                 </Col>
             </Row>
             <Row>
@@ -79,7 +78,7 @@ const ScanBoxDetails = ({ ...props }) => {
                     <p>Title: Total Amount Invested with Ticket of Size
                     X Axis: Ticket Size in [currency]
                     Y Axis: Total Amount Invested</p>
-                    <DoubleBarChart data={props.stats.charts.investmentDistribution} ChartKey="Investments"/>
+                    <SingleBarChart data={props.stats.charts.investmentDistribution} dataKey="Investments"/>
                 </Col>
             </Row>
         </div>}

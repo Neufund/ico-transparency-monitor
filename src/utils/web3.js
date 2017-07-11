@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import {default as config} from '../config.js';
-import {toPromise,formateDate} from '../utils';
+import {toPromise,formatDate} from '../utils';
 
 const ProviderEngine = require('web3-provider-engine');
 const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
@@ -91,12 +91,12 @@ const getSmartContractDirectParameters = async (address) => {
 };
 
 export const getSmartContractConstants = async (address) => {
-    let parameterAdress = address;
+    let parameterAddress = address;
 
     if ( typeof config.ICOs[address]['tokenContract'] !== "undefined" )
-        parameterAdress = config.ICOs[address]['tokenContract'];
+        parameterAddress = config.ICOs[address]['tokenContract'];
 
-    let result = await getSmartContractDirectParameters(parameterAdress);
+    let result = await getSmartContractDirectParameters(parameterAddress);
 
     const smartContract = getSmartContract(address);
     const constants = config.ICOs[address].icoParameters; // constants from the config
@@ -106,7 +106,8 @@ export const getSmartContractConstants = async (address) => {
         result[constant] = constants[constant](smartContract);
     });
 
-    // todo: read 'decimals' here
+    const decimals = typeof smartContract.decimals !== "undefined" ?await toPromise(smartContract.decimals)(): config['defaultDecimal'];
+    result['decimals'] = decimals;
 
     return result;
 };
@@ -117,10 +118,10 @@ export const constantValueOf = async (constant , type) => {
     switch(type){
         case 'string' :return constant;
         case 'uint256' :return web3.fromWei(constant , "ether").valueOf();
-        case 'timestamp' :return formateDate(new Date(parseInt(constant.valueOf())*1000) , false);
+        case 'timestamp' :return formatDate(new Date(parseInt(constant.valueOf())*1000) , false);
         case 'blockNumber':
             const timestamp = (await toPromise(web3.eth.getBlock)(constant.valueOf())).timestamp;
-            return formateDate(new Date(parseInt(timestamp )*1000), false);
+            return formatDate(new Date(parseInt(timestamp )*1000), false);
         default: return null;
     }
 };

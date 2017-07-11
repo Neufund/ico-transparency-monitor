@@ -1,14 +1,15 @@
-import React , {Component} from 'react';
+import React, {Component} from 'react';
 import '../assets/css/App.css';
 import ICO from '../components/ICO';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxDetails from '../components/ScanBoxDetails';
 import {default as config} from '../config.js';
-import {getICOLogs, getStatistics ,initStatistics} from '../utils.js';
-import {drawStatistics,hideLoader,showLoader} from '../actions/ScanAction';
+import {getICOLogs, getStatistics, initStatistics} from '../utils.js';
+import {drawStatistics, hideLoader, showLoader} from '../actions/ScanAction';
 import {setCurrency} from '../actions/CurrencyAction'
-import { connect } from 'react-redux';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import {connect} from 'react-redux';
+import {Grid, Row, Col} from 'react-flexbox-grid';
+import {getSmartContractConstants} from '../utils/web3';
 
 class Scan extends Component {
     constructor(props) {
@@ -16,40 +17,43 @@ class Scan extends Component {
         this.address = this.props.match.params.name;
 
         this.ico = config['ICOs'][this.address];
-        this.ico['address']= this.address;
-        if(this.ico == undefined)
+        this.ico['address'] = this.address;
+        if (this.ico == undefined)
             alert("404") // TODO: Redirect to 404 page
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.showLoader();
     }
 
-    componentDidMount(){
-        try{
-            getICOLogs(this.address , (err, res)=>{
-                if( err !== "SHOW_MODAL_MESSAGE") {
-                    this.props.dispatchErrorMessage(err ,res)
-                }else if (err !== null)
-                    this.props.dispatchErrorMessage(err ,res)
+    componentDidMount() {
+        try {
+            getICOLogs(this.address, (err, res) => {
+                if (err !== "SHOW_MODAL_MESSAGE") {
+                    this.props.dispatchErrorMessage(err, res)
+                } else if (err !== null)
+                    this.props.dispatchErrorMessage(err, res)
 
-                this.props.setCurrency('EUR','NOW', async ()=>{
+                this.props.setCurrency('EUR', 'NOW', async () => {
                     this.props.hideLoader();
-                    if (res.length === 0 || err !== null){
+                    if (res.length === 0 || err !== null) {
                         return false;
                     }
-                    const s = await getStatistics(this.ico , res, initStatistics() , this.props.currencyValue);
+                    const smartContractConstants = await getSmartContractConstants(this.address);
+                    this.ico['decimals'] = smartContractConstants['decimals'];
+                    const s = getStatistics(this.ico, res, initStatistics(), this.props.currencyValue);
                     this.props.drawStatistics(s);
                 });
 
             });
 
-        }catch(error){
-            this.props.dispatchErrorMessage('SHOW_MODAL_ERROR' ,
+        } catch (error) {
+            this.props.dispatchErrorMessage('SHOW_MODAL_ERROR',
                 `Cant read smart Contract for ${this.address} from RPC Host url ${config.rpcHost}.`);
         }
 
     }
+
     render() {
         return (
             <div className="App">
@@ -58,12 +62,12 @@ class Scan extends Component {
                         <Col md={6}>
                             <div className="back-list">
 
-                                <a href="/" ><i className="fa fa-arrow-left" /> Go back to the list </a>
+                                <a href="/"><i className="fa fa-arrow-left"/> Go back to the list </a>
                             </div>
                         </Col>
                         <Col md={6}>
                             <div className="next-list">
-                                <a href="/" >Go back to the list <i className="fa fa-arrow-right"/></a>
+                                <a href="/">Go back to the list <i className="fa fa-arrow-right"/></a>
 
                             </div>
                         </Col>
@@ -84,24 +88,24 @@ class Scan extends Component {
 const mapStateToProps = (state) => {
     return {
         showLoaderState: state.scan.showLoader,
-        currencyValue : state.currency.value,
+        currencyValue: state.currency.value,
     }
 };
 
-const mapDispatchToProps= (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         drawStatistics: (statistics) => {
             dispatch(drawStatistics(statistics));
         },
         // Pass the dispatch function to the action.
-        setCurrency : ( (currency,time,callback)=> setCurrency(currency,time,callback)(dispatch) ),
-        showLoader : () => {
+        setCurrency: ( (currency, time, callback) => setCurrency(currency, time, callback)(dispatch) ),
+        showLoader: () => {
             dispatch(showLoader())
         },
-            hideLoader : () => {
+        hideLoader: () => {
             dispatch(hideLoader())
         },
-        dispatchErrorMessage : (type, message)=>{
+        dispatchErrorMessage: (type, message) => {
             dispatch({
                 type: type,
                 message: message

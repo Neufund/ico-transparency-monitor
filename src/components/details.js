@@ -1,7 +1,7 @@
 import React from 'react';
 import {formatNumber} from '../utils';
 import {tokenHoldersPercentage} from '../utils/charts';
-import {analyizeIssedTokens} from '../utils';
+import {analyzeIssuedTokens} from '../utils';
 
 export const TimeDetails = ({startDate, endDate, duration}) => (
     <div>
@@ -38,8 +38,8 @@ export const TokenIssued = ({totalSupply , tokenIssued}) =>(
             <tbody>
             <tr><th>Number of tokens created during the ICO</th><td>{formatNumber(tokenIssued)}</td></tr>
 
-            {analyizeIssedTokens(totalSupply,tokenIssued) < 0 &&
-            <tr><th>Number of tokens created outside if ICO <i>*those tokens are not part of results below*</i></th><td>{`${analyizeIssedTokens(totalSupply,tokenIssued)} tokens`}</td></tr>
+            {analyzeIssuedTokens(totalSupply,tokenIssued) < 0 &&
+            <tr><th>Number of tokens created outside if ICO <i>*those tokens are not part of results below*</i></th><td>{`${analyzeIssuedTokens(totalSupply,tokenIssued)} tokens`}</td></tr>
             }
             </tbody>
         </table>
@@ -68,17 +68,6 @@ export const Investors = ({total, investors , percentages}) => {
     return(
         <div>
             <h3 className="title">Token distribution</h3>
-            <div>
-                <div className="stats">
-                    <table>
-                        <tbody>
-                        {/*<tr><th>Maximum investment money</th><td>{formatNumber(investors.maxInvestmentsMoney)}</td></tr>*/}
-                        {/*<tr><th>Maximum investment tokens</th><td>{formatNumber(investors.maxInvestmentsTokens)}</td></tr>*/}
-                        {/*<tr><th>Minimum investment</th><td>{formatNumber(investors.minInvestments)}</td></tr>*/}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
             <table className="table table-responsive">
                 <thead>
                     <tr><th>Top Wealthiest Investors</th><th>Share of Tokens Owned</th></tr>
@@ -87,7 +76,7 @@ export const Investors = ({total, investors , percentages}) => {
                 {
                     tokenHoldersPercentage(total,investors.senders,percentages).map((item, index)=>{
                         const key = item['name'];
-                        return <tr key={Math.random()}><td key={key}>{key}</td><td>{item['amt'].toFixed(2)} %</td></tr>
+                        return <tr key={Math.random()}><td key={key}>{key}</td><td>{item['amount'].toFixed(2)}%</td></tr>
                         })
                 }
                 </tbody>

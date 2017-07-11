@@ -20,8 +20,8 @@ export default {
                 customArgs: {
                     _from: "0x0000000000000000000000000000000000000000",
                 },
-                firstTransationBlockNumber:2607801 ,
-                lastTransationBlockNumber:2607939
+                firstTransactionBlockNumber:2607801 ,
+                lastTransactionBlockNumber:2607939
             },
             icoParameters: {
                 cap: async (icoContract) => {
@@ -162,7 +162,9 @@ export default {
                 },
                 customArgs: {
                     from: "0x94917caf0cb1131345911874a2ceaf6ae2e8ee0f",
-                }
+                },
+                firstTransactionBlockNumber:3427798 ,
+                lastTransactionBlockNumber:3648684
             },
             icoParameters: {
                 cap : async(icoContract) => {

@@ -1,6 +1,6 @@
 # ICO-Transparency-Monitor
 
-# Adding your own ICO's to the Transperacy-Monitor
+## Adding your own ICO's to the Transperacy-Monitor
 The ICO monitor collects information from the public-ledger using a set of pre defined
 rules found in /config.js
 

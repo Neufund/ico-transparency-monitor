@@ -1,4 +1,93 @@
 # ico-transparency-monitor
+#Adding your own ICO's to the Monitor
+The ICO monitor collects information from the public-ledger using a set of pre defined
+rules found in /config.js
+
+To add your ICO you would have to
+
+1 - Include the ICO Smart-Contracts ABI in the "/Smart_Contracts" folder
+    which can be found in etherscan
+
+2 - Configure /Config.js and the needed information for the smart contract
+    the more information added the higher the grade can be, an example of 
+    a smart contract configuration
+    
+    '0xa74476443119a942de498590fe1f2454d7d4ac0d': {
+      information: {
+        aliasName: 'Golem',
+        website: 'https://golem.network/',
+        logo: 'https://golem.network/icons/apple-touch-icon.png',
+      },
+      event: {
+        args: {
+          tokens: '_value',
+          sender: '_to',
+        },
+        name: 'Transfer',
+        customArgs: {
+          _from: '0x0000000000000000000000000000000000000000',
+        },
+        firstTransactionBlockNumber: 2607801,
+        lastTransactionBlockNumber: 2607939,
+      },
+      icoParameters: {
+        cap: async (icoContract) => {
+          const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
+          return maxCap / 10 ** 18;
+        },
+        capString: async (icoContract) => {
+          const maxCap = await toPromise(icoContract.tokenCreationRate)().valueOf();
+          const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
+          return `Maximum Cap: ${maxCap / 10 ** 18}, Min Cap: ${minCap / 10 ** 18}`;
+        },
+        startDate: async (icoContract) => {
+          const blockNumber = await toPromise(icoContract.fundingStartBlock)();
+          return constantValueOf(blockNumber, 'blockNumber');
+        },
+        endDate: async (icoContract) => {
+          const blockNumber = await toPromise(icoContract.fundingEndBlock)();
+          return constantValueOf(blockNumber, 'blockNumber');
+        },
+        status: async icoContract => 'WAITING',
+      },
+      matrix: {
+        q1: { answer: true, comment: '' },
+        q2: { answer: true, comment: '' },
+        q3: { answer: false, comment: 'Source code is not exists' },
+        q4: { answer: true, comment: '' },
+        q5: { answer: true, comment: '' },
+        q6: { answer: true, comment: '' },
+        q7: { answer: null, comment: '' },
+        q8: { answer: true, comment: '' },
+        q9: { answer: false, comment: '' },
+        q10: { answer: true, comment: '' },
+        q11: { answer: true, comment: '' },
+        q12: { answer: true, comment: '' },
+        q13: { answer: true, comment: '' },
+        q14: { answer: true, comment: '' },
+      },
+    },
+    
+    '#Address-of-contract': {
+    information: {
+      aliasName: "Name of ICO",
+      website: "Website of ICO",
+      logo: 'Link that points to the logo of the ICO'
+    },
+    event: {
+      args: {
+        tokens: 'Variable name that represents token value in the smart-contract',
+        sender: 'Viriable name that represents sender',
+      },
+      name: 'Name of Buying event ex Transfer, TokensBought',
+      customArgs: {
+        _from: 'Address that represents from in '
+      },
+      firstTransactionBlockNumber: Number that specifies the first transaction blockNumber
+      lastTransactionBlockNumber: Block number that represents the last transaction
+      Ico
+    }
+  }
 
 [![Build Status](https://travis-ci.org/Neufund/ico-transparency-monitor.svg)](https://travis-ci.org/Neufund/ico-transparency-monitor) [![Greenkeeper badge](https://badges.greenkeeper.io/Neufund/generic-ico.svg)](https://greenkeeper.io/)
 
@@ -37,6 +126,7 @@ Open the project folder in Atom. Then in a terminal, download all the dependenci
 ```
 yarn
 ```
+
 
 #### Possible `node-sass` issues
 

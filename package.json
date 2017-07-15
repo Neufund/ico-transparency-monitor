@@ -44,7 +44,7 @@
     "sass-loader": "^6.0.0",
     "web3": "^0.18.4",
     "web3-provider-engine": "^13.0.0",
-    "webpack": "^2.2.1"
+    "webpack": "^3.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

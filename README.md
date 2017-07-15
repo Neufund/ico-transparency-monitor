@@ -1,6 +1,8 @@
 # ICO-Transparency-Monitor
 
-## Adding your own ICO's to the Transperacy-Monitor
+[![Build Status](https://travis-ci.org/Neufund/ico-transparency-monitor.svg)](https://travis-ci.org/Neufund/ico-transparency-monitor) [![Greenkeeper badge](https://badges.greenkeeper.io/Neufund/generic-ico.svg)](https://greenkeeper.io/)
+
+## Adding your own ICO's to the Transparency-Monitor
 The ICO monitor collects information from the public-ledger using a set of pre defined
 rules found in /config.js
 
@@ -89,8 +91,6 @@ To add your ICO you would have to
       Ico
     }
   }
-
-[![Build Status](https://travis-ci.org/Neufund/ico-transparency-monitor.svg)](https://travis-ci.org/Neufund/ico-transparency-monitor) [![Greenkeeper badge](https://badges.greenkeeper.io/Neufund/generic-ico.svg)](https://greenkeeper.io/)
 
 ## Getting started
 

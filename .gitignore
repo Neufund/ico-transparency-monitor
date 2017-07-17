@@ -20,6 +20,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.xml
-.idea/*
-.idea/workspace.xml
 .idea

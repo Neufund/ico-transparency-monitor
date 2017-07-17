@@ -39,7 +39,8 @@ class Scan extends Component {
                     <Grid className="scanbox ico-box-scan">
                         <ICO ico={this.props.ico} inner={true} address={this.props.address}/>
                         <ScanBoxLoadingMessage show={this.props.showLoaderState}/>
-                        <ScanBoxDetails address={this.props.address}/>
+
+                        {this.props.currencyValue && <ScanBoxDetails address={this.props.address}/>}
                     </Grid>
                 </div>
             </div>

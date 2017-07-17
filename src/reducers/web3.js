@@ -78,7 +78,7 @@ export const getLogs = (address) => async (dispatch, getState) => {
             let ico = config.ICOs[address];
             ico['decimals'] = smartContractConstants['decimals'];
             const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
-            console.log(statistics);
+
             dispatch(drawStatistics(statistics));
         }
     });

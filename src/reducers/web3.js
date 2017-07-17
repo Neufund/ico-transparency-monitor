@@ -32,7 +32,7 @@ export const readSmartContract = (address) => async (dispatch, getState) => {
     const matrix = config.ICOs[address].matrix;
     const transparencyDecision = decisionMatrix(matrix)[0];
 
-    await dispatch(setProperties(address, {decision: transparencyDecision}));
+    dispatch(setProperties(address, {decision: transparencyDecision}));
     getSmartContractConstants(web3, address).then((parameters) => {
         Object.keys(parameters).forEach(constant => {
             const parameter = parameters[constant];
@@ -45,7 +45,7 @@ export const readSmartContract = (address) => async (dispatch, getState) => {
                     else
                         tempResult[constant] = value;
 
-                    await dispatch(setProperties(address, tempResult));
+                    dispatch(setProperties(address, tempResult));
 
                 });
             else {

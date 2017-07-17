@@ -5,8 +5,8 @@ import currency from './currency';
 import ICO from './icos';
 
 export default combineReducers({
-    scan,
-    modal,
-    currency,
-    ICO
+  scan,
+  modal,
+  currency,
+  ICO,
 });

@@ -2,61 +2,55 @@
 
 [![Build Status](https://travis-ci.org/Neufund/ico-transparency-monitor.svg)](https://travis-ci.org/Neufund/ico-transparency-monitor) [![Greenkeeper badge](https://badges.greenkeeper.io/Neufund/generic-ico.svg)](https://greenkeeper.io/)
 
-## Adding your own ICOs to the Transparency-Monitor
+## Adding costume ICOs to the Transparency-Monitor
 The ICO-monitor collects information from the blockchain public-ledger using a set of pre-defined
-rules set in [\config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
+rules set in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
 
 To add your own ICO you would have to
 
-1 - Include the ICO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [\Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder
+1 - Include the ICO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder
     this ABI is generated from the smart-contract source code and can be found in some cases in [etherscan](https://etherscan.io/)
 
-2 - Configure [\config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
+2 - Configure [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
   and add the required information from the smart contract manually. Because there is almost no standard
   in ICOs and it is impossible to generate data based on a static set of variables, this
   will require some JavaScript modifications to handle promises.
 
   The more information added, the higher the transparency grade can be.  <br/>
 
+###Example
   An example of a smart contract configuration
 
-    '0xa74476443119a942de498590fe1f2454d7d4ac0d': {
+    '#ADDRES-OF-CONTRACT': {
+     tokenContract:#ADDRESS-OF-TOKEN-CONTRACT,
       information: {
-        aliasName: 'Golem',
-        website: 'https://golem.network/',
-        logo: 'https://golem.network/icons/apple-touch-icon.png',
+        aliasName: "NAME-OF-ICO",
+        website: "WEBSITE-OF-ICO",
+        logo: 'ICO-LOGO'
       },
       event: {
         args: {
-          tokens: '_value',
-          sender: '_to',
+          tokens: 'TOKEN-VARIABLE',
+          sender: 'INVESTOR-VARIABLE',
         },
-        name: 'Transfer',
+        name: 'ICO-EVENT-NAME',
         customArgs: {
-          _from: '0x0000000000000000000000000000000000000000',
+          _from: 'FROM-ADDRESS'
         },
-        firstTransactionBlockNumber: 2607801,
-        lastTransactionBlockNumber: 2607939,
+        firstTransactionBlockNumber: FIRST-BLOCK
+        lastTransactionBlockNumber: LAST-BLOCK
       },
       icoParameters: {
-        cap: async (icoContract) => {
-          const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
-          return maxCap / 10 ** 18;
+        cap: {
+          CODE-TO-GENERATE-CAP
         },
-        capString: async (icoContract) => {
-          const maxCap = await toPromise(icoContract.tokenCreationRate)().valueOf();
-          const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-          return `Maximum Cap: ${maxCap / 10 ** 18}, Min Cap: ${minCap / 10 ** 18}`;
+        startDate: {
+          CODE-TO-GENERATE-STARTDATE
         },
-        startDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.fundingStartBlock)();
-          return constantValueOf(blockNumber, 'blockNumber');
+        endDate: {
+          CODE-TO-GENERATE-ENDDATE
         },
-        endDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.fundingEndBlock)();
-          return constantValueOf(blockNumber, 'blockNumber');
-        },
-        status: async icoContract => 'WAITING',
+      status: CODE-TO-GET-CONTRACT-STATUS,
       },
       matrix: {
         q1: { answer: true, comment: '' },
@@ -73,76 +67,43 @@ To add your own ICO you would have to
         q12: { answer: true, comment: '' },
         q13: { answer: true, comment: '' },
         q14: { answer: true, comment: '' },
-      },
-    },
-
-Where
-
-    '#ADDRES-OF-CONTRACT': {
-     tokenContract:#ADDRESS-OF-TOKEN-CONTRACT,
-    information: {
-      aliasName: "NAME-OF-ICO",
-      website: "WEBSITE-OF-ICO",
-      logo: 'ICO-LOGO'
-    },
-    event: {
-      args: {
-        tokens: 'TOKEN-VARIABLE',
-        sender: 'INVESTOR-VARIABLE',
-      },
-      name: 'ICO-EVENT-NAME',
-      customArgs: {
-        _from: 'FROM-ADDRESS'
-      },
-      firstTransactionBlockNumber: FIRST-BLOCK
-      lastTransactionBlockNumber: LAST-BLOCK
-    },
-    icoParameters: {
-      cap: {
-        CODE-TO-GENERATE-CAP
-      },
-      capString: {
-        CODE-TO-GENERATE-CAP-STRING
-      },
-      startDate: {
-        CODE-TO-GENERATE-STARTDATE
-      },
-      endDate: {
-        CODE-TO-GENERATE-ENDDATE
-      },
-    status: CODE-TO-GET-CONTRACT-STATUS,
-    },
-    matrix: {
-      ANSWER-TO-SMART-CONTRACT-QUESTIONS
-    }
+      }
     }
 
   `ADDRESS-OF-CONTRACT` : Ethereum address that points to the ICO-Smart-Contract
 
-  `ADDRESS-OF-TOKEN-CONTRACT` (Optional) : In some cases a dedicated token smart contract is responsible
+  `tokenContract` (Optional) : In some cases a dedicated token smart contract is responsible
   for token issuing and release, if that was the case its address should me provided here
 
-  `NAME-OF-ICO`: Usually should represent the name of the ICO or its alias
+  `aliasName`: Usually should represent the name of the ICO or its alias
 
-  `WEBSITE-OF-ICO`: A link that points to the ICO website
+  `website`: A link that points to the ICO website
 
-  `ICO-LOGO`: A link that points to the ICO logo
+  `logo`: A link that points to the ICO logo
 
-  `TOKEN-VARIABLE`: Name of Variable that represents a token in some cases `Amount, Transfer, _amount` This
+  `tokens`: Name of Variable that represents a token in some cases `Amount, Transfer, _amount` This
   can be taken from the smart-contract source or [etherscan](https://etherscan.io/)
 
-  `INVESTOR-ADDRESS`: Variable name that holds the address of the receiver of tokens or the Investor
+  `sender`: Variable name that holds the address of the receiver of tokens or the Investor
 
-  `ICO-EVENT-NAME`: Name of event generated by the smart-contract and logged in the etherium ledger sometimes `Transfer, TokensBought, CreatedToken`. Without the correct event flag
+  `name`: Name of event generated by the smart-contract and logged in the etherium ledger sometimes `Transfer, TokensBought, CreatedToken`. Without the correct event flag
   it is impossible to track token issue events
 
-  `FROM-ADDRESS`: If found in a contract it presents the address sent from in the log, this is not in all smart-contracts and can be neglected if not
-  found
+  `_from`: In some cases smart-contracts include From addresses that are generated in the public blockchain ledger, if
+  that was case for your smart contract you will have to include it here
+
+  `firstTransactionBlockNumber`: Starting block number of the ICO in the public eth ledger can be taken from [etherscan](https://etherscan.io/)
+
+  `lastTransactionBlockNumber`: Final Block of the ICO in the public eth ledger can be taken from [etherscan](https://etherscan.io/)
+
+  `icoParameters`: Javascript code must be inserted here to get the final parameters, (`cap, startDate, endDate`), every variable should be returned after conducting the needed requests and calculations from the smart-contract. This must
+  be written manually for every ICO due to the lack of standards, every smart-contract handles generating a these parameters differently
+  for more information on how to write manual code, look at the already available contracts in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
 
 
-
-
-Not all smart contracts provide the needed informtation and for
+####Note
+Not all smart contracts provide the needed information, some use different smart-contracts to generate tokens, some have an obscure processes, some have no source code, and some only used a smart-contract after the end of 
+an ICO
 
 ## Getting started
 

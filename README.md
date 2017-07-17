@@ -12,13 +12,9 @@ To add your own ICO you would have to
     this ABI is generated from the smart-contract source code and can be found in some cases in [etherscan](https://etherscan.io/)
 
 2 - Configure [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
-  and add the required information from the smart contract manually. Because there is almost no standard
-  in ICOs and it is impossible to generate data based on a static set of variables, this
-  will require some JavaScript modifications to handle promises.
+  and add the required information from the smart contract manually. This will require some JavaScript modifications.
 
-  The more information added, the higher the transparency grade can be.  <br/>
-
-### Example
+  ### Example
   An example of a smart contract configuration
 
     '#ADDRES-OF-CONTRACT': {
@@ -102,7 +98,7 @@ To add your own ICO you would have to
 
 
 #### Note
-Not all smart contracts provide the needed information, some use different smart-contracts to generate tokens, some have an obscure processes, some have no source code, and some only used a smart-contract after the end of 
+Not all smart contracts provide the needed information, some use different smart-contracts to generate tokens, some have an obscure processes, some have no source code, and some only used a smart-contract after the end of
 an ICO
 
 ## Getting started

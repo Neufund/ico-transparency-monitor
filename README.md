@@ -2,16 +2,16 @@
 
 [![Build Status](https://travis-ci.org/Neufund/ico-transparency-monitor.svg)](https://travis-ci.org/Neufund/ico-transparency-monitor) [![Greenkeeper badge](https://badges.greenkeeper.io/Neufund/generic-ico.svg)](https://greenkeeper.io/)
 
-## Adding costume ICOs to the Transparency-Monitor
+## Adding custom ICOs to the Transparency-Monitor
 The ICO-monitor collects information from the blockchain public-ledger using a set of pre-defined
 rules set in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
 
 To add your own ICO you would have to
 
-1 - Include the ICO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder
+1. Include the ICO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder
     this ABI is generated from the smart-contract source code and can be found in some cases in [etherscan](https://etherscan.io/)
 
-2 - Configure [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
+2. Configure [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
   and add the required information from the smart contract manually. This will require some JavaScript modifications.
 
   ### Example

@@ -90,7 +90,7 @@ const ScanBoxDetails = ({...props}) => {
 };
 
 const mapStateToProps = (state, props) => {
-    // console.log(state.ICO.icos);
+    // console.log(state.scan.stats);
     return {
         currency: state.currency.currency,
         currencyValue: state.currency.value,

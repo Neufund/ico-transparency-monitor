@@ -18,6 +18,7 @@ export const toPromise = func => (...args) =>
         func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
     );
 
+
 export const formatDate = (datetime, fullFormat = true) => {
     return fullFormat ? moment.utc(datetime).format("YYYY-MM-DD HH:mm:ss") : moment.utc(datetime).format("YYYY-MM-DD");
 
@@ -70,6 +71,7 @@ Date.prototype.yyyymmdd = function () {
         (dd > 9 ? '' : '0') + dd
     ].join('-');
 };
+
 String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function () {
         return this.charAt(0).toUpperCase() + this.slice(1);
     };
@@ -87,8 +89,8 @@ export const getICOs = () => {
     );
 };
 
-export const getValueOrNotAvailable = (object, input) => {
-    return object && object[input] ? object[input] : "Not Available";
+export const getValueOrNotAvailable = (props, input) => {
+    return props && props[input] ? props[input]: "Not Available";
 };
 
 /**
@@ -96,18 +98,17 @@ export const getValueOrNotAvailable = (object, input) => {
  * TODO: 2- Change the ID in getLog
  */
 
-export const getICOLogs = (address, callback) => {
-
+export const getICOLogs = (web3, address, callback) => {
     if (typeof localStorage !== "undefined" && localStorage.getItem(address)) {
         console.log(`${address} cached already.`);
         return callback(null, JSON.parse(localStorage.getItem(address)));
     }
 
     const ICO = config.ICOs[address];
-
+    console.log(web3, address)
     const customArgs = ICO['event'].hasOwnProperty('customArgs') ? ICO['event'].customArgs : {};
 
-    const smartContract = getSmartContract(address);
+    const smartContract = getSmartContract(web3, address);
 
     const firstTxBlockNumber = typeof ICO['event']['firstTransactionBlockNumber'] !== "undefined" ? ICO['event']['firstTransactionBlockNumber'] : 0;
     const lastTxBlockNumber = typeof ICO['event']['lastTransactionBlockNumber'] !== "undefined" ? ICO['event']['lastTransactionBlockNumber'] : 'latest';
@@ -164,7 +165,7 @@ export const initStatistics = () => {
         },
         investors: {
             numberInvestorsWhoInvestedMoreThanOnce: 0,
-            sendersSortedArray :[],
+            sendersSortedArray: [],
             senders: {}
         },
         money: {
@@ -176,7 +177,7 @@ export const initStatistics = () => {
             tokensCount: [],
             investorsDistribution: [],
             investmentDistribution: [],
-            tokenHolders:[]
+            tokenHolders: []
         }
     };
 };
@@ -264,7 +265,6 @@ const getChartTimescale = (durationDays) => {
         return 'days';
 };
 
-
 const mapEventIntoTimeScale = (event, timeScale) => {
     // todo: instead return a function that just is processing event, without ifs
     const datetime = new Date(event.timestamp * 1000);
@@ -291,7 +291,6 @@ const getDurationFormat = (duration) => {
             ${duration.get("seconds") > 0 ? duration.get("seconds") + " Seconds" : ""}`
 };
 
-
 const convertInvestorsToSortedArray = (investorsObject) => {
     let investorsArray = [];
     Object.keys(investorsObject).forEach(key => {
@@ -306,16 +305,16 @@ const convertInvestorsToSortedArray = (investorsObject) => {
 
     return investorsArray;
 };
+
 export const getPercentagesDataSet = (limit = 100) => {
     let percentages = [];
     let i = 1;
-    while(i < limit){
-        percentages.push(i*0.01);
-        i+= i<5?4:(i<9?5:10);
+    while (i < limit) {
+        percentages.push(i * 0.01);
+        i += i < 5 ? 4 : (i < 9 ? 5 : 10);
     }
     return percentages;
 };
-
 
 export const tokenHoldersPercentage = (total, investorsArray) => {
     const percentages = getPercentagesDataSet(100);
@@ -324,13 +323,13 @@ export const tokenHoldersPercentage = (total, investorsArray) => {
     return percentages.map(singlePercent => {
         const iterationNumbers = parseInt(investorsArray.length * singlePercent);
 
-        while(arrayIndex < iterationNumbers){
+        while (arrayIndex < iterationNumbers) {
             totalTokens += investorsArray[arrayIndex].tokens;
             arrayIndex++;
         }
         return {
-            name: `${singlePercent*100}%`,
-            amount: parseFloat(((totalTokens*100)/total).toFixed(2)),
+            name: `${singlePercent * 100}%`,
+            amount: parseFloat(((totalTokens * 100) / total).toFixed(2)),
         }
     });
 };
@@ -433,7 +432,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     statisticsICO.charts.investmentDistribution = distribution[1];
 
     statisticsICO.charts.tokenHolders = tokenHoldersPercentage(
-        statisticsICO.money.tokenIssued ,
+        statisticsICO.money.tokenIssued,
         statisticsICO.investors.sendersSortedArray
     );
     return statisticsICO;

@@ -1,5 +1,5 @@
 
-export const modal = (state = { showModal: false , currentICO:{} , messageType:null,message:[] } , action) => {
+export const modal = (state = { showModal: false , currentICO:{} , messageType:null,message:[]  , web3:null} , action) => {
     switch (action.type) {
         case 'SHOW_MODAL':
             return { ...state , showModal : true , currentICO : action.ico , messageType:null};
@@ -13,6 +13,13 @@ export const modal = (state = { showModal: false , currentICO:{} , messageType:n
             if(allMessage.indexOf(action.message) === -1) allMessage.push(action.message);
 
             return {...state, showModal : true , messageType: action.type , message:allMessage};
+        case 'RESET_RPC':
+            return {...state, web3:null};
+        case 'SET_WEB3_CONNECTION' :
+            return {
+                ...state ,
+                web3 : action['web3']
+            };
         default:
             return state
     }

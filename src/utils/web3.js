@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import {default as config} from '../config.js';
-import {toPromise,formatDate} from '../utils';
+import {toPromise,formatDate,expectException} from '../utils';
 
 const ProviderEngine = require('web3-provider-engine');
 const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
@@ -17,7 +17,7 @@ const engineWithProviders = (providers) => {
 
 
 // TODO: Find another solution
-const isConnected = ()=>{
+export const isConnected = ()=>{
     let web3 = new Web3();
     web3.setProvider(new web3.providers.HttpProvider(config.rpcHost));
     return web3.isConnected();
@@ -43,24 +43,31 @@ export const web3Connect = () => {
 
     const engine = createEngine(config.rpcHost);
 
-    // if(window === "undefined"){
-    //     var window = {};
-    // }
-
     window.web3 = new Web3(engine);
 
     engine.start();
-
     console.log(`${config.rpcHost} new connection`);
     return window.web3;
 };
 
-export const getSmartContract = (address)=>{
-    const abi = require(`../smart_contracts/${address}.json`);
-    const web3 = getWeb3();
-    return web3.eth.contract(abi).at(address);
+export const web3Connection = () => async (dispatch , getState) => {
+
+    if(isConnected() === false) {
+        await dispatch({type: "SHOW_MODAL_ERROR", message: "WEB3_CONNECTION_FAIL", web3:null});
+        return
+    }
+
+    const web3 = web3Connect();
+    await dispatch({type:"SET_WEB3_CONNECTION" , web3:web3});
 };
 
+export const getSmartContract = (web3, address)=>{
+    if ( !web3 )
+        return null;
+
+    const abi = require(`../smart_contracts/${address}.json`);
+    return web3.eth.contract(abi).at(address);
+};
 
 export const getWeb3 = () => {
     if(isConnected() === false)
@@ -73,10 +80,7 @@ export const getWeb3 = () => {
 };
 
 
-const getSmartContractDirectParameters = async (address) => {
-
-    const smartContract = getSmartContract(address);
-
+const getSmartContractDirectParameters = async (smartContract) => {
     const name = smartContract.name?await toPromise(smartContract.name)():null;
     const totalSupply = smartContract.totalSupply?await toPromise(smartContract.totalSupply)():null;
     const symbol = smartContract.symbol?await toPromise(smartContract.symbol)():null;
@@ -90,15 +94,15 @@ const getSmartContractDirectParameters = async (address) => {
     };
 };
 
-export const getSmartContractConstants = async (address) => {
+export const getSmartContractConstants = async (web3, address) => {
     let parameterAddress = address;
 
     if ( typeof config.ICOs[address]['tokenContract'] !== "undefined" )
         parameterAddress = config.ICOs[address]['tokenContract'];
 
-    let result = await getSmartContractDirectParameters(parameterAddress);
+    const smartContract = getSmartContract(web3, parameterAddress);
+    let result = await getSmartContractDirectParameters(smartContract);
 
-    const smartContract = getSmartContract(address);
     const constants = config.ICOs[address].icoParameters; // constants from the config
 
 
@@ -112,8 +116,7 @@ export const getSmartContractConstants = async (address) => {
     return result;
 };
 
-export const constantValueOf = async (constant , type) => {
-    const web3 = getWeb3();
+export const constantValueOf = (constant , type) => async (web3) => {
 
     switch(type){
         case 'string' :return constant;

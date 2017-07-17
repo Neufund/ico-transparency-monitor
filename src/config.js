@@ -41,9 +41,7 @@ export default {
                     const blockNumber = await toPromise(icoContract.fundingEndBlock)();
                     return constantValueOf(blockNumber, 'blockNumber')
                 },
-                status: async (icoContract) =>{
-                    return "WAITING";
-                }
+                status: async (icoContract) => "WAITING"
             },
             matrix: {
                 q1: {answer: true, comment: ''},
@@ -78,9 +76,13 @@ export default {
             },
             icoParameters: {
                 cap : async(icoContract) => {
-                    const minerToken = getSmartContract('0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1');
-                    const cap = await toPromise(minerToken.MAX_TOTAL_TOKEN_AMOUNT_OFFERED_TO_PUBLIC)();
-                    return cap.valueOf()/10**18;
+                    // const minerToken = getSmartContract(web3,'0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1');
+                    // const cap = await toPromise(minerToken.MAX_TOTAL_TOKEN_AMOUNT_OFFERED_TO_PUBLIC)();
+                    // return cap.valueOf()/10**18;
+                    // return 10**18;
+                    return async () =>{
+                        return 10**18;
+                    };
                 },
                 startDate: async (icoContract) => {
                     const blockNumber = await toPromise(icoContract.startTime)();
@@ -90,9 +92,8 @@ export default {
                     const blockNumber = await toPromise(icoContract.endTime)();
                     return constantValueOf(blockNumber, 'timestamp')
                 },
-                status: async (icoContract) =>{
-                    return "WAITING";
-                }
+                status: async (icoContract) => "WAITING"
+
             },
             matrix: {
                 q1: {answer: true, comment: ''},

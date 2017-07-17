@@ -24,8 +24,6 @@ class CurrencyButton extends Component {
     }
 
     onCurrencyHandle(currency, time) {
-        console.log(currency, time);
-
         if (currency === "default")
             currency = this.props.currency;
         else
@@ -41,14 +39,14 @@ class CurrencyButton extends Component {
         } else
             time = this.state.exchangeRateValue;
 
-        this.props.setCurrency(currency, time, () => {
-            let currentStatistics = this.props.stats;
-            const distribution = getDistributedDataFromDataset(currentStatistics.etherDataset, this.props.currencyValue);
-            currentStatistics.charts.investorsDistribution = distribution[0];
-            currentStatistics.charts.investmentDistribution = distribution[1];
+        this.props.setCurrency(currency, time);
+        let currentStatistics = this.props.stats;
+        const distribution = getDistributedDataFromDataset(currentStatistics.etherDataset, this.props.currencyValue);
+        currentStatistics.charts.investorsDistribution = distribution[0];
+        currentStatistics.charts.investmentDistribution = distribution[1];
 
-            this.props.drawStatistics(currentStatistics);
-        });
+        this.props.drawStatistics(currentStatistics);
+
     }
 
     render() {
@@ -108,7 +106,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCurrency: ( (currency, time, callback) => setCurrency(currency, time, callback)(dispatch) ),
+        setCurrency: ( (currency, time ) => setCurrency(currency, time, dispatch) ),
         drawStatistics: (statistics) => {
             dispatch({type: 'DRAW_STATS', stats: statistics})
         }

@@ -1,74 +1,45 @@
-import React, {Component} from 'react';
-import {getSmartContractConstants} from '../utils/web3';
+import React from 'react';
 import {connect} from 'react-redux';
-import {decisionMatrix} from '../utils';
-import {onModalShow, onErrorMessage, onMessage} from '../actions/ModalAction';
-import {setProperties} from '../actions/ScanAction';
+import {onModalShow} from '../actions/ModalAction';
 import ICOApp from './ICOApp';
 import ICOScan from './ICOScan';
+import {readSmartContract} from '../reducers/web3';
+import {isConnected} from '../utils/web3';
+import {errorMessage,resetRpc} from '../actions/ScanAction';
 
-class ICO extends Component {
-    componentWillMount() {
-        if (typeof this.props.address === "undefined") return;
-        const transparencyDecision = decisionMatrix(this.props.ico.matrix)[0];
-
-        this.props.setICOProperties(this.props.ico.address,{decision: transparencyDecision});
-
-        getSmartContractConstants(this.props.address).then((parameters) => {
-            Object.keys(parameters).forEach( constant => {
-                const parameter = parameters[constant];
-                if (parameter === null) return;
-                const tempResult = {};
-                if (typeof parameter === "object" && typeof parameter.then === "function")
-                    parameter.then((value)=>{
-                        tempResult[constant] = value;
-                        this.props.setICOProperties(this.props.ico.address,tempResult)
-                    });
-                else{
-                    tempResult[constant] = parameter;
-                    this.props.setICOProperties(this.props.ico.address,tempResult)
-                }
-            });
-        });
-    }
-
-    render() {
-
-        if (this.props.inner)
-            return ( <ICOScan address={this.props.ico.address} onModalShow = {this.props.onModalShow}/>);
-        else
-            return ( <ICOApp address={this.props.ico.address}
-                             onModalShow = {this.props.onModalShow}
-            />);
-    }
-}
+const ICO = ({...props}) => {
+    return (
+        <div>
+            {props.readSmartContract(props.address)}
+            {props.inner && <ICOScan address={props.address} onModalShow = {props.onModalShow}/>}
+            {!props.inner && <ICOApp address={props.address} onModalShow = {props.onModalShow}/>}
+        </div>
+    )
+};
 
 
 const mapStateToProps = (state) => {
-    // console.log(state.ICO.icos);
     return {
         showModal: state.modal.showModal,
-        currentICO: state.modal.currentICO,
-        ICOs : state.ICO.icos
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch , state) => {
     return {
         onModalShow: (currentICO) => {
-            dispatch(onModalShow(currentICO))
+            if(isConnected())
+                dispatch(onModalShow(currentICO))
+            else {
+                dispatch(resetRpc());
+                dispatch(errorMessage());
+            }
         },
-        onErrorMessage: (message) => {
-            dispatch(onErrorMessage(message));
-        },
-        onMessage: (message) => {
-            dispatch(onMessage(message));
-        },
-        setICOProperties: (address,obj) => {
-            dispatch(setProperties(address,obj))
+        readSmartContract:(address) => {
+            dispatch(readSmartContract(address))
         }
     }
 };
+
 
 export default connect(
     mapStateToProps,

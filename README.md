@@ -2,6 +2,12 @@
 
 [![Build Status](https://travis-ci.org/Neufund/ico-transparency-monitor.svg)](https://travis-ci.org/Neufund/ico-transparency-monitor) [![Greenkeeper badge](https://badges.greenkeeper.io/Neufund/generic-ico.svg)](https://greenkeeper.io/)
 
+Ico-Transprency-Monitor is a powerful tool that scans ICOs for diffrent features in order to evaluate how transparent ICO's are. This is done by answering a number of questions, for example the availability, quality of smart-contract code and processes. <br/>
+
+In addition a number of generated graphs from these ICOs help assess statistically these ICOs, These graphgs can be direcly taken and used for publication and articles related to ICO analsys.
+
+Currently a number of ICO's are already available and more can be manually added to the Transperancy-Monitor in order study a specific ICO or compare between the diffrent ICOs.
+
 ## Adding custom ICOs to the Transparency-Monitor
 The ICO-monitor collects information from the blockchain public-ledger using a set of pre-defined
 rules set in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
@@ -14,9 +20,9 @@ To add your own ICO you would have to
 2. Configure [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
   and add the required information from the smart contract manually. This will require some JavaScript modifications.
 
-3. Any official addition to the ICO-Monitor should be done in the form of a Pull Request. This PR will be checked for accuracy 
-  and then merged to the ICO-Monitor which can be accessed through our running node. 
-  
+3. Any official addition to the ICO-Monitor should be done in the form of a Pull Request. This PR will be checked for accuracy
+  and then merged to the ICO-Monitor which can be accessed through our running node.
+
   ### Example
   An example of a smart contract configuration
 

@@ -18,7 +18,7 @@ To add your own ICO you would have to
 
   The more information added, the higher the transparency grade can be.  <br/>
 
-###Example
+### Example
   An example of a smart contract configuration
 
     '#ADDRES-OF-CONTRACT': {
@@ -101,7 +101,7 @@ To add your own ICO you would have to
   for more information on how to write manual code, look at the already available contracts in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
 
 
-####Note
+#### Note
 Not all smart contracts provide the needed information, some use different smart-contracts to generate tokens, some have an obscure processes, some have no source code, and some only used a smart-contract after the end of 
 an ICO
 

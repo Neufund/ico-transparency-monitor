@@ -3,8 +3,8 @@
 
 
 "@types/node@^6.0.46":
-  version "6.0.82"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.82.tgz#8cbae8bd0c95c302ff3d652255f600d891adcbeb"
+  version "6.0.83"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.83.tgz#dd022db01ac2c01c1057775e88ccffce96d1d6fe"
 
 FileSaver@^0.10.0:
   version "0.10.0"
@@ -1569,16 +1569,12 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000700"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000700.tgz#97cfc483865eea8577dc7a3674929b9abf553095"
+  version "1.0.30000701"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000701.tgz#2e32b06993bf3dbd90b43d93f04e26d11afddcba"
 
-caniuse-lite@^1.0.30000670:
+caniuse-lite@^1.0.30000670, caniuse-lite@^1.0.30000684:
   version "1.0.30000701"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000701.tgz#9d673cf6b74dcb3d5c21d213176b011ac6a45baa"
-
-caniuse-lite@^1.0.30000684:
-  version "1.0.30000700"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000700.tgz#6084871ec75c6fa62327de97622514f95d9db26a"
 
 canvg-fixed@^1.0.0:
   version "1.0.0"
@@ -1701,7 +1697,7 @@ cheerio@^0.22.0:
     lodash.reject "^4.4.0"
     lodash.some "^4.4.0"
 
-chokidar@^1.4.3, chokidar@^1.6.0, chokidar@^1.6.1, chokidar@^1.7.0:
+chokidar@^1.6.0, chokidar@^1.6.1, chokidar@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
   dependencies:
@@ -1746,8 +1742,8 @@ classnames@2.2.5, classnames@^2.1.2:
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
 clean-css@4.1.x:
-  version "4.1.6"
-  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.6.tgz#5a47beb526994cb4f7bf36188a55ed3b45528f0b"
+  version "4.1.7"
+  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.7.tgz#b9aea4f85679889cf3eae8b40349ec4ebdfdd032"
   dependencies:
     source-map "0.5.x"
 
@@ -1849,8 +1845,8 @@ color-convert@^1.0.0, color-convert@^1.3.0:
     color-name "^1.1.1"
 
 color-name@^1.0.0, color-name@^1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.2.tgz#5c8ab72b64bd2215d617ae9559ebb148475cf98d"
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
 
 color-string@^0.3.0:
   version "0.3.0"
@@ -2633,8 +2629,8 @@ elliptic@^6.0.0, elliptic@^6.2.3:
     minimalistic-crypto-utils "^1.0.0"
 
 emoji-regex@^6.1.0:
-  version "6.4.3"
-  resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-6.4.3.tgz#6ac2ac58d4b78def5e39b33fcbf395688af3076c"
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-6.5.0.tgz#c1699e17f34154f7922219ea712ea76a2619c77b"
 
 emojis-list@^2.0.0:
   version "2.1.0"
@@ -3282,10 +3278,10 @@ fbjs@^0.8.6, fbjs@^0.8.9:
     ua-parser-js "^0.7.9"
 
 fetch-ponyfill@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/fetch-ponyfill/-/fetch-ponyfill-4.0.0.tgz#18cfe38d69cde42aec71cb3ace79e1f2276293da"
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/fetch-ponyfill/-/fetch-ponyfill-4.1.0.tgz#ae3ce5f732c645eab87e4ae8793414709b239893"
   dependencies:
-    node-fetch "~1.6.0"
+    node-fetch "~1.7.1"
 
 figures@^1.3.5:
   version "1.7.0"
@@ -3547,8 +3543,8 @@ function-bind@^1.0.2, function-bind@^1.1.0, function-bind@~1.1.0:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.0.tgz#16176714c801798e4e8f2cf7f7529467bb4a5771"
 
 function.prototype.name@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/function.prototype.name/-/function.prototype.name-1.0.1.tgz#39aeab26bbf8ab669b7142965d50ea0965d93d7b"
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/function.prototype.name/-/function.prototype.name-1.0.2.tgz#b511a1a15d35fb4834cb35464b6b6b03f4e543ea"
   dependencies:
     define-properties "^1.1.2"
     function-bind "^1.1.0"
@@ -4421,14 +4417,14 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
 istanbul-api@^1.1.1:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/istanbul-api/-/istanbul-api-1.1.10.tgz#f27e5e7125c8de13f6a80661af78f512e5439b2b"
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/istanbul-api/-/istanbul-api-1.1.11.tgz#fcc0b461e2b3bda71e305155138238768257d9de"
   dependencies:
     async "^2.1.4"
     fileset "^2.0.2"
     istanbul-lib-coverage "^1.1.1"
     istanbul-lib-hook "^1.0.7"
-    istanbul-lib-instrument "^1.7.3"
+    istanbul-lib-instrument "^1.7.4"
     istanbul-lib-report "^1.1.1"
     istanbul-lib-source-maps "^1.2.1"
     istanbul-reports "^1.1.1"
@@ -4446,9 +4442,9 @@ istanbul-lib-hook@^1.0.7:
   dependencies:
     append-transform "^0.4.0"
 
-istanbul-lib-instrument@^1.4.2, istanbul-lib-instrument@^1.7.2, istanbul-lib-instrument@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-1.7.3.tgz#925b239163eabdd68cc4048f52c2fa4f899ecfa7"
+istanbul-lib-instrument@^1.4.2, istanbul-lib-instrument@^1.7.2, istanbul-lib-instrument@^1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-1.7.4.tgz#e9fd920e4767f3d19edc765e2d6b3f5ccbd0eea8"
   dependencies:
     babel-generator "^6.18.0"
     babel-template "^6.16.0"
@@ -4729,8 +4725,8 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
 
 jschardet@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/jschardet/-/jschardet-1.4.2.tgz#2aa107f142af4121d145659d44f50830961e699a"
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/jschardet/-/jschardet-1.5.0.tgz#a61f310306a5a71188e1b1acd08add3cfbb08b1e"
 
 jsdom-global@^3.0.2:
   version "3.0.2"
@@ -5525,8 +5521,8 @@ no-case@^2.2.0:
     lower-case "^1.1.1"
 
 node-abi@^2.0.0:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-2.0.3.tgz#0ca67e5e667b8e1343549ca17153a815d0bbfdaa"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-2.1.0.tgz#50ad834affcf17440e12bfc5f9ba0946f572d10c"
 
 node-dir@^0.1.10:
   version "0.1.17"
@@ -5534,16 +5530,9 @@ node-dir@^0.1.10:
   dependencies:
     minimatch "^3.0.2"
 
-node-fetch@^1.0.1:
+node-fetch@^1.0.1, node-fetch@~1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.1.tgz#899cb3d0a3c92f952c47f1b876f4c8aeabd400d5"
-  dependencies:
-    encoding "^0.1.11"
-    is-stream "^1.0.1"
-
-node-fetch@~1.6.0:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.6.3.tgz#dc234edd6489982d58e8f0db4f695029abcd8c04"
   dependencies:
     encoding "^0.1.11"
     is-stream "^1.0.1"
@@ -6721,8 +6710,8 @@ react-resize-detector@0.3.3:
   resolved "https://registry.yarnpkg.com/react-resize-detector/-/react-resize-detector-0.3.3.tgz#ca07443072324843586666d9443a6356da7c0501"
 
 react-router-dom@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.1.1.tgz#3021ade1f2c160af97cf94e25594c5f294583025"
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.1.2.tgz#7f8a7ca868d32acadd19ca09543b40d26df8ec37"
   dependencies:
     history "^4.5.1"
     loose-envify "^1.3.1"
@@ -6730,8 +6719,8 @@ react-router-dom@^4.1.1:
     react-router "^4.1.1"
 
 react-router@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.1.1.tgz#d448f3b7c1b429a6fbb03395099949c606b1fe95"
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.1.2.tgz#7ae027341abc42eb08ad9f7a8cac08d0563672ce"
   dependencies:
     history "^4.6.0"
     hoist-non-react-statics "^1.2.0"
@@ -8087,8 +8076,8 @@ ua-parser-js@^0.7.9:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.13.tgz#cd9dd2f86493b3f44dbeeef3780fda74c5ee14be"
 
 uglify-js@3.0.x, uglify-js@^3.0.13:
-  version "3.0.24"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.24.tgz#ee93400ad9857fb7a1671778db83f6a23f033121"
+  version "3.0.25"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.25.tgz#3dc190b0ee437497e449bc6f785665b06afbe052"
   dependencies:
     commander "~2.9.0"
     source-map "~0.5.1"
@@ -8300,15 +8289,7 @@ watch@~0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/watch/-/watch-0.10.0.tgz#77798b2da0f9910d595f1ace5b0c2258521f21dc"
 
-watchpack@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.3.1.tgz#7d8693907b28ce6013e7f3610aa2a1acf07dad87"
-  dependencies:
-    async "^2.1.2"
-    chokidar "^1.4.3"
-    graceful-fs "^4.1.2"
-
-watchpack@^1.4.0:
+watchpack@^1.3.1, watchpack@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.4.0.tgz#4a1472bcbb952bd0a9bb4036801f954dfb39faac"
   dependencies:

@@ -19,16 +19,6 @@ export const downloadChartImage = (chartId, title, xLabel, yLabel) => {
   ctx.fillStyle = 'white';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-
-  // html2canvas(div, {
-  //   allowTaint: true
-  // }).then(function(canvas) {
-  //   document.body.appendChild(canvas);
-  //   // download.style.display = "inline";
-  // });
-  // return
-
-
   const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
   gradient.addColorStop('0', '#424344');
   gradient.addColorStop('0.5', '#D9DBDC');

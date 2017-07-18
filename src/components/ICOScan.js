@@ -14,7 +14,7 @@ const ICOScan = ({ ...props }) => (<div>
     {!props.showLoader && <Col md={12}>
       <Row>
         <Col md={2} className="part">
-          <p className="title">Token Cap</p>
+          <p className="title">Declared Cap</p>
           <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>
         </Col>
         <Col md={3} className="part">
@@ -37,9 +37,6 @@ const ICOScan = ({ ...props }) => (<div>
             <strong className="desc">{getValueOrNotAvailable(props, 'status')}</strong>
           </div>
         </Col>
-      </Row>
-      <Row>
-        <Col md={12}> <p>ICO Terms as declared in Smart Contract:</p></Col>
       </Row>
     </Col>}
   </Row>

@@ -37,10 +37,8 @@ export const computeICOTransparency = (answers) => {
       const answer = answers[key];
       const definition = config.matrix[key];
       // return lists of transparent-with-issues and non-transparent a answers
-      if (definition.critical && !definition.notApplicable && answer.answer === false)
-        nonTransparentAnswers[key] = answer.comment;
-      if (!definition.critical && !definition.notApplicable && answer.answer === false)
-        transparentWithIssuesAnswers[key] = answer.comment;
+      if (answer.answer == false || answer.answer === null && !definition.notApplicable)
+        (definition.critical ? nonTransparentAnswers : transparentWithIssuesAnswers)[key] = answer.comment;
     }
   }
 

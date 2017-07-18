@@ -64,21 +64,19 @@ export const getLogs = address => async (dispatch, getState) => {
 
       if (error || logs.length === 0) dispatch({ type: error });
       else {
-
         const currencyValue = getState().currency.value;
-        console.log("Fetched Currency is " , currencyValue);
+        console.log('Fetched Currency is ', currencyValue);
         const smartContractConstants = await getSmartContractConstants(web3, address);
         const ico = config.ICOs[address];
         ico.decimals = smartContractConstants.decimals;
 
-        if(currencyValue){
+        if (currencyValue) {
           const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
-          console.log("Draw drawStatistics");
+          console.log('Draw drawStatistics');
           dispatch(drawStatistics(statistics));
-          dispatch({type:"SHOW_STATS"})
+          dispatch({ type: 'SHOW_STATS' });
         }
       }
     });
   });
-
 };

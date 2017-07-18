@@ -1,6 +1,6 @@
 import { getEtherPerCurrency, toPromise } from '../utils';
 
-export const setCurrency = (currency, time = new Date().yyyymmdd(), dispatch ,callback) => {
+export const setCurrency = (currency, time = new Date().yyyymmdd(), dispatch, callback) => {
   let currencyFormat = `ETH-${currency}`;
   if (time === 'NOW') { time = new Date().yyyymmdd(); }
 
@@ -12,15 +12,14 @@ export const setCurrency = (currency, time = new Date().yyyymmdd(), dispatch ,ca
       time,
     });
 
-    //TODO: needs to be correct value
+    // TODO: needs to be correct value
   } else if (currency === 'BTC') { currencyFormat = 'BTC-EUR'; }
 
   const result = getEtherPerCurrency(currencyFormat, time);
   result.then((e) => {
     dispatch({ type: 'SET_CURRENCY', currency, value: e.data.data.amount, time });
-    if (callback) callback()
-
+    if (callback) callback();
   }).catch((error) => {
     dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
   });
-}
+};

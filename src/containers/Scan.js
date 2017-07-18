@@ -55,7 +55,7 @@ const mapStateToProps = (state, props) => {
     ico: config.ICOs[address],
     showLoaderState: state.scan.showLoader,
     currencyValue: state.currency.value,
-    showStats : state.scan.showStats,
+    showStats: state.scan.showStats,
     web3: state.modal.web3,
   };
 };

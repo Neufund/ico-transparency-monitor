@@ -77,7 +77,7 @@ export const getValueOrNotAvailable = (props, input) => props && props[input] ? 
  */
 
 export const getICOLogs = (web3, address, callback) => {
-  console.log("Start scanning the ICO");
+  console.log('Start scanning the ICO');
   if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
     console.log(`${address} cached already.`);
     return callback(null, JSON.parse(localStorage.getItem(address)));
@@ -390,7 +390,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     // Initialize the chart of investors by ether value
   statisticsICO.etherDataset = ethersDataset;
   const distribution = getDistributedDataFromDataset(ethersDataset, currencyPerEther);
-  console.log(currencyPerEther,distribution)
+  console.log(currencyPerEther, distribution);
   statisticsICO.charts.investorsDistribution = distribution[0];
   statisticsICO.charts.investmentDistribution = distribution[1];
 

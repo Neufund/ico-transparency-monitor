@@ -189,6 +189,7 @@ export default {
         args: {
           tokens: '_tokens',
           sender: '_th',
+          ether: '_amount' // status ICO logs actual ether value !== transaction ether as they return overflow to sender
         },
         name: 'NewSale',
       },

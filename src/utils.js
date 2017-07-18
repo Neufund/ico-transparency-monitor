@@ -345,7 +345,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
   for (let i = 0; i < events.length; i++) {
     const item = events[i];
     const tokenValue = item.args[selectedICO.event.args.tokens].valueOf() / factor;
-    const etherValue = web3.fromWei(item.value, 'ether').valueOf();
+    const etherValue = web3.fromWei(selectedICO.event.args.ether ? item.args[selectedICO.event.args.ether] : item.value, 'ether').valueOf();
 
     const investor = item.args[selectedICO.event.args.sender];
 

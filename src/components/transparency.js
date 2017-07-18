@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import { connect } from 'react-redux';
-import { decisionMatrix } from '../utils';
+import { computeICOTransparency } from '../utils';
 import { onModalClose, onErrorMessage } from '../actions/ModalAction';
 import { default as config } from '../config.js';
 
@@ -17,7 +17,7 @@ class ContentTable extends Component {
     this.currentICO = currentICO;
   }
   componentWillMount() {
-    const result = decisionMatrix(this.currentICO.matrix);
+    const result = computeICOTransparency(this.currentICO.matrix);
 
     this.setState({
       matrix: this.currentICO.matrix,

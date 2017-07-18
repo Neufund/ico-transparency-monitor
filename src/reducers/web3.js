@@ -1,7 +1,7 @@
 import { default as config } from '../config.js';
 import { getSmartContractConstants, isConnected, web3Connect } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
-import { decisionMatrix } from '../utils';
+import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
 import { setCurrency } from '../actions/CurrencyAction';
 import { drawStatistics, hideLoader, showLoader } from '../actions/ScanAction';
@@ -27,7 +27,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
     return;
   }
   const matrix = config.ICOs[address].matrix;
-  const transparencyDecision = decisionMatrix(matrix)[0];
+  const transparencyDecision = computeICOTransparency(matrix)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
   getSmartContractConstants(web3, address).then((parameters) => {

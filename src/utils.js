@@ -28,22 +28,27 @@ export const formatNumber = (number) => {
   return number.toFixed(2).replace(/./g, (c, i, a) => i && c !== '.' && ((a.length - i) % 3 === 0) ? `,${c}` : c);
 };
 
-export const decisionMatrix = (matrix) => {
-  const questionMatrix = config.matrix;
-  const nonTransparent = {};
-  const transparentWithIssues = {};
+export const computeICOTransparency = (answers) => {
+  const nonTransparentAnswers = {};
+  const transparentWithIssuesAnswers = {};
 
-  Object.keys(matrix).forEach((key) => {
-    const currentQuestion = matrix[key];
-    const mappedQuestionMatrix = questionMatrix[key];
-
-    if (mappedQuestionMatrix.critical && mappedQuestionMatrix.notApplicable === false && currentQuestion.answer === false) { nonTransparent[key] = currentQuestion.comment; } else if (mappedQuestionMatrix.critical === false && mappedQuestionMatrix.notApplicable === false && currentQuestion.answer === false) {
-      transparentWithIssues[key] = currentQuestion.comment;
+  for(var key in config.matrix) {
+    if (config.matrix.hasOwnProperty(key)) {
+      const answer = answers[key];
+      const definition = config.matrix[key];
+      // return lists of transparent-with-issues and non-transparent a answers
+      if (definition.critical && !definition.notApplicable && answer.answer === false)
+        nonTransparentAnswers[key] = answer.comment;
+      if (!definition.critical && !definition.notApplicable && answer.answer === false)
+        transparentWithIssuesAnswers[key] = answer.comment;
     }
-  });
+  }
 
-  if (Object.keys(nonTransparent).length === 0 && Object.keys(transparentWithIssues).length === 0) { return ['Transparent', []]; } else if (Object.keys(nonTransparent).length !== 0) { return ['Non Transparent', nonTransparent]; } else if (Object.keys(transparentWithIssues).length !== 0) { return ['With issues', transparentWithIssues]; }
-  return [];
+  if (Object.keys(nonTransparentAnswers).length !== 0)
+    return ['Non Transparent', nonTransparentAnswers];
+  if (Object.keys(transparentWithIssuesAnswers).length !== 0)
+    return ['With issues', transparentWithIssuesAnswers];
+  return ['Transparent', []];
 };
 
 Date.prototype.yyyymmdd = function () {
@@ -101,8 +106,8 @@ export const getICOLogs = (web3, address, callback) => {
     url: config.rpcHost,
     Accept: 'application/json',
     contentType: 'application/json',
-        // TODO: request data from cache
-        // headers: {'X-Cache-Long': 'true'},
+    // TODO: request data from cache
+    headers: {'X-Node-Cache': 'long'},
     data: JSON.stringify({
       id: 1497353430507566,
       jsonrpc: '2.0',

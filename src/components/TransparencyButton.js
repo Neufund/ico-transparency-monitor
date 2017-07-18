@@ -7,6 +7,6 @@ export const ICO = ({ transparency, icoName, ...props }) => (
     onClick={() => { props.onModalShow(props.ico); }}
   >
     <p>Transparency</p>
-    <strong> {decisionMatrix(props.ico.matrix)[0]} <span className="fa fa-arrow-right" /> </strong>
+    <strong> {computeICOTransparency(props.ico.matrix)[0]} <span className="fa fa-arrow-right" /> </strong>
   </button>
 );

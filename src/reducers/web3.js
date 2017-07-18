@@ -1,5 +1,5 @@
 import { default as config } from '../config.js';
-import { getSmartContractConstants, isConnected, web3Connect } from '../utils/web3';
+import { getICOParameters, isConnected, web3Connect } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
@@ -30,7 +30,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
   const transparencyDecision = computeICOTransparency(matrix)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
-  getSmartContractConstants(web3, address).then((parameters) => {
+  getICOParameters(web3, address).then((parameters) => {
     Object.keys(parameters).forEach((constant) => {
       const parameter = parameters[constant];
       if (parameter === null) return;
@@ -69,7 +69,7 @@ export const getLogs = address => async (dispatch, getState) => {
             // 3- get statistics
             // 4- dispatch statistics to the state
       setCurrency('EUR', 'NOW', dispatch);
-      const smartContractConstants = await getSmartContractConstants(web3, address);
+      const smartContractConstants = await getICOParameters(web3, address);
       const ico = config.ICOs[address];
       ico.decimals = smartContractConstants.decimals;
       const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);

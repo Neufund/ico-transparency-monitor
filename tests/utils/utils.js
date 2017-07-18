@@ -1,7 +1,7 @@
 import { assert, expect, should } from 'chai';
 import {
     formateDate,
-    decisionMatrix,
+    computeICOTransparency,
     getEtherPerCurrency,
     getICOs,
     getValueOrNotAvailable,
@@ -19,7 +19,7 @@ describe('Format Date function', () => {
 
 describe('Decision Matrix', () => {
   it('Should take ico decision matrix and return and array', () => {
-    assert.typeOf(decisionMatrix(config.ICOs['0xa74476443119a942de498590fe1f2454d7d4ac0d'].matrix),
+    assert.typeOf(computeICOTransparency(config.ICOs['0xa74476443119a942de498590fe1f2454d7d4ac0d'].matrix),
             'Array');
   });
 });

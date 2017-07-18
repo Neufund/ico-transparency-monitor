@@ -15,13 +15,13 @@ export const dispatch = actions =>
     Array.isArray(actions) ? actions.forEach(action => store.dispatch(action)) : dispatch([actions]);
 
 export const MockProviders = ({ children }) => (
-    <Provider store={store}>
-        {children}
-    </Provider>
+  <Provider store={store}>
+    {children}
+  </Provider>
 );
 
 MockProviders.propTypes = {
-    children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default MockProviders;

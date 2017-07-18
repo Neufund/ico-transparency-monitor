@@ -1,23 +1,15 @@
-export const drawStatistics = (statistics) => {
-    return { type: 'DRAW_STATS', stats : statistics }
-};
+export const drawStatistics = statistics => ({ type: 'DRAW_STATS', stats: statistics });
 
-export const showLoader = () => {
-    return {type:'SHOW_LOADER'}
-};
+export const showLoader = () => ({ type: 'SHOW_LOADER' });
 
-export const hideLoader = () => {
-    return {type:'HIDE_LOADER'}
-};
+export const hideLoader = () => ({ type: 'HIDE_LOADER' });
 
-export const setProperties = (address , prop) => {
-    return {type:'SET_ICO_PROPERTY' , address:address, prop:prop}
-};
+export const setProperties = (address, prop) => ({ type: 'SET_ICO_PROPERTY', address, prop });
 
-export const resetRpc = () => {
-    return {type: "RESET_RPC"}
-};
+export const resetRpc = () => ({ type: 'RESET_RPC' });
 
-export const errorMessage = () => {
-    return {type: "SHOW_MODAL_ERROR", message: "WEB3_CONNECTION_FAIL"}
-};
+export const errorMessage = () => ({ type: 'SHOW_MODAL_ERROR', message: 'WEB3_CONNECTION_FAIL' });
+
+export const increaseCounter = () => ({ type: 'INCREASE_COUNTER' });
+
+export const resetCounter = () => ({ type: 'RESET_COUNTER' });

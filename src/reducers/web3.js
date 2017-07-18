@@ -23,9 +23,7 @@ export const web3Connection = () => async (dispatch, getState) => {
 
 export const readSmartContract = (address) => async (dispatch, getState) => {
     const web3 = getState().modal.web3;
-
-    console.log(`RPC connection ${web3 ? "Connected" : "Disconnected"}`);
-
+    console.log(`Reading Smart contract , RPC connection ${web3 ? "Connected" : "Disconnected"}`);
     if (!web3) {
         return;
     }
@@ -72,13 +70,12 @@ export const getLogs = (address) => async (dispatch, getState) => {
             // 1- set currency
             // 2- read smart contract
             // 3- get statistics
-            // 4- draw statistics
+            // 4- dispatch statistics to the state
             setCurrency('EUR', 'NOW' , dispatch);
             const smartContractConstants = await getSmartContractConstants(web3,address);
             let ico = config.ICOs[address];
             ico['decimals'] = smartContractConstants['decimals'];
             const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
-
             dispatch(drawStatistics(statistics));
         }
     });

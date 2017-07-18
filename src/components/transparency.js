@@ -41,7 +41,7 @@ class ContentTable extends Component {
           <Col md={3}>
             <button href="" className={`transparency-button ${this.state.decision.replace(/\s+/g, '-').toLowerCase()}-status`}>
               <p>Transparency</p>
-              <strong>                                {this.state.decision} <i className="fa fa-arrow-right" /> </strong>
+              <strong>                                          {this.state.decision} <i className="fa fa-arrow-right" /> </strong>
             </button>
           </Col>
         </Row>

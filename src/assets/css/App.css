@@ -250,3 +250,13 @@ body{
 .transparent-alert{
   color:#2BD822;
 }
+
+.well{
+  padding:40px;
+  text-align: center;
+}
+
+.well-error{
+  color: #8c972f;
+  background: #f9f8f8;
+}

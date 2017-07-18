@@ -1,5 +1,5 @@
 import { toPromise } from './utils';
-import { constantValueOf, getSmartContract } from './utils/web3';
+import { convertWeb3Value, convertBlockNumberToDate } from './utils/web3';
 
 const rpcHost = require('./env.json').rpcHost;
 
@@ -31,11 +31,11 @@ export default {
         },
         startDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingStartBlock)();
-          return constantValueOf(blockNumber, 'blockNumber');
+          return convertBlockNumberToDate(blockNumber);
         },
         endDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingEndBlock)();
-          return constantValueOf(blockNumber, 'blockNumber');
+          return convertBlockNumberToDate(blockNumber);
         },
         status: async icoContract => 'successful', // we know that because it is over, we could write some condition instead
       },
@@ -77,12 +77,12 @@ export default {
                     // return 10**18;
                      async () => 10 ** 18,
         startDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.startTime)();
-          return constantValueOf(blockNumber, 'timestamp');
+          const timestamp = await toPromise(icoContract.startTime)();
+          return convertWeb3Value(timestamp, 'timestamp');
         },
         endDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.endTime)();
-          return constantValueOf(blockNumber, 'timestamp');
+          const timestamp = await toPromise(icoContract.endTime)();
+          return convertWeb3Value(timestamp, 'timestamp');
         },
         status: async icoContract => 'WAITING',
 
@@ -178,7 +178,8 @@ export default {
         q14: { answer: null},
       },
     },
-    '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E': {
+    '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c': {
+      tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
       information: {
         aliasName: 'StatusNetwork',
         logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
@@ -186,38 +187,40 @@ export default {
       },
       event: {
         args: {
-          tokens: '_amount',
-          sender: '_to',
+          tokens: '_tokens',
+          sender: '_th',
         },
-        customArgs: {
-          _from: '0x0000000000000000000000000000000000000000',
-        },
-        name: 'Transfer',
+        name: 'NewSale',
       },
       icoParameters: {
-        cap: async icoContract => null,
-        startDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.creationBlock)();
-          return constantValueOf(blockNumber, 'blockNumber');
+        cap: async (icoContract) => {
+          const failSafeETH = await toPromise(icoContract.failSafeLimit)();
+          return `${convertWeb3Value(failSafeETH, 'ether')} ETH`
         },
-        endDate: async icoContract => null,
+        startDate: async (icoContract) => {
+          const blockNumber = await toPromise(icoContract.startBlock)();
+          return convertBlockNumberToDate(blockNumber);
+        },
+        endDate: async (icoContract) => {
+          const blockNumber = await toPromise(icoContract.endBlock)();
+          return convertBlockNumberToDate(blockNumber);
+        },
         status: async icoContract => null,
       },
       matrix: {
-        q1: { answer: true, comment: '' },
-        q2: { answer: true, comment: '' },
-        q3: { answer: false, comment: 'Source code is not exists' },
-        q4: { answer: true, comment: '' },
-        q5: { answer: true, comment: '' },
-        q6: { answer: true, comment: '' },
-        q7: { answer: null, comment: '' },
-        q8: { answer: true, comment: '' },
-        q9: { answer: false, comment: '' },
-        q10: { answer: true, comment: '' },
-        q11: { answer: true, comment: '' },
-        q12: { answer: true, comment: '' },
-        q13: { answer: true, comment: '' },
-        q14: { answer: true, comment: '' },
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true, comment: 'Code has high quality' },
+        q12: { answer: true, comment: 'exchangeRate is constant' },
+        q13: { answer: true, comment: 'yes, with multiple rounds' },
+        q14: { answer: false, comment: 'no, ICO can be stopped and rounds revealed at owner whim' },
       },
     },
   },

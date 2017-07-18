@@ -41,7 +41,7 @@ class ContentTable extends Component {
           <Col md={3}>
             <button href="" className={`transparency-button ${this.state.decision.replace(/\s+/g, '-').toLowerCase()}-status`}>
               <p>Transparency</p>
-              <strong>            {this.state.decision} <i className="fa fa-arrow-right" /> </strong>
+              <strong>                                {this.state.decision} <i className="fa fa-arrow-right" /> </strong>
             </button>
           </Col>
         </Row>
@@ -59,12 +59,12 @@ class ContentTable extends Component {
 
                   return (<tr key={index}>
                     <td className={this.getRowClassName(key)}>
-                        {mappedQuestionMatrix.question}
-                      </td>
+                      {mappedQuestionMatrix.question}
+                    </td>
                     <td>
-                        <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>
-                        <p>{currentQuestion.answer === null ? 'N/A' : (currentQuestion.answer === true ? 'Yes' : 'No')}</p>
-                      </td>
+                      <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>
+                      <p>{currentQuestion.answer === null ? 'N/A' : (currentQuestion.answer === true ? 'Yes' : 'No')}</p>
+                    </td>
                   </tr>);
                 })}
               </tbody>
@@ -123,4 +123,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(TransparencyModal)
+)(TransparencyModal);

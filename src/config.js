@@ -18,20 +18,16 @@ export default {
         },
         name: 'Transfer',
         customArgs: {
-          _from: '0x0000000000000000000000000000000000000000',
+          _from: '0x0000000000000000000000000000000000000000'
         },
         firstTransactionBlockNumber: 2607801,
-        lastTransactionBlockNumber: 2607939,
+        lastTransactionBlockNumber: 2607938 // use block number to skip tokens created in finalize()
       },
       icoParameters: {
         cap: async (icoContract) => {
           const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
-          return maxCap / 10 ** 18;
-        },
-        capString: async (icoContract) => {
-          const maxCap = await toPromise(icoContract.tokenCreationRate)().valueOf();
           const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-          return `Maximum Cap: ${maxCap / 10 ** 18}, Min Cap: ${minCap / 10 ** 18}`;
+          return `Max: ${maxCap / 10 ** 18}\n Min: ${minCap / 10 ** 18}`;
         },
         startDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingStartBlock)();
@@ -41,23 +37,22 @@ export default {
           const blockNumber = await toPromise(icoContract.fundingEndBlock)();
           return constantValueOf(blockNumber, 'blockNumber');
         },
-        status: async icoContract => 'WAITING',
+        status: async icoContract => 'successful', // we know that because it is over, we could write some condition instead
       },
       matrix: {
-        q1: { answer: true, comment: '' },
-        q2: { answer: true, comment: '' },
-        q3: { answer: false, comment: 'Source code is not exists' },
-        q4: { answer: true, comment: '' },
-        q5: { answer: true, comment: '' },
-        q6: { answer: true, comment: '' },
-        q7: { answer: null, comment: '' },
-        q8: { answer: true, comment: '' },
-        q9: { answer: false, comment: '' },
-        q10: { answer: true, comment: '' },
-        q11: { answer: true, comment: '' },
-        q12: { answer: true, comment: '' },
-        q13: { answer: true, comment: '' },
-        q14: { answer: true, comment: '' },
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true},
+        q12: { answer: true},
+        q13: { answer: true},
+        q14: { answer: true},
       },
     },
     '0x3BF541f87056D134E0109BE1Be92978b26Cb09e0': {
@@ -248,37 +243,37 @@ export default {
     q6: {
       question: 'Is information on token price in ETH provided? (via event or in transaction?)',
       critical: true,
-      notApplicable: false,
+      notApplicable: true,
     },
-    q7: { question: 'Does smart contract handle ETH in a trustless way?', critical: false, notApplicable: false },
+    q7: { question: 'Does smart contract handle ETH in a trustless way?', critical: false, notApplicable: true },
     q8: {
       question: 'If ICO is using other currencies is information on token price provided?',
-      critical: false,
-      notApplicable: false,
+      critical: true,
+      notApplicable: true,
     },
     q9: {
       question: 'Does smart contract handle other currencies in a trust less way? Does some smart contract store balance of those currencies?',
       critical: false,
-      notApplicable: false,
+      notApplicable: true,
     },
     q10: {
       question: 'Was smart contract code easy to read and properly commented?',
       critical: false,
       notApplicable: false,
     },
-    q11: {
+    /*q11: {
       question: 'Is the ICO doing exactly the same what they say on their website?',
       critical: false,
       notApplicable: false,
-    },
+    },*/
     q12: { question: 'Is price of the token deterministic?', critical: false, notApplicable: false },
     q13: {
-      question: 'Is ICO start condition deterministic? (block number, date are OK',
+      question: 'Is ICO start condition specified in contract?',
       critical: false,
       notApplicable: false,
     },
     q14: {
-      question: 'Is ICO end condition specified? (block number, date, cap reached, price reached, any other algo in smart contract)',
+      question: 'Is ICO end condition specified in contract?',
       critical: false,
       notApplicable: false,
     },

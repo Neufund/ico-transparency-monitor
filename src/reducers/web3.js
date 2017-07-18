@@ -56,22 +56,29 @@ export const getLogs = address => async (dispatch, getState) => {
     dispatch(errorMessage());
     return;
   }
-  console.log('Start working on logs');
-  getICOLogs(web3, address, async (error, logs) => {
-    dispatch(hideLoader());
+  setCurrency('EUR', 'NOW', dispatch, () => {
+    console.log('Start working on logs');
 
-    if (error || logs.length === 0) dispatch({ type: error });
-    else {
-            // 1- set currency
-            // 2- read smart contract
-            // 3- get statistics
-            // 4- dispatch statistics to the state
-      setCurrency('EUR', 'NOW', dispatch);
-      const smartContractConstants = await getSmartContractConstants(web3, address);
-      const ico = config.ICOs[address];
-      ico.decimals = smartContractConstants.decimals;
-      const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
-      dispatch(drawStatistics(statistics));
-    }
+    getICOLogs(web3, address, async (error, logs) => {
+      dispatch(hideLoader());
+
+      if (error || logs.length === 0) dispatch({ type: error });
+      else {
+
+        const currencyValue = getState().currency.value;
+        console.log("Fetched Currency is " , currencyValue);
+        const smartContractConstants = await getSmartContractConstants(web3, address);
+        const ico = config.ICOs[address];
+        ico.decimals = smartContractConstants.decimals;
+
+        if(currencyValue){
+          const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
+          console.log("Draw drawStatistics");
+          dispatch(drawStatistics(statistics));
+          dispatch({type:"SHOW_STATS"})
+        }
+      }
+    });
   });
+
 };

@@ -8,7 +8,7 @@ import { SingleBarChart } from './charts';
 import { default as config } from '../config.js';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
-
+  {console.log(props)}
   <Row className="statistics">
     {console.log('ScanBoxDetails component did mout')}
     <Col md={12} className="scan-content">
@@ -83,6 +83,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         <p>Title: Number of Investors with Ticket of Size
                         X Axis: Ticket Size in [currency]
                         Y Axis: Number of Investors</p>
+
         <SingleBarChart data={props.stats.charts.investorsDistribution} dataKey="Investors" />
       </Col>
     </Row>
@@ -104,16 +105,13 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     </div>);
 
 const mapStateToProps = (state, props) =>
-    // console.log(state.scan.stats);
      ({
        currency: state.currency.currency,
        currencyValue: state.currency.value,
        stats: state.scan.stats,
        ...state.ICO.icos[props.address],
        matrix: config.ICOs[props.address].matrix,
-
      });
-
 
 export default connect(
     mapStateToProps,

@@ -3,10 +3,10 @@ import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/ScanBox.css';
 
 const ScanBoxLoadingMessage = ({ show }) => (
-  <Row className={show === true ? 'show' : 'hide'}>
+  <Row >
     <Col md={12} className="scan-message-loading">
       <div className="alarm">
-        <p>ICO Scanning inprocess, please wait ...</p>
+        <p>ICO Scanning in process, please wait ...</p>
       </div>
     </Col>
   </Row>

@@ -10,7 +10,7 @@ const RPCConnectionError = ({ ...props }) => (
     <TopHeader />
     <Grid fluid>
       <Row className="well well-error">
-        <Col md="12" >
+        <Col md={12} >
           <h1 className="center">RPC connection Error (502)</h1>
           <p>Trying to connect to rpc node {config.rpcHost} received an invalid response.</p>
           <a href="/" >Reload {props.counter}</a>

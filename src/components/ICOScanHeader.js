@@ -24,13 +24,13 @@ export const ICOScanHeader = ({ ...props }) => (
               <p className="title">Added by Person</p>
 
               <button
-                className={`transparency-button ${props.decision?props.decision.replace(/\s+/g, '-').toLowerCase():''}-status`}
+                className={`transparency-button ${props.decision ? props.decision.replace(/\s+/g, '-').toLowerCase() : ''}-status`}
                 onClick={() => {
                   props.onModalShow(props);
                 }}
               >
-              <p>Transparency</p>
-              <strong> {props.decision} <i className="fa fa-arrow-right" /></strong>
+                <p>Transparency</p>
+                <strong> {props.decision} <i className="fa fa-arrow-right" /></strong>
               </button>
             </Col>
           </Row>

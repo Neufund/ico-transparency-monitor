@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import '../assets/css/App.css';
 import ICO from '../components/ICO';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxDetails from '../components/ScanBoxDetails';
-import {default as config} from '../config.js';
-import {connect} from 'react-redux';
-import {Grid, Row, Col} from 'react-flexbox-grid';
-import {web3Connection, getLogs} from '../reducers/web3';
+import { default as config } from '../config.js';
+import { connect } from 'react-redux';
+import { Grid, Row, Col } from 'react-flexbox-grid';
+import { web3Connection, getLogs } from '../reducers/web3';
 
 class Scan extends Component {
   constructor(props) {
@@ -26,22 +26,22 @@ class Scan extends Component {
             <Row className="nav-buttons">
               <Col md={6}>
                 <div className="back-list">
-                  <a href="/"><i className="fa fa-arrow-left"/> Go back to the list </a>
+                  <a href="/"><i className="fa fa-arrow-left" /> Go back to the list </a>
                 </div>
               </Col>
               <Col md={6}>
                 <div className="next-list">
-                  <a href="/">Go back to the list <i className="fa fa-arrow-right"/></a>
+                  <a href="/">Go back to the list <i className="fa fa-arrow-right" /></a>
                 </div>
               </Col>
             </Row>
           </Grid>
 
           <Grid className="scanbox ico-box-scan">
-            <ICO ico={this.props.ico} inner={true} address={this.props.address}/>
-            <ScanBoxLoadingMessage show={this.props.showLoaderState}/>
-            {console.log("currency is",this.props.currencyValue)}
-            {this.props.currencyValue && <ScanBoxDetails address={this.props.address}/> }
+            <ICO ico={this.props.ico} inner address={this.props.address} />
+            <ScanBoxLoadingMessage show={this.props.showLoaderState} />
+            {console.log('currency is', this.props.currencyValue)}
+            {this.props.currencyValue && <ScanBoxDetails address={this.props.address} /> }
           </Grid>
         </div>
       </div>

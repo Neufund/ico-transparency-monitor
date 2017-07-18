@@ -5,7 +5,7 @@ const notifications = (state = 0, action) => {
     case 'RESET_COUNTER':
       return 0;
     default:
-      return state
+      return state;
   }
 };
 

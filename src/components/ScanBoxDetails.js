@@ -5,6 +5,7 @@ import '../assets/css/ScanBox.css';
 import { connect } from 'react-redux';
 import { TimeDetails, RaisedAmount, TokenIssued, Investors } from './details';
 import { SingleBarChart } from './charts';
+import { downloadCVS } from '../utils';
 import { default as config } from '../config.js';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
@@ -100,23 +101,25 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <div className="alarm">
     <p>No statistics: This ICO Is not providing information on token price in ETH</p>
   </div>}
-        [Download Raw Data as CSV]
-    </div>);
+  <button className="chart-btn" onClick={() => props.downloadCSV(props.address)}>[Download Raw Data as CSV]</button>
+</div>);
 
 const mapStateToProps = (state, props) =>
-    // console.log(state.scan.stats);
      ({
        currency: state.currency.currency,
        currencyValue: state.currency.value,
        stats: state.scan.stats,
        ...state.ICO.icos[props.address],
        matrix: config.ICOs[props.address].matrix,
-
      });
 
-
+const mapDispatchToProps = (dispatch, state) => ({
+  downloadCSV: (fileName) => {
+    dispatch(downloadCVS(fileName));
+  },
+});
 export default connect(
     mapStateToProps,
-    null
+  mapDispatchToProps
 )(ScanBoxDetails);
 

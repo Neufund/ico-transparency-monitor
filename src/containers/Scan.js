@@ -13,13 +13,14 @@ class Scan extends Component {
     super(props);
     props.rpcConnection();
   }
+
   componentDidMount() {
     this.props.getLogs(this.props.address);
   }
+
   render() {
     return (
       <div className="App">
-
         <div>
           <Grid fluid>
             <Row className="nav-buttons">
@@ -39,7 +40,8 @@ class Scan extends Component {
           <Grid className="scanbox ico-box-scan">
             <ICO ico={this.props.ico} inner address={this.props.address} />
             <ScanBoxLoadingMessage show={this.props.showLoaderState} />
-            <ScanBoxDetails address={this.props.address} />
+            {console.log('currency is', this.props.currencyValue)}
+            {this.props.currencyValue && <ScanBoxDetails address={this.props.address} /> }
           </Grid>
         </div>
       </div>
@@ -68,6 +70,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Scan);

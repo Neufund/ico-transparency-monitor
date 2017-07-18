@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { onModalShow } from '../actions/ModalAction';
 import ICOApp from './ICOApp';
@@ -7,13 +7,24 @@ import { readSmartContract } from '../reducers/web3';
 import { isConnected } from '../utils/web3';
 import { errorMessage, resetRpc } from '../actions/ScanAction';
 
-const ICO = ({ ...props }) => (
-  <div>
-    {props.readSmartContract(props.address)}
-    {props.inner && <ICOScan address={props.address} onModalShow={props.onModalShow} />}
-    {!props.inner && <ICOApp address={props.address} onModalShow={props.onModalShow} />}
-  </div>
+class ICO extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.readSmartContract(this.props.address);
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.inner && <ICOScan address={this.props.address} onModalShow={this.props.onModalShow} />}
+        {!this.props.inner && <ICOApp address={this.props.address} onModalShow={this.props.onModalShow} />}
+      </div>
     );
+  }
+}
 
 
 const mapStateToProps = state => ({
@@ -22,7 +33,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, state) => ({
   onModalShow: (currentICO) => {
-    if (isConnected()) { dispatch(onModalShow(currentICO)); } else {
+    if (isConnected()) {
+      dispatch(onModalShow(currentICO));
+    } else {
       dispatch(resetRpc());
       dispatch(errorMessage());
     }
@@ -34,6 +47,6 @@ const mapDispatchToProps = (dispatch, state) => ({
 
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ICO);

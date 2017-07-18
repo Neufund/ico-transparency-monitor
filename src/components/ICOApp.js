@@ -19,7 +19,7 @@ const ICOApp = ({ ...props }) => (
               <p>{props.information.description}</p>
               <a
                 rel="noopener noreferrer"
-target="_blank"
+                target="_blank"
                 href={props.information.website}
               >{props.information.website}</a>
             </Col>

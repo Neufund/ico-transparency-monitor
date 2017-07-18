@@ -11,10 +11,11 @@ import {
 import { kFormatter } from '../utils';
 import { downloadChartImage } from '../utils/charts';
 
-export const SingleBarChart = ({ data, dataKey, xLabel, yLabel }) => (
+export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel }) => (
     data != null && data.length > 0 &&
-    <div className="chart-parent">
-      <div id={dataKey} className="chart-body">
+    <div id={dataKey} className="chart-parent">
+      <h3 className="title">{title}</h3>
+      <div className="chart-body">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data} margin={{ top: 5, right: 20, left: 50, bottom: 5 }}>
             <XAxis dataKey="name" />
@@ -27,7 +28,7 @@ export const SingleBarChart = ({ data, dataKey, xLabel, yLabel }) => (
         <button
           className="chart-btn"
           onClick={() => {
-            downloadChartImage(dataKey);
+            downloadChartImage(dataKey, title, xLabel, yLabel);
           }}
         >Download as image
             </button>

@@ -54,9 +54,9 @@ class CurrencyButton extends Component {
               <ul className="currency-buttons">
                 {['EUR', 'USD', 'BTC', 'ETH'].map(item => (<li key={item}><a
                   className={this.state.currencyActiveClass === item ? 'active' : ''}
-onClick={() => {
-                      this.onCurrencyHandle(item);
-                    }}
+                  onClick={() => {
+                    this.onCurrencyHandle(item);
+                  }}
                 >{item}</a></li>))}
               </ul>
             </div>

@@ -1,28 +1,28 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {onModalShow} from '../actions/ModalAction';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { onModalShow } from '../actions/ModalAction';
 import ICOApp from './ICOApp';
 import ICOScan from './ICOScan';
-import {readSmartContract} from '../reducers/web3';
-import {isConnected} from '../utils/web3';
-import {errorMessage, resetRpc} from '../actions/ScanAction';
+import { readSmartContract } from '../reducers/web3';
+import { isConnected } from '../utils/web3';
+import { errorMessage, resetRpc } from '../actions/ScanAction';
 
 class ICO extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    this.props.readSmartContract(this.props.address)
+    this.props.readSmartContract(this.props.address);
   }
 
   render() {
     return (
       <div>
-        {this.props.inner && <ICOScan address={this.props.address} onModalShow={this.props.onModalShow}/>}
-        {!this.props.inner && <ICOApp address={this.props.address} onModalShow={this.props.onModalShow}/>}
+        {this.props.inner && <ICOScan address={this.props.address} onModalShow={this.props.onModalShow} />}
+        {!this.props.inner && <ICOApp address={this.props.address} onModalShow={this.props.onModalShow} />}
       </div>
-    )
+    );
   }
 }
 

@@ -10,5 +10,5 @@ export default combineReducers({
   modal,
   currency,
   ICO,
-  notifications
+  notifications,
 });

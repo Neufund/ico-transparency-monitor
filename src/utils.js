@@ -301,6 +301,28 @@ export const tokenHoldersPercentage = (total, investorsArray) => {
   });
 };
 
+
+export const downloadCSV = fileName => async (dispatch, getState) => {
+  console.log(getState());
+  const csvContentArray = getState().scan.csvContent;
+
+  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value', 'Timestamp', '\n'].join(',');
+  csvContentArray.forEach((item, index) => {
+    const dataString = item.join(',');
+    csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
+  });
+
+  const csvData = new Blob([csvContent], { type: 'application/csv;charset=utf-8;' });
+    // FOR OTHER BROWSERS
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(csvData);
+  link.style = 'visibility:hidden';
+  link.download = `${fileName}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 // TODO: Dispatch error message if any error raised by getWeb3 function
 export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEther) => {
   let web3;
@@ -310,7 +332,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     console.log(err);
     return;
   }
-
+  const csvContentArray = [];
   const startTimestamp = events[0].timestamp;
   const endTimestamp = events[events.length - 1].timestamp;
 
@@ -343,15 +365,19 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
   console.log(events[0].blockNumber, events[events.length - 1].blockNumber);
   const eventArgs = selectedICO.event.args;
   for (let i = 0; i < events.length; i++) {
+    //  Transaction Id
+    //  investor_address
+    //  Tokens Amount
+    //  Ether Value
     const item = events[i];
     // allow for ICOs that do not generate tokens: like district0x
     const tokenValue = eventArgs.tokens ? item.args[eventArgs.tokens].valueOf() / factor : 0;
     const etherValue = web3.fromWei(eventArgs.ether ? item.args[eventArgs.ether] : item.value, 'ether').valueOf();
 
     const investor = item.args[eventArgs.sender];
+    csvContentArray.push([investor, tokenValue, etherValue, (new Date(item.timestamp * 1000)).formatDate(true)]);
 
     const blockDate = mapEventIntoTimeScale(item, format);
-
     if (chartTokenCountTemp[blockDate] == undefined) { chartTokenCountTemp[blockDate] = 0; }
     chartTokenCountTemp[blockDate] += 1;
 
@@ -387,7 +413,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
   }));
 
   statisticsICO.investors.sendersSortedArray = convertInvestorsToSortedArray(statisticsICO.investors.senders);
-    // Initialize the chart of investors by ether value
+  // Initialize the chart of investors by ether value
   statisticsICO.etherDataset = ethersDataset;
   const distribution = getDistributedDataFromDataset(ethersDataset, currencyPerEther);
   console.log(currencyPerEther, distribution);
@@ -399,5 +425,5 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
         statisticsICO.investors.sendersSortedArray
     );
   console.log('stats done');
-  return statisticsICO;
+  return [statisticsICO, csvContentArray];
 };

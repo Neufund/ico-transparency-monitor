@@ -4,7 +4,7 @@ import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
 import { setCurrency, setCurrencyAction } from '../actions/CurrencyAction';
-import { drawStatistics, showStatistics, hideLoader, showLoader } from '../actions/ScanAction';
+import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile } from '../actions/ScanAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
   console.log('Start Web3 connection');
@@ -80,10 +80,10 @@ export const getLogs = address => async (dispatch, getState) => {
 
 
         const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
-
-        dispatch(drawStatistics(statistics));
+	      // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
+        dispatch(drawStatistics(statistics[0]));
+        dispatch(allocateCSVFile(statistics[1]));
         dispatch(showStatistics());
-
       }
     });
   });

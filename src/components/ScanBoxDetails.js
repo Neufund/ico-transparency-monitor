@@ -8,9 +8,8 @@ import { SingleBarChart } from './charts';
 import { default as config } from '../config.js';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
-
   <Row className="statistics">
-    {console.log('ScanBoxDetails component did mout')}
+    {console.log('ScanBoxDetails component did mount')}
     <Col md={12} className="scan-content">
       <p> Actual values from ICO transactions analysis: </p>
       <TimeDetails {...props.stats.time} />
@@ -102,16 +101,13 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     </div>);
 
 const mapStateToProps = (state, props) =>
-    // console.log(state.scan.stats);
      ({
        currency: state.currency.currency,
        currencyValue: state.currency.value,
        stats: state.scan.stats,
        ...state.ICO.icos[props.address],
        matrix: config.ICOs[props.address].matrix,
-
      });
-
 
 export default connect(
     mapStateToProps,

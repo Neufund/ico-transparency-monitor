@@ -1,6 +1,6 @@
 import { initStatistics } from '../utils';
 
-const scan = (state = { stats: initStatistics(), currency: null, currencyValue: 0, showLoader: false }, action) => {
+const scan = (state = { stats: initStatistics(), currency: null, currencyValue: 0, showLoader: false, showStats: false }, action) => {
   switch (action.type) {
     case 'DRAW_STATS':
       console.log(`New statistics are ${action.state}`);
@@ -16,6 +16,9 @@ const scan = (state = { stats: initStatistics(), currency: null, currencyValue: 
 
     case 'HIDE_LOADER':
       return { ...state, showLoader: false };
+
+    case 'SHOW_STATS':
+      return { ...state, showStats: true };
     default:
       return state;
   }

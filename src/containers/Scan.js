@@ -11,7 +11,6 @@ import { web3Connection, getLogs } from '../reducers/web3';
 class Scan extends Component {
   constructor(props) {
     super(props);
-    props.rpcConnection();
   }
 
   componentDidMount() {
@@ -19,6 +18,7 @@ class Scan extends Component {
   }
 
   render() {
+
     return (
       <div className="App">
         <div>
@@ -38,10 +38,10 @@ class Scan extends Component {
           </Grid>
 
           <Grid className="scanbox ico-box-scan">
-            <ICO ico={this.props.ico} inner address={this.props.address} />
-            <ScanBoxLoadingMessage show={this.props.showLoaderState} />
-            {console.log('currency is', this.props.currencyValue)}
-            {this.props.currencyValue && <ScanBoxDetails address={this.props.address} /> }
+
+            {<ICO ico={this.props.ico} isInSingleICOView address={this.props.address} />}
+            {!this.props.isShowStats && <ScanBoxLoadingMessage />}
+            {this.props.isShowStats && <ScanBoxDetails address={this.props.address} /> }
           </Grid>
         </div>
       </div>
@@ -54,8 +54,8 @@ const mapStateToProps = (state, props) => {
   return {
     address,
     ico: config.ICOs[address],
-    showLoaderState: state.scan.showLoader,
     currencyValue: state.currency.value,
+    isShowStats: state.scan.showStats,
     web3: state.modal.web3,
   };
 };
@@ -63,10 +63,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   getLogs: (address) => {
     dispatch(getLogs(address));
-  },
-  rpcConnection: () => {
-    dispatch(web3Connection());
-  },
+  }
 });
 
 export default connect(

@@ -76,6 +76,14 @@ class ContentTable extends Component {
   }
 }
 
+const ErrorModal = ({ code , title , message }) => (<div>
+    <div>
+      <h3>{title}</h3>
+      <p>{message}</p>
+      <a href="/" >Reload</a>
+    </div>
+  </div>);
+
 const MessageModal = ({ type, message }) => (
   <div>
     <div>
@@ -91,13 +99,21 @@ class TransparencyModal extends Component {
 
   render() {
     const { showModal, onModalClose, messageType, currentICO, message } = this.props;
-    if (messageType === 'SHOW_MODAL_ERROR' || messageType === 'SHOW_MODAL_MESSAGE') {
+    if (messageType === 'SHOW_MODAL_MESSAGE') {
       return (showModal === true && <ModalContainer onClose={onModalClose}>
         <ModalDialog onClose={onModalClose}>
           <MessageModal type={messageType} message={message} />
         </ModalDialog>
       </ModalContainer>);
-    } return (showModal === true && Object.keys(currentICO).length > 0 && <ModalContainer onClose={onModalClose}>
+    }else if ( messageType === 'SHOW_MODAL_ERROR') {
+      return (showModal === true && <ModalContainer onClose={onModalClose}>
+        <ModalDialog onClose={onModalClose}>
+        <ErrorModal code={503} title="RPC connection fail"  message={`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`}/>
+        </ModalDialog>
+        </ModalContainer>)
+    }
+
+    return (showModal === true && Object.keys(currentICO).length > 0 && <ModalContainer onClose={onModalClose}>
 
       <ModalDialog onClose={onModalClose}>
         <ContentTable currentICO={currentICO} />
@@ -105,7 +121,6 @@ class TransparencyModal extends Component {
     </ModalContainer>);
   }
 }
-
 
 const mapStateToProps = state => ({
   showModal: state.modal.showModal,

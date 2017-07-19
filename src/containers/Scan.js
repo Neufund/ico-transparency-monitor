@@ -18,6 +18,7 @@ class Scan extends Component {
   }
 
   render() {
+
     return (
       <div className="App">
         <div>
@@ -37,7 +38,8 @@ class Scan extends Component {
           </Grid>
 
           <Grid className="scanbox ico-box-scan">
-            <ICO ico={this.props.ico} isInSingleICOView address={this.props.address} />
+
+            {<ICO ico={this.props.ico} isInSingleICOView address={this.props.address} />}
             {!this.props.showStats && <ScanBoxLoadingMessage show={this.props.showLoaderState} />}
             {this.props.showStats && <ScanBoxDetails address={this.props.address} /> }
           </Grid>

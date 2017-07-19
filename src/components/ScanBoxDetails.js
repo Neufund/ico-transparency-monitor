@@ -8,7 +8,6 @@ import { SingleBarChart } from './charts';
 import { default as config } from '../config.js';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
-  {console.log(props)}
   <Row className="statistics">
     {console.log('ScanBoxDetails component did mout')}
     <Col md={12} className="scan-content">

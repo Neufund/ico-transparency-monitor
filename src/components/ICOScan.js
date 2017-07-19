@@ -11,7 +11,7 @@ const ICOScan = ({ ...props }) => (<div>
     <div id="loadingProgressG" className={props.showLoader === true ? 'show' : 'hide'}>
       <div id="loadingProgressG_1" className="loadingProgressG" />
     </div>
-    {!props.showLoader && <Col md={12}>
+    {!props.showLoader && props.web3 && <Col md={12}>
       <Row>
         <Col md={2} className="part">
           <p className="title">Token Cap</p>
@@ -51,6 +51,7 @@ const mapStateToProps = (state, props) => ({
   ...state.ICO.icos[props.address],
   ...config.ICOs[props.address],
   showLoader: state.scan.showLoader,
+  web3 : state.modal.web3
 });
 export default connect(
     mapStateToProps,

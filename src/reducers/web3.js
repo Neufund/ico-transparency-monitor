@@ -13,10 +13,11 @@ export const web3Connection = () => async (dispatch, getState) => {
     await dispatch(errorMessage());
     return;
   }
-
+  console.log("Web3 before assign",getState().modal.web3);
   if (getState().modal.web3) { return; }
 
   const web3 = web3Connect();
+  console.log(web3,"after");
   await dispatch({ type: 'SET_WEB3_CONNECTION', web3 });
 };
 

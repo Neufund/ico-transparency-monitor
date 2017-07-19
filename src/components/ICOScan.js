@@ -11,10 +11,10 @@ const ICOScan = ({ ...props }) => (<div>
     <div id="loadingProgressG" className={props.showLoader === true ? 'show' : 'hide'}>
       <div id="loadingProgressG_1" className="loadingProgressG" />
     </div>
-    {!props.showLoader && <Col md={12}>
+    {!props.showLoader && props.web3 && <Col md={12}>
       <Row>
         <Col md={2} className="part">
-          <p className="title">Token Cap</p>
+          <p className="title">Declared Cap</p>
           <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>
         </Col>
         <Col md={3} className="part">
@@ -38,9 +38,6 @@ const ICOScan = ({ ...props }) => (<div>
           </div>
         </Col>
       </Row>
-      <Row>
-        <Col md={12}> <p>ICO Terms as declared in Smart Contract:</p></Col>
-      </Row>
     </Col>}
   </Row>
 </div>
@@ -51,6 +48,7 @@ const mapStateToProps = (state, props) => ({
   ...state.ICO.icos[props.address],
   ...config.ICOs[props.address],
   showLoader: state.scan.showLoader,
+  web3 : state.modal.web3
 });
 export default connect(
     mapStateToProps,

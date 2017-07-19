@@ -1,10 +1,10 @@
 import { default as config } from '../config.js';
-import { getSmartContractConstants, isConnected, web3Connect } from '../utils/web3';
+import { getICOParameters, isConnected, web3Connect } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
-import { decisionMatrix } from '../utils';
+import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
-import { setCurrency } from '../actions/CurrencyAction';
-import { drawStatistics, hideLoader, showLoader, allocateCSVFile } from '../actions/ScanAction';
+import { setCurrency, setCurrencyAction } from '../actions/CurrencyAction';
+import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile } from '../actions/ScanAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
   console.log('Start Web3 connection');
@@ -27,10 +27,10 @@ export const readSmartContract = address => async (dispatch, getState) => {
     return;
   }
   const matrix = config.ICOs[address].matrix;
-  const transparencyDecision = decisionMatrix(matrix)[0];
+  const transparencyDecision = computeICOTransparency(matrix)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
-  getSmartContractConstants(web3, address).then((parameters) => {
+  getICOParameters(web3, address).then((parameters) => {
     Object.keys(parameters).forEach((constant) => {
       const parameter = parameters[constant];
       if (parameter === null) return;
@@ -58,24 +58,32 @@ export const getLogs = address => async (dispatch, getState) => {
     dispatch(errorMessage());
     return;
   }
-  console.log('Start working on logs');
-  getICOLogs(web3, address, async (error, logs) => {
-    dispatch(hideLoader());
-
-    if (error || logs.length === 0) dispatch({ type: error });
-    else {
-            // 1- set currency
-            // 2- read smart contract
-            // 3- get statistics
-            // 4- dispatch statistics to the state
-      setCurrency('EUR', 'NOW', dispatch);
-      const smartContractConstants = await getSmartContractConstants(web3, address);
-      const ico = config.ICOs[address];
-      ico.decimals = smartContractConstants.decimals;
-      const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
-            // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
-      dispatch(drawStatistics(statistics[0]));
-      dispatch(allocateCSVFile(statistics[1]));
+  setCurrency('EUR', new Date(), (error , currencyResult) => {
+    if(error) {
+      dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
+      return;
     }
+
+    dispatch(setCurrencyAction(currencyResult.currency, currencyResult.value, currencyResult.time ));
+    console.log('Start working on logs');
+
+    getICOLogs(web3, address, async (error, logs) => {
+      dispatch(hideLoader());
+
+      if (error || logs.length === 0) dispatch({ type: error });
+      else {
+        const currencyRate = currencyResult.value;
+        console.log('Fetched Currency is ', currencyRate);
+        const smartContractConstants = await getICOParameters(web3, address);
+        const ico = config.ICOs[address];
+        ico.decimals = smartContractConstants.decimals;
+
+
+        const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
+	// statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
+        dispatch(drawStatistics(statistics[0]));
+        dispatch(allocateCSVFile(statistics[1]));
+      }
+    });
   });
 };

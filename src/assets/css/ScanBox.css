@@ -196,23 +196,28 @@ font-weight: normal;
 }
 .chart-parent{
   position: relative;
-  height:320px;
-  margin-bottom:20px;
+  height:351px;
+  padding-bottom:20px;
 }
 .chart-body{
   position: absolute;
-  top:20px;
+  margin-top:26px;
   width: 100%;
 }
 .chart-parent .x-axis-label{
   position: absolute;
-  left: 50%;
+  right: 0;
   bottom: 0;
+  font-size: 13px;
+}
+.chart-parent .title{
+  text-align: center;
 }
 .chart-parent .y-axis-label{
   position: absolute;
-  top: 0;
+  top: 40px;
   left: 20px;
+  font-size: 13px;
 }
 .chart-btn{
   background: white;
@@ -230,4 +235,3 @@ font-weight: normal;
 .row{
   margin-bottom: 40px;
 }
-

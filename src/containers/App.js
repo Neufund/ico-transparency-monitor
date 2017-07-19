@@ -10,6 +10,6 @@ export default ({ ...props }) => (
     <Header />
     <Grid fluid>
       {getICOs().map(ico => <ICO key={ico.address} ico={ico} address={ico.address} />)}
-    </Grid>}
+    </Grid>
   </div>
   );

@@ -11,7 +11,7 @@ const ICOApp = ({ ...props }) => (
         <Col lg={3} md={4} className="name">
           <Row>
             <Col lg={3} xs={2} className="ico-logo">
-              <img src={props.information.logo} alt={props.address} />
+              <img src={props.information.logo} alt={props.address}/>
             </Col>
             <Col lg={8} xs={9} className="ico-desc">
               <h4><a href={`/#/${props.address}`}> {props.name || props.information.aliasName}</a>

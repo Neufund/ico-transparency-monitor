@@ -2,6 +2,8 @@ export const drawStatistics = statistics => ({ type: 'DRAW_STATS', stats: statis
 
 export const allocateCSVFile = statistics => ({ type: 'CSV_FILE', csvContent: statistics });
 
+export const showStatistics = () => ({ type: 'SHOW_STATS' });
+
 export const showLoader = () => ({ type: 'SHOW_LOADER' });
 
 export const hideLoader = () => ({ type: 'HIDE_LOADER' });

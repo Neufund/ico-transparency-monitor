@@ -19,48 +19,43 @@ export const toPromise = func => (...args) =>
         func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
     );
 
-
-export const formatDate = (datetime, fullFormat = true) => fullFormat ? moment.utc(datetime).format('YYYY-MM-DD HH:mm:ss') : moment.utc(datetime).format('YYYY-MM-DD');
-
 export const formatNumber = (number) => {
   if (isNaN(number) || typeof number === 'undefined') { return 'Not Available'; }
   if (number === undefined || !number || typeof number !== 'number') { return number; }
   return number.toFixed(2).replace(/./g, (c, i, a) => i && c !== '.' && ((a.length - i) % 3 === 0) ? `,${c}` : c);
 };
 
-export const decisionMatrix = (matrix) => {
-  const questionMatrix = config.matrix;
-  const nonTransparent = {};
-  const transparentWithIssues = {};
+export const computeICOTransparency = (answers) => {
+  const nonTransparentAnswers = {};
+  const transparentWithIssuesAnswers = {};
 
-  Object.keys(matrix).forEach((key) => {
-    const currentQuestion = matrix[key];
-    const mappedQuestionMatrix = questionMatrix[key];
-
-    if (mappedQuestionMatrix.critical && mappedQuestionMatrix.notApplicable === false && currentQuestion.answer === false) { nonTransparent[key] = currentQuestion.comment; } else if (mappedQuestionMatrix.critical === false && mappedQuestionMatrix.notApplicable === false && currentQuestion.answer === false) {
-      transparentWithIssues[key] = currentQuestion.comment;
+  for(let key in config.matrix) {
+    if (config.matrix.hasOwnProperty(key)) {
+      const answer = answers[key];
+      const definition = config.matrix[key];
+      // return lists of transparent-with-issues and non-transparent a answers
+      if (answer.answer == false || answer.answer === null && !definition.notApplicable)
+        (definition.critical ? nonTransparentAnswers : transparentWithIssuesAnswers)[key] = answer.comment;
     }
-  });
+  }
 
-  if (Object.keys(nonTransparent).length === 0 && Object.keys(transparentWithIssues).length === 0) { return ['Transparent', []]; } else if (Object.keys(nonTransparent).length !== 0) { return ['Non Transparent', nonTransparent]; } else if (Object.keys(transparentWithIssues).length !== 0) { return ['With issues', transparentWithIssues]; }
-  return [];
+  if (Object.keys(nonTransparentAnswers).length !== 0)
+    return ['Non Transparent', nonTransparentAnswers];
+  if (Object.keys(transparentWithIssuesAnswers).length !== 0)
+    return ['With issues', transparentWithIssuesAnswers];
+  return ['Transparent', []];
 };
 
-Date.prototype.yyyymmdd = function () {
-  const mm = this.getMonth() + 1;
-  const dd = this.getDate();
-
-  return [this.getFullYear(),
-    (mm > 9 ? '' : '0') + mm,
-    (dd > 9 ? '' : '0') + dd,
-  ].join('-');
+Date.prototype.formatDate = function(fullFormat = false) {
+  return moment(this).format(fullFormat ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
 };
 
 String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-export const getEtherPerCurrency = async (currency, date) => axios.get(`https://api.coinbase.com/v2/prices/${currency}/spot?date=${date}`);
+// coinbase requires UTC string
+export const getEtherRate = async (currency, time) => axios.get(`https://api.coinbase.com/v2/prices/${currency}/spot?date=${time.toISOString()}`);
 
 export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
   const ico = config.ICOs[icoKey];
@@ -77,6 +72,7 @@ export const getValueOrNotAvailable = (props, input) => props && props[input] ? 
  */
 
 export const getICOLogs = (web3, address, callback) => {
+  console.log('Start scanning the ICO');
   if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
     console.log(`${address} cached already.`);
     return callback(null, JSON.parse(localStorage.getItem(address)));
@@ -101,8 +97,8 @@ export const getICOLogs = (web3, address, callback) => {
     url: config.rpcHost,
     Accept: 'application/json',
     contentType: 'application/json',
-        // TODO: request data from cache
-        // headers: {'X-Cache-Long': 'true'},
+    // TODO: request data from cache
+    headers: {'X-Node-Cache': 'long'},
     data: JSON.stringify({
       id: 1497353430507566,
       jsonrpc: '2.0',
@@ -240,7 +236,7 @@ const mapEventIntoTimeScale = (event, timeScale) => {
   const data = {
     hours: moment.utc(datetime).format('YYYY-MM-DD HH'),
     blocks: event.blockNumber,
-    days: formatDate(datetime, false),
+    days: datetime.formatDate()
   };
   return data[timeScale];
 };
@@ -250,6 +246,7 @@ export const analyzeIssuedTokens = (tokenSupply, issuedToken) => {
   return tokens.valueOf();
 };
 
+// todo: use moment library here
 const getDurationFormat = duration => `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
             ${duration.get('months') > 0 ? `${duration.get('months')} Months` : ''}
             ${duration.get('days') > 0 ? `${duration.get('days')} Days` : ''}
@@ -331,11 +328,14 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     return;
   }
   const csvContentArray = [];
-  const startTime = new Date(events[0].timestamp * 1000);
-  statisticsICO.time.startDate = formatDate(startTime);
+  const startTimestamp = events[0].timestamp;
+  const endTimestamp = events[events.length - 1].timestamp;
 
-  const endTime = new Date(events[events.length - 1].timestamp * 1000);
-  statisticsICO.time.endDate = formatDate(endTime);
+  const startTime = new Date(startTimestamp * 1000);
+  statisticsICO.time.startDate = startTime;
+
+  const endTime = new Date(endTimestamp * 1000);
+  statisticsICO.time.endDate = endTime;
   const icoDuration = moment.duration(moment(endTime).diff(moment(startTime)));
 
   statisticsICO.time.durationDays = icoDuration.get('days');
@@ -352,37 +352,32 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
 
     // todo: how are you going to know what timescale is used by getChartTimescale to set up axis display on chart properly?
 
-  const startTimestamp = events[0].timestamp;
-  const endTimestamp = events[events.length - 1].timestamp;
-
   const duration = moment.duration(moment(new Date(endTimestamp * 1000)).diff(moment(new Date(startTimestamp * 1000))));
   const daysNumber = duration._data.days;
 
   const format = getChartTimescale(daysNumber);
 
   console.log(events[0].blockNumber, events[events.length - 1].blockNumber);
+  const eventArgs = selectedICO.event.args;
   for (let i = 0; i < events.length; i++) {
     //  Transaction Id
     //  investor_address
     //  Tokens Amount
     //  Ether Value
     const item = events[i];
+    const tokenValue = item.args[eventArgs.tokens].valueOf() / factor;
+    const etherValue = web3.fromWei(eventArgs.ether ? item.args[eventArgs.ether] : item.value, 'ether').valueOf();
 
-    const tokenValue = item.args[selectedICO.event.args.tokens].valueOf() / factor;
-    const etherValue = web3.fromWei(item.value, 'ether').valueOf();
-
-    const investor = item.args[selectedICO.event.args.sender];
-
+    const investor = item.args[eventArgs.sender];
     csvContentArray.push([investor, tokenValue, etherValue, formatDate(new Date(item.timestamp) * 1000, true)]);
 
     const blockDate = mapEventIntoTimeScale(item, format);
-    if (chartTokenCountTemp[blockDate] == undefined) { chartTokenCountTemp[blockDate] = 0; }
 
+    const blockDate = mapEventIntoTimeScale(item, format);
+    if (chartTokenCountTemp[blockDate] == undefined) { chartTokenCountTemp[blockDate] = 0; }
     chartTokenCountTemp[blockDate] += 1;
 
     if (chartAmountTemp[blockDate] == undefined) { chartAmountTemp[blockDate] = 0; }
-
-
     chartAmountTemp[blockDate] += tokenValue;
 
     const senders = statisticsICO.investors.senders;
@@ -417,6 +412,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     // Initialize the chart of investors by ether value
   statisticsICO.etherDataset = ethersDataset;
   const distribution = getDistributedDataFromDataset(ethersDataset, currencyPerEther);
+  console.log(currencyPerEther, distribution);
   statisticsICO.charts.investorsDistribution = distribution[0];
   statisticsICO.charts.investmentDistribution = distribution[1];
 
@@ -424,5 +420,6 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
         statisticsICO.money.tokenIssued,
         statisticsICO.investors.sendersSortedArray
     );
+  console.log('stats done');
   return [statisticsICO, csvContentArray];
 };

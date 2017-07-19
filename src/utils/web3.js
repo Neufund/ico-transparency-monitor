@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import { default as config } from '../config.js';
-import { toPromise, formatDate, expectException } from '../utils';
+import { toPromise, expectException } from '../utils';
 
 const ProviderEngine = require('web3-provider-engine');
 const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
@@ -75,7 +75,7 @@ export const getWeb3 = () => {
 };
 
 
-const getSmartContractDirectParameters = async (smartContract) => {
+const getERC20Parameters = async (smartContract) => {
   const name = smartContract.name ? await toPromise(smartContract.name)() : null;
   const totalSupply = smartContract.totalSupply ? await toPromise(smartContract.totalSupply)() : null;
   const symbol = smartContract.symbol ? await toPromise(smartContract.symbol)() : null;
@@ -89,35 +89,31 @@ const getSmartContractDirectParameters = async (smartContract) => {
   };
 };
 
-export const getSmartContractConstants = async (web3, address) => {
-  let parameterAddress = address;
-
-  if (typeof config.ICOs[address].tokenContract !== 'undefined') { parameterAddress = config.ICOs[address].tokenContract; }
-
-  const smartContract = getSmartContract(web3, parameterAddress);
-  const result = await getSmartContractDirectParameters(smartContract);
-
-  const constants = config.ICOs[address].icoParameters; // constants from the config
-
-
-  Object.keys(constants).forEach((constant) => {
-    if (constants[constant] === null) return;
-    result[constant] = constants[constant](smartContract);
+export const getICOParameters = async (web3, address) => {
+  // tokenContract may be different that ICO contract that governs ICO process
+  const tokenContractAddress = config.ICOs[address].tokenContract || address;
+  const tokenContract = getSmartContract(web3, tokenContractAddress);
+  // read standard ERC20 parameters
+  const result = await getERC20Parameters(tokenContract);
+  const icoContract = tokenContractAddress === address ? tokenContract : getSmartContract(web3, address);
+  const icoParameters = config.ICOs[address].icoParameters;
+  Object.keys(icoParameters).forEach((prop) => {
+    if (icoParameters[prop] !== null)
+      result[prop] = icoParameters[prop](icoContract);
   });
-
-  result.decimals = typeof smartContract.decimals !== 'undefined' ? await toPromise(smartContract.decimals)() : config.defaultDecimal;
 
   return result;
 };
 
-export const constantValueOf = (constant, type) => async (web3) => {
+export const convertBlockNumberToDate = async (blockNumber) => {
+  const timestamp = (await toPromise(window.web3.eth.getBlock)(blockNumber.valueOf())).timestamp;
+  return new Date(parseInt(timestamp) * 1000);
+};
+
+export const convertWeb3Value = (value, type) => {
   switch (type) {
-    case 'string' :return constant;
-    case 'uint256' :return web3.fromWei(constant, 'ether').valueOf();
-    case 'timestamp' :return formatDate(new Date(parseInt(constant.valueOf()) * 1000), false);
-    case 'blockNumber':
-      const timestamp = (await toPromise(web3.eth.getBlock)(constant.valueOf())).timestamp;
-      return formatDate(new Date(parseInt(timestamp) * 1000), false);
-    default: return null;
+    case 'string' :return value;
+    case 'ether' :return window.web3.fromWei(value, 'ether').valueOf();
+    case 'timestamp' :return new Date(parseInt(value.valueOf()) * 1000);
   }
 };

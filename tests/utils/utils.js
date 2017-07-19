@@ -1,8 +1,8 @@
 import { assert, expect, should } from 'chai';
 import {
     formateDate,
-    decisionMatrix,
-    getEtherPerCurrency,
+    computeICOTransparency,
+    getEtherRate,
     getICOs,
     getValueOrNotAvailable,
     getStatistics,
@@ -19,13 +19,13 @@ describe('Format Date function', () => {
 
 describe('Decision Matrix', () => {
   it('Should take ico decision matrix and return and array', () => {
-    assert.typeOf(decisionMatrix(config.ICOs['0xa74476443119a942de498590fe1f2454d7d4ac0d'].matrix),
+    assert.typeOf(computeICOTransparency(config.ICOs['0xa74476443119a942de498590fe1f2454d7d4ac0d'].matrix),
             'Array');
   });
 });
 
-describe('getEtherPerCurrency', () => {
-  it('Should return the currency by time', () => getEtherPerCurrency('ETH-EUR', '2016-11-03').then((result) => {
+describe('getEtherRate', () => {
+  it('Should return the currency by time', () => getEtherRate('ETH-EUR', new Date('2016-11-03')).then((result) => {
     assert.equal(result.data.data.amount, '9.64');
   }).catch((error) => {
     assert.equal(error, null);

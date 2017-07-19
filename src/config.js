@@ -1,5 +1,5 @@
 import { toPromise } from './utils';
-import { constantValueOf, getSmartContract } from './utils/web3';
+import { convertWeb3Value, convertBlockNumberToDate } from './utils/web3';
 
 const rpcHost = require('./env.json').rpcHost;
 
@@ -18,46 +18,41 @@ export default {
         },
         name: 'Transfer',
         customArgs: {
-          _from: '0x0000000000000000000000000000000000000000',
+          _from: '0x0000000000000000000000000000000000000000'
         },
         firstTransactionBlockNumber: 2607801,
-        lastTransactionBlockNumber: 2607939,
+        lastTransactionBlockNumber: 2607938 // use block number to skip tokens created in finalize()
       },
       icoParameters: {
         cap: async (icoContract) => {
           const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
-          return maxCap / 10 ** 18;
-        },
-        capString: async (icoContract) => {
-          const maxCap = await toPromise(icoContract.tokenCreationRate)().valueOf();
           const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-          return `Maximum Cap: ${maxCap / 10 ** 18}, Min Cap: ${minCap / 10 ** 18}`;
+          return `Max: ${maxCap / 10 ** 18}\n Min: ${minCap / 10 ** 18}`;
         },
         startDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingStartBlock)();
-          return constantValueOf(blockNumber, 'blockNumber');
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
         },
         endDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingEndBlock)();
-          return constantValueOf(blockNumber, 'blockNumber');
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
         },
-        status: async icoContract => 'WAITING',
+        status: async icoContract => 'successful', // we know that because it is over, we could write some condition instead
       },
       matrix: {
-        q1: { answer: true, comment: '' },
-        q2: { answer: true, comment: '' },
-        q3: { answer: false, comment: 'Source code is not exists' },
-        q4: { answer: true, comment: '' },
-        q5: { answer: true, comment: '' },
-        q6: { answer: true, comment: '' },
-        q7: { answer: null, comment: '' },
-        q8: { answer: true, comment: '' },
-        q9: { answer: false, comment: '' },
-        q10: { answer: true, comment: '' },
-        q11: { answer: true, comment: '' },
-        q12: { answer: true, comment: '' },
-        q13: { answer: true, comment: '' },
-        q14: { answer: true, comment: '' },
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true},
+        q12: { answer: true},
+        q13: { answer: true},
+        q14: { answer: true},
       },
     },
     '0x3BF541f87056D134E0109BE1Be92978b26Cb09e0': {
@@ -82,12 +77,12 @@ export default {
                     // return 10**18;
                      async () => 10 ** 18,
         startDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.startTime)();
-          return constantValueOf(blockNumber, 'timestamp');
+          const timestamp = await toPromise(icoContract.startTime)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         endDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.endTime)();
-          return constantValueOf(blockNumber, 'timestamp');
+          const timestamp = await toPromise(icoContract.endTime)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         status: async icoContract => 'WAITING',
 
@@ -144,7 +139,6 @@ export default {
 
     },
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {
-            // tokenContract:'0x331d077518216c07c87f4f18ba64cd384c411f84',
       information: {
         aliasName: 'TAAS',
         logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
@@ -163,29 +157,29 @@ export default {
         lastTransactionBlockNumber: 3648684,
       },
       icoParameters: {
-        cap: async icoContract => null,
-        startDate: async icoContract => null,
-        endDate: async icoContract => null,
-        status: async icoContract => null,
+        cap: async icoContract => 'not provided',
+        startDate: async icoContract => 'not provided',
+        endDate: async icoContract => 'not provided',
+        status: async icoContract => 'not provided',
       },
       matrix: {
-        q1: { answer: true, comment: '' },
-        q2: { answer: true, comment: '' },
-        q3: { answer: false, comment: 'Source code is not exists' },
-        q4: { answer: true, comment: '' },
-        q5: { answer: false, comment: '' },
-        q6: { answer: false, comment: 'Dont provide the smart contract on etherscan' },
-        q7: { answer: null, comment: '' },
-        q8: { answer: true, comment: '' },
-        q9: { answer: false, comment: '' },
-        q10: { answer: true, comment: '' },
-        q11: { answer: true, comment: '' },
-        q12: { answer: true, comment: '' },
-        q13: { answer: true, comment: '' },
-        q14: { answer: true, comment: '' },
+        q1: { answer: true},
+        q2: { answer: false, comment: 'Source code provided is just this proxy over EToken2 contract with address 0x331d077518216c07c87f4f18ba64cd384c411f84, basically useless.' },
+        q3: { answer: false},
+        q4: { answer: null},
+        q5: { answer: null},
+        q6: { answer: false, comment: 'Ether is not sent to smart contract, probably handled on backend' },
+        q7: { answer: null},
+        q8: { answer: null,},
+        q9: { answer: null},
+        q10: { answer: null},
+        q12: { answer: null},
+        q13: { answer: null},
+        q14: { answer: null},
       },
     },
-    '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E': {
+    '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c': {
+      tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
       information: {
         aliasName: 'StatusNetwork',
         logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
@@ -193,38 +187,43 @@ export default {
       },
       event: {
         args: {
-          tokens: '_amount',
-          sender: '_to',
+          tokens: '_tokens',
+          sender: '_th',
+          ether: '_amount' // status ICO logs actual ether value !== transaction ether as they return overflow to sender
         },
-        customArgs: {
-          _from: '0x0000000000000000000000000000000000000000',
-        },
-        name: 'Transfer',
+        name: 'NewSale',
       },
       icoParameters: {
-        cap: async icoContract => null,
-        startDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.creationBlock)();
-          return constantValueOf(blockNumber, 'blockNumber');
+        cap: async (icoContract) => {
+          const failSafeETH = await toPromise(icoContract.failSafeLimit)();
+          return `${convertWeb3Value(failSafeETH, 'ether')} ETH`
         },
-        endDate: async icoContract => null,
-        status: async icoContract => null,
+        startDate: async (icoContract) => {
+          const blockNumber = await toPromise(icoContract.startBlock)();
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
+        },
+        endDate: async (icoContract) => {
+          const blockNumber = await toPromise(icoContract.endBlock)();
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
+        },
+        // again we could write a proper check here for example by checking finalizedBlock value
+        // however we already know that ICO was succesful
+        status: async icoContract => 'successful',
       },
       matrix: {
-        q1: { answer: true, comment: '' },
-        q2: { answer: true, comment: '' },
-        q3: { answer: false, comment: 'Source code is not exists' },
-        q4: { answer: true, comment: '' },
-        q5: { answer: true, comment: '' },
-        q6: { answer: true, comment: '' },
-        q7: { answer: null, comment: '' },
-        q8: { answer: true, comment: '' },
-        q9: { answer: false, comment: '' },
-        q10: { answer: true, comment: '' },
-        q11: { answer: true, comment: '' },
-        q12: { answer: true, comment: '' },
-        q13: { answer: true, comment: '' },
-        q14: { answer: true, comment: '' },
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true, comment: 'Code has high quality' },
+        q12: { answer: true, comment: 'exchangeRate is constant' },
+        q13: { answer: true, comment: 'yes, with multiple rounds' },
+        q14: { answer: false, comment: 'no, ICO can be stopped and rounds revealed at owner whim' },
       },
     },
   },
@@ -233,7 +232,7 @@ export default {
   defaultDecimal: 18,
   matrix: {
     q1: { question: 'Is ICO controlled by a smart contract?', critical: false, notApplicable: false },
-    q2: { question: 'Is smart contract source code available?', critical: false, notApplicable: false },
+    q2: { question: 'Is smart contract source code available?', critical: true, notApplicable: false },
     q3: { question: 'Is smart contract source code provided in etherscan?', critical: false, notApplicable: false },
     q4: {
       question: 'Is instruction provided how to reproduce deployed bytecode? (does not apply if etherscan source is there)',
@@ -248,37 +247,37 @@ export default {
     q6: {
       question: 'Is information on token price in ETH provided? (via event or in transaction?)',
       critical: true,
-      notApplicable: false,
+      notApplicable: true,
     },
-    q7: { question: 'Does smart contract handle ETH in a trustless way?', critical: false, notApplicable: false },
+    q7: { question: 'Does smart contract handle ETH in a trustless way?', critical: false, notApplicable: true },
     q8: {
       question: 'If ICO is using other currencies is information on token price provided?',
-      critical: false,
-      notApplicable: false,
+      critical: true,
+      notApplicable: true,
     },
     q9: {
       question: 'Does smart contract handle other currencies in a trust less way? Does some smart contract store balance of those currencies?',
       critical: false,
-      notApplicable: false,
+      notApplicable: true,
     },
     q10: {
       question: 'Was smart contract code easy to read and properly commented?',
       critical: false,
       notApplicable: false,
     },
-    q11: {
+    /*q11: {
       question: 'Is the ICO doing exactly the same what they say on their website?',
       critical: false,
       notApplicable: false,
-    },
+    },*/
     q12: { question: 'Is price of the token deterministic?', critical: false, notApplicable: false },
     q13: {
-      question: 'Is ICO start condition deterministic? (block number, date are OK',
+      question: 'Is ICO start condition specified in contract?',
       critical: false,
       notApplicable: false,
     },
     q14: {
-      question: 'Is ICO end condition specified? (block number, date, cap reached, price reached, any other algo in smart contract)',
+      question: 'Is ICO end condition specified in contract?',
       critical: false,
       notApplicable: false,
     },

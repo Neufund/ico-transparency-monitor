@@ -1,7 +1,7 @@
 import { default as config } from '../config.js';
-import { getSmartContractConstants, isConnected, web3Connect } from '../utils/web3';
+import { getICOParameters, isConnected, web3Connect } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
-import { decisionMatrix } from '../utils';
+import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
 import { setCurrency } from '../actions/CurrencyAction';
 import { drawStatistics, hideLoader, showLoader } from '../actions/ScanAction';
@@ -27,10 +27,10 @@ export const readSmartContract = address => async (dispatch, getState) => {
     return;
   }
   const matrix = config.ICOs[address].matrix;
-  const transparencyDecision = decisionMatrix(matrix)[0];
+  const transparencyDecision = computeICOTransparency(matrix)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
-  getSmartContractConstants(web3, address).then((parameters) => {
+  getICOParameters(web3, address).then((parameters) => {
     Object.keys(parameters).forEach((constant) => {
       const parameter = parameters[constant];
       if (parameter === null) return;
@@ -68,8 +68,8 @@ export const getLogs = address => async (dispatch, getState) => {
             // 2- read smart contract
             // 3- get statistics
             // 4- dispatch statistics to the state
-      setCurrency('EUR', 'NOW', dispatch);
-      const smartContractConstants = await getSmartContractConstants(web3, address);
+      setCurrency('EUR', new Date(), dispatch);
+      const smartContractConstants = await getICOParameters(web3, address);
       const ico = config.ICOs[address];
       ico.decimals = smartContractConstants.decimals;
       const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);

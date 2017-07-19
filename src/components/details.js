@@ -9,11 +9,11 @@ export const TimeDetails = ({ startDate, endDate, duration }) => (
         <tbody>
           <tr>
             <th>First transaction date</th>
-            <td>{startDate}</td>
+            <td>{startDate.formatDate(true)}</td>
           </tr>
           <tr>
             <th>Last transaction date</th>
-            <td>{endDate}</td>
+            <td>{endDate.formatDate(true)}</td>
           </tr>
           <tr>
             <th>Duration</th>
@@ -51,9 +51,9 @@ export const TokenIssued = ({ totalSupply, tokenIssued }) => (
             <td>{formatNumber(tokenIssued)}</td>
           </tr>
 
-          {analyzeIssuedTokens(totalSupply, tokenIssued) < 0 &&
+          {analyzeIssuedTokens(totalSupply, tokenIssued) != 0 &&
           <tr>
-            <th>Number of tokens created outside if ICO <i>*those tokens are not part of results below*</i></th>
+            <th>Number of tokens created outside of ICO <br/><i>*those tokens are not part of results below*</i></th>
             <td>{`${analyzeIssuedTokens(totalSupply, tokenIssued)} tokens`}</td>
           </tr>
                 }

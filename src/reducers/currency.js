@@ -1,4 +1,4 @@
-export const currency = (state = { currency: 'EUR', value: null, time: new Date().yyyymmdd() }, action) => {
+export const currency = (state = { currency: 'EUR', value: null, time: new Date() }, action) => {
   switch (action.type) {
 
     case 'SET_CURRENCY':

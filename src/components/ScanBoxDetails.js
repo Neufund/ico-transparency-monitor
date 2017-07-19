@@ -20,29 +20,21 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
   <Row className="statistics">
     <Col md={6}>
-      <p>
-                    Chart Title: Tokens Created over Time
-                    X Axis: depends on time scale (Blocks, Hours, Days)
-                    Y Axis: Tokens Created
-                </p>
       <SingleBarChart
+        title="Tokens over time"
         data={props.stats.charts.transactionsCount}
         dataKey={`Tokens/${props.stats.time.scale}`}
         xLabel={props.stats.time.scale.capitalizeTxt()}
-        yLabel="Transactions"
+        yLabel="Tokens"
       />
     </Col>
     <Col md={6}>
-      <p>
-                    Chart Title: Transactions over Time
-                    X Axis: depends on time scale (Blocks, Hours, Days)
-                    Y Axis: Transaction
-                </p>
       <SingleBarChart
+        title="Transactions over time"
         data={props.stats.charts.tokensCount}
         dataKey="Transactions/Time"
         xLabel={props.stats.time.scale.capitalizeTxt()}
-        yLabel="Tokens"
+        yLabel="Transactions"
       />
     </Col>
   </Row>
@@ -60,10 +52,9 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           tokenHolders={props.stats.charts.tokenHolders}
         />
       </Col>
-      <Col md={6}>
-        <p />
-
+      <Col md={6} >
         <SingleBarChart
+          title="Token holders distribution"
           dataKey="TokenHolders"
           data={props.stats.charts.tokenHolders}
           xLabel={'Top Wealthiest Investors'}
@@ -79,19 +70,25 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     <GroupButtons currencyValue={props.currencyValue} currency={props.currency} />
     <Row>
       <Col md={12}>
-        <p>Title: Number of Investors with Ticket of Size
-                        X Axis: Ticket Size in [currency]
-                        Y Axis: Number of Investors</p>
 
-        <SingleBarChart data={props.stats.charts.investorsDistribution} dataKey="Investors" />
+        <SingleBarChart
+          data={props.stats.charts.investorsDistribution}
+          dataKey="Investors"
+          title="Number of Investors with Ticket of Size"
+          xLabel={`Ticket Size in [${props.currency}]`}
+          yLabel="Number of Investors"
+        />
       </Col>
     </Row>
     <Row>
-      <Col md={12}>
-        <p>Title: Total Amount Invested with Ticket of Size
-                        X Axis: Ticket Size in [currency]
-                        Y Axis: Total Amount Invested</p>
-        <SingleBarChart data={props.stats.charts.investmentDistribution} dataKey="Investments" />
+      <Col md={12} >
+        <SingleBarChart
+          data={props.stats.charts.investmentDistribution}
+          dataKey="Investments"
+          title="Total Amount Invested with Ticket of Size"
+          xLabel={`Ticket Size in [${props.currency}]`}
+          yLabel="Total Amount Invested"
+        />
       </Col>
     </Row>
   </div>}

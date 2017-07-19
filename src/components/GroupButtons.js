@@ -10,7 +10,7 @@ class CurrencyButton extends Component {
     super();
     this.state = {
       currencyActiveClass: 'EUR',
-      exchangeRateValue: new Date().yyyymmdd(),
+      exchangeRateDate: new Date(),
       exchangeRateActiveClass: 'NOW',
     };
   }
@@ -23,24 +23,24 @@ class CurrencyButton extends Component {
     return map[key];
   }
 
-  onCurrencyHandle(currency, time) {
-    if (currency === 'default') { currency = this.props.currency; } else { this.setState({ currencyActiveClass: currency }); }
-
-    if (time && time === 'END') {
-      this.setState({ exchangeRateValue: new Date(this.props.stats.time.endDate).yyyymmdd() });
-      this.setState({ exchangeRateActiveClass: time });
-      time = this.props.stats.time.endDate;
-    } else if (time && time === 'NOW') {
-      this.setState({ exchangeRateActiveClass: time });
-      this.setState({ exchangeRateValue: new Date().yyyymmdd() });
-    } else { time = this.state.exchangeRateValue; }
-
-    this.props.setCurrency(currency, time);
+  onCurrencyHandle(currency, dayClass) {
+    dayClass = dayClass || this.state.exchangeRateActiveClass || 'NOW';
+    let rateDate = null;
+    switch (dayClass) {
+      case 'END':
+        rateDate = this.props.stats.time.endDate;
+        break;
+      case 'NOW':
+        rateDate = new Date();
+        break;
+    }
+    currency = currency || this.props.currency;
+    this.props.setCurrency(currency, rateDate);
+    this.setState({ exchangeRateActiveClass: dayClass, exchangeRateDate: rateDate, currencyActiveClass: currency });
     const currentStatistics = this.props.stats;
     const distribution = getDistributedDataFromDataset(currentStatistics.etherDataset, this.props.currencyValue);
     currentStatistics.charts.investorsDistribution = distribution[0];
     currentStatistics.charts.investmentDistribution = distribution[1];
-
     this.props.drawStatistics(currentStatistics);
   }
 
@@ -55,7 +55,7 @@ class CurrencyButton extends Component {
                 {['EUR', 'USD', 'ETH'].map(item => (<li key={item}><a
                   className={this.state.currencyActiveClass === item ? 'active' : ''}
                   onClick={() => {
-                    this.onCurrencyHandle(item);
+                    this.onCurrencyHandle(item, null);
                   }}
                 >{item}</a></li>))}
               </ul>
@@ -68,7 +68,7 @@ class CurrencyButton extends Component {
             </p>
             <br />
             <p>
-              <em>https://api.coinbase.com/v2/prices/</em> on [{this.state.exchangeRateValue}]
+              <em>https://api.coinbase.com/v2/prices/</em> on [{this.state.exchangeRateDate.formatDate()}]
                         </p>
           </Col>
         </Row>
@@ -80,7 +80,7 @@ class CurrencyButton extends Component {
                 (<li key={item}><a
                   className={this.state.exchangeRateActiveClass === item ? 'active' : ''} onClick={
                                     () => {
-                                      this.onCurrencyHandle('default', item);
+                                      this.onCurrencyHandle(null, item);
                                     }
                                 }
                 >{CurrencyButton.mapButtonKeysToText(item)}</a></li>))

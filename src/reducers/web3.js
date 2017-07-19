@@ -1,9 +1,9 @@
 import { default as config } from '../config.js';
-import { getSmartContractConstants, isConnected, web3Connect } from '../utils/web3';
+import { getICOParameters, isConnected, web3Connect } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
-import { decisionMatrix } from '../utils';
+import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
-import { setCurrency ,setCurrencyAction } from '../actions/CurrencyAction';
+import { setCurrency } from '../actions/CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader } from '../actions/ScanAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
@@ -13,11 +13,10 @@ export const web3Connection = () => async (dispatch, getState) => {
     await dispatch(errorMessage());
     return;
   }
-  console.log("Web3 before assign",getState().modal.web3);
+
   if (getState().modal.web3) { return; }
 
   const web3 = web3Connect();
-  console.log(web3,"after");
   await dispatch({ type: 'SET_WEB3_CONNECTION', web3 });
 };
 
@@ -28,17 +27,19 @@ export const readSmartContract = address => async (dispatch, getState) => {
     return;
   }
   const matrix = config.ICOs[address].matrix;
-  const transparencyDecision = decisionMatrix(matrix)[0];
+  const transparencyDecision = computeICOTransparency(matrix)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
-  getSmartContractConstants(web3, address).then((parameters) => {
+  getICOParameters(web3, address).then((parameters) => {
     Object.keys(parameters).forEach((constant) => {
       const parameter = parameters[constant];
       if (parameter === null) return;
       const tempResult = {};
       if (typeof parameter === 'object' && typeof parameter.then === 'function') {
         parameter.then(async (value) => {
-          if (typeof value === 'function') { tempResult[constant] = await value(web3); } else { tempResult[constant] = value; }
+          if (typeof value === 'function')
+            {tempResult[constant] = await value(web3);}
+          else { tempResult[constant] = value; }
 
           dispatch(setProperties(address, tempResult));
         });
@@ -57,7 +58,7 @@ export const getLogs = address => async (dispatch, getState) => {
     dispatch(errorMessage());
     return;
   }
-  setCurrency('EUR', 'NOW', (error , currencyResult) => {
+  setCurrency('EUR', new Date(), (error , currencyResult) => {
     if(error) {
       dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
       return;
@@ -73,7 +74,7 @@ export const getLogs = address => async (dispatch, getState) => {
       else {
         const currencyRate = currencyResult.value;
         console.log('Fetched Currency is ', currencyRate);
-        const smartContractConstants = await getSmartContractConstants(web3, address);
+        const smartContractConstants = await getICOParameters(web3, address);
         const ico = config.ICOs[address];
         ico.decimals = smartContractConstants.decimals;
 

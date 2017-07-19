@@ -135,7 +135,7 @@ export default {
         cap: async (icoContract) => {
           const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
           const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-          return `Max: ${maxCap / 10 ** 18}\n Min: ${minCap / 10 ** 18}`;
+          return `Max: ${maxCap / 10 ** 18}\n Min: ${minCap / 10 ** 18} GNT`;
         },
         startDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingStartBlock)();
@@ -169,7 +169,7 @@ export default {
       information: {
         aliasName: 'MelonPort',
         website: 'https://melonport.com/',
-        logo: 'https://golem.network/icons/apple-touch-icon.png',
+        logo: 'https://melonport.com/favicon.png',
       },
       event: {
         args: {
@@ -177,14 +177,15 @@ export default {
           sender: 'sender',
         },
         name: 'TokensBought',
+        firstTransactionBlockNumber: 3175204,
+        lastTransactionBlockNumber: 3187613
       },
       icoParameters: {
-        cap: async icoContract =>
-                    // const minerToken = getSmartContract(web3,'0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1');
-                    // const cap = await toPromise(minerToken.MAX_TOTAL_TOKEN_AMOUNT_OFFERED_TO_PUBLIC)();
-                    // return cap.valueOf()/10**18;
-                    // return 10**18;
-                     async () => 10 ** 18,
+        cap: async icoContract => {
+          const ethCap = await toPromise(icoContract.ETHER_CAP)();
+          // const preEthCap = await toPromise(icoContract.BTCS_ETHER_CAP)();
+          return `${convertWeb3Value(ethCap, 'ether')} ETH`
+        },
         startDate: async (icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
@@ -193,24 +194,24 @@ export default {
           const timestamp = await toPromise(icoContract.endTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
-        status: async icoContract => 'WAITING',
+        status: async icoContract => 'successful',
 
       },
       matrix: {
-        q1: { answer: true, comment: '' },
-        q2: { answer: true, comment: '' },
-        q3: { answer: false, comment: 'Source code is not exists' },
-        q4: { answer: true, comment: '' },
-        q5: { answer: true, comment: '' },
-        q6: { answer: true, comment: '' },
-        q7: { answer: null, comment: '' },
-        q8: { answer: true, comment: '' },
-        q9: { answer: false, comment: '' },
-        q10: { answer: true, comment: '' },
-        q11: { answer: true, comment: '' },
-        q12: { answer: true, comment: '' },
-        q13: { answer: true, comment: '' },
-        q14: { answer: true, comment: '' },
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true, comment: 'Simple, clean code' },
+        q11: { answer: true},
+        q12: { answer: true},
+        q13: { answer: true},
+        q14: { answer: true, comment: 'Halting function has no impact as there is no minimum cap' },
       },
     },
     '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413': {

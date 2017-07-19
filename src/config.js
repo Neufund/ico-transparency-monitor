@@ -31,11 +31,11 @@ export default {
         },
         startDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingStartBlock)();
-          return convertBlockNumberToDate(blockNumber);
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
         },
         endDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingEndBlock)();
-          return convertBlockNumberToDate(blockNumber);
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
         },
         status: async icoContract => 'successful', // we know that because it is over, we could write some condition instead
       },
@@ -78,11 +78,11 @@ export default {
                      async () => 10 ** 18,
         startDate: async (icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
-          return convertWeb3Value(timestamp, 'timestamp');
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         endDate: async (icoContract) => {
           const timestamp = await toPromise(icoContract.endTime)();
-          return convertWeb3Value(timestamp, 'timestamp');
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         status: async icoContract => 'WAITING',
 
@@ -200,13 +200,15 @@ export default {
         },
         startDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.startBlock)();
-          return convertBlockNumberToDate(blockNumber);
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
         },
         endDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.endBlock)();
-          return convertBlockNumberToDate(blockNumber);
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
         },
-        status: async icoContract => null,
+        // again we could write a proper check here for example by checking finalizedBlock value
+        // however we already know that ICO was succesful
+        status: async icoContract => 'successful',
       },
       matrix: {
         q1: { answer: true},

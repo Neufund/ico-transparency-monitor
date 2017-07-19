@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import { default as config } from '../config.js';
-import { toPromise, formatDate, expectException } from '../utils';
+import { toPromise, expectException } from '../utils';
 
 const ProviderEngine = require('web3-provider-engine');
 const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
@@ -107,13 +107,13 @@ export const getICOParameters = async (web3, address) => {
 
 export const convertBlockNumberToDate = async (blockNumber) => {
   const timestamp = (await toPromise(window.web3.eth.getBlock)(blockNumber.valueOf())).timestamp;
-  return formatDate(new Date(parseInt(timestamp) * 1000), false);
+  return new Date(parseInt(timestamp) * 1000);
 };
 
 export const convertWeb3Value = (value, type) => {
   switch (type) {
     case 'string' :return value;
     case 'ether' :return window.web3.fromWei(value, 'ether').valueOf();
-    case 'timestamp' :return formatDate(new Date(parseInt(value.valueOf()) * 1000), false);
+    case 'timestamp' :return new Date(parseInt(value.valueOf()) * 1000);
   }
 };

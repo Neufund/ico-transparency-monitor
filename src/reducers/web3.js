@@ -68,7 +68,7 @@ export const getLogs = address => async (dispatch, getState) => {
             // 2- read smart contract
             // 3- get statistics
             // 4- dispatch statistics to the state
-      setCurrency('EUR', 'NOW', dispatch);
+      setCurrency('EUR', new Date(), dispatch);
       const smartContractConstants = await getICOParameters(web3, address);
       const ico = config.ICOs[address];
       ico.decimals = smartContractConstants.decimals;

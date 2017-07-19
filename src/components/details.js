@@ -1,5 +1,5 @@
 import React from 'react';
-import { analyzeIssuedTokens, formatNumber } from '../utils';
+import { formatNumber } from '../utils';
 
 export const TimeDetails = ({ startDate, endDate, duration }) => (
   <div>
@@ -24,15 +24,22 @@ export const TimeDetails = ({ startDate, endDate, duration }) => (
     </div>
   </div>);
 
-export const RaisedAmount = ({ totalETH }) => (
+export const RaisedAmount = ({ total, avgTicket, avgPrice, currency }) => (
   <div>
-    <h3 className="title">Raised amount</h3>
     <div className="stats">
       <table>
         <tbody>
           <tr>
-            <th>Total amount raised in ETH</th>
-            <td>{formatNumber(totalETH)}</td>
+            <th>Total amount raised in {currency}</th>
+            <td>{formatNumber(total)}</td>
+          </tr>
+          <tr>
+            <th>Average ticket in {currency}</th>
+            <td>{formatNumber(avgTicket)}</td>
+          </tr>
+          <tr>
+            <th>Average token price in {currency}</th>
+            <td>{avgPrice}</td>
           </tr>
         </tbody>
       </table>
@@ -40,30 +47,34 @@ export const RaisedAmount = ({ totalETH }) => (
   </div>
 );
 
-export const TokenIssued = ({ totalSupply, tokenIssued }) => (
+export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInvestors }) => (
   <div>
     <h3 className="title">Tokens issuance</h3>
     <div className="stats">
       <table>
         <tbody>
           <tr>
+            <th>Number of Investors</th>
+            <td>{formatNumber(totalInvestors, 0)}</td>
+          </tr>
+          <tr>
             <th>Number of tokens created during the ICO</th>
             <td>{formatNumber(tokenIssued)}</td>
           </tr>
-
-          {analyzeIssuedTokens(totalSupply, tokenIssued) != 0 &&
-          <tr>
-            <th>Number of tokens created outside of ICO <br/><i>*those tokens are not part of results below*</i></th>
-            <td>{`${analyzeIssuedTokens(totalSupply, tokenIssued)} tokens`}</td>
-          </tr>
-                }
+          {
+            tokensOverflow != 0 &&
+            <tr>
+              <th>Number of tokens created outside of ICO <br/><i>*those tokens are not part of results below*</i></th>
+              <td>{formatNumber(tokensOverflow)}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
   </div>
 );
 
-export const Investors = ({ tokenHolders }) => (
+export const TokenDistribution = ({ tokenHolders }) => (
   <div>
     <h3 className="title">Token distribution</h3>
     <table className="table table-responsive">
@@ -75,14 +86,14 @@ export const Investors = ({ tokenHolders }) => (
       </thead>
       <tbody>
         {
-                    tokenHolders.map((item) => {
-                      const key = item.name;
-                      return (<tr key={key}>
-                        <td key={`${key}_${key}`}>{key}</td>
-                        <td>{item.amount.toFixed(2)}%</td>
-                      </tr>);
-                    })
-                }
+          tokenHolders.map((item) => {
+            const key = item.name;
+            return (<tr key={key}>
+              <td key={`${key}_${key}`}>{key}</td>
+              <td>{item.amount.toFixed(2)}%</td>
+            </tr>);
+          })
+        }
       </tbody>
     </table>
 

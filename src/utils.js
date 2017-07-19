@@ -29,7 +29,7 @@ export const computeICOTransparency = (answers) => {
   const nonTransparentAnswers = {};
   const transparentWithIssuesAnswers = {};
 
-  for(var key in config.matrix) {
+  for(let key in config.matrix) {
     if (config.matrix.hasOwnProperty(key)) {
       const answer = answers[key];
       const definition = config.matrix[key];

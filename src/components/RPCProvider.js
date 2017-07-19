@@ -31,8 +31,8 @@ class RPCProvider extends Component {
   render() {
     return (
       <div>
-        {this.props.web3 && this.props.children }
-        {!this.props.web3 && <RPCConnectionError />}
+        {this.props.children }
+        {/*{!this.props.web3 && <RPCConnectionError />}*/}
       </div>
     );
   }

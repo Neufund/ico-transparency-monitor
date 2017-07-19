@@ -1,24 +1,26 @@
-import { getEtherPerCurrency, toPromise } from '../utils';
+import { getEtherPerCurrency } from '../utils';
 
-export const setCurrency = (currency, time = new Date().yyyymmdd(), dispatch, callback) => {
+export const setCurrencyAction = (currency , amount , time) => {
+  return { type: 'SET_CURRENCY', currency:currency , value: amount , time : time  };
+};
+
+export const setCurrency = (currency, time = new Date().yyyymmdd(), callback) => {
   let currencyFormat = `ETH-${currency}`;
   if (time === 'NOW') { time = new Date().yyyymmdd(); }
 
   if (currency === 'ETH') {
-    return dispatch({
+    return {
       type: 'SET_CURRENCY',
       currency,
       value: 1,
       time,
-    });
-
+    };
   }
 
   const result = getEtherPerCurrency(currencyFormat, time);
   result.then((e) => {
-    dispatch({ type: 'SET_CURRENCY', currency, value: e.data.data.amount, time });
-    if (callback) callback();
+    if (callback) callback(null , { currency:currency, value: e.data.data.amount, time:time } );
   }).catch((error) => {
-    dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
+    if (callback) callback(error);
   });
 };

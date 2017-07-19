@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
 import { connect } from 'react-redux';
-import { setCurrency } from '../actions/CurrencyAction';
+import { setCurrency, setCurrencyAction } from '../actions/CurrencyAction';
 import { getDistributedDataFromDataset } from '../utils.js';
 
 class CurrencyButton extends Component {
@@ -101,7 +101,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrency: ((currency, time) => setCurrency(currency, time, dispatch)),
+  setCurrency: ((currency, time) => setCurrency(currency, time, (error , currencyResult) => {
+    dispatch(setCurrencyAction(currencyResult.currency, currencyResult.value, currencyResult.time ));
+  })),
   drawStatistics: (statistics) => {
     dispatch({ type: 'DRAW_STATS', stats: statistics });
   },

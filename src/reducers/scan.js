@@ -8,6 +8,12 @@ const scan = (state = { stats: initStatistics(), currency: null, currencyValue: 
         ...state,
         stats: { ...action.stats },
       };
+    case 'CSV_FILE':
+      return {
+        ...state,
+        csvContent: action.csvContent,
+      };
+
     case 'SET_CURRENCY':
       return { ...state, currency: action.currency, currencyValue: action.currencyValue };
 

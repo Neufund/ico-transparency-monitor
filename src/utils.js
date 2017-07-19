@@ -1,4 +1,4 @@
-import { getWeb3, getSmartContract } from './utils/web3';
+import { getWeb3, getCurrentBlock, getSmartContract } from './utils/web3';
 import jQuery from 'jquery';
 import { default as config } from './config.js';
 import axios from 'axios';
@@ -84,8 +84,8 @@ export const getICOLogs = (web3, address, callback) => {
 
   const smartContract = getSmartContract(web3, address);
 
-  const firstTxBlockNumber = typeof ICO.event.firstTransactionBlockNumber !== 'undefined' ? ICO.event.firstTransactionBlockNumber : 0;
-  const lastTxBlockNumber = typeof ICO.event.lastTransactionBlockNumber !== 'undefined' ? ICO.event.lastTransactionBlockNumber : 'latest';
+  const firstTxBlockNumber = ICO.event.firstTransactionBlockNumber || 0;
+  const lastTxBlockNumber = ICO.event.lastTransactionBlockNumber || `0x${getCurrentBlock().number.toString('hex')}`;
   console.log(firstTxBlockNumber, lastTxBlockNumber);
   const event = smartContract[ICO.event.name](customArgs, {
     fromBlock: firstTxBlockNumber,
@@ -111,12 +111,17 @@ export const getICOLogs = (web3, address, callback) => {
       method: 'eth_getLogsDetails',
     }),
     success: (e) => {
-      const res = e.result;
-      if (res.length === 0) {
-        callback('SHOW_MODAL_MESSAGE', res);
+      if (e.error) {
+        console.log(e);
+        callback('SHOW_MODAL_ERROR', `Error when getting logs ${e.error.message}`);
       } else {
-        const logsFormat = res.map(log => event.formatter ? event.formatter(log) : log);
-        callback(null, logsFormat);
+        const res = e.result;
+        if (res.length === 0) {
+          callback('SHOW_MODAL_MESSAGE', res);
+        } else {
+          const logsFormat = res.map(log => event.formatter ? event.formatter(log) : log);
+          callback(null, logsFormat);
+        }
       }
     },
     error: (status) => {
@@ -365,7 +370,8 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     //  Tokens Amount
     //  Ether Value
     const item = events[i];
-    const tokenValue = item.args[eventArgs.tokens].valueOf() / factor;
+    // allow for ICOs that do not generate tokens: like district0x
+    const tokenValue = eventArgs.tokens ? item.args[eventArgs.tokens].valueOf() / factor : 0;
     const etherValue = web3.fromWei(eventArgs.ether ? item.args[eventArgs.ether] : item.value, 'ether').valueOf();
 
     const investor = item.args[eventArgs.sender];

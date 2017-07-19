@@ -3,9 +3,9 @@ import { default as config } from '../config.js';
 import { toPromise, expectException } from '../utils';
 
 const ProviderEngine = require('web3-provider-engine');
-const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
+// const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
 const FixtureSubprovider = require('web3-provider-engine/subproviders/fixture.js');
-const FilterSubprovider = require('web3-provider-engine/subproviders/filters.js');
+// const FilterSubprovider = require('web3-provider-engine/subproviders/filters.js');
 const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker.js');
 const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js');
 
@@ -32,8 +32,8 @@ export const createEngine = rpcUrl =>
         eth_mining: false,
         eth_syncing: true,
       }),
-      new CacheSubprovider(),
-      new FilterSubprovider(),
+      // new CacheSubprovider(),
+      // new FilterSubprovider(),
       new NonceSubprovider(),
       new RpcSubprovider({ rpcUrl }),
     ]);
@@ -41,11 +41,15 @@ export const createEngine = rpcUrl =>
 
 export const web3Connect = () => {
   const engine = createEngine(config.rpcHost);
-
   window.web3 = new Web3(engine);
 
   engine.start();
   console.log(`${config.rpcHost} new connection`);
+  // start monitoring current block
+  engine.on('block', function(block) {
+    console.log(block);
+    window.block = block;
+  });
   return window.web3;
 };
 
@@ -72,6 +76,10 @@ export const getWeb3 = () => {
   if (typeof window !== 'undefined' && window.web3 !== undefined) { return window.web3; }
 
   return web3Connect();
+};
+
+export const getCurrentBlock = () => {
+  return window.block;
 };
 
 

@@ -5,6 +5,114 @@ const rpcHost = require('./env.json').rpcHost;
 
 export default {
   ICOs: {
+    '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
+      tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
+      information: {
+        aliasName: 'district0x',
+        logo: 'https://district0x.io/images/favicon.png',
+        website: 'https://district0x.io/',
+      },
+      event: {
+        args: {
+          tokens: null, // actually district0x does not issue tokens in trustless way
+          sender: 'contributor',
+          ether: 'amount' // district0x ICO logs actual ether value !== transaction ether as they return overflow to sender
+        },
+        name: 'onContribution',
+        firstTransactionBlockNumber: 4039777,
+        lastTransactionBlockNumber: null // this will follow new blocks for ongoing ICOs
+      },
+      icoParameters: {
+        cap: async (icoContract) => {
+          const softCapETH = await toPromise(icoContract.softCapAmount)();
+          const hardCapETH = await toPromise(icoContract.hardCapAmount)();
+          return `Hard: ${convertWeb3Value(hardCapETH, 'ether')} ETH, Soft: ${convertWeb3Value(softCapETH, 'ether')} ETH`
+        },
+        startDate: async (icoContract) => {
+          const timestamp = await toPromise(icoContract.startTime)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
+        },
+        endDate: async (icoContract) => {
+          const timestamp = await toPromise(icoContract.endTime)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
+        },
+        status: async (icoContract) => {
+          const isRunning = await toPromise(icoContract.isContribPeriodRunning)();
+          // when contribution is over then successful as there is not failure condition in smart contract
+          return isRunning.valueOf() ? 'in progress' : 'successful';
+        }
+      },
+      matrix: {
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true, comment: 'Tokens are not created in trustless way so this information is not available'},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true},
+        q11: {answer: false, comment: 'Several issues: 1. no refund mechanism implemented so this is at good will of multisig owner' +
+        '2. tokens are not generated in trustless way and they may be or may be not generated after ICO by the owner' +
+        '3. ICO owner has access to all funds all the time, he may choose to not generate tokens and still gets all the money, smart contract could protect against that but does not.' +
+        '4. several other minor issues'},
+        q12: { answer: true, comment: 'price depends on total contribution amount' },
+        q13: { answer: true},
+        q14: { answer: true},
+      },
+    },
+    '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c': {
+      tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
+      information: {
+        aliasName: 'StatusNetwork',
+        logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
+        website: 'https://status.im/',
+      },
+      event: {
+        args: {
+          tokens: '_tokens',
+          sender: '_th',
+          ether: '_amount' // status ICO logs actual ether value !== transaction ether as they return overflow to sender
+        },
+        name: 'NewSale',
+        firstTransactionBlockNumber: 3903900,
+        lastTransactionBlockNumber: 3907820
+      },
+      icoParameters: {
+        cap: async (icoContract) => {
+          const failSafeETH = await toPromise(icoContract.failSafeLimit)();
+          return `${convertWeb3Value(failSafeETH, 'ether')} ETH`
+        },
+        startDate: async (icoContract) => {
+          const blockNumber = await toPromise(icoContract.startBlock)();
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
+        },
+        endDate: async (icoContract) => {
+          const blockNumber = await toPromise(icoContract.endBlock)();
+          return (await convertBlockNumberToDate(blockNumber)).formatDate();
+        },
+        // again we could write a proper check here for example by checking finalizedBlock value
+        // however we already know that ICO was succesful
+        status: async icoContract => 'successful',
+      },
+      matrix: {
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true, comment: 'Code has high quality' },
+        q11: { answer: true},
+        q12: { answer: true, comment: 'exchangeRate is constant' },
+        q13: { answer: true, comment: 'yes, with multiple rounds' },
+        q14: { answer: false, comment: 'no, ICO can be stopped and rounds revealed at owner whim' },
+      },
+    },
     '0xa74476443119a942de498590fe1f2454d7d4ac0d': {
       information: {
         aliasName: 'Golem',
@@ -50,6 +158,7 @@ export default {
         q8: { answer: null},
         q9: { answer: null},
         q10: { answer: true},
+        q11: { answer: true},
         q12: { answer: true},
         q13: { answer: true},
         q14: { answer: true},
@@ -173,57 +282,10 @@ export default {
         q8: { answer: null,},
         q9: { answer: null},
         q10: { answer: null},
+        q11: { answer: false},
         q12: { answer: null},
         q13: { answer: null},
         q14: { answer: null},
-      },
-    },
-    '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c': {
-      tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
-      information: {
-        aliasName: 'StatusNetwork',
-        logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
-        website: 'https://status.im/',
-      },
-      event: {
-        args: {
-          tokens: '_tokens',
-          sender: '_th',
-          ether: '_amount' // status ICO logs actual ether value !== transaction ether as they return overflow to sender
-        },
-        name: 'NewSale',
-      },
-      icoParameters: {
-        cap: async (icoContract) => {
-          const failSafeETH = await toPromise(icoContract.failSafeLimit)();
-          return `${convertWeb3Value(failSafeETH, 'ether')} ETH`
-        },
-        startDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.startBlock)();
-          return (await convertBlockNumberToDate(blockNumber)).formatDate();
-        },
-        endDate: async (icoContract) => {
-          const blockNumber = await toPromise(icoContract.endBlock)();
-          return (await convertBlockNumberToDate(blockNumber)).formatDate();
-        },
-        // again we could write a proper check here for example by checking finalizedBlock value
-        // however we already know that ICO was succesful
-        status: async icoContract => 'successful',
-      },
-      matrix: {
-        q1: { answer: true},
-        q2: { answer: true},
-        q3: { answer: true},
-        q4: { answer: true},
-        q5: { answer: true},
-        q6: { answer: true},
-        q7: { answer: true},
-        q8: { answer: null},
-        q9: { answer: null},
-        q10: { answer: true, comment: 'Code has high quality' },
-        q12: { answer: true, comment: 'exchangeRate is constant' },
-        q13: { answer: true, comment: 'yes, with multiple rounds' },
-        q14: { answer: false, comment: 'no, ICO can be stopped and rounds revealed at owner whim' },
       },
     },
   },
@@ -265,11 +327,11 @@ export default {
       critical: false,
       notApplicable: false,
     },
-    /*q11: {
-      question: 'Is the ICO doing exactly the same what they say on their website?',
-      critical: false,
+    q11: {
+      question: 'Are token holder rights protected in trustless way?',
+      critical: true,
       notApplicable: false,
-    },*/
+    },
     q12: { question: 'Is price of the token deterministic?', critical: false, notApplicable: false },
     q13: {
       question: 'Is ICO start condition specified in contract?',

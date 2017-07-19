@@ -2,7 +2,7 @@ import { assert, expect, should } from 'chai';
 import {
     formateDate,
     computeICOTransparency,
-    getEtherPerCurrency,
+    getEtherRate,
     getICOs,
     getValueOrNotAvailable,
     getStatistics,
@@ -24,8 +24,8 @@ describe('Decision Matrix', () => {
   });
 });
 
-describe('getEtherPerCurrency', () => {
-  it('Should return the currency by time', () => getEtherPerCurrency('ETH-EUR', '2016-11-03').then((result) => {
+describe('getEtherRate', () => {
+  it('Should return the currency by time', () => getEtherRate('ETH-EUR', new Date('2016-11-03')).then((result) => {
     assert.equal(result.data.data.amount, '9.64');
   }).catch((error) => {
     assert.equal(error, null);

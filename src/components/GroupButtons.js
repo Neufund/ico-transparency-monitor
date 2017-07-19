@@ -24,17 +24,16 @@ class CurrencyButton extends Component {
   }
 
   onCurrencyHandle(currency, dayClass) {
+    dayClass = dayClass || this.state.exchangeRateActiveClass || 'NOW';
     let rateDate = null;
     switch (dayClass) {
       case 'END':
         rateDate = this.props.stats.time.endDate;
         break;
-      default:
-        // includes NOW
+      case 'NOW':
         rateDate = new Date();
         break;
     }
-    dayClass = dayClass || 'NOW';
     currency = currency || this.props.currency;
     this.props.setCurrency(currency, rateDate);
     this.setState({ exchangeRateActiveClass: dayClass, exchangeRateDate: rateDate, currencyActiveClass: currency });
@@ -53,7 +52,7 @@ class CurrencyButton extends Component {
             <div>
               <p>Currency:</p>
               <ul className="currency-buttons">
-                {['EUR', 'USD', 'BTC', 'ETH'].map(item => (<li key={item}><a
+                {['EUR', 'USD', 'ETH'].map(item => (<li key={item}><a
                   className={this.state.currencyActiveClass === item ? 'active' : ''}
                   onClick={() => {
                     this.onCurrencyHandle(item, null);

@@ -232,7 +232,7 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
 };
 
 const getChartTimescale = (durationDays) => {
-  if (durationDays === 0) { return 'blocks'; } else if (durationDays === 1) { return 'hours'; } else if (durationDays > 1) { return 'days'; }
+  if (durationDays === 0) { return 'blocks'; } else if (durationDays < 5) { return 'hours'; } else { return 'days'; }
 };
 
 const mapEventIntoTimeScale = (event, timeScale) => {

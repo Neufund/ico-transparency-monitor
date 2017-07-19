@@ -80,9 +80,10 @@ export const getLogs = address => async (dispatch, getState) => {
 
 
         const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
-	// statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
+	      // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
         dispatch(drawStatistics(statistics[0]));
         dispatch(allocateCSVFile(statistics[1]));
+        dispatch(showStatistics());
       }
     });
   });

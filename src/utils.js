@@ -300,7 +300,7 @@ export const tokenHoldersPercentage = (total, investorsArray) => {
 };
 
 
-export const downloadCVS = fileName => async (dispatch, getState) => {
+export const downloadCSV = fileName => async (dispatch, getState) => {
   console.log(getState());
   const csvContentArray = getState().scan.csvContent;
 

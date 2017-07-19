@@ -5,7 +5,7 @@ import '../assets/css/ScanBox.css';
 import { connect } from 'react-redux';
 import { TimeDetails, RaisedAmount, TokenIssued, Investors } from './details';
 import { SingleBarChart } from './charts';
-import { downloadCVS } from '../utils';
+import { downloadCSV } from '../utils';
 import { default as config } from '../config.js';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
@@ -115,7 +115,7 @@ const mapStateToProps = (state, props) =>
 
 const mapDispatchToProps = (dispatch, state) => ({
   downloadCSV: (fileName) => {
-    dispatch(downloadCVS(fileName));
+    dispatch(downloadCSV(fileName));
   },
 });
 export default connect(

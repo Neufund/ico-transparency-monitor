@@ -9,7 +9,7 @@ import { default as config } from '../config.js';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <Row className="statistics">
-    {console.log('ScanBoxDetails component did mout')}
+    {console.log('ScanBoxDetails component did mount')}
     <Col md={12} className="scan-content">
       <p> Actual values from ICO transactions analysis: </p>
       <TimeDetails {...props.stats.time} />

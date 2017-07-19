@@ -76,7 +76,7 @@ class ContentTable extends Component {
   }
 }
 
-const ErrorModal = ({ code , title , message }) => (<div>
+const ErrorModal = ({ title , message }) => (<div>
     <div>
       <h3>{title}</h3>
       <p>{message}</p>

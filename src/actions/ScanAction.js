@@ -1,5 +1,7 @@
 export const drawStatistics = statistics => ({ type: 'DRAW_STATS', stats: statistics });
 
+export const showStatistics = () => ({ type: 'SHOW_STATS' });
+
 export const showLoader = () => ({ type: 'SHOW_LOADER' });
 
 export const hideLoader = () => ({ type: 'HIDE_LOADER' });

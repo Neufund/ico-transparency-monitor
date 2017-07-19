@@ -40,8 +40,8 @@ class Scan extends Component {
           <Grid className="scanbox ico-box-scan">
 
             {<ICO ico={this.props.ico} isInSingleICOView address={this.props.address} />}
-            {!this.props.showStats && <ScanBoxLoadingMessage show={this.props.showLoaderState} />}
-            {this.props.showStats && <ScanBoxDetails address={this.props.address} /> }
+            {!this.props.isShowStats && <ScanBoxLoadingMessage />}
+            {this.props.isShowStats && <ScanBoxDetails address={this.props.address} /> }
           </Grid>
         </div>
       </div>
@@ -54,9 +54,8 @@ const mapStateToProps = (state, props) => {
   return {
     address,
     ico: config.ICOs[address],
-    showLoaderState: state.scan.showLoader,
     currencyValue: state.currency.value,
-    showStats: state.scan.showStats,
+    isShowStats: state.scan.showStats,
     web3: state.modal.web3,
   };
 };

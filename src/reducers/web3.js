@@ -4,7 +4,7 @@ import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
 import { decisionMatrix } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
 import { setCurrency ,setCurrencyAction } from '../actions/CurrencyAction';
-import { drawStatistics, hideLoader, showLoader } from '../actions/ScanAction';
+import { drawStatistics, showStatistics, hideLoader, showLoader } from '../actions/ScanAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
   console.log('Start Web3 connection');
@@ -62,7 +62,7 @@ export const getLogs = address => async (dispatch, getState) => {
       dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
       return;
     }
-    console.log(currencyResult);
+
     dispatch(setCurrencyAction(currencyResult.currency, currencyResult.value, currencyResult.time ));
     console.log('Start working on logs');
 
@@ -71,18 +71,18 @@ export const getLogs = address => async (dispatch, getState) => {
 
       if (error || logs.length === 0) dispatch({ type: error });
       else {
-        const currencyValue = currencyResult.value;
-        console.log('Fetched Currency is ', currencyValue);
+        const currencyRate = currencyResult.value;
+        console.log('Fetched Currency is ', currencyRate);
         const smartContractConstants = await getSmartContractConstants(web3, address);
         const ico = config.ICOs[address];
         ico.decimals = smartContractConstants.decimals;
 
-        if (currencyValue) {
-          const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
-          console.log('Draw drawStatistics');
-          dispatch(drawStatistics(statistics));
-          dispatch({ type: 'SHOW_STATS' });
-        }
+
+        const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
+
+        dispatch(drawStatistics(statistics));
+        dispatch(showStatistics());
+
       }
     });
   });

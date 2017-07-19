@@ -19,8 +19,8 @@ class ICO extends Component {
   render() {
     return (
       <div>
-        {this.props.inner && <ICOScan address={this.props.address} onModalShow={this.props.onModalShow} />}
-        {!this.props.inner && <ICOApp address={this.props.address} onModalShow={this.props.onModalShow} />}
+        {this.props.isInSingleICOView && <ICOScan address={this.props.address} onModalShow={this.props.onModalShow} />}
+        {!this.props.isInSingleICOView && <ICOApp address={this.props.address} onModalShow={this.props.onModalShow} />}
       </div>
     );
   }

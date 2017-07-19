@@ -12,8 +12,7 @@ export const setCurrency = (currency, time = new Date().yyyymmdd(), dispatch, ca
       time,
     });
 
-    // TODO: needs to be correct value
-  } else if (currency === 'BTC') { currencyFormat = 'BTC-EUR'; }
+  }
 
   const result = getEtherPerCurrency(currencyFormat, time);
   result.then((e) => {

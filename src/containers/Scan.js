@@ -11,7 +11,6 @@ import { web3Connection, getLogs } from '../reducers/web3';
 class Scan extends Component {
   constructor(props) {
     super(props);
-    props.rpcConnection();
   }
 
   componentDidMount() {
@@ -38,7 +37,7 @@ class Scan extends Component {
           </Grid>
 
           <Grid className="scanbox ico-box-scan">
-            <ICO ico={this.props.ico} inner address={this.props.address} />
+            <ICO ico={this.props.ico} isInSingleICOView address={this.props.address} />
             {!this.props.showStats && <ScanBoxLoadingMessage show={this.props.showLoaderState} />}
             {this.props.showStats && <ScanBoxDetails address={this.props.address} /> }
           </Grid>
@@ -63,10 +62,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   getLogs: (address) => {
     dispatch(getLogs(address));
-  },
-  rpcConnection: () => {
-    dispatch(web3Connection());
-  },
+  }
 });
 
 export default connect(

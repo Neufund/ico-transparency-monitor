@@ -369,9 +369,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     const etherValue = web3.fromWei(eventArgs.ether ? item.args[eventArgs.ether] : item.value, 'ether').valueOf();
 
     const investor = item.args[eventArgs.sender];
-    csvContentArray.push([investor, tokenValue, etherValue, formatDate(new Date(item.timestamp) * 1000, true)]);
-
-    const blockDate = mapEventIntoTimeScale(item, format);
+    csvContentArray.push([investor, tokenValue, etherValue, (new Date(item.timestamp * 1000)).formatDate(true)]);
 
     const blockDate = mapEventIntoTimeScale(item, format);
     if (chartTokenCountTemp[blockDate] == undefined) { chartTokenCountTemp[blockDate] = 0; }
@@ -409,7 +407,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
   }));
 
   statisticsICO.investors.sendersSortedArray = convertInvestorsToSortedArray(statisticsICO.investors.senders);
-    // Initialize the chart of investors by ether value
+  // Initialize the chart of investors by ether value
   statisticsICO.etherDataset = ethersDataset;
   const distribution = getDistributedDataFromDataset(ethersDataset, currencyPerEther);
   console.log(currencyPerEther, distribution);

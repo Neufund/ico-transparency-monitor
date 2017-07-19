@@ -3,7 +3,7 @@ import { getICOParameters, isConnected, web3Connect } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
-import { setCurrency } from '../actions/CurrencyAction';
+import { setCurrency, setCurrencyAction } from '../actions/CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader } from '../actions/ScanAction';
 
 export const web3Connection = () => async (dispatch, getState) => {

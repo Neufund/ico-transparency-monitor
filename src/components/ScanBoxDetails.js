@@ -30,7 +30,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
       />}
-      {props.stats.money.tokenIssued === 0 &&   <div className="alarm alarm-middle">
+      {props.stats.money.tokenIssued === 0 && <div className="alarm alarm-middle">
         <p>No Token statistics: This ICO is not generating tokens or is not handling them in trustless way</p>
       </div>}
     </Col>
@@ -68,7 +68,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       </Col>
     </Row>
     }
-    {props.stats.money.tokenIssued === 0 &&   <div className="alarm">
+    {props.stats.money.tokenIssued === 0 && <div className="alarm">
       <p>No Token statistics: This ICO is not generating tokens or is not handling them in trustless way</p>
     </div>}
     {props.stats.money.totalETH !== 0 &&

@@ -11,16 +11,20 @@ import { getLogs } from '../reducers/web3';
 class Scan extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isBlockMounted:false
+    }
   }
-
-  componentDidMount() {
-    this.props.getLogs(this.props.address);
-  }
-
   render() {
+
+    if(this.props.blocks  && this.state.isBlockMounted === false){
+      this.setState({isBlockMounted:true});
+      this.props.getLogs(this.props.address);
+    }
+
     return (
       <div className="App">
-        <div>
+        {this.state.isBlockMounted && <div>
           <Grid fluid>
             <Row className="nav-buttons">
               <Col md={6}>
@@ -41,7 +45,7 @@ class Scan extends Component {
             {this.props.isLoading && <ScanBoxLoadingMessage />}
             {!this.props.isLoading && this.props.isComponentReady && <ScanBoxDetails address={this.props.address} /> }
           </Grid>
-        </div>
+        </div>}
       </div>
     );
   }
@@ -56,6 +60,7 @@ const mapStateToProps = (state, props) => {
     isComponentReady: state.scan.showStats,
     isLoading: state.scan.showLoader,
     web3: state.modal.web3,
+    blocks:state.blocks
   };
 };
 

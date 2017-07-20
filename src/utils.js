@@ -1,4 +1,4 @@
-import { getWeb3, getCurrentBlock, getSmartContract } from './utils/web3';
+import { getCurrentBlock, getSmartContract } from './utils/web3';
 import jQuery from 'jquery';
 import { default as config } from './config.js';
 import axios from 'axios';
@@ -68,7 +68,7 @@ export const getValueOrNotAvailable = (props, input) => props && props[input] ? 
  * TODO: 2- Change the ID in getLog
  */
 
-export const getICOLogs = (web3, address, callback) => {
+export const getICOLogs = (web3, lastBlockNumber, address, callback) => {
   console.log('Start scanning the ICO');
   if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
     console.log(`${address} cached already.`);
@@ -76,14 +76,13 @@ export const getICOLogs = (web3, address, callback) => {
   }
 
   const ICO = config.ICOs[address];
-  console.log(web3, address);
   const customArgs = ICO.event.hasOwnProperty('customArgs') ? ICO.event.customArgs : {};
 
   const smartContract = getSmartContract(web3, address);
 
   const firstTxBlockNumber = ICO.event.firstTransactionBlockNumber || 0;
-  console.log(getCurrentBlock());
-  const lastTxBlockNumber = ICO.event.lastTransactionBlockNumber || getCurrentBlock() != undefined ?`0x${getCurrentBlock().number.toString('hex')}`:'latest';
+
+  const lastTxBlockNumber = ICO.event.lastTransactionBlockNumber || lastBlockNumber;
   console.log(firstTxBlockNumber, lastTxBlockNumber);
   const event = smartContract[ICO.event.name](customArgs, {
     fromBlock: firstTxBlockNumber,
@@ -237,8 +236,8 @@ const mapEventIntoTimeScale = (event, startTimestamp, timeScale) => {
     // todo: instead return a function that just is processing event, without ifs
   const datetime = new Date(event.timestamp * 1000);
   const data = {
-    //hours: Get the differece between ICO day of start and this transaction then plus 1, because the start is zero
-    hours: parseInt(moment.duration(moment(datetime).diff(moment(new Date(startTimestamp * 1000)))).asHours())+1,
+    // hours: Get the differece between ICO day of start and this transaction then plus 1, because the start is zero
+    hours: parseInt(moment.duration(moment(datetime).diff(moment(new Date(startTimestamp * 1000)))).asHours()) + 1,
     blocks: event.blockNumber,
     days: datetime.formatDate(),
   };
@@ -317,14 +316,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
 };
 
 // TODO: Dispatch error message if any error raised by getWeb3 function
-export const getStatistics = (selectedICO, events, statisticsICO) => {
-  let web3;
-  try {
-    web3 = getWeb3();
-  } catch (err) {
-    console.log(err);
-    return;
-  }
+export const getStatistics = (web3, selectedICO, events, statisticsICO) => {
   const csvContentArray = [];
   const startTimestamp = events[0].timestamp;
   const endTimestamp = events[events.length - 1].timestamp;
@@ -367,17 +359,17 @@ export const getStatistics = (selectedICO, events, statisticsICO) => {
     const investor = item.args[eventArgs.sender];
     csvContentArray.push([investor, tokenValue, etherValue, (new Date(item.timestamp * 1000)).formatDate(true)]);
 
-    const blockDate = mapEventIntoTimeScale(item, startTimestamp ,timeScale);
+    const blockDate = mapEventIntoTimeScale(item, startTimestamp, timeScale);
 
-    if (typeof chartTransactionsCountTemp[blockDate] === "undefined") { chartTransactionsCountTemp[blockDate] = 0; }
+    if (typeof chartTransactionsCountTemp[blockDate] === 'undefined') { chartTransactionsCountTemp[blockDate] = 0; }
     chartTransactionsCountTemp[blockDate] += 1;
 
-    if (typeof chartTokensCountTemp[blockDate] === "undefined") { chartTokensCountTemp[blockDate] = 0; }
+    if (typeof chartTokensCountTemp[blockDate] === 'undefined') { chartTokensCountTemp[blockDate] = 0; }
     chartTokensCountTemp[blockDate] += tokenValue;
 
     const senders = statisticsICO.investors.senders;
 
-    if (typeof senders[investor] === "undefined") { senders[investor] = { tokens: 0, ETH: 0, times: 0 }; }
+    if (typeof senders[investor] === 'undefined') { senders[investor] = { tokens: 0, ETH: 0, times: 0 }; }
 
     senders[investor].ETH += parseFloat(etherValue);
     senders[investor].tokens += parseFloat(tokenValue);
@@ -391,10 +383,10 @@ export const getStatistics = (selectedICO, events, statisticsICO) => {
   statisticsICO.charts.transactionsCount = [];
   statisticsICO.charts.tokensCount = [];
 
-  Object.keys(chartTokensCountTemp).forEach( key => statisticsICO.charts.tokensCount.push({
-      name: key,
-      amount: parseFloat(chartTokensCountTemp[key].toFixed(2)),
-    }));
+  Object.keys(chartTokensCountTemp).forEach(key => statisticsICO.charts.tokensCount.push({
+    name: key,
+    amount: parseFloat(chartTokensCountTemp[key].toFixed(2)),
+  }));
 
   Object.keys(chartTokensCountTemp).forEach(key => statisticsICO.charts.transactionsCount.push({
     name: key,

@@ -16,12 +16,12 @@ export const web3Connection = () => async (dispatch, getState) => {
 
   if (getState().modal.web3) { return; }
 
-  const web3 = web3Connect();
-  await dispatch({ type: 'SET_WEB3_CONNECTION', web3 });
+  dispatch(web3Connect());
 };
 
 export const readSmartContract = address => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
+
   console.log(`Reading Smart contract , RPC connection ${web3 ? 'Connected' : 'Disconnected'}`);
   if (!web3) {
     return;
@@ -52,15 +52,18 @@ export const readSmartContract = address => async (dispatch, getState) => {
 export const getLogs = address => async (dispatch, getState) => {
   dispatch(showLoader());
   const web3 = getState().modal.web3;
+
+  const lastBlockNumber = `0x${getState().blocks.number.toString('hex')}`;
+
   if (!web3) {
     dispatch(errorMessage());
     return;
   }
 
-
+  const lastBlock = getState().blocks;
   console.log('Start working on logs');
 
-  getICOLogs(web3, address, async (error, logs) => {
+  getICOLogs(web3, lastBlockNumber, address, async (error, logs) => {
     dispatch(hideLoader());
 
     if (error || logs.length === 0) dispatch({ type: error });
@@ -69,7 +72,7 @@ export const getLogs = address => async (dispatch, getState) => {
       const smartContractConstants = await getICOParameters(web3, address);
       const ico = config.ICOs[address];
       ico.decimals = smartContractConstants.decimals;
-      const statistics = getStatistics(ico, logs, initStatistics());
+      const statistics = getStatistics(web3, ico, logs, initStatistics());
 
         // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
       dispatch(drawStatistics(statistics[0]));

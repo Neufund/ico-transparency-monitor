@@ -25,25 +25,31 @@ export const formatNumber = (number, precision = 2) => {
   return number.toFixed(precision).replace(/./g, (c, i, a) => i && c !== '.' && ((a.length - i) % 3 === 0) ? ` ${c}` : c);
 };
 
+export const icoTransparencyLevel = Object.freeze({NONTRANSPARENT: 'nontransparent', WITHISSUES: 'withissues', TRANSPARENT: 'transparent'});
+
+export const criticalToTransparencyLevel = (critical) =>
+  critical ? icoTransparencyLevel.NONTRANSPARENT : icoTransparencyLevel.WITHISSUES;
+
 export const computeICOTransparency = (answers) => {
-  const nonTransparentAnswers = {};
-  const transparentWithIssuesAnswers = {};
+  const foundIssues = {};
+  let hasCritical = false;
 
   for(let key in config.matrix) {
     if (config.matrix.hasOwnProperty(key)) {
       const answer = answers[key];
       const definition = config.matrix[key];
       // return lists of transparent-with-issues and non-transparent a answers
-      if (answer.answer == false || answer.answer === null && !definition.notApplicable)
-        (definition.critical ? nonTransparentAnswers : transparentWithIssuesAnswers)[key] = answer.comment;
+      if (answer.answer == false || answer.answer === null && !definition.notApplicable) {
+        foundIssues[key] = true;
+        hasCritical = hasCritical || definition.critical;
+      }
     }
   }
 
-  if (Object.keys(nonTransparentAnswers).length !== 0)
-    return ['Non Transparent', nonTransparentAnswers];
-  if (Object.keys(transparentWithIssuesAnswers).length !== 0)
-    return ['With issues', transparentWithIssuesAnswers];
-  return ['Transparent', []];
+  if (Object.keys(foundIssues).length !== 0) {
+    return [criticalToTransparencyLevel(hasCritical), foundIssues];
+  }
+  return [icoTransparencyLevel.TRANSPARENT, foundIssues];
 };
 
 Date.prototype.formatDate = function(fullFormat = false) {

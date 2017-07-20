@@ -66,7 +66,7 @@ export default {
       tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
       information: {
         aliasName: 'StatusNetwork',
-        logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
+        logo: 'http://status.im/img/new-site/apple-touch-icon-180.png?v=50fbb69',
         website: 'https://status.im/',
       },
       event: {
@@ -217,8 +217,8 @@ export default {
     '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413': {
       information: {
         aliasName: 'TheDAO',
-        website: 'https://dao.casino/',
-        logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
+        website: 'https://daowiki.atlassian.net/wiki',
+        logo: 'https://daowiki.atlassian.net/wiki/download/attachments/655365/DAO?version=2&modificationDate=1462133209864&cacheVersion=1&api=v2',
       },
       event: {
         args: {
@@ -226,9 +226,20 @@ export default {
           sender: 'to',
         },
         name: 'CreatedToken',
+        firstTransactionBlockNumber: 0,
+        lastTransactionBlockNumber: "latest"
       },
       icoParameters: {
-        status: async icoContract => 'WAITING',
+        cap: async icoContract => {
+          const daoMinCap = await toPromise(icoContract.minTokensToCreate)().valueOf();
+          return `Min: ${daoMinCap} DAOs Max: unbounded`
+        },
+        startDate: async (icoContract) => "contract creation",
+        endDate: async (icoContract) => {
+          const timestamp = await toPromise(icoContract.closingTime)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
+        },
+        status: async icoContract => 'successful', // could return isFueled
       },
       matrix: {
         q1: { answer: true, comment: '' },
@@ -251,7 +262,7 @@ export default {
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {
       information: {
         aliasName: 'TAAS',
-        logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
+        logo: 'https://taas.fund/img/fav_icon.png',
         website: 'https://taas.fund/',
       },
       event: {

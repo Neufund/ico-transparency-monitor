@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
 import { connect } from 'react-redux';
-import { setCurrency, setCurrencyAction } from '../actions/CurrencyAction';
+import { setCurrency, setCurrencyAction , setStatisticsByCurrency} from '../actions/CurrencyAction';
 import { getDistributedDataFromDataset } from '../utils.js';
 
 class CurrencyButton extends Component {
@@ -37,11 +37,6 @@ class CurrencyButton extends Component {
     currency = currency || this.props.currency;
     this.props.setCurrency(currency, rateDate);
     this.setState({ exchangeRateActiveClass: dayClass, exchangeRateDate: rateDate, currencyActiveClass: currency });
-    const currentStatistics = this.props.stats;
-    const distribution = getDistributedDataFromDataset(currentStatistics.etherDataset, this.props.currencyValue);
-    currentStatistics.charts.investorsDistribution = distribution[0];
-    currentStatistics.charts.investmentDistribution = distribution[1];
-    this.props.drawStatistics(currentStatistics);
   }
 
   render() {
@@ -100,13 +95,13 @@ const mapStateToProps = state => ({
   stats: state.scan.stats,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setCurrency: ((currency, time) => setCurrency(currency, time, (error , currencyResult) => {
-    dispatch(setCurrencyAction(currencyResult.currency, currencyResult.value, currencyResult.time ));
-  })),
-  drawStatistics: (statistics) => {
-    dispatch({ type: 'DRAW_STATS', stats: statistics });
-  },
+const mapDispatchToProps = (dispatch , props) => ({
+  setCurrency: ((currency, time) =>
+
+    setCurrency(currency, time, (error , currencyResult) => {
+    console.log(`Selected currency is ${currencyResult.currency}, ${currencyResult.value}, ${currencyResult.time} `);
+    dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time ));
+  }))
 });
 
 

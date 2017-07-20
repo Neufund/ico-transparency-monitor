@@ -21,28 +21,28 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
   <Row className="statistics">
     <Col md={6}>
-      <SingleBarChart
+      {props.stats.money.tokenIssued > 0 && <SingleBarChart
         title="Tokens over time"
-        data={props.stats.charts.transactionsCount}
-        dataKey={`Tokens/${props.stats.time.scale}`}
+        data={props.stats.charts.tokensCount}
+        dataKey="Tokens/Time"
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
-      />
+      />}
+      {props.stats.money.tokenIssued === 0 && <p>No token issued during this ICO</p>}
     </Col>
     <Col md={6}>
       <SingleBarChart
         title="Transactions over time"
-        data={props.stats.charts.tokensCount}
-        dataKey="Transactions/Time"
+        data={props.stats.charts.transactionsCount}
+        dataKey={`Transactions/${props.stats.time.scale}`}
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Transactions"
       />
     </Col>
   </Row>
 
-  {props.matrix.q5.answer &&
   <div className="scan-content">
-
+    {props.stats.money.tokenIssued > 0 &&
     <Row>
       <Col md={6} className="scan-content">
         <Investors
@@ -62,37 +62,41 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           yLabel="Share of Tokens Owned"
         />
       </Col>
-    </Row>
+    </Row>}
+    {props.stats.money.tokenIssued === 0 && <p>No token issued during this ICO</p>}
 
-    <RaisedAmount totalETH={props.stats.money.totalETH} />
+    {props.matrix.q5.answer &&
+      <div className="fund-distribution">
+        <RaisedAmount totalETH={props.stats.money.totalETH} />
 
-    <h3 className="title">Funds distribution</h3>
+        <h3 className="title">Funds distribution</h3>
 
-    <GroupButtons currencyValue={props.currencyValue} currency={props.currency} />
-    <Row>
-      <Col md={12}>
+        <GroupButtons currencyValue={props.currencyValue} currency={props.currency} />
+        <Row>
+          <Col md={12}>
 
-        <SingleBarChart
-          data={props.stats.charts.investorsDistribution}
-          dataKey="Investors"
-          title="Number of Investors with Ticket of Size"
-          xLabel={`Ticket Size in [${props.currency}]`}
-          yLabel="Number of Investors"
-        />
-      </Col>
-    </Row>
-    <Row>
-      <Col md={12} >
-        <SingleBarChart
-          data={props.stats.charts.investmentDistribution}
-          dataKey="Investments"
-          title="Total Amount Invested with Ticket of Size"
-          xLabel={`Ticket Size in [${props.currency}]`}
-          yLabel="Total Amount Invested"
-        />
-      </Col>
-    </Row>
-  </div>}
+            <SingleBarChart
+              data={props.stats.charts.investorsDistribution}
+              dataKey="Investors"
+              title="Number of Investors with Ticket of Size"
+              xLabel={`Ticket Size in [${props.currency}]`}
+              yLabel="Number of Investors"
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12} >
+            <SingleBarChart
+              data={props.stats.charts.investmentDistribution}
+              dataKey="Investments"
+              title="Total Amount Invested with Ticket of Size"
+              xLabel={`Ticket Size in [${props.currency}]`}
+              yLabel="Total Amount Invested"
+            />
+          </Col>
+        </Row>
+      </div>}
+  </div>
 
   {!props.matrix.q5.answer &&
   <div className="alarm">

@@ -98,7 +98,7 @@ export const getICOLogs = (web3, address, callback) => {
     Accept: 'application/json',
     contentType: 'application/json',
     // TODO: request data from cache
-    headers: {'X-Node-Cache': 'long'},
+    // headers: {'X-Node-Cache': 'long'},
     data: JSON.stringify({
       id: 1497353430507566,
       jsonrpc: '2.0',
@@ -350,8 +350,8 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
 
   statisticsICO.general.transactionsCount = events.length;
 
-  const chartAmountTemp = {};
-  const chartTokenCountTemp = {};
+  const chartTokensCountTemp = {};
+  const chartTransactionsCountTemp = {};
 
   const ethersDataset = [];
 
@@ -378,11 +378,11 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     csvContentArray.push([investor, tokenValue, etherValue, (new Date(item.timestamp * 1000)).formatDate(true)]);
 
     const blockDate = mapEventIntoTimeScale(item, format);
-    if (chartTokenCountTemp[blockDate] == undefined) { chartTokenCountTemp[blockDate] = 0; }
-    chartTokenCountTemp[blockDate] += 1;
+    if (chartTransactionsCountTemp[blockDate] == undefined) { chartTransactionsCountTemp[blockDate] = 0; }
+    chartTransactionsCountTemp[blockDate] += 1;
 
-    if (chartAmountTemp[blockDate] == undefined) { chartAmountTemp[blockDate] = 0; }
-    chartAmountTemp[blockDate] += tokenValue;
+    if (chartTokensCountTemp[blockDate] == undefined) { chartTokensCountTemp[blockDate] = 0; }
+    chartTokensCountTemp[blockDate] += tokenValue;
 
     const senders = statisticsICO.investors.senders;
 
@@ -400,16 +400,16 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
   statisticsICO.charts.transactionsCount = [];
   statisticsICO.charts.tokensCount = [];
 
-  Object.keys(chartAmountTemp).forEach((key) => {
-    statisticsICO.charts.transactionsCount.push({
+  Object.keys(chartTokensCountTemp).forEach((key) => {
+    statisticsICO.charts.tokensCount.push({
       name: parseFloat(key),
-      amount: parseFloat(chartAmountTemp[key].toFixed(2)),
+      amount: parseFloat(chartTokensCountTemp[key].toFixed(2)),
     });
   });
 
-  Object.keys(chartAmountTemp).forEach(key => statisticsICO.charts.tokensCount.push({
+  Object.keys(chartTokensCountTemp).forEach(key => statisticsICO.charts.transactionsCount.push({
     name: key,
-    amount: parseFloat(chartTokenCountTemp[key].toFixed(2)),
+    amount: parseFloat(chartTransactionsCountTemp[key].toFixed(2)),
   }));
 
   statisticsICO.investors.sendersSortedArray = convertInvestorsToSortedArray(statisticsICO.investors.senders);

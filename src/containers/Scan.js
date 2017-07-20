@@ -6,7 +6,7 @@ import ScanBoxDetails from '../components/ScanBoxDetails';
 import { default as config } from '../config.js';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { web3Connection, getLogs } from '../reducers/web3';
+import { getLogs } from '../reducers/web3';
 
 class Scan extends Component {
   constructor(props) {

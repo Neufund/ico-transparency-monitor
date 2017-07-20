@@ -19,10 +19,10 @@ export const toPromise = func => (...args) =>
         func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
     );
 
-export const formatNumber = (number) => {
+export const formatNumber = (number, precision = 2) => {
   if (isNaN(number) || typeof number === 'undefined') { return 'Not Available'; }
   if (number === undefined || !number || typeof number !== 'number') { return number; }
-  return number.toFixed(2).replace(/./g, (c, i, a) => i && c !== '.' && ((a.length - i) % 3 === 0) ? `,${c}` : c);
+  return number.toFixed(precision).replace(/./g, (c, i, a) => i && c !== '.' && ((a.length - i) % 3 === 0) ? ` ${c}` : c);
 };
 
 export const computeICOTransparency = (answers) => {
@@ -232,7 +232,7 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
 };
 
 const getChartTimescale = (durationDays) => {
-  if (durationDays === 0) { return 'blocks'; } else if (durationDays === 1) { return 'hours'; } else if (durationDays > 1) { return 'days'; }
+  if (durationDays === 0) { return 'blocks'; } else if (durationDays < 5) { return 'hours'; } else { return 'days'; }
 };
 
 const mapEventIntoTimeScale = (event, timeScale) => {
@@ -244,11 +244,6 @@ const mapEventIntoTimeScale = (event, timeScale) => {
     days: datetime.formatDate()
   };
   return data[timeScale];
-};
-
-export const analyzeIssuedTokens = (tokenSupply, issuedToken) => {
-  const tokens = (tokenSupply - issuedToken).toFixed(2);
-  return tokens.valueOf();
 };
 
 // todo: use moment library here

@@ -66,7 +66,7 @@ export default {
       tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
       information: {
         aliasName: 'StatusNetwork',
-        logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
+        logo: 'http://status.im/img/new-site/apple-touch-icon-180.png?v=50fbb69',
         website: 'https://status.im/',
       },
       event: {
@@ -135,7 +135,7 @@ export default {
         cap: async (icoContract) => {
           const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
           const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-          return `Max: ${maxCap / 10 ** 18}\n Min: ${minCap / 10 ** 18}`;
+          return `Max: ${maxCap / 10 ** 18}\n Min: ${minCap / 10 ** 18} GNT`;
         },
         startDate: async (icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingStartBlock)();
@@ -169,7 +169,7 @@ export default {
       information: {
         aliasName: 'MelonPort',
         website: 'https://melonport.com/',
-        logo: 'https://golem.network/icons/apple-touch-icon.png',
+        logo: 'https://melonport.com/favicon.png',
       },
       event: {
         args: {
@@ -177,14 +177,15 @@ export default {
           sender: 'sender',
         },
         name: 'TokensBought',
+        firstTransactionBlockNumber: 3175204,
+        lastTransactionBlockNumber: 3187613
       },
       icoParameters: {
-        cap: async icoContract =>
-                    // const minerToken = getSmartContract(web3,'0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1');
-                    // const cap = await toPromise(minerToken.MAX_TOTAL_TOKEN_AMOUNT_OFFERED_TO_PUBLIC)();
-                    // return cap.valueOf()/10**18;
-                    // return 10**18;
-                     async () => 10 ** 18,
+        cap: async icoContract => {
+          const ethCap = await toPromise(icoContract.ETHER_CAP)();
+          // const preEthCap = await toPromise(icoContract.BTCS_ETHER_CAP)();
+          return `${convertWeb3Value(ethCap, 'ether')} ETH`
+        },
         startDate: async (icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
@@ -193,31 +194,31 @@ export default {
           const timestamp = await toPromise(icoContract.endTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
-        status: async icoContract => 'WAITING',
+        status: async icoContract => 'successful',
 
       },
       matrix: {
-        q1: { answer: true, comment: '' },
-        q2: { answer: true, comment: '' },
-        q3: { answer: false, comment: 'Source code is not exists' },
-        q4: { answer: true, comment: '' },
-        q5: { answer: true, comment: '' },
-        q6: { answer: true, comment: '' },
-        q7: { answer: null, comment: '' },
-        q8: { answer: true, comment: '' },
-        q9: { answer: false, comment: '' },
-        q10: { answer: true, comment: '' },
-        q11: { answer: true, comment: '' },
-        q12: { answer: true, comment: '' },
-        q13: { answer: true, comment: '' },
-        q14: { answer: true, comment: '' },
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true, comment: 'Simple, clean code' },
+        q11: { answer: true},
+        q12: { answer: true},
+        q13: { answer: true},
+        q14: { answer: true, comment: 'Halting function has no impact as there is no minimum cap' },
       },
     },
     '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413': {
       information: {
         aliasName: 'TheDAO',
-        website: 'https://dao.casino/',
-        logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
+        website: 'https://daowiki.atlassian.net/wiki',
+        logo: 'https://daowiki.atlassian.net/wiki/download/attachments/655365/DAO?version=2&modificationDate=1462133209864&cacheVersion=1&api=v2',
       },
       event: {
         args: {
@@ -225,9 +226,20 @@ export default {
           sender: 'to',
         },
         name: 'CreatedToken',
+        firstTransactionBlockNumber: 0,
+        lastTransactionBlockNumber: "latest"
       },
       icoParameters: {
-        status: async icoContract => 'WAITING',
+        cap: async icoContract => {
+          const daoMinCap = await toPromise(icoContract.minTokensToCreate)().valueOf();
+          return `Min: ${daoMinCap} DAOs Max: unbounded`
+        },
+        startDate: async (icoContract) => "contract creation",
+        endDate: async (icoContract) => {
+          const timestamp = await toPromise(icoContract.closingTime)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
+        },
+        status: async icoContract => 'successful', // could return isFueled
       },
       matrix: {
         q1: { answer: true, comment: '' },
@@ -250,7 +262,7 @@ export default {
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {
       information: {
         aliasName: 'TAAS',
-        logo: 'https://yt3.ggpht.com/-JvEFRK33tZA/AAAAAAAAAAI/AAAAAAAAAAA/71uuEERmHz0/s900-c-k-no-mo-rj-c0xffffff/photo.jpg',
+        logo: 'https://taas.fund/img/fav_icon.png',
         website: 'https://taas.fund/',
       },
       event: {

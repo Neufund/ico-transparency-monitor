@@ -48,9 +48,9 @@ class CurrencyButton extends Component {
     return (
       <div>
         <Row className="group-buttons">
-          <Col md={6}>
+          <Col>
             <div>
-              <p>Currency:</p>
+              <p>Convert to:</p>
               <ul className="currency-buttons">
                 {['EUR', 'USD', 'ETH'].map(item => (<li key={item}><a
                   className={this.state.currencyActiveClass === item ? 'active' : ''}
@@ -59,33 +59,28 @@ class CurrencyButton extends Component {
                   }}
                 >{item}</a></li>))}
               </ul>
+              <p>Rate from:</p>
+              <ul className="currency-buttons">
+                {['NOW', 'END'].map(item =>
+                  (<li key={item}><a
+                    className={this.state.exchangeRateActiveClass === item ? 'active' : ''}
+                    onClick={
+                              () => {
+                                this.onCurrencyHandle(null, item);
+                              }
+                            }>
+                    {CurrencyButton.mapButtonKeysToText(item)}</a></li>)
+                  )
+                }
+              </ul>
             </div>
           </Col>
           <Col md={6} className="exchangeRate">
             <p>
-              <span>Rate: </span>
-              <storng>1 ETH = {this.props.currencyValue} {this.props.currency}</storng>
+              <strong>ETH 1 = {this.props.currency} {this.props.currencyValue}</strong>
+              <br/>
+              <small>https://api.coinbase.com/v2/prices/ on {this.state.exchangeRateDate.formatDate()}</small>
             </p>
-            <br />
-            <p>
-              <em>https://api.coinbase.com/v2/prices/</em> on [{this.state.exchangeRateDate.formatDate()}]
-                        </p>
-          </Col>
-        </Row>
-        <Row className="group-buttons">
-          <Col md={12}>
-            <p>Exchange rate:</p>
-            <ul className="currency-buttons">
-              {['NOW', 'END'].map(item =>
-                (<li key={item}><a
-                  className={this.state.exchangeRateActiveClass === item ? 'active' : ''} onClick={
-                                    () => {
-                                      this.onCurrencyHandle(null, item);
-                                    }
-                                }
-                >{CurrencyButton.mapButtonKeysToText(item)}</a></li>))
-                            }
-            </ul>
           </Col>
         </Row>
       </div>

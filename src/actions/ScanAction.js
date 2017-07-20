@@ -14,6 +14,4 @@ export const resetRpc = () => ({ type: 'RESET_RPC' });
 
 export const errorMessage = () => ({ type: 'SHOW_MODAL_ERROR', message: 'WEB3_CONNECTION_FAIL' });
 
-export const increaseCounter = () => ({ type: 'INCREASE_COUNTER' });
-
-export const resetCounter = () => ({ type: 'RESET_COUNTER' });
+export const setBlock = block => ({ type: 'SET_BLOCK', block });

@@ -64,7 +64,7 @@ export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInv
           {
             tokensOverflow != 0 &&
             <tr>
-              <th>Number of tokens created outside of ICO <br/><i>*those tokens are not part of results below*</i></th>
+              <th>Number of tokens created outside of ICO <br /><i>*those tokens are not part of results below*</i></th>
               <td>{formatNumber(tokensOverflow)}</td>
             </tr>
           }

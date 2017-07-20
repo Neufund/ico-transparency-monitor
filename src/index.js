@@ -9,7 +9,7 @@ import RPCProvider from './components/RPCProvider';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import TransparencyModal from './components/transparency';
+import MessageBoxModal from './components/modals';
 import reducer from './reducers';
 
 const root = document.getElementById('root');
@@ -25,7 +25,7 @@ const render = (store) => {
               <Route exact path="/:name" component={Scan} />
             </Switch>
           </HashRouter>
-          <TransparencyModal />
+          <MessageBoxModal />
         </Layout>
       </RPCProvider>
     </Provider>, root);

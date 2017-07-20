@@ -121,6 +121,15 @@ textarea.console{
   text-align: center;
 }
 
+.alarm-middle{
+  vertical-align: middle;
+  position: absolute;
+  top: 40%;
+}
+.relative{
+  position: relative;
+}
+
 .table{
   width: 100%;
   border: solid thin;

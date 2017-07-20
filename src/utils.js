@@ -1,4 +1,4 @@
-import { getWeb3, getCurrentBlock, getSmartContract } from './utils/web3';
+import { getCurrentBlock, getSmartContract } from './utils/web3';
 import jQuery from 'jquery';
 import { default as config } from './config.js';
 import axios from 'axios';
@@ -29,24 +29,21 @@ export const computeICOTransparency = (answers) => {
   const nonTransparentAnswers = {};
   const transparentWithIssuesAnswers = {};
 
-  for(let key in config.matrix) {
+  for (const key in config.matrix) {
     if (config.matrix.hasOwnProperty(key)) {
       const answer = answers[key];
       const definition = config.matrix[key];
       // return lists of transparent-with-issues and non-transparent a answers
-      if (answer.answer == false || answer.answer === null && !definition.notApplicable)
-        (definition.critical ? nonTransparentAnswers : transparentWithIssuesAnswers)[key] = answer.comment;
+      if (answer.answer == false || answer.answer === null && !definition.notApplicable) { (definition.critical ? nonTransparentAnswers : transparentWithIssuesAnswers)[key] = answer.comment; }
     }
   }
 
-  if (Object.keys(nonTransparentAnswers).length !== 0)
-    return ['Non Transparent', nonTransparentAnswers];
-  if (Object.keys(transparentWithIssuesAnswers).length !== 0)
-    return ['With issues', transparentWithIssuesAnswers];
+  if (Object.keys(nonTransparentAnswers).length !== 0) { return ['Non Transparent', nonTransparentAnswers]; }
+  if (Object.keys(transparentWithIssuesAnswers).length !== 0) { return ['With issues', transparentWithIssuesAnswers]; }
   return ['Transparent', []];
 };
 
-Date.prototype.formatDate = function(fullFormat = false) {
+Date.prototype.formatDate = function (fullFormat = false) {
   return moment(this).format(fullFormat ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
 };
 
@@ -71,7 +68,7 @@ export const getValueOrNotAvailable = (props, input) => props && props[input] ? 
  * TODO: 2- Change the ID in getLog
  */
 
-export const getICOLogs = (web3, address, callback) => {
+export const getICOLogs = (web3, lastBlockNumber, address, callback) => {
   console.log('Start scanning the ICO');
   if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
     console.log(`${address} cached already.`);
@@ -79,13 +76,13 @@ export const getICOLogs = (web3, address, callback) => {
   }
 
   const ICO = config.ICOs[address];
-  console.log(web3, address);
   const customArgs = ICO.event.hasOwnProperty('customArgs') ? ICO.event.customArgs : {};
 
   const smartContract = getSmartContract(web3, address);
 
   const firstTxBlockNumber = ICO.event.firstTransactionBlockNumber || 0;
-  const lastTxBlockNumber = ICO.event.lastTransactionBlockNumber || `0x${getCurrentBlock().number.toString('hex')}`;
+
+  const lastTxBlockNumber = ICO.event.lastTransactionBlockNumber || lastBlockNumber;
   console.log(firstTxBlockNumber, lastTxBlockNumber);
   const event = smartContract[ICO.event.name](customArgs, {
     fromBlock: firstTxBlockNumber,
@@ -98,7 +95,7 @@ export const getICOLogs = (web3, address, callback) => {
     Accept: 'application/json',
     contentType: 'application/json',
     // TODO: request data from cache
-    headers: {'X-Node-Cache': 'long'},
+    // headers: {'X-Node-Cache': 'long'},
     data: JSON.stringify({
       id: 1497353430507566,
       jsonrpc: '2.0',
@@ -231,22 +228,22 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
   return [investorsChartXAxis, investmentChartXAxis];
 };
 
-const getChartTimescale = (durationDays) => {
-  if (durationDays === 0) { return 'blocks'; } else if (durationDays < 5) { return 'hours'; } else { return 'days'; }
+const getChartTimescale = (durationHours) => {
+  if (durationHours < 12) { return 'blocks'; } else if (durationHours > 12 && durationHours < 96) { return 'hours'; } return 'days';
 };
 
-const mapEventIntoTimeScale = (event, timeScale) => {
+const mapEventIntoTimeScale = (event, startTimestamp, timeScale) => {
     // todo: instead return a function that just is processing event, without ifs
   const datetime = new Date(event.timestamp * 1000);
   const data = {
-    hours: moment.utc(datetime).format('YYYY-MM-DD HH'),
+    // hours: Get the differece between ICO day of start and this transaction then plus 1, because the start is zero
+    hours: parseInt(moment.duration(moment(datetime).diff(moment(new Date(startTimestamp * 1000)))).asHours()) + 1,
     blocks: event.blockNumber,
-    days: datetime.formatDate()
+    days: datetime.formatDate(),
   };
   return data[timeScale];
 };
 
-// todo: use moment library here
 const getDurationFormat = duration => `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
             ${duration.get('months') > 0 ? `${duration.get('months')} Months` : ''}
             ${duration.get('days') > 0 ? `${duration.get('days')} Days` : ''}
@@ -319,14 +316,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
 };
 
 // TODO: Dispatch error message if any error raised by getWeb3 function
-export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEther) => {
-  let web3;
-  try {
-    web3 = getWeb3();
-  } catch (err) {
-    console.log(err);
-    return;
-  }
+export const getStatistics = (web3, selectedICO, events, statisticsICO) => {
   const csvContentArray = [];
   const startTimestamp = events[0].timestamp;
   const endTimestamp = events[events.length - 1].timestamp;
@@ -345,18 +335,15 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
 
   statisticsICO.general.transactionsCount = events.length;
 
-  const chartAmountTemp = {};
-  const chartTokenCountTemp = {};
+  const chartTokensCountTemp = {};
+  const chartTransactionsCountTemp = {};
 
   const ethersDataset = [];
 
-    // todo: how are you going to know what timescale is used by getChartTimescale to set up axis display on chart properly?
-
   const duration = moment.duration(moment(new Date(endTimestamp * 1000)).diff(moment(new Date(startTimestamp * 1000))));
-  const daysNumber = duration._data.days;
+  const timeScale = getChartTimescale(duration.asHours());
 
-  const format = getChartTimescale(daysNumber);
-
+  statisticsICO.time.scale = timeScale;
   console.log(events[0].blockNumber, events[events.length - 1].blockNumber);
   const eventArgs = selectedICO.event.args;
   for (let i = 0; i < events.length; i++) {
@@ -372,16 +359,17 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     const investor = item.args[eventArgs.sender];
     csvContentArray.push([investor, tokenValue, etherValue, (new Date(item.timestamp * 1000)).formatDate(true)]);
 
-    const blockDate = mapEventIntoTimeScale(item, format);
-    if (chartTokenCountTemp[blockDate] == undefined) { chartTokenCountTemp[blockDate] = 0; }
-    chartTokenCountTemp[blockDate] += 1;
+    const blockDate = mapEventIntoTimeScale(item, startTimestamp, timeScale);
 
-    if (chartAmountTemp[blockDate] == undefined) { chartAmountTemp[blockDate] = 0; }
-    chartAmountTemp[blockDate] += tokenValue;
+    if (typeof chartTransactionsCountTemp[blockDate] === 'undefined') { chartTransactionsCountTemp[blockDate] = 0; }
+    chartTransactionsCountTemp[blockDate] += 1;
+
+    if (typeof chartTokensCountTemp[blockDate] === 'undefined') { chartTokensCountTemp[blockDate] = 0; }
+    chartTokensCountTemp[blockDate] += tokenValue;
 
     const senders = statisticsICO.investors.senders;
 
-    if (senders[investor] == undefined) { senders[investor] = { tokens: 0, ETH: 0, times: 0 }; }
+    if (typeof senders[investor] === 'undefined') { senders[investor] = { tokens: 0, ETH: 0, times: 0 }; }
 
     senders[investor].ETH += parseFloat(etherValue);
     senders[investor].tokens += parseFloat(tokenValue);
@@ -395,25 +383,19 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
   statisticsICO.charts.transactionsCount = [];
   statisticsICO.charts.tokensCount = [];
 
-  Object.keys(chartAmountTemp).forEach((key) => {
-    statisticsICO.charts.transactionsCount.push({
-      name: parseFloat(key),
-      amount: parseFloat(chartAmountTemp[key].toFixed(2)),
-    });
-  });
-
-  Object.keys(chartAmountTemp).forEach(key => statisticsICO.charts.tokensCount.push({
+  Object.keys(chartTokensCountTemp).forEach(key => statisticsICO.charts.tokensCount.push({
     name: key,
-    amount: parseFloat(chartTokenCountTemp[key].toFixed(2)),
+    amount: parseFloat(chartTokensCountTemp[key].toFixed(2)),
+  }));
+
+  Object.keys(chartTokensCountTemp).forEach(key => statisticsICO.charts.transactionsCount.push({
+    name: key,
+    amount: parseFloat(chartTransactionsCountTemp[key].toFixed(2)),
   }));
 
   statisticsICO.investors.sendersSortedArray = convertInvestorsToSortedArray(statisticsICO.investors.senders);
   // Initialize the chart of investors by ether value
   statisticsICO.etherDataset = ethersDataset;
-  const distribution = getDistributedDataFromDataset(ethersDataset, currencyPerEther);
-  console.log(currencyPerEther, distribution);
-  statisticsICO.charts.investorsDistribution = distribution[0];
-  statisticsICO.charts.investmentDistribution = distribution[1];
 
   statisticsICO.charts.tokenHolders = tokenHoldersPercentage(
         statisticsICO.money.tokenIssued,

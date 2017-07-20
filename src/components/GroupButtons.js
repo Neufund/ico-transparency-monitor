@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
 import { connect } from 'react-redux';
-import { setCurrency, setCurrencyAction } from '../actions/CurrencyAction';
-import { getDistributedDataFromDataset } from '../utils.js';
+import { setCurrency, setStatisticsByCurrency } from '../actions/CurrencyAction';
 
 class CurrencyButton extends Component {
   constructor() {
@@ -37,11 +36,6 @@ class CurrencyButton extends Component {
     currency = currency || this.props.currency;
     this.props.setCurrency(currency, rateDate);
     this.setState({ exchangeRateActiveClass: dayClass, exchangeRateDate: rateDate, currencyActiveClass: currency });
-    const currentStatistics = this.props.stats;
-    const distribution = getDistributedDataFromDataset(currentStatistics.etherDataset, this.props.currencyValue);
-    currentStatistics.charts.investorsDistribution = distribution[0];
-    currentStatistics.charts.investmentDistribution = distribution[1];
-    this.props.drawStatistics(currentStatistics);
   }
 
   render() {
@@ -68,7 +62,8 @@ class CurrencyButton extends Component {
                               () => {
                                 this.onCurrencyHandle(null, item);
                               }
-                            }>
+                            }
+                  >
                     {CurrencyButton.mapButtonKeysToText(item)}</a></li>)
                   )
                 }
@@ -78,7 +73,7 @@ class CurrencyButton extends Component {
           <Col md={6} className="exchangeRate">
             <p>
               <strong>ETH 1 = {this.props.currency} {this.props.currencyValue}</strong>
-              <br/>
+              <br />
               <small>https://api.coinbase.com/v2/prices/ on {this.state.exchangeRateDate.formatDate()}</small>
             </p>
           </Col>
@@ -95,13 +90,13 @@ const mapStateToProps = state => ({
   stats: state.scan.stats,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setCurrency: ((currency, time) => setCurrency(currency, time, (error , currencyResult) => {
-    dispatch(setCurrencyAction(currencyResult.currency, currencyResult.value, currencyResult.time ));
-  })),
-  drawStatistics: (statistics) => {
-    dispatch({ type: 'DRAW_STATS', stats: statistics });
-  },
+const mapDispatchToProps = (dispatch, props) => ({
+  setCurrency: ((currency, time) =>
+
+    setCurrency(currency, time, (error, currencyResult) => {
+      console.log(`Selected currency is ${currencyResult.currency}, ${currencyResult.value}, ${currencyResult.time} `);
+      dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
+    })),
 });
 
 

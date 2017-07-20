@@ -1,6 +1,7 @@
 import Web3 from 'web3';
 import { default as config } from '../config.js';
-import { toPromise, expectException } from '../utils';
+import { toPromise } from '../utils';
+import { setBlock } from '../actions/ScanAction';
 
 const ProviderEngine = require('web3-provider-engine');
 // const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
@@ -39,28 +40,20 @@ export const createEngine = rpcUrl =>
     ]);
 
 
-export const web3Connect = () => {
+export const web3Connect = () => async (dispatch, getState) => {
   const engine = createEngine(config.rpcHost);
-  window.web3 = new Web3(engine);
-
+  const web3 = new Web3(engine);
+  const currentBlock = getState().blocks;
   engine.start();
+
   console.log(`${config.rpcHost} new connection`);
   // start monitoring current block
-  engine.on('block', function(block) {
-    console.log(block);
-    window.block = block;
+  engine.on('block', (block) => {
+    if ( currentBlock === null){
+      dispatch(setBlock(block));
+    }
   });
-  return window.web3;
-};
-
-export const web3Connection = () => async (dispatch, getState) => {
-  if (isConnected() === false) {
-    await dispatch({ type: 'SHOW_MODAL_ERROR', message: 'WEB3_CONNECTION_FAIL', web3: null });
-    return;
-  }
-
-  const web3 = web3Connect();
-  await dispatch({ type: 'SET_WEB3_CONNECTION', web3 });
+  dispatch({ type: 'SET_WEB3_CONNECTION', web3 });
 };
 
 export const getSmartContract = (web3, address) => {
@@ -70,18 +63,7 @@ export const getSmartContract = (web3, address) => {
   return web3.eth.contract(abi).at(address);
 };
 
-export const getWeb3 = () => {
-  if (isConnected() === false) { throw Error('SHOW_MODAL_ERROR'); }
-
-  if (typeof window !== 'undefined' && window.web3 !== undefined) { return window.web3; }
-
-  return web3Connect();
-};
-
-export const getCurrentBlock = () => {
-  return window.block;
-};
-
+export const getCurrentBlock = () => undefined;
 
 const getERC20Parameters = async (smartContract) => {
   const name = smartContract.name ? await toPromise(smartContract.name)() : null;
@@ -106,22 +88,21 @@ export const getICOParameters = async (web3, address) => {
   const icoContract = tokenContractAddress === address ? tokenContract : getSmartContract(web3, address);
   const icoParameters = config.ICOs[address].icoParameters;
   Object.keys(icoParameters).forEach((prop) => {
-    if (icoParameters[prop] !== null)
-      result[prop] = icoParameters[prop](icoContract);
+    if (icoParameters[prop] !== null) { result[prop] = icoParameters[prop](web3, icoContract); }
   });
 
   return result;
 };
 
-export const convertBlockNumberToDate = async (blockNumber) => {
-  const timestamp = (await toPromise(window.web3.eth.getBlock)(blockNumber.valueOf())).timestamp;
+export const convertBlockNumberToDate = async (web3, blockNumber) => {
+  const timestamp = (await toPromise(web3.eth.getBlock)(blockNumber.valueOf())).timestamp;
   return new Date(parseInt(timestamp) * 1000);
 };
 
-export const convertWeb3Value = (value, type) => {
+export const convertWeb3Value = (web3, value, type) => {
   switch (type) {
     case 'string' :return value;
-    case 'ether' :return window.web3.fromWei(value, 'ether').valueOf();
+    case 'ether' :return web3.fromWei(value, 'ether').valueOf();
     case 'timestamp' :return new Date(parseInt(value.valueOf()) * 1000);
   }
 };

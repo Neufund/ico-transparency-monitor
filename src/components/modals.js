@@ -41,7 +41,7 @@ class ContentTable extends Component {
           <Col md={3}>
             <button href="" className={`transparency-button ${this.state.decision.replace(/\s+/g, '-').toLowerCase()}-status`}>
               <p>Transparency</p>
-              <strong>                      {this.state.decision} <i className="fa fa-arrow-right" /> </strong>
+              <strong>                                                    {this.state.decision} <i className="fa fa-arrow-right" /> </strong>
             </button>
           </Col>
         </Row>
@@ -76,13 +76,13 @@ class ContentTable extends Component {
   }
 }
 
-const ErrorModal = ({ title , message }) => (<div>
-    <div>
-      <h3>{title}</h3>
-      <p>{message}</p>
-      <a href="/" >Reload</a>
-    </div>
-  </div>);
+const ErrorModal = ({ title, message }) => (<div>
+  <div>
+    <h3>{title}</h3>
+    <p>{message}</p>
+    <a href="/" >Reload</a>
+  </div>
+</div>);
 
 const MessageModal = ({ type, message }) => (
   <div>
@@ -95,7 +95,7 @@ const MessageModal = ({ type, message }) => (
   </div>
     );
 
-class TransparencyModal extends Component {
+class MessageBoxModal extends Component {
 
   render() {
     const { showModal, onModalClose, messageType, currentICO, message } = this.props;
@@ -105,12 +105,12 @@ class TransparencyModal extends Component {
           <MessageModal type={messageType} message={message} />
         </ModalDialog>
       </ModalContainer>);
-    }else if ( messageType === 'SHOW_MODAL_ERROR') {
+    } else if (messageType === 'SHOW_MODAL_ERROR') {
       return (showModal === true && <ModalContainer onClose={onModalClose}>
         <ModalDialog onClose={onModalClose}>
-        <ErrorModal code={503} title="RPC connection fail"  message={`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`}/>
+          <ErrorModal code={503} title="RPC connection fail" message={`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`} />
         </ModalDialog>
-        </ModalContainer>)
+        </ModalContainer>);
     }
 
     return (showModal === true && Object.keys(currentICO).length > 0 && <ModalContainer onClose={onModalClose}>
@@ -138,4 +138,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(TransparencyModal);
+)(MessageBoxModal);

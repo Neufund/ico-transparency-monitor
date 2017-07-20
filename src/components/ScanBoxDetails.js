@@ -3,7 +3,7 @@ import { Row, Col } from 'react-flexbox-grid';
 import GroupButtons from './GroupButtons';
 import '../assets/css/ScanBox.css';
 import { connect } from 'react-redux';
-import { TimeDetails, RaisedAmount, TokenIssued, Investors } from './details';
+import { TimeDetails, RaisedAmount, TokenIssued, TokenDistribution } from './details';
 import { SingleBarChart } from './charts';
 import { downloadCSV } from '../utils';
 import { default as config } from '../config.js';
@@ -12,10 +12,10 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <Row className="statistics">
     {console.log('ScanBoxDetails component did mount')}
     <Col md={12} className="scan-content">
-      <p> Actual values from ICO transactions analysis: </p>
       <TimeDetails {...props.stats.time} />
-      {props.totalSupply &&
-      <TokenIssued totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued} /> }
+      <TokenIssued totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}
+                   tokensOverflow={props.totalSupply - props.stats.money.tokenIssued}
+                   totalInvestors={Object.keys(props.stats.investors.senders).length} />
     </Col>
   </Row>
 
@@ -42,10 +42,10 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   </Row>
 
   <div className="scan-content">
-    {props.stats.money.tokenIssued > 0 &&
+
     <Row>
       <Col md={6} className="scan-content">
-        <Investors
+        <TokenDistribution
           total={props.stats.money.tokenIssued}
           investors={props.stats.investors}
           currency={props.currency}
@@ -62,16 +62,19 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           yLabel="Share of Tokens Owned"
         />
       </Col>
-    </Row>}
-    {props.stats.money.tokenIssued === 0 && <p>No token issued during this ICO</p>}
-
+    </Row>
     {props.matrix.q5.answer &&
-      <div className="fund-distribution">
-        <RaisedAmount totalETH={props.stats.money.totalETH} />
+     <div>
+        <h3 className="title">Raised amount</h3>
+        <RaisedAmount total={props.stats.money.totalETH} currency="ETH"
+                  avgTicket={props.stats.money.totalETH/Object.keys(props.stats.investors.senders).length}
+                  avgPrice={props.stats.money.totalETH/props.stats.money.tokenIssued}/>
+        <GroupButtons currencyValue={props.currencyValue} currency={props.currency} />
+        <RaisedAmount total={props.stats.money.totalETH*props.currencyValue} currency={props.currency}
+                  avgTicket={props.stats.money.totalETH*props.currencyValue/Object.keys(props.stats.investors.senders).length}
+                  avgPrice={props.stats.money.totalETH*props.currencyValue/props.stats.money.tokenIssued}/>
 
         <h3 className="title">Funds distribution</h3>
-
-        <GroupButtons currencyValue={props.currencyValue} currency={props.currency} />
         <Row>
           <Col md={12}>
 
@@ -95,8 +98,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
             />
           </Col>
         </Row>
-      </div>}
-  </div>
+     </div>}
+  </div>}
 
   {!props.matrix.q5.answer &&
   <div className="alarm">
@@ -106,13 +109,13 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 </div>);
 
 const mapStateToProps = (state, props) =>
-     ({
-       currency: state.currency.currency,
-       currencyValue: state.currency.value,
-       stats: state.scan.stats,
-       ...state.ICO.icos[props.address],
-       matrix: config.ICOs[props.address].matrix,
-     });
+  ({
+    currency: state.currency.currency,
+    currencyValue: state.currency.value,
+    stats: state.scan.stats,
+    ...state.ICO.icos[props.address],
+    matrix: config.ICOs[props.address].matrix,
+  });
 
 const mapDispatchToProps = (dispatch, state) => ({
   downloadCSV: (fileName) => {
@@ -124,4 +127,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ScanBoxDetails);
-

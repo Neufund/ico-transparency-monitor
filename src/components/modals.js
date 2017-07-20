@@ -38,10 +38,12 @@ class ContentTable extends Component {
       <div>
         <Row>
           <Col md={9}><h1> {this.currentICO.name}</h1></Col>
-          <Col md={3}>
-            <button href="" className={`transparency-button ${this.state.decision.replace(/\s+/g, '-').toLowerCase()}-status`}>
+          <Col md={3} className="part transparency">
+            <button className={`transparency-button ${this.state.decision.replace(/\s+/g, '-').toLowerCase()}-status`}>
               <p>Transparency</p>
-              <strong>                                                    {this.state.decision} <i className="fa fa-arrow-right" /> </strong>
+              <strong> {this.state.decision.toUpperCase()}
+              </strong>
+              <span className="arrow">&#8594;</span>
             </button>
           </Col>
         </Row>

@@ -9,7 +9,7 @@ body{
 .App-logo {
   position: absolute;
   left: 56px;
-  top: 14px;
+  top: 21px;
 }
 .App-logo img{
   height: 29.88px;	width: 29.54px;
@@ -34,7 +34,7 @@ body{
   width: 253px;
   color: #262B2F;
   font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   padding-left: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -153,10 +153,11 @@ body{
   padding: .5em;
 }
 .transparency-button{
-  height:54px;
+  height: 65px;
+  width: 245px;
   border-radius: 2px 0 0 2px;
   border: 0;
-  width:100%;
+  float:right;
   background-color: #D9DBDC;
   text-align: left;
 }
@@ -184,11 +185,22 @@ body{
 }
 
 .part.transparency p{
-  margin:0px;
+  margin:0;
+  font-size: 14px;
+  color: #4A4A4A;
 }
 .part.transparency strong,.scanbox-details .stats table td{
+  line-height: 24px;
   font-size: 16px;
   font-weight:bold;
+}
+
+.arrow{
+  content: "\2192";
+  float: right;
+  width:18px;
+  line-height: 19px;
+  font-size: 19px;
 }
 .nav-buttons{
   clear: both;

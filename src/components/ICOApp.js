@@ -53,10 +53,9 @@ const ICOApp = ({ ...props }) => (
                 }}
               >
                 <p>Transparency</p>
-                <strong> {getValueOrNotAvailable(props, 'decision')} <i
-                  className="fa fa-arrow-right"
-                />
+                <strong> {getValueOrNotAvailable(props, 'decision').toUpperCase()}
                 </strong>
+                <span className="arrow">&#8594;</span>
               </button>
             </Col>
 

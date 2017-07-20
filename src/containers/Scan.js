@@ -16,12 +16,10 @@ class Scan extends Component {
     }
   }
   render() {
-
     if(this.props.blocks  && this.state.isBlockMounted === false){
       this.setState({isBlockMounted:true});
       this.props.getLogs(this.props.address);
     }
-
     return (
       <div className="App">
         {this.state.isBlockMounted && <div>

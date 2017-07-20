@@ -30,7 +30,8 @@ export const ICOScanHeader = ({ ...props }) => (
                 }}
               >
                 <p>Transparency</p>
-                <strong> {props.decision} <i className="fa fa-arrow-right" /></strong>
+                <strong> {props.decision?props.decision.toUpperCase():''} </strong>
+                <span className="arrow">&#8594;</span>
               </button>
             </Col>
           </Row>

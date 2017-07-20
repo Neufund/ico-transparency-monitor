@@ -37,9 +37,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
       const tempResult = {};
       if (typeof parameter === 'object' && typeof parameter.then === 'function') {
         parameter.then(async (value) => {
-          if (typeof value === 'function')
-            {tempResult[constant] = await value(web3);}
-          else { tempResult[constant] = value; }
+          if (typeof value === 'function') { tempResult[constant] = await value(web3); } else { tempResult[constant] = value; }
 
           dispatch(setProperties(address, tempResult));
         });
@@ -58,13 +56,13 @@ export const getLogs = address => async (dispatch, getState) => {
     dispatch(errorMessage());
     return;
   }
-  setCurrency('EUR', new Date(), (error , currencyResult) => {
-    if(error) {
+  setCurrency('EUR', new Date(), (error, currencyResult) => {
+    if (error) {
       dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
       return;
     }
 
-    dispatch(setCurrencyAction(currencyResult.currency, currencyResult.value, currencyResult.time ));
+    dispatch(setCurrencyAction(currencyResult.currency, currencyResult.value, currencyResult.time));
     console.log('Start working on logs');
 
     getICOLogs(web3, address, async (error, logs) => {

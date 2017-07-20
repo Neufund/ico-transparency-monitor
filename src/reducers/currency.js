@@ -2,7 +2,7 @@ export const currency = (state = { currency: 'EUR', value: null, time: new Date(
   switch (action.type) {
 
     case 'SET_CURRENCY':
-      console.log(`Currency ${action.currency} dispatched by ${action.value}`)
+      console.log(`Currency ${action.currency} dispatched by ${action.value}`);
       return { ...state,
         currency: action.currency,
         value: action.value,

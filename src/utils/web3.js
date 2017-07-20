@@ -46,7 +46,7 @@ export const web3Connect = () => {
   engine.start();
   console.log(`${config.rpcHost} new connection`);
   // start monitoring current block
-  engine.on('block', function(block) {
+  engine.on('block', (block) => {
     console.log(block);
     window.block = block;
   });
@@ -78,9 +78,7 @@ export const getWeb3 = () => {
   return web3Connect();
 };
 
-export const getCurrentBlock = () => {
-  return window.block;
-};
+export const getCurrentBlock = () => window.block;
 
 
 const getERC20Parameters = async (smartContract) => {
@@ -106,8 +104,7 @@ export const getICOParameters = async (web3, address) => {
   const icoContract = tokenContractAddress === address ? tokenContract : getSmartContract(web3, address);
   const icoParameters = config.ICOs[address].icoParameters;
   Object.keys(icoParameters).forEach((prop) => {
-    if (icoParameters[prop] !== null)
-      result[prop] = icoParameters[prop](icoContract);
+    if (icoParameters[prop] !== null) { result[prop] = icoParameters[prop](icoContract); }
   });
 
   return result;

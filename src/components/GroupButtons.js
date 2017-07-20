@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
 import { connect } from 'react-redux';
-import { setCurrency, setCurrencyAction , setStatisticsByCurrency} from '../actions/CurrencyAction';
+import { setCurrency, setCurrencyAction, setStatisticsByCurrency } from '../actions/CurrencyAction';
 import { getDistributedDataFromDataset } from '../utils.js';
 
 class CurrencyButton extends Component {
@@ -63,7 +63,8 @@ class CurrencyButton extends Component {
                               () => {
                                 this.onCurrencyHandle(null, item);
                               }
-                            }>
+                            }
+                  >
                     {CurrencyButton.mapButtonKeysToText(item)}</a></li>)
                   )
                 }
@@ -73,7 +74,7 @@ class CurrencyButton extends Component {
           <Col md={6} className="exchangeRate">
             <p>
               <strong>ETH 1 = {this.props.currency} {this.props.currencyValue}</strong>
-              <br/>
+              <br />
               <small>https://api.coinbase.com/v2/prices/ on {this.state.exchangeRateDate.formatDate()}</small>
             </p>
           </Col>
@@ -90,13 +91,13 @@ const mapStateToProps = state => ({
   stats: state.scan.stats,
 });
 
-const mapDispatchToProps = (dispatch , props) => ({
+const mapDispatchToProps = (dispatch, props) => ({
   setCurrency: ((currency, time) =>
 
-    setCurrency(currency, time, (error , currencyResult) => {
-    console.log(`Selected currency is ${currencyResult.currency}, ${currencyResult.value}, ${currencyResult.time} `);
-    dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time ));
-  }))
+    setCurrency(currency, time, (error, currencyResult) => {
+      console.log(`Selected currency is ${currencyResult.currency}, ${currencyResult.value}, ${currencyResult.time} `);
+      dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
+    })),
 });
 
 

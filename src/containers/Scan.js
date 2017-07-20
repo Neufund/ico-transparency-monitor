@@ -53,7 +53,7 @@ const mapStateToProps = (state, props) => {
     address,
     ico: config.ICOs[address],
     currencyValue: state.currency.value,
-    isComponentReady : state.scan.showStats,
+    isComponentReady: state.scan.showStats,
     isLoading: state.scan.showLoader,
     web3: state.modal.web3,
   };
@@ -62,7 +62,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   getLogs: (address) => {
     dispatch(getLogs(address));
-  }
+  },
 });
 
 export default connect(

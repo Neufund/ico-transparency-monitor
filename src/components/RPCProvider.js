@@ -8,7 +8,6 @@ import { default as config } from '../config.js';
 class RPCProvider extends Component {
   constructor() {
     super();
-
   }
   componentWillMount() {
     this.props.rpcConnection();

@@ -13,9 +13,11 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     {console.log('ScanBoxDetails component did mount')}
     <Col md={12} className="scan-content">
       <TimeDetails {...props.stats.time} />
-      <TokenIssued totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}
-                   tokensOverflow={props.totalSupply - props.stats.money.tokenIssued}
-                   totalInvestors={Object.keys(props.stats.investors.senders).length} />
+      <TokenIssued
+        totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}
+        tokensOverflow={props.totalSupply - props.stats.money.tokenIssued}
+        totalInvestors={Object.keys(props.stats.investors.senders).length}
+      />
     </Col>
   </Row>
 
@@ -64,41 +66,45 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       </Col>
     </Row>
     {props.matrix.q5.answer &&
-     <div>
-        <h3 className="title">Raised amount</h3>
-        <RaisedAmount total={props.stats.money.totalETH} currency="ETH"
-                  avgTicket={props.stats.money.totalETH/Object.keys(props.stats.investors.senders).length}
-                  avgPrice={props.stats.money.totalETH/props.stats.money.tokenIssued}/>
-        <GroupButtons currencyValue={props.currencyValue} currency={props.currency} />
-        <RaisedAmount total={props.stats.money.totalETH*props.currencyValue} currency={props.currency}
-                  avgTicket={props.stats.money.totalETH*props.currencyValue/Object.keys(props.stats.investors.senders).length}
-                  avgPrice={props.stats.money.totalETH*props.currencyValue/props.stats.money.tokenIssued}/>
+    <div>
+      <h3 className="title">Raised amount</h3>
+      <RaisedAmount
+        total={props.stats.money.totalETH} currency="ETH"
+        avgTicket={props.stats.money.totalETH / Object.keys(props.stats.investors.senders).length}
+        avgPrice={props.stats.money.totalETH / props.stats.money.tokenIssued}
+      />
+      <GroupButtons currencyValue={props.currencyValue} currency={props.currency} />
+      <RaisedAmount
+        total={props.stats.money.totalETH * props.currencyValue} currency={props.currency}
+        avgTicket={props.stats.money.totalETH * props.currencyValue / Object.keys(props.stats.investors.senders).length}
+        avgPrice={props.stats.money.totalETH * props.currencyValue / props.stats.money.tokenIssued}
+      />
 
-        <h3 className="title">Funds distribution</h3>
-        <Row>
-          <Col md={12}>
+      <h3 className="title">Funds distribution</h3>
+      <Row>
+        <Col md={12}>
 
-            <SingleBarChart
-              data={props.stats.charts.investorsDistribution}
-              dataKey="Investors"
-              title="Number of Investors with Ticket of Size"
-              xLabel={`Ticket Size in [${props.currency}]`}
-              yLabel="Number of Investors"
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12} >
-            <SingleBarChart
-              data={props.stats.charts.investmentDistribution}
-              dataKey="Investments"
-              title="Total Amount Invested with Ticket of Size"
-              xLabel={`Ticket Size in [${props.currency}]`}
-              yLabel="Total Amount Invested"
-            />
-          </Col>
-        </Row>
-     </div>}
+          <SingleBarChart
+            data={props.stats.charts.investorsDistribution}
+            dataKey="Investors"
+            title="Number of Investors with Ticket of Size"
+            xLabel={`Ticket Size in [${props.currency}]`}
+            yLabel="Number of Investors"
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12} >
+          <SingleBarChart
+            data={props.stats.charts.investmentDistribution}
+            dataKey="Investments"
+            title="Total Amount Invested with Ticket of Size"
+            xLabel={`Ticket Size in [${props.currency}]`}
+            yLabel="Total Amount Invested"
+          />
+        </Col>
+      </Row>
+    </div>}
   </div>}
 
   {!props.matrix.q5.answer &&

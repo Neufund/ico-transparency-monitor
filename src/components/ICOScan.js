@@ -48,7 +48,7 @@ const mapStateToProps = (state, props) => ({
   ...state.ICO.icos[props.address],
   ...config.ICOs[props.address],
   isLoading: state.scan.showLoader,
-  web3 : state.modal.web3
+  web3: state.modal.web3,
 });
 export default connect(
     mapStateToProps,

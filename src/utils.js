@@ -29,24 +29,21 @@ export const computeICOTransparency = (answers) => {
   const nonTransparentAnswers = {};
   const transparentWithIssuesAnswers = {};
 
-  for(let key in config.matrix) {
+  for (const key in config.matrix) {
     if (config.matrix.hasOwnProperty(key)) {
       const answer = answers[key];
       const definition = config.matrix[key];
       // return lists of transparent-with-issues and non-transparent a answers
-      if (answer.answer == false || answer.answer === null && !definition.notApplicable)
-        (definition.critical ? nonTransparentAnswers : transparentWithIssuesAnswers)[key] = answer.comment;
+      if (answer.answer == false || answer.answer === null && !definition.notApplicable) { (definition.critical ? nonTransparentAnswers : transparentWithIssuesAnswers)[key] = answer.comment; }
     }
   }
 
-  if (Object.keys(nonTransparentAnswers).length !== 0)
-    return ['Non Transparent', nonTransparentAnswers];
-  if (Object.keys(transparentWithIssuesAnswers).length !== 0)
-    return ['With issues', transparentWithIssuesAnswers];
+  if (Object.keys(nonTransparentAnswers).length !== 0) { return ['Non Transparent', nonTransparentAnswers]; }
+  if (Object.keys(transparentWithIssuesAnswers).length !== 0) { return ['With issues', transparentWithIssuesAnswers]; }
   return ['Transparent', []];
 };
 
-Date.prototype.formatDate = function(fullFormat = false) {
+Date.prototype.formatDate = function (fullFormat = false) {
   return moment(this).format(fullFormat ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
 };
 
@@ -232,8 +229,8 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
 };
 
 const getChartTimescale = (durationHours) => {
-  console.log("Hours are " , durationHours);
-  if (durationHours < 12 ) { return 'blocks'; } else if (durationHours > 12 && durationHours < 96 ) { return 'hours'; } else { return 'days'; }
+  console.log('Hours are ', durationHours);
+  if (durationHours < 12) { return 'blocks'; } else if (durationHours > 12 && durationHours < 96) { return 'hours'; } return 'days';
 };
 
 const mapEventIntoTimeScale = (event, timeScale) => {
@@ -242,7 +239,7 @@ const mapEventIntoTimeScale = (event, timeScale) => {
   const data = {
     hours: moment.utc(datetime).format('YYYY-MM-DD HH'),
     blocks: event.blockNumber,
-    days: datetime.formatDate()
+    days: datetime.formatDate(),
   };
   return data[timeScale];
 };

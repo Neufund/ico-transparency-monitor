@@ -1,10 +1,72 @@
-import { toPromise } from './utils';
+import { toPromise, formatNumber } from './utils';
 import { convertWeb3Value, convertBlockNumberToDate } from './utils/web3';
 
 const rpcHost = require('./env.json').rpcHost;
 
 export default {
   ICOs: {
+    '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf': {
+      tokenContract: '0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0',
+      information: {
+        aliasName: 'EOS',
+        logo: 'https://d340lr3764rrcr.cloudfront.net/Images/favicon.ico',
+        website: 'https://eos.io/',
+      },
+      event: {
+        args: {
+          tokens: 'amount',
+          sender: 'user',
+
+        },
+        // in this transaction investors send money but claim their tokens later
+        name: ['LogBuy', 'LogClaim'],
+        firstTransactionBlockNumber: 0,
+        lastTransactionBlockNumber: "latest"
+      },
+
+      icoParameters: {
+        cap: async(icoContract) => {
+          const totEOS = convertWeb3Value(await toPromise(icoContract.totalSupply)(), "ether");
+          const foundersEOS = convertWeb3Value(await toPromise(icoContract.foundersAllocation)().valueOf(), "ether");
+          return `Max ${formatNumber(totEOS - foundersEOS)} EOS, no ETH cap!`
+        },
+        startDate: async(icoContract) => {
+          const timestamp = await toPromise(icoContract.openTime)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
+        },
+        endDate: async(icoContract) => {
+          const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf());
+          // (timestamp - startTime) / 23 hours + 1 -> EOS day has 23 hour days :P
+          // enddate = (numberofdays - 1) * 23h + startdate
+          const endTs = (await toPromise(icoContract.numberOfDays)().valueOf() - 1) * 23*60*60 + timestamp;
+          return (new Date(endTs*1000)).formatDate();
+        },
+        status: async(icoContract) => {
+          // mind EOS 23h days
+          // assert(time() >= openTime && today() <= numberOfDays);
+          const today = await toPromise(icoContract.today)().valueOf();
+          const noDays = await toPromise(icoContract.numberOfDays)().valueOf();
+          console.log(`${today} ${noDays}`);
+          return today <= noDays ? 'in progress' : 'successful';
+        }
+      },
+      matrix: {
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true, comment: 'Mind that owners can take ETH whenever thay want - nothing is locked! In principle this allows to manipulate daily EOS price'},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: false, comment: "Code is short but full of tricks: for example EOS day has 23 hours, beware your deadline to claim tokens!"},
+        q11: {answer: true, comment: 'Contract may fool you but in trustless way'},
+        q12: { answer: true, comment: 'Price set due to demand each day, mind to claim your tokens!'},
+        q13: { answer: true, comment: 'May be started and re-started whenever Tezos wants'},
+        q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you loose your ability to claim'},
+      },
+    },
     '0xb56d622DDF60ec532B5f43B4Ff9B0e7b1FF92dB3': {
       information: {
         aliasName: 'TEZOS Fundraiser',
@@ -17,11 +79,11 @@ export default {
           sender: 'tezos_pk_hash',
         },
         name: 'Deposit',
-        firstTransactionBlockNumber: 0,
-        lastTransactionBlockNumber: "latest"
+        firstTransactionBlockNumber: 3936447,
+        lastTransactionBlockNumber: 4016095
       },
       icoParameters: {
-        cap: async(icoContract) => "unbounded",
+        cap: async(icoContract) => "no max nor min cap",
         startDate: async(icoContract) => "NOT AND ICO!",
         endDate: async(icoContract) => "NOT AND ICO!",
         status: async(icoContract) => {

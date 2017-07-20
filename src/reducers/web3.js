@@ -3,7 +3,7 @@ import { getICOParameters, isConnected, web3Connect } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
-import { setCurrency, setCurrencyAction } from '../actions/CurrencyAction';
+import { setCurrency, setStatisticsByCurrency } from '../actions/CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile } from '../actions/ScanAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
@@ -56,33 +56,37 @@ export const getLogs = address => async (dispatch, getState) => {
     dispatch(errorMessage());
     return;
   }
-  setCurrency('EUR', new Date(), (error, currencyResult) => {
-    if (error) {
-      dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
-      return;
-    }
 
-    dispatch(setCurrencyAction(currencyResult.currency, currencyResult.value, currencyResult.time));
-    console.log('Start working on logs');
 
-    getICOLogs(web3, address, async (error, logs) => {
-      dispatch(hideLoader());
+  console.log('Start working on logs');
 
-      if (error || logs.length === 0) dispatch({ type: error });
-      else {
+  getICOLogs(web3, address, async (error, logs) => {
+    dispatch(hideLoader());
+
+    if (error || logs.length === 0) dispatch({ type: error });
+
+    else {
+      const smartContractConstants = await getICOParameters(web3, address);
+      const ico = config.ICOs[address];
+      ico.decimals = smartContractConstants.decimals;
+      const statistics = getStatistics(ico, logs, initStatistics());
+
+        // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
+      dispatch(drawStatistics(statistics[0]));
+      dispatch(allocateCSVFile(statistics[1]));
+
+      setCurrency('EUR', new Date(), (error, currencyResult) => {
+        if (error) {
+          dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
+          return;
+        }
+
         const currencyRate = currencyResult.value;
         console.log('Fetched Currency is ', currencyRate);
-        const smartContractConstants = await getICOParameters(web3, address);
-        const ico = config.ICOs[address];
-        ico.decimals = smartContractConstants.decimals;
 
-
-        const statistics = getStatistics(ico, logs, initStatistics(), getState().currency.value);
-	      // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
-        dispatch(drawStatistics(statistics[0]));
-        dispatch(allocateCSVFile(statistics[1]));
+        dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
         dispatch(showStatistics());
-      }
-    });
+      });
+    }
   });
 };

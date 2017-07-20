@@ -22,7 +22,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   </Row>
 
   <Row className="statistics">
-    <Col md={6}>
+    <Col md={6} className="relative">
       {props.stats.money.tokenIssued > 0 && <SingleBarChart
         title="Tokens over time"
         data={props.stats.charts.tokensCount}
@@ -30,7 +30,9 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
       />}
-      {props.stats.money.tokenIssued === 0 && <p>No token issued during this ICO</p>}
+      {props.stats.money.tokenIssued === 0 &&   <div className="alarm alarm-middle">
+        <p>No Token statistics: This ICO is not generating tokens or is not handling them in trustless way</p>
+      </div>}
     </Col>
     <Col md={6}>
       <SingleBarChart
@@ -44,7 +46,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   </Row>
 
   <div className="scan-content">
-
+    {props.stats.money.tokenIssued > 0 &&
     <Row>
       <Col md={6} className="scan-content">
         <TokenDistribution
@@ -65,7 +67,11 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         />
       </Col>
     </Row>
-    {props.matrix.q5.answer &&
+    }
+    {props.stats.money.tokenIssued === 0 &&   <div className="alarm">
+      <p>No Token statistics: This ICO is not generating tokens or is not handling them in trustless way</p>
+    </div>}
+    {props.stats.money.totalETH !== 0 &&
     <div>
       <h3 className="title">Raised amount</h3>
       <RaisedAmount
@@ -105,11 +111,11 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         </Col>
       </Row>
     </div>}
-  </div>}
+  </div>
 
-  {!props.matrix.q5.answer &&
+  {!props.stats.money.totalETH &&
   <div className="alarm">
-    <p>No statistics: This ICO Is not providing information on token price in ETH</p>
+    <p>No ETH statistics: This ICO Is not handling funds in a trustless way</p>
   </div>}
   <button className="chart-btn" onClick={() => props.downloadCSV(props.address)}>[Download Raw Data as CSV]</button>
 </div>);

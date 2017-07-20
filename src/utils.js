@@ -82,7 +82,8 @@ export const getICOLogs = (web3, address, callback) => {
   const smartContract = getSmartContract(web3, address);
 
   const firstTxBlockNumber = ICO.event.firstTransactionBlockNumber || 0;
-  const lastTxBlockNumber = ICO.event.lastTransactionBlockNumber || `0x${getCurrentBlock().number.toString('hex')}`;
+  console.log(getCurrentBlock());
+  const lastTxBlockNumber = ICO.event.lastTransactionBlockNumber || getCurrentBlock() != undefined ?`0x${getCurrentBlock().number.toString('hex')}`:'latest';
   console.log(firstTxBlockNumber, lastTxBlockNumber);
   const event = smartContract[ICO.event.name](customArgs, {
     fromBlock: firstTxBlockNumber,
@@ -229,15 +230,15 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
 };
 
 const getChartTimescale = (durationHours) => {
-  console.log('Hours are ', durationHours);
   if (durationHours < 12) { return 'blocks'; } else if (durationHours > 12 && durationHours < 96) { return 'hours'; } return 'days';
 };
 
-const mapEventIntoTimeScale = (event, timeScale) => {
+const mapEventIntoTimeScale = (event, startTimestamp, timeScale) => {
     // todo: instead return a function that just is processing event, without ifs
   const datetime = new Date(event.timestamp * 1000);
   const data = {
-    hours: moment.utc(datetime).format('YYYY-MM-DD HH'),
+    //hours: Get the differece between ICO day of start and this transaction then plus 1, because the start is zero
+    hours: parseInt(moment.duration(moment(datetime).diff(moment(new Date(startTimestamp * 1000)))).asHours())+1,
     blocks: event.blockNumber,
     days: datetime.formatDate(),
   };
@@ -316,7 +317,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
 };
 
 // TODO: Dispatch error message if any error raised by getWeb3 function
-export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEther) => {
+export const getStatistics = (selectedICO, events, statisticsICO) => {
   let web3;
   try {
     web3 = getWeb3();
@@ -366,16 +367,17 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     const investor = item.args[eventArgs.sender];
     csvContentArray.push([investor, tokenValue, etherValue, (new Date(item.timestamp * 1000)).formatDate(true)]);
 
-    const blockDate = mapEventIntoTimeScale(item, timeScale);
-    if (chartTransactionsCountTemp[blockDate] == undefined) { chartTransactionsCountTemp[blockDate] = 0; }
+    const blockDate = mapEventIntoTimeScale(item, startTimestamp ,timeScale);
+
+    if (typeof chartTransactionsCountTemp[blockDate] === "undefined") { chartTransactionsCountTemp[blockDate] = 0; }
     chartTransactionsCountTemp[blockDate] += 1;
 
-    if (chartTokensCountTemp[blockDate] == undefined) { chartTokensCountTemp[blockDate] = 0; }
+    if (typeof chartTokensCountTemp[blockDate] === "undefined") { chartTokensCountTemp[blockDate] = 0; }
     chartTokensCountTemp[blockDate] += tokenValue;
 
     const senders = statisticsICO.investors.senders;
 
-    if (senders[investor] == undefined) { senders[investor] = { tokens: 0, ETH: 0, times: 0 }; }
+    if (typeof senders[investor] === "undefined") { senders[investor] = { tokens: 0, ETH: 0, times: 0 }; }
 
     senders[investor].ETH += parseFloat(etherValue);
     senders[investor].tokens += parseFloat(tokenValue);
@@ -389,12 +391,10 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
   statisticsICO.charts.transactionsCount = [];
   statisticsICO.charts.tokensCount = [];
 
-  Object.keys(chartTokensCountTemp).forEach((key) => {
-    statisticsICO.charts.tokensCount.push({
-      name: parseFloat(key),
+  Object.keys(chartTokensCountTemp).forEach( key => statisticsICO.charts.tokensCount.push({
+      name: key,
       amount: parseFloat(chartTokensCountTemp[key].toFixed(2)),
-    });
-  });
+    }));
 
   Object.keys(chartTokensCountTemp).forEach(key => statisticsICO.charts.transactionsCount.push({
     name: key,
@@ -404,10 +404,6 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
   statisticsICO.investors.sendersSortedArray = convertInvestorsToSortedArray(statisticsICO.investors.senders);
   // Initialize the chart of investors by ether value
   statisticsICO.etherDataset = ethersDataset;
-  const distribution = getDistributedDataFromDataset(ethersDataset, currencyPerEther);
-  console.log(currencyPerEther, distribution);
-  statisticsICO.charts.investorsDistribution = distribution[0];
-  statisticsICO.charts.investmentDistribution = distribution[1];
 
   statisticsICO.charts.tokenHolders = tokenHoldersPercentage(
         statisticsICO.money.tokenIssued,

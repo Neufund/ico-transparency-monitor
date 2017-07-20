@@ -231,8 +231,9 @@ export const getDistributedDataFromDataset = (ethersDataset = [], currencyPerEth
   return [investorsChartXAxis, investmentChartXAxis];
 };
 
-const getChartTimescale = (durationDays) => {
-  if (durationDays === 0) { return 'blocks'; } else if (durationDays < 5) { return 'hours'; } else { return 'days'; }
+const getChartTimescale = (durationHours) => {
+  console.log("Hours are " , durationHours);
+  if (durationHours < 12 ) { return 'blocks'; } else if (durationHours > 12 && durationHours < 96 ) { return 'hours'; } else { return 'days'; }
 };
 
 const mapEventIntoTimeScale = (event, timeScale) => {
@@ -246,7 +247,6 @@ const mapEventIntoTimeScale = (event, timeScale) => {
   return data[timeScale];
 };
 
-// todo: use moment library here
 const getDurationFormat = duration => `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
             ${duration.get('months') > 0 ? `${duration.get('months')} Months` : ''}
             ${duration.get('days') > 0 ? `${duration.get('days')} Days` : ''}
@@ -350,13 +350,10 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
 
   const ethersDataset = [];
 
-    // todo: how are you going to know what timescale is used by getChartTimescale to set up axis display on chart properly?
-
   const duration = moment.duration(moment(new Date(endTimestamp * 1000)).diff(moment(new Date(startTimestamp * 1000))));
-  const daysNumber = duration._data.days;
+  const timeScale = getChartTimescale(duration.asHours());
 
-  const format = getChartTimescale(daysNumber);
-
+  statisticsICO.time.scale = timeScale;
   console.log(events[0].blockNumber, events[events.length - 1].blockNumber);
   const eventArgs = selectedICO.event.args;
   for (let i = 0; i < events.length; i++) {
@@ -372,7 +369,7 @@ export const getStatistics = (selectedICO, events, statisticsICO, currencyPerEth
     const investor = item.args[eventArgs.sender];
     csvContentArray.push([investor, tokenValue, etherValue, (new Date(item.timestamp * 1000)).formatDate(true)]);
 
-    const blockDate = mapEventIntoTimeScale(item, format);
+    const blockDate = mapEventIntoTimeScale(item, timeScale);
     if (chartTransactionsCountTemp[blockDate] == undefined) { chartTransactionsCountTemp[blockDate] = 0; }
     chartTransactionsCountTemp[blockDate] += 1;
 

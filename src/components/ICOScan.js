@@ -8,7 +8,7 @@ import { default as config } from '../config.js';
 const ICOScan = ({ ...props }) => (<div>
   <ICOScanHeader {...props} />
   <Row>
-    <div id="loadingProgressG" className={props.showLoader === true ? 'show' : 'hide'}>
+    <div id="loadingProgressG" className={props.isLoading === true ? 'show' : 'hide'}>
       <div id="loadingProgressG_1" className="loadingProgressG" />
     </div>
     {!props.showLoader && props.web3 && <Col md={12}>
@@ -47,7 +47,7 @@ const ICOScan = ({ ...props }) => (<div>
 const mapStateToProps = (state, props) => ({
   ...state.ICO.icos[props.address],
   ...config.ICOs[props.address],
-  showLoader: state.scan.showLoader,
+  isLoading: state.scan.showLoader,
   web3 : state.modal.web3
 });
 export default connect(

@@ -95,7 +95,7 @@ const MessageModal = ({ type, message }) => (
   </div>
     );
 
-class TransparencyModal extends Component {
+class MessageBoxModal extends Component {
 
   render() {
     const { showModal, onModalClose, messageType, currentICO, message } = this.props;
@@ -138,4 +138,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(TransparencyModal);
+)(MessageBoxModal);

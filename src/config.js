@@ -19,29 +19,29 @@ export default {
 
         },
         // in this transaction investors send money but claim their tokens later
-        name: ['LogBuy', 'LogClaim'],
+        name: 'LogBuy',
         firstTransactionBlockNumber: 0,
         lastTransactionBlockNumber: "latest"
       },
 
       icoParameters: {
-        cap: async(icoContract) => {
-          const totEOS = convertWeb3Value(await toPromise(icoContract.totalSupply)(), "ether");
-          const foundersEOS = convertWeb3Value(await toPromise(icoContract.foundersAllocation)().valueOf(), "ether");
+        cap: async(web3, icoContract) => {
+          const totEOS = convertWeb3Value(web3, await toPromise(icoContract.totalSupply)(), "ether");
+          const foundersEOS = convertWeb3Value(web3, await toPromise(icoContract.foundersAllocation)().valueOf(), "ether");
           return `Max ${formatNumber(totEOS - foundersEOS)} EOS, no ETH cap!`
         },
-        startDate: async(icoContract) => {
+        startDate: async(web3, icoContract) => {
           const timestamp = await toPromise(icoContract.openTime)();
-          return convertWeb3Value(timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
         },
-        endDate: async(icoContract) => {
+        endDate: async(web3, icoContract) => {
           const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf());
           // (timestamp - startTime) / 23 hours + 1 -> EOS day has 23 hour days :P
           // enddate = (numberofdays - 1) * 23h + startdate
           const endTs = (await toPromise(icoContract.numberOfDays)().valueOf() - 1) * 23*60*60 + timestamp;
           return (new Date(endTs*1000)).formatDate();
         },
-        status: async(icoContract) => {
+        status: async(web3, icoContract) => {
           // mind EOS 23h days
           // assert(time() >= openTime && today() <= numberOfDays);
           const today = await toPromise(icoContract.today)().valueOf();
@@ -83,10 +83,10 @@ export default {
         lastTransactionBlockNumber: 4016095
       },
       icoParameters: {
-        cap: async(icoContract) => "no max nor min cap",
-        startDate: async(icoContract) => "NOT AND ICO!",
-        endDate: async(icoContract) => "NOT AND ICO!",
-        status: async(icoContract) => {
+        cap: async(web3, icoContract) => "no max nor min cap",
+        startDate: async(web3, icoContract) => "NOT AND ICO!",
+        endDate: async(web3, icoContract) => "NOT AND ICO!",
+        status: async(web3, icoContract) => {
           const isRunning = await toPromise(icoContract.accept)();
           // tezos does what they want. may start at any moment in the future
           return isRunning.valueOf() ? 'in progress' : 'successful';
@@ -336,8 +336,8 @@ export default {
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
-          const daoMinCap = await toPromise(icoContract.minTokensToCreate)().valueOf();
-          return `Min: ${daoMinCap} DAOs Max: unbounded`;
+          const daoMinCap = await toPromise(icoContract.minTokensToCreate)();
+          return `Min: ${convertWeb3Value(web3, daoMinCap, "ether")} DAOs Max: unbounded`;
         },
         startDate: async icoContract => 'contract creation',
         endDate: async (web3, icoContract) => {

@@ -17,6 +17,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}
         tokensOverflow={props.totalSupply - props.stats.money.tokenIssued}
         totalInvestors={Object.keys(props.stats.investors.senders).length}
+        totalTransactions={props.stats.general.transactionsCount}
       />
     </Col>
   </Row>

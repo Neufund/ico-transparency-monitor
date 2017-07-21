@@ -47,7 +47,7 @@ export const RaisedAmount = ({ total, avgTicket, avgPrice, currency }) => (
   </div>
 );
 
-export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInvestors }) => (
+export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
   <div>
     <h3 className="title">Tokens issuance</h3>
     <div className="stats">
@@ -56,6 +56,10 @@ export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInv
           <tr>
             <th>Number of Investors</th>
             <td>{formatNumber(totalInvestors, 0)}</td>
+          </tr>
+          <tr>
+            <th>Number of Transactions</th>
+            <td>{formatNumber(totalTransactions, 0)}</td>
           </tr>
           <tr>
             <th>Number of tokens created during the ICO</th>

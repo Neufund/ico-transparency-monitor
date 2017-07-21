@@ -31,7 +31,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
   const parameters = await getICOParameters(web3, address);
-  config.ICOs[address].decimals = parameters.decimals; // set decimals in config from smart contract
+  config.ICOs[address].decimals = parameters.decimals || config.ICOs[address].decimals; // set decimals in config from smart contract
   Object.keys(parameters).forEach((par) => {
     const parameter = parameters[par];
     if (parameter === null) return;
@@ -51,7 +51,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 export const getLogs = address => async (dispatch, getState) => {
   dispatch(showLoader());
   const web3 = getState().modal.web3;
-  const lastBlockNumber = `0x${getState().blocks.number.toString('hex')}`;
+  const lastBlockNumber = parseInt(`0x${getState().blocks.number.toString('hex')}`);
 
   if (!web3) {
     dispatch(errorMessage());
@@ -60,26 +60,30 @@ export const getLogs = address => async (dispatch, getState) => {
 
   const icoConfig = config.ICOs[address];
   const icoContract = getSmartContract(web3, address);
-  const firstTxBlockNumber = icoConfig.event.firstTransactionBlockNumber || 0;
-  const lastTxBlockNumber = icoConfig.event.lastTransactionBlockNumber || lastBlockNumber;
-  console.log(firstTxBlockNumber, lastTxBlockNumber);
 
   // now parition into many smaller calls
   const logRequests = [];
-  if (!icoConfig.event.maxBlocksInChunk || !firstTxBlockNumber || lastTxBlockNumber === 'latest') {
-    // do in one request
-    logRequests.push([firstTxBlockNumber, lastTxBlockNumber]);
-  } else {
-    let i = firstTxBlockNumber;
-    for(; i < lastTxBlockNumber; i += icoConfig.event.maxBlocksInChunk) {
-      logRequests.push([i, i + icoConfig.event.maxBlocksInChunk - 1]);
+  Object.keys(icoConfig.events).forEach((eventName) => {
+    const event = icoConfig.events[eventName];
+    const firstTxBlockNumber = event.firstTransactionBlockNumber || 0;
+    const lastTxBlockNumber = event.lastTransactionBlockNumber || lastBlockNumber;
+    console.log(eventName, firstTxBlockNumber, lastTxBlockNumber);
+
+    if (!event.maxBlocksInChunk || !firstTxBlockNumber || lastTxBlockNumber === 'latest') {
+      // do in one request
+      logRequests.push([firstTxBlockNumber, lastTxBlockNumber, eventName]);
+    } else {
+      let i = firstTxBlockNumber;
+      for (; i < lastTxBlockNumber; i += event.maxBlocksInChunk) {
+        logRequests.push([i, i + event.maxBlocksInChunk - 1, eventName]);
+      }
+      // push last block which is variable
+      logRequests.push([i, lastTxBlockNumber, eventName]);
     }
-    // push last block which is variable
-    logRequests.push([i, lastTxBlockNumber]);
-  }
-  const allLogs = [];
+  });
+  const allLogs = {};
   const finalProcessor = () => {
-      const statistics = getStatistics(web3, icoConfig, allLogs, initStatistics());
+      const statistics = getStatistics(icoConfig, allLogs, initStatistics());
       // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
       dispatch(drawStatistics(statistics[0]));
       dispatch(allocateCSVFile(statistics[1]));
@@ -98,12 +102,19 @@ export const getLogs = address => async (dispatch, getState) => {
       });
   };
   const logProcessor = () => {
-    getICOLogs(logRequests.shift(), icoConfig, icoContract, async(error, logs) => {
+    const range = logRequests.shift();
+    const eventName = range[2];
+    getICOLogs(range, icoConfig, icoContract, async(error, logs) => {
       if (error) {
         dispatch(hideLoader());
         dispatch({type: error});
       } else {
-        allLogs.push(...logs);
+        // store logs, for each event separately
+        if (eventName in allLogs) {
+          allLogs[eventName].push(...logs);
+        } else {
+          allLogs[eventName] = logs;
+        }
         if (logRequests.length === 0) {
           dispatch(hideLoader());
           finalProcessor();

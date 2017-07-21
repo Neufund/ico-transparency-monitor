@@ -12,17 +12,26 @@ export default {
         logo: 'https://d340lr3764rrcr.cloudfront.net/Images/favicon.ico',
         website: 'https://eos.io/',
       },
-      event: {
-        args: {
-          tokens: null, // tokens not generated here
-          sender: 'user',
-
+      events: {
+        'LogBuy': {
+          args: {
+            tokens: null, // tokens not generated here, just ether gathered
+            sender: 'user'
+          },
+          firstTransactionBlockNumber: 3932884,
+          lastTransactionBlockNumber: null, //follow last block
+          maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
+          countTransactions: true
         },
-        // in this transaction investors send money but claim their tokens later
-        name: 'LogBuy',
-        firstTransactionBlockNumber: 3932884,
-        lastTransactionBlockNumber: null, //follow last block
-        maxBlocksInChunk: 12960 // scan in 3 days blocks, last one is open
+        'LogClaim': {
+          args: {
+            tokens: 'amount', // tokens are generated when claimed
+            sender: 'user'
+          },
+          firstTransactionBlockNumber: 3932884,
+          lastTransactionBlockNumber: null, //follow last block
+          maxBlocksInChunk: 12960 // scan in 3 days blocks, last one is open
+        }
       },
       /*event: {
         args: {
@@ -86,15 +95,17 @@ export default {
         logo: 'https://district0x.io/images/favicon.png',
         website: 'https://district0x.io/',
       },
-      event: {
-        args: {
-          tokens: null, // actually district0x does not issue tokens in trustless way
-          sender: 'contributor',
-          ether: 'amount', // district0x ICO logs actual ether value !== transaction ether as they return overflow to sender
-        },
-        name: 'onContribution',
-        firstTransactionBlockNumber: 4039777,
-        lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
+      events: {
+        'onContribution': {
+          args: {
+            tokens: null, // actually district0x does not issue tokens in trustless way
+            sender: 'contributor',
+            ether: 'amount', // district0x ICO logs actual ether value !== transaction ether as they return overflow to sender
+          },
+          firstTransactionBlockNumber: 4039777,
+          lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
@@ -143,14 +154,16 @@ export default {
         logo: 'https://www.tezos.com/static/favicon.ico',
         website: 'https://www.tezos.com/',
       },
-      event: {
-        args: {
-          tokens: null, // not an ICO
-          sender: 'tezos_pk_hash',
-        },
-        name: 'Deposit',
-        firstTransactionBlockNumber: 3936447,
-        lastTransactionBlockNumber: 4016095
+      events: {
+        'Deposit': {
+          args: {
+            tokens: null, // not an ICO
+            sender: 'tezos_pk_hash',
+          },
+          firstTransactionBlockNumber: 3936447,
+          lastTransactionBlockNumber: 4016095,
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async(web3, icoContract) => "no max nor min cap",
@@ -186,15 +199,17 @@ export default {
         logo: 'https://aragon.one/favicon.png',
         website: 'https://aragon.network/',
       },
-      event: {
-        args: {
-          tokens: 'antAmount',
-          sender: 'holder',
-          ether: 'etherAmount', // status ICO logs actual ether value !== transaction ether as they return overflow to sender
-        },
-        name: 'NewBuyer',
-        firstTransactionBlockNumber: 3723000,
-        lastTransactionBlockNumber: 3723218,
+      events: {
+        'NewBuyer': {
+          args: {
+            tokens: 'antAmount',
+            sender: 'holder',
+            ether: 'etherAmount', // status ICO logs actual ether value !== transaction ether as they return overflow to sender
+          },
+          firstTransactionBlockNumber: 3723000,
+          lastTransactionBlockNumber: 3723218,
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
@@ -235,15 +250,17 @@ export default {
         logo: 'http://status.im/img/new-site/apple-touch-icon-180.png?v=50fbb69',
         website: 'https://status.im/',
       },
-      event: {
-        args: {
-          tokens: '_tokens',
-          sender: '_th',
-          ether: '_amount', // status ICO logs actual ether value !== transaction ether as they return overflow to sender
-        },
-        name: 'NewSale',
-        firstTransactionBlockNumber: 3903900,
-        lastTransactionBlockNumber: 3907820,
+      events: {
+        'NewSale': {
+          args: {
+            tokens: '_tokens',
+            sender: '_th',
+            ether: '_amount', // status ICO logs actual ether value !== transaction ether as they return overflow to sender
+          },
+          firstTransactionBlockNumber: 3903900,
+          lastTransactionBlockNumber: 3907820,
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
@@ -285,17 +302,19 @@ export default {
         website: 'https://golem.network/',
         logo: 'https://golem.network/icons/apple-touch-icon.png',
       },
-      event: {
-        args: {
-          tokens: '_value',
-          sender: '_to',
-        },
-        name: 'Transfer',
-        customArgs: {
-          _from: '0x0000000000000000000000000000000000000000',
-        },
-        firstTransactionBlockNumber: 2607801,
-        lastTransactionBlockNumber: 2607938, // use block number to skip tokens created in finalize()
+      events: {
+        'Transfer': {
+          args: {
+            tokens: '_value',
+            sender: '_to',
+          },
+          customArgs: {
+            _from: '0x0000000000000000000000000000000000000000',
+          },
+          firstTransactionBlockNumber: 2607801,
+          lastTransactionBlockNumber: 2607938, // use block number to skip tokens created in finalize()
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
@@ -329,6 +348,7 @@ export default {
         q13: { answer: true },
         q14: { answer: true },
       },
+      decimals: 18 // golem does not provide decimals
     },
     '0x3BF541f87056D134E0109BE1Be92978b26Cb09e0': {
       tokenContract: '0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',
@@ -337,14 +357,16 @@ export default {
         website: 'https://melonport.com/',
         logo: 'https://melonport.com/favicon.png',
       },
-      event: {
-        args: {
-          tokens: 'amount',
-          sender: 'sender',
-        },
-        name: 'TokensBought',
-        firstTransactionBlockNumber: 3175204,
-        lastTransactionBlockNumber: 3187613,
+      events: {
+        'TokensBought': {
+          args: {
+            tokens: 'amount',
+            sender: 'sender',
+          },
+          firstTransactionBlockNumber: 3175204,
+          lastTransactionBlockNumber: 3187613,
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
@@ -386,14 +408,16 @@ export default {
         website: 'https://daowiki.atlassian.net/wiki',
         logo: 'https://daowiki.atlassian.net/wiki/download/attachments/655365/DAO?version=2&modificationDate=1462133209864&cacheVersion=1&api=v2',
       },
-      event: {
-        args: {
-          tokens: 'amount',
-          sender: 'to',
-        },
-        name: 'CreatedToken',
-        firstTransactionBlockNumber: 0,
-        lastTransactionBlockNumber: 'latest',
+      events: {
+        'CreatedToken': {
+          args: {
+            tokens: 'amount',
+            sender: 'to',
+          },
+          firstTransactionBlockNumber: 0,
+          lastTransactionBlockNumber: 'latest',
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
@@ -431,17 +455,19 @@ export default {
         logo: 'https://taas.fund/img/fav_icon.png',
         website: 'https://taas.fund/',
       },
-      event: {
-        name: 'Transfer',
-        args: {
-          tokens: 'value',
-          sender: 'to',
-        },
-        customArgs: {
-          from: '0x94917caf0cb1131345911874a2ceaf6ae2e8ee0f',
-        },
-        firstTransactionBlockNumber: 3427798,
-        lastTransactionBlockNumber: 3648684,
+      events: {
+        'Transfer': {
+          args: {
+            tokens: 'value',
+            sender: 'to',
+          },
+          customArgs: {
+            from: '0x94917caf0cb1131345911874a2ceaf6ae2e8ee0f',
+          },
+          firstTransactionBlockNumber: 3427798,
+          lastTransactionBlockNumber: 3648684,
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async icoContract => 'not provided',

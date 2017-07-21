@@ -19,7 +19,7 @@ export default {
 
         },
         // in this transaction investors send money but claim their tokens later
-        name: 'LogBuy',
+        name: 'LogClaim',
         firstTransactionBlockNumber: 0,
         lastTransactionBlockNumber: "latest"
       },
@@ -60,11 +60,11 @@ export default {
         q7: { answer: true, comment: 'Mind that owners can take ETH whenever thay want - nothing is locked! In principle this allows to manipulate daily EOS price'},
         q8: { answer: null},
         q9: { answer: null},
-        q10: { answer: false, comment: "Code is short but full of tricks: for example EOS day has 23 hours, beware your deadline to claim tokens!"},
+        q10: { answer: false, comment: "Code is short but full of tricks: for example EOS day has 23 hours, claimAll method will soon throw out of gas (it is a gas eater!), one day after ICO ends claims are blocked etc."},
         q11: {answer: true, comment: 'Contract may fool you but in trustless way'},
         q12: { answer: true, comment: 'Price set due to demand each day, mind to claim your tokens!'},
         q13: { answer: true, comment: 'May be started and re-started whenever Tezos wants'},
-        q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you loose your ability to claim'},
+        q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim'},
       },
     },
     '0xb56d622DDF60ec532B5f43B4Ff9B0e7b1FF92dB3': {

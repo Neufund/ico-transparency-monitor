@@ -26,26 +26,25 @@ export const readSmartContract = address => async (dispatch, getState) => {
   if (!web3) {
     return;
   }
-  const matrix = config.ICOs[address].matrix;
-  const transparencyDecision = computeICOTransparency(matrix)[0];
+  const answers = config.ICOs[address].matrix;
+  const transparencyDecision = computeICOTransparency(answers)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
-  getICOParameters(web3, address).then((parameters) => {
-    Object.keys(parameters).forEach((constant) => {
-      const parameter = parameters[constant];
-      if (parameter === null) return;
-      const tempResult = {};
-      if (typeof parameter === 'object' && typeof parameter.then === 'function') {
-        parameter.then(async (value) => {
-          if (typeof value === 'function') { tempResult[constant] = await value(web3); } else { tempResult[constant] = value; }
-
-          dispatch(setProperties(address, tempResult));
-        });
-      } else {
-        tempResult[constant] = parameter;
+  const parameters = await getICOParameters(web3, address);
+  config.ICOs[address].decimals = parameters.decimals; // set decimals in config from smart contract
+  Object.keys(parameters).forEach((par) => {
+    const parameter = parameters[par];
+    if (parameter === null) return;
+    const tempResult = {};
+    if (typeof parameter === 'object' && typeof parameter.then === 'function') {
+      parameter.then(async (value) => {
+        if (typeof value === 'function') { tempResult[par] = await value(web3); } else { tempResult[par] = value; }
         dispatch(setProperties(address, tempResult));
-      }
-    });
+      });
+    } else {
+      tempResult[par] = parameter;
+      dispatch(setProperties(address, tempResult));
+    }
   });
 };
 
@@ -64,10 +63,6 @@ export const getLogs = address => async (dispatch, getState) => {
   const firstTxBlockNumber = icoConfig.event.firstTransactionBlockNumber || 0;
   const lastTxBlockNumber = icoConfig.event.lastTransactionBlockNumber || lastBlockNumber;
   console.log(firstTxBlockNumber, lastTxBlockNumber);
-
-  // load icoParameters
-  const smartContractConstants = await getICOParameters(web3, address);
-  icoConfig.decimals = smartContractConstants.decimals;
 
   // now parition into many smaller calls
   const logRequests = [];

@@ -14,6 +14,17 @@ export default {
       },
       event: {
         args: {
+          tokens: null, // tokens not generated here
+          sender: 'user',
+
+        },
+        // in this transaction investors send money but claim their tokens later
+        name: 'LogBuy',
+        firstTransactionBlockNumber: 3932884,
+        lastTransactionBlockNumber: "latest"
+      },
+      /*event: {
+        args: {
           tokens: 'amount',
           sender: 'user',
 
@@ -22,7 +33,7 @@ export default {
         name: 'LogClaim',
         firstTransactionBlockNumber: 0,
         lastTransactionBlockNumber: "latest"
-      },
+      },*/
 
       icoParameters: {
         cap: async(web3, icoContract) => {

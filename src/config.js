@@ -26,13 +26,13 @@ export default {
 
       icoParameters: {
         cap: async(web3, icoContract) => {
-          const totEOS = convertWeb3Value(web3, await toPromise(icoContract.totalSupply)(), "ether");
-          const foundersEOS = convertWeb3Value(web3, await toPromise(icoContract.foundersAllocation)().valueOf(), "ether");
+          const totEOS = convertWeb3Value(await toPromise(icoContract.totalSupply)(), "ether");
+          const foundersEOS = convertWeb3Value(await toPromise(icoContract.foundersAllocation)().valueOf(), "ether");
           return `Max ${formatNumber(totEOS - foundersEOS)} EOS, no ETH cap!`
         },
         startDate: async(web3, icoContract) => {
           const timestamp = await toPromise(icoContract.openTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         endDate: async(web3, icoContract) => {
           const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf());
@@ -130,15 +130,15 @@ export default {
         cap: async (web3, icoContract) => {
           const softCapETH = await toPromise(icoContract.softCapAmount)();
           const hardCapETH = await toPromise(icoContract.hardCapAmount)();
-          return `Hard: ${convertWeb3Value(web3, hardCapETH, 'ether')} ETH, Soft: ${convertWeb3Value(web3, softCapETH, 'ether')} ETH`;
+          return `Hard: ${convertWeb3Value(hardCapETH, 'ether')} ETH, Soft: ${convertWeb3Value(softCapETH, 'ether')} ETH`;
         },
         startDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         endDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.endTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         status: async (web3, icoContract) => {
           const isRunning = await toPromise(icoContract.isContribPeriodRunning)();
@@ -187,7 +187,7 @@ export default {
       icoParameters: {
         cap: async (web3, icoContract) => {
           const failSafeETH = await toPromise(icoContract.failSafeLimit)();
-          return `${convertWeb3Value(web3, failSafeETH, 'ether')} ETH`;
+          return `${convertWeb3Value(failSafeETH, 'ether')} ETH`;
         },
         startDate: async (web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.startBlock)();
@@ -289,15 +289,15 @@ export default {
         cap: async (web3, icoContract) => {
           const ethCap = await toPromise(icoContract.ETHER_CAP)();
           // const preEthCap = await toPromise(icoContract.BTCS_ETHER_CAP)();
-          return `${convertWeb3Value(web3, ethCap, 'ether')} ETH`;
+          return `${convertWeb3Value(ethCap, 'ether')} ETH`;
         },
         startDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         endDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.endTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         status: async icoContract => 'successful',
 
@@ -337,30 +337,30 @@ export default {
       icoParameters: {
         cap: async (web3, icoContract) => {
           const daoMinCap = await toPromise(icoContract.minTokensToCreate)();
-          return `Min: ${convertWeb3Value(web3, daoMinCap, "ether")} DAOs Max: unbounded`;
+          return `Min: ${convertWeb3Value(daoMinCap, "ether")} DAOs Max: unbounded`;
         },
         startDate: async icoContract => 'contract creation',
         endDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.closingTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         status: async icoContract => 'successful', // could return isFueled
       },
       matrix: {
-        q1: { answer: true, comment: '' },
-        q2: { answer: true, comment: '' },
-        q3: { answer: true, comment: 'Source code is not exists' },
-        q4: { answer: true, comment: '' },
-        q5: { answer: true, comment: '' },
-        q6: { answer: true, comment: '' },
-        q7: { answer: null, comment: '' },
-        q8: { answer: true, comment: '' },
-        q9: { answer: false, comment: '' },
-        q10: { answer: true, comment: '' },
-        q11: { answer: true, comment: '' },
-        q12: { answer: true, comment: '' },
-        q13: { answer: true, comment: '' },
-        q14: { answer: true, comment: '' },
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true},
+        q11: { answer: true, comment: 'Decision if to treat re-entrancy bug as breach of token holder rights is hard. We decided: NO, as TheDAO stated: code is law ;>' },
+        q12: { answer: true},
+        q13: { answer: true},
+        q14: { answer: true},
       },
 
     },

@@ -21,7 +21,8 @@ export default {
         // in this transaction investors send money but claim their tokens later
         name: 'LogBuy',
         firstTransactionBlockNumber: 3932884,
-        lastTransactionBlockNumber: "latest"
+        lastTransactionBlockNumber: null, //follow last block
+        maxBlocksInChunk: 12960 // scan in 3 days blocks, last one is open
       },
       /*event: {
         args: {

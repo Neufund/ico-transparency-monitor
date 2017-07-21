@@ -334,8 +334,6 @@ export const getStatistics = (web3, selectedICO, events, statisticsICO) => {
 
   const factor = 10 ** parseFloat(selectedICO.decimals);
 
-  statisticsICO.general.transactionsCount = events.length;
-
   const chartTokensCountTemp = {};
   const chartTransactionsCountTemp = {};
   const duration = moment.duration(moment(new Date(endTimestamp * 1000)).diff(moment(new Date(startTimestamp * 1000))));
@@ -346,6 +344,8 @@ export const getStatistics = (web3, selectedICO, events, statisticsICO) => {
 
   const eventArgs = selectedICO.event.args;
   const senders = statisticsICO.investors.senders;
+  let prevTxHash = null;
+  let tranCount = 0;
 
   for (let i = 0; i < events.length; i++) {
     const item = events[i];
@@ -357,29 +357,40 @@ export const getStatistics = (web3, selectedICO, events, statisticsICO) => {
     csvContentArray.push([investor, tokenValue, etherValue, item.timestamp]); // (new Date(item.timestamp * 1000)).formatDate(true)
 
     const timeBucket = toTimeBucket(item);
-    if (timeBucket in chartTransactionsCountTemp) {
-      chartTransactionsCountTemp[timeBucket] += 1;
-    } else {
-      chartTransactionsCountTemp[timeBucket] = 1;
-    }
-    if (timeBucket in chartTokensCountTemp) {
-      chartTokensCountTemp[timeBucket] += tokenValue;
-    } else {
-      chartTokensCountTemp[timeBucket] = tokenValue;
-    }
-    if (investor in senders) {
-      const s = senders[investor];
-      s.ETH += etherValue;
-      s.tokens += tokenValue;
-    } else {
-      senders[investor] = { tokens: tokenValue, ETH: etherValue };
+    if (item.transactionHash !== prevTxHash) {
+      if (timeBucket in chartTransactionsCountTemp) {
+        chartTransactionsCountTemp[timeBucket] += 1;
+      } else {
+        chartTransactionsCountTemp[timeBucket] = 1;
+      }
+      prevTxHash = item.transactionHash;
+      tranCount += 1;
     }
 
-    statisticsICO.money.totalETH += etherValue;
-    statisticsICO.money.tokenIssued += tokenValue;
+    // skip empty transactions
+    if( tokenValue > 0 || etherValue > 0) {
+      if (tokenValue > 0) {
+        if (timeBucket in chartTokensCountTemp) {
+          chartTokensCountTemp[timeBucket] += tokenValue;
+        } else {
+          chartTokensCountTemp[timeBucket] = tokenValue;
+        }
+      }
+      if (investor in senders) {
+        const s = senders[investor];
+        s.ETH += etherValue;
+        s.tokens += tokenValue;
+      } else {
+        senders[investor] = {tokens: tokenValue, ETH: etherValue};
+      }
+
+      statisticsICO.money.totalETH += etherValue;
+      statisticsICO.money.tokenIssued += tokenValue;
+    }
   }
 
   console.log('stats dictionaries');
+  statisticsICO.general.transactionsCount = tranCount;
   statisticsICO.charts.transactionsCount = [];
   statisticsICO.charts.tokensCount = [];
 

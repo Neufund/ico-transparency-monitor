@@ -72,24 +72,16 @@ export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
 
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
-export const getICOLogs = (web3, lastBlockNumber, address, callback) => {
-  console.log('Start scanning the ICO');
-  if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
+export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
+  console.log(`Start scanning for block range ${blockRange}`);
+  /* if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
     console.log(`${address} cached already.`);
     return callback(null, JSON.parse(localStorage.getItem(address)));
-  }
-
-  const ICO = config.ICOs[address];
-  const customArgs = ICO.event.customArgs || {};
-  const smartContract = getSmartContract(web3, address);
-
-  const firstTxBlockNumber = ICO.event.firstTransactionBlockNumber || 0;
-  const lastTxBlockNumber = ICO.event.lastTransactionBlockNumber || lastBlockNumber;
-  console.log(firstTxBlockNumber, lastTxBlockNumber);
-
-  const filter = smartContract[ICO.event.name](customArgs, {
-    fromBlock: firstTxBlockNumber,
-    toBlock: lastTxBlockNumber,
+  }*/
+  const address = icoContract.address;
+  const filter = icoContract[icoConfig.event.name](icoConfig.event.customArgs || {}, {
+    fromBlock: blockRange[0],
+    toBlock: blockRange[1]
   });
   filter.stopWatching(() => {});
 
@@ -117,14 +109,10 @@ export const getICOLogs = (web3, lastBlockNumber, address, callback) => {
         callback('SHOW_MODAL_ERROR', `Error when getting logs ${e.error.message}`);
       } else {
         const res = e.result;
-        if (res.length === 0) {
-          callback('SHOW_MODAL_MESSAGE', res);
-        } else {
-          console.log(`formatting ${res.length} log entries`);
-          const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
-          console.log('log entries formatted');
-          callback(null, logsFormat);
-        }
+        console.log(`formatting ${res.length} log entries`);
+        const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
+        console.log('log entries formatted');
+        callback(null, logsFormat);
       }
     },
     error: (status) => {

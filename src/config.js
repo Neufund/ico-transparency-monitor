@@ -73,7 +73,7 @@ export default {
         q8: { answer: null},
         q9: { answer: null},
         q10: { answer: false, comment: "Code is short but full of tricks: for example EOS day has 23 hours, claimAll method will soon throw out of gas (it is a gas eater!), one day after ICO ends claims are blocked etc."},
-        q11: {answer: true, comment: 'Contract may fool you but in trustless way'},
+        q11: {answer: true, comment: 'Contract is designed to be an ETH sucking mechanism without any shame, but as it is done transparently and in a trustless way, we say Yes here. code is law ;>'},
         q12: { answer: true, comment: 'Price set due to demand each day, mind to claim your tokens!'},
         q13: { answer: true, comment: 'May be started and re-started whenever Tezos wants'},
         q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim'},
@@ -128,9 +128,9 @@ export default {
         q9: { answer: null },
         q10: { answer: true },
         q11: { answer: false,
-          comment: 'Several issues: 1. no refund mechanism implemented so this is at good will of multisig owner' +
-        '2. tokens are not generated in trustless way and they may be or may be not generated after ICO by the owner' +
-        '3. ICO owner has access to all funds all the time, he may choose to not generate tokens and still gets all the money, smart contract could protect against that but does not.' +
+          comment: 'Several issues: 1. no refund mechanism implemented so this is at good will of multisig owner ' +
+        '2. tokens are not generated in trustless way and they may be or may be not generated after ICO by the owner ' +
+        '3. ICO owner has access to all funds all the time, he may choose to not generate tokens and still gets all the money, smart contract could protect against that but does not. ' +
         '4. several other minor issues' },
         q12: { answer: true, comment: 'price depends on total contribution amount' },
         q13: { answer: true },
@@ -177,6 +177,55 @@ export default {
         q12: { answer: false, comment: 'Not an ICO - no tokens created' },
         q13: { answer: false, comment: 'May be started and re-started whenever Tezos wants'},
         q14: { answer: false, comment: 'May be stopped and re-started whenever Tezos wants'},
+      },
+    },
+    '0x0cEB0D54A7e87Dfa16dDF7656858cF7e29851fD7': {
+      tokenContract: '0x960b236A07cf122663c4303350609A66A7B288C0',
+      information: {
+        aliasName: 'Aragon Network',
+        logo: 'https://aragon.one/favicon.png',
+        website: 'https://aragon.network/',
+      },
+      event: {
+        args: {
+          tokens: 'antAmount',
+          sender: 'holder',
+          ether: 'etherAmount', // status ICO logs actual ether value !== transaction ether as they return overflow to sender
+        },
+        name: 'NewBuyer',
+        firstTransactionBlockNumber: 3723000,
+        lastTransactionBlockNumber: 3723218,
+      },
+      icoParameters: {
+        cap: async (web3, icoContract) => {
+          const hardCapETH = await toPromise(icoContract.hardCap)();
+          return `Hard Cap: ${convertWeb3Value(hardCapETH, 'ether')} ETH + hidden cap`;
+        },
+        startDate: async (web3, icoContract) => {
+          const blockNumber = await toPromise(icoContract.initialBlock)();
+          return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+        },
+        endDate: async (web3, icoContract) => {
+          const blockNumber = await toPromise(icoContract.finalBlock)();
+          return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+        },
+        status: async icoContract => 'successful',
+      },
+      matrix: {
+        q1: { answer: true },
+        q2: { answer: true },
+        q3: { answer: true },
+        q4: { answer: true },
+        q5: { answer: true },
+        q6: { answer: true },
+        q7: { answer: true, comment: 'Significant effort to manage funds in trustlessway. Locked until ICO is finished and tokens are assigned.' },
+        q8: { answer: null },
+        q9: { answer: null },
+        q10: { answer: true, comment: 'Code has high quality' },
+        q11: { answer: true },
+        q12: { answer: true, comment: 'price goes from block to block' },
+        q13: { answer: true},
+        q14: { answer: true, comment: 'there is a hidden cap that is revealed during ICO. hard to say what was the intention of having two caps was' },
       },
     },
     '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c': {
@@ -227,7 +276,7 @@ export default {
         q11: { answer: true },
         q12: { answer: true, comment: 'exchangeRate is constant' },
         q13: { answer: true, comment: 'yes, with multiple rounds' },
-        q14: { answer: false, comment: 'no, ICO can be stopped and rounds revealed at owner whim' },
+        q14: { answer: true, comment: 'owner can stop ICO before failSafe' },
       },
     },
     '0xa74476443119a942de498590fe1f2454d7d4ac0d': {

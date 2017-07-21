@@ -72,11 +72,6 @@ export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
 
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
-/**
- * TODO: 1- Required Data must be validate.
- * TODO: 2- Change the ID in getLog
- */
-
 export const getICOLogs = (web3, lastBlockNumber, address, callback) => {
   console.log('Start scanning the ICO');
   if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
@@ -106,7 +101,7 @@ export const getICOLogs = (web3, lastBlockNumber, address, callback) => {
     // TODO: request data from cache
     headers: {'X-Node-Cache': 'long'},
     data: JSON.stringify({
-      id: 1497353430507566,
+      id: 1497353430507566, // keep this ID to make cache work
       jsonrpc: '2.0',
       params: [{
         fromBlock: filter.options.fromBlock,
@@ -351,7 +346,8 @@ export const getStatistics = (web3, selectedICO, events, statisticsICO) => {
     const item = events[i];
     // allow for ICOs that do not generate tokens: like district0x
     const tokenValue = eventArgs.tokens ? parseFloat(item.args[eventArgs.tokens].valueOf()) / factor : 0;
-    const etherValue = parseFloat(web3.fromWei(eventArgs.ether ? item.args[eventArgs.ether] : item.value, 'ether').valueOf());
+    // removed operations on bigint which may decrease precision!
+    const etherValue = parseFloat(eventArgs.ether ? item.args[eventArgs.ether].valueOf() : parseInt(item.value)) / 10 ** 18;
 
     const investor = item.args[eventArgs.sender];
     csvContentArray.push([investor, tokenValue, etherValue, item.timestamp]); // (new Date(item.timestamp * 1000)).formatDate(true)

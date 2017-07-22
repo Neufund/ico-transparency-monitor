@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import { connect } from 'react-redux';
-import { computeICOTransparency } from '../utils';
+import { computeICOTransparency, criticalToTransparencyLevel } from '../utils';
 import { onModalClose, onErrorMessage } from '../actions/ModalAction';
 import { default as config } from '../config.js';
 
@@ -25,12 +25,12 @@ class ContentTable extends Component {
       decision: result[0],
     });
   }
-  getRowClassName(questionKey) {
-    if (typeof this.state.issuesArray[questionKey] !== 'undefined') { return `${`${this.state.decision.replace(/\s+/g, '-').toLowerCase()}-row`}`; }
+  getRowClassName(key) {
+    return this.state.issuesArray[key] ? `${criticalToTransparencyLevel(config.matrix[key].critical)}-row` : '';
   }
 
-  getAlertClassName(questionKey) {
-    if (typeof this.state.issuesArray[questionKey] !== 'undefined') { return `${`${this.state.decision.replace(/\s+/g, '-').toLowerCase()}-alert`}`; }
+  getAlertClassName(key) {
+    return this.state.issuesArray[key] ? `${criticalToTransparencyLevel(config.matrix[key].critical)}-alert` : '';
   }
 
   render() {
@@ -38,11 +38,11 @@ class ContentTable extends Component {
       <div>
         <Row>
           <Col md={9}><h1> {this.currentICO.name}</h1></Col>
-          <Col md={3} className="part transparency">
-            <button className={`transparency-button ${this.state.decision.replace(/\s+/g, '-').toLowerCase()}-status`}>
+
+          <Col md={3}>
+            <button href="" className={`transparency-button ${this.state.decision}-status`}>
               <p>Transparency</p>
-              <strong> {this.state.decision.toUpperCase()}
-              </strong>
+              <strong>{this.state.decision.toUpperCase()} </strong>
               <span className="arrow">&#8594;</span>
             </button>
           </Col>
@@ -65,7 +65,7 @@ class ContentTable extends Component {
                     </td>
                     <td>
                       <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>
-                      <p>{currentQuestion.answer === null ? 'N/A' : (currentQuestion.answer === true ? 'Yes' : 'No')}</p>
+                      <p>{currentQuestion.answer === null ? 'N/A' : (currentQuestion.answer ? 'Yes' : 'No')}</p>
                     </td>
                   </tr>);
                 })}

@@ -34,6 +34,9 @@ textarea.console{
 .scan-content{
   padding:20px;
 }
+.box-container{
+  margin-bottom: 40px;
+}
 
 .scanbox-details .statistics .title , .scan-content .title{
   color: #000000;

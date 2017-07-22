@@ -1,10 +1,93 @@
-import { toPromise } from './utils';
+import { toPromise, formatNumber } from './utils';
 import { convertWeb3Value, convertBlockNumberToDate } from './utils/web3';
 
 const rpcHost = require('./env.json').rpcHost;
 
 export default {
   ICOs: {
+    '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf': {
+      tokenContract: '0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0',
+      information: {
+        aliasName: 'EOS',
+        logo: 'https://d340lr3764rrcr.cloudfront.net/Images/favicon.ico',
+        website: 'https://eos.io/',
+      },
+      events: {
+        'LogBuy': {
+          args: {
+            tokens: null, // tokens not generated here, just ether gathered
+            sender: 'user'
+          },
+          firstTransactionBlockNumber: 3932884,
+          lastTransactionBlockNumber: null, //follow last block
+          maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
+          countTransactions: true
+        },
+        'LogClaim': {
+          args: {
+            tokens: 'amount', // tokens are generated when claimed
+            sender: 'user'
+          },
+          firstTransactionBlockNumber: 3932884,
+          lastTransactionBlockNumber: null, //follow last block
+          maxBlocksInChunk: 12960 // scan in 3 days blocks, last one is open
+        }
+      },
+      /*event: {
+        args: {
+          tokens: 'amount',
+          sender: 'user',
+
+        },
+        // in this transaction investors send money but claim their tokens later
+        name: 'LogClaim',
+        firstTransactionBlockNumber: 0,
+        lastTransactionBlockNumber: "latest"
+      },*/
+
+      icoParameters: {
+        cap: async(web3, icoContract) => {
+          const totEOS = convertWeb3Value(await toPromise(icoContract.totalSupply)(), "ether");
+          const foundersEOS = convertWeb3Value(await toPromise(icoContract.foundersAllocation)().valueOf(), "ether");
+          return `Max ${formatNumber(totEOS - foundersEOS)} EOS, no ETH cap!`
+        },
+        startDate: async(web3, icoContract) => {
+          const timestamp = await toPromise(icoContract.openTime)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
+        },
+        endDate: async(web3, icoContract) => {
+          const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf());
+          // (timestamp - startTime) / 23 hours + 1 -> EOS day has 23 hour days :P
+          // enddate = (numberofdays - 1) * 23h + startdate
+          const endTs = (await toPromise(icoContract.numberOfDays)().valueOf() - 1) * 23*60*60 + timestamp;
+          return (new Date(endTs*1000)).formatDate();
+        },
+        status: async(web3, icoContract) => {
+          // mind EOS 23h days
+          // assert(time() >= openTime && today() <= numberOfDays);
+          const today = await toPromise(icoContract.today)().valueOf();
+          const noDays = await toPromise(icoContract.numberOfDays)().valueOf();
+          console.log(`${today} ${noDays}`);
+          return today <= noDays ? 'in progress' : 'successful';
+        }
+      },
+      matrix: {
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true, comment: 'Mind that owners can take ETH whenever thay want - nothing is locked! In principle this allows to manipulate daily EOS price'},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: false, comment: "Code is short but full of tricks: for example EOS day has 23 hours, claimAll method will soon throw out of gas (it is a gas eater!), one day after ICO ends claims are blocked etc."},
+        q11: {answer: true, comment: 'Contract is designed to be an ETH sucking mechanism without any shame, but as it is done transparently and in a trustless way, we say Yes here. code is law ;>'},
+        q12: { answer: true, comment: 'Price set due to demand each day, mind to claim your tokens!'},
+        q13: { answer: true, comment: 'May be started and re-started whenever Tezos wants'},
+        q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim'},
+      },
+    },
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
       information: {
@@ -12,29 +95,31 @@ export default {
         logo: 'https://district0x.io/images/favicon.png',
         website: 'https://district0x.io/',
       },
-      event: {
-        args: {
-          tokens: null, // actually district0x does not issue tokens in trustless way
-          sender: 'contributor',
-          ether: 'amount', // district0x ICO logs actual ether value !== transaction ether as they return overflow to sender
-        },
-        name: 'onContribution',
-        firstTransactionBlockNumber: 4039777,
-        lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
+      events: {
+        'onContribution': {
+          args: {
+            tokens: null, // actually district0x does not issue tokens in trustless way
+            sender: 'contributor',
+            ether: 'amount', // district0x ICO logs actual ether value !== transaction ether as they return overflow to sender
+          },
+          firstTransactionBlockNumber: 4039777,
+          lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
           const softCapETH = await toPromise(icoContract.softCapAmount)();
           const hardCapETH = await toPromise(icoContract.hardCapAmount)();
-          return `Hard: ${convertWeb3Value(web3, hardCapETH, 'ether')} ETH, Soft: ${convertWeb3Value(web3, softCapETH, 'ether')} ETH`;
+          return `Hard: ${convertWeb3Value(hardCapETH, 'ether')} ETH, Soft: ${convertWeb3Value(softCapETH, 'ether')} ETH`;
         },
         startDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         endDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.endTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         status: async (web3, icoContract) => {
           const isRunning = await toPromise(icoContract.isContribPeriodRunning)();
@@ -54,13 +139,108 @@ export default {
         q9: { answer: null },
         q10: { answer: true },
         q11: { answer: false,
-          comment: 'Several issues: 1. no refund mechanism implemented so this is at good will of multisig owner' +
-        '2. tokens are not generated in trustless way and they may be or may be not generated after ICO by the owner' +
-        '3. ICO owner has access to all funds all the time, he may choose to not generate tokens and still gets all the money, smart contract could protect against that but does not.' +
+          comment: 'Several issues: 1. no refund mechanism implemented so this is at good will of multisig owner ' +
+        '2. tokens are not generated in trustless way and they may be or may be not generated after ICO by the owner ' +
+        '3. ICO owner has access to all funds all the time, he may choose to not generate tokens and still gets all the money, smart contract could protect against that but does not. ' +
         '4. several other minor issues' },
         q12: { answer: true, comment: 'price depends on total contribution amount' },
         q13: { answer: true },
         q14: { answer: true },
+      },
+    },
+    '0xb56d622DDF60ec532B5f43B4Ff9B0e7b1FF92dB3': {
+      information: {
+        aliasName: 'TEZOS Fundraiser',
+        logo: 'https://www.tezos.com/static/favicon.ico',
+        website: 'https://www.tezos.com/',
+      },
+      events: {
+        'Deposit': {
+          args: {
+            tokens: null, // not an ICO
+            sender: 'tezos_pk_hash',
+          },
+          firstTransactionBlockNumber: 3936447,
+          lastTransactionBlockNumber: 4016095,
+          countTransactions: true
+        }
+      },
+      icoParameters: {
+        cap: async(web3, icoContract) => "no max nor min cap",
+        startDate: async(web3, icoContract) => "NOT AND ICO!",
+        endDate: async(web3, icoContract) => "NOT AND ICO!",
+        status: async(web3, icoContract) => {
+          const isRunning = await toPromise(icoContract.accept)();
+          // tezos does what they want. may start at any moment in the future
+          return isRunning.valueOf() ? 'in progress' : 'successful';
+        }
+      },
+      matrix: {
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true, comment: "They didn't bother to attach code to actual fundraising smart contract but etherscan is solving this by bytecode search"},
+        q4: { answer: true},
+        q5: { answer: false, comment: 'They do not track senders of ETH, no refund mechanism'},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true},
+        q11: {answer: false, comment: 'No investor rights are protected. You send money and Tezos takes it. Not any better than sending $$$ in envelope to Tezos office.'},
+        q12: { answer: false, comment: 'Not an ICO - no tokens created' },
+        q13: { answer: false, comment: 'May be started and re-started whenever Tezos wants'},
+        q14: { answer: false, comment: 'May be stopped and re-started whenever Tezos wants'},
+      },
+    },
+    '0x0cEB0D54A7e87Dfa16dDF7656858cF7e29851fD7': {
+      tokenContract: '0x960b236A07cf122663c4303350609A66A7B288C0',
+      information: {
+        aliasName: 'Aragon Network',
+        logo: 'https://aragon.one/favicon.png',
+        website: 'https://aragon.network/',
+      },
+      events: {
+        'NewBuyer': {
+          args: {
+            tokens: 'antAmount',
+            sender: 'holder',
+            ether: 'etherAmount', // status ICO logs actual ether value !== transaction ether as they return overflow to sender
+          },
+          firstTransactionBlockNumber: 3723000,
+          lastTransactionBlockNumber: 3723218,
+          countTransactions: true
+        }
+      },
+      icoParameters: {
+        cap: async (web3, icoContract) => {
+          const hardCapETH = await toPromise(icoContract.hardCap)();
+          return `Hard Cap: ${convertWeb3Value(hardCapETH, 'ether')} ETH + hidden cap`;
+        },
+        startDate: async (web3, icoContract) => {
+          const blockNumber = await toPromise(icoContract.initialBlock)();
+          return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+        },
+        endDate: async (web3, icoContract) => {
+          const blockNumber = await toPromise(icoContract.finalBlock)();
+          return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+        },
+        status: async icoContract => 'successful',
+      },
+      matrix: {
+        q1: { answer: true },
+        q2: { answer: true },
+        q3: { answer: true },
+        q4: { answer: true },
+        q5: { answer: true },
+        q6: { answer: true },
+        q7: { answer: true, comment: 'Significant effort to manage funds in trustlessway. Locked until ICO is finished and tokens are assigned.' },
+        q8: { answer: null },
+        q9: { answer: null },
+        q10: { answer: true, comment: 'Code has high quality' },
+        q11: { answer: true },
+        q12: { answer: true, comment: 'price goes from block to block' },
+        q13: { answer: true},
+        q14: { answer: true, comment: 'there is a hidden cap that is revealed during ICO. hard to say what was the intention of having two caps was' },
       },
     },
     '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c': {
@@ -70,20 +250,22 @@ export default {
         logo: 'http://status.im/img/new-site/apple-touch-icon-180.png?v=50fbb69',
         website: 'https://status.im/',
       },
-      event: {
-        args: {
-          tokens: '_tokens',
-          sender: '_th',
-          ether: '_amount', // status ICO logs actual ether value !== transaction ether as they return overflow to sender
-        },
-        name: 'NewSale',
-        firstTransactionBlockNumber: 3903900,
-        lastTransactionBlockNumber: 3907820,
+      events: {
+        'NewSale': {
+          args: {
+            tokens: '_tokens',
+            sender: '_th',
+            ether: '_amount', // status ICO logs actual ether value !== transaction ether as they return overflow to sender
+          },
+          firstTransactionBlockNumber: 3903900,
+          lastTransactionBlockNumber: 3907820,
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
           const failSafeETH = await toPromise(icoContract.failSafeLimit)();
-          return `${convertWeb3Value(web3, failSafeETH, 'ether')} ETH`;
+          return `${convertWeb3Value(failSafeETH, 'ether')} ETH`;
         },
         startDate: async (web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.startBlock)();
@@ -111,7 +293,7 @@ export default {
         q11: { answer: true },
         q12: { answer: true, comment: 'exchangeRate is constant' },
         q13: { answer: true, comment: 'yes, with multiple rounds' },
-        q14: { answer: false, comment: 'no, ICO can be stopped and rounds revealed at owner whim' },
+        q14: { answer: true, comment: 'owner can stop ICO before failSafe' },
       },
     },
     '0xa74476443119a942de498590fe1f2454d7d4ac0d': {
@@ -120,17 +302,19 @@ export default {
         website: 'https://golem.network/',
         logo: 'https://golem.network/icons/apple-touch-icon.png',
       },
-      event: {
-        args: {
-          tokens: '_value',
-          sender: '_to',
-        },
-        name: 'Transfer',
-        customArgs: {
-          _from: '0x0000000000000000000000000000000000000000',
-        },
-        firstTransactionBlockNumber: 2607801,
-        lastTransactionBlockNumber: 2607938, // use block number to skip tokens created in finalize()
+      events: {
+        'Transfer': {
+          args: {
+            tokens: '_value',
+            sender: '_to',
+          },
+          customArgs: {
+            _from: '0x0000000000000000000000000000000000000000',
+          },
+          firstTransactionBlockNumber: 2607801,
+          lastTransactionBlockNumber: 2607938, // use block number to skip tokens created in finalize()
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
@@ -164,6 +348,7 @@ export default {
         q13: { answer: true },
         q14: { answer: true },
       },
+      decimals: 18 // golem does not provide decimals
     },
     '0x3BF541f87056D134E0109BE1Be92978b26Cb09e0': {
       tokenContract: '0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',
@@ -172,28 +357,30 @@ export default {
         website: 'https://melonport.com/',
         logo: 'https://melonport.com/favicon.png',
       },
-      event: {
-        args: {
-          tokens: 'amount',
-          sender: 'sender',
-        },
-        name: 'TokensBought',
-        firstTransactionBlockNumber: 3175204,
-        lastTransactionBlockNumber: 3187613,
+      events: {
+        'TokensBought': {
+          args: {
+            tokens: 'amount',
+            sender: 'sender',
+          },
+          firstTransactionBlockNumber: 3175204,
+          lastTransactionBlockNumber: 3187613,
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
           const ethCap = await toPromise(icoContract.ETHER_CAP)();
           // const preEthCap = await toPromise(icoContract.BTCS_ETHER_CAP)();
-          return `${convertWeb3Value(web3, ethCap, 'ether')} ETH`;
+          return `${convertWeb3Value(ethCap, 'ether')} ETH`;
         },
         startDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         endDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.endTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         status: async icoContract => 'successful',
 
@@ -221,42 +408,44 @@ export default {
         website: 'https://daowiki.atlassian.net/wiki',
         logo: 'https://daowiki.atlassian.net/wiki/download/attachments/655365/DAO?version=2&modificationDate=1462133209864&cacheVersion=1&api=v2',
       },
-      event: {
-        args: {
-          tokens: 'amount',
-          sender: 'to',
-        },
-        name: 'CreatedToken',
-        firstTransactionBlockNumber: 0,
-        lastTransactionBlockNumber: 'latest',
+      events: {
+        'CreatedToken': {
+          args: {
+            tokens: 'amount',
+            sender: 'to',
+          },
+          firstTransactionBlockNumber: 0,
+          lastTransactionBlockNumber: 'latest',
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
-          const daoMinCap = await toPromise(icoContract.minTokensToCreate)().valueOf();
-          return `Min: ${daoMinCap} DAOs Max: unbounded`;
+          const daoMinCap = await toPromise(icoContract.minTokensToCreate)();
+          return `Min: ${convertWeb3Value(daoMinCap, "ether")} DAOs Max: unbounded`;
         },
         startDate: async icoContract => 'contract creation',
         endDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.closingTime)();
-          return convertWeb3Value(web3, timestamp, 'timestamp').formatDate();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         status: async icoContract => 'successful', // could return isFueled
       },
       matrix: {
-        q1: { answer: true, comment: '' },
-        q2: { answer: true, comment: '' },
-        q3: { answer: true, comment: 'Source code is not exists' },
-        q4: { answer: true, comment: '' },
-        q5: { answer: true, comment: '' },
-        q6: { answer: true, comment: '' },
-        q7: { answer: null, comment: '' },
-        q8: { answer: true, comment: '' },
-        q9: { answer: false, comment: '' },
-        q10: { answer: true, comment: '' },
-        q11: { answer: true, comment: '' },
-        q12: { answer: true, comment: '' },
-        q13: { answer: true, comment: '' },
-        q14: { answer: true, comment: '' },
+        q1: { answer: true},
+        q2: { answer: true},
+        q3: { answer: true},
+        q4: { answer: true},
+        q5: { answer: true},
+        q6: { answer: true},
+        q7: { answer: true},
+        q8: { answer: null},
+        q9: { answer: null},
+        q10: { answer: true},
+        q11: { answer: true, comment: 'Decision if to treat re-entrancy bug as breach of token holder rights is hard. We decided: NO, as TheDAO stated: code is law ;>' },
+        q12: { answer: true},
+        q13: { answer: true},
+        q14: { answer: true},
       },
 
     },
@@ -266,17 +455,19 @@ export default {
         logo: 'https://taas.fund/img/fav_icon.png',
         website: 'https://taas.fund/',
       },
-      event: {
-        name: 'Transfer',
-        args: {
-          tokens: 'value',
-          sender: 'to',
-        },
-        customArgs: {
-          from: '0x94917caf0cb1131345911874a2ceaf6ae2e8ee0f',
-        },
-        firstTransactionBlockNumber: 3427798,
-        lastTransactionBlockNumber: 3648684,
+      events: {
+        'Transfer': {
+          args: {
+            tokens: 'value',
+            sender: 'to',
+          },
+          customArgs: {
+            from: '0x94917caf0cb1131345911874a2ceaf6ae2e8ee0f',
+          },
+          firstTransactionBlockNumber: 3427798,
+          lastTransactionBlockNumber: 3648684,
+          countTransactions: true
+        }
       },
       icoParameters: {
         cap: async icoContract => 'not provided',
@@ -302,7 +493,6 @@ export default {
       },
     },
   },
-    // https://neufund.net/nodes/mainnet
   rpcHost,
   defaultDecimal: 18,
   matrix: {

@@ -9,7 +9,7 @@ import { downloadCSV } from '../utils';
 import { default as config } from '../config.js';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
-  <Row className="statistics">
+  <Row className="statistics box-container">
     {console.log('ScanBoxDetails component did mount')}
     <Col md={12} className="scan-content">
       <TimeDetails {...props.stats.time} />
@@ -17,11 +17,12 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}
         tokensOverflow={props.totalSupply - props.stats.money.tokenIssued}
         totalInvestors={Object.keys(props.stats.investors.senders).length}
+        totalTransactions={props.stats.general.transactionsCount}
       />
     </Col>
   </Row>
 
-  <Row className="statistics">
+  <Row className="statistics box-container">
     <Col md={6} className="relative">
       {props.stats.money.tokenIssued > 0 && <SingleBarChart
         title="Tokens over time"
@@ -47,7 +48,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
   <div className="scan-content">
     {props.stats.money.tokenIssued > 0 &&
-    <Row>
+    <Row className="box-container">
       <Col md={6} className="scan-content">
         <TokenDistribution
           total={props.stats.money.tokenIssued}
@@ -87,7 +88,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       />
 
       <h3 className="title">Funds distribution</h3>
-      <Row>
+      <Row className="box-container">
         <Col md={12}>
 
           <SingleBarChart
@@ -99,7 +100,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           />
         </Col>
       </Row>
-      <Row>
+      <Row className="box-container">
         <Col md={12} >
           <SingleBarChart
             data={props.stats.charts.investmentDistribution}

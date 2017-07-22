@@ -5,29 +5,28 @@ import { connect } from 'react-redux';
 import { default as config } from '../config.js';
 
 const ICOApp = ({ ...props }) => (
-  <Row>
+  <Row className="ico-container">
     <Grid>
-      <Row className="ico-box">
+      <Row className="ico-box" onClick={()=> window.location = `/#/${props.address}`}>
         <Col lg={3} md={4} className="name">
-          <Row>
-            <Col lg={3} xs={2} className="ico-logo">
-              <img src={props.information.logo} alt={props.address} />
-            </Col>
-            <Col lg={8} xs={9} className="ico-desc">
-              <h4><a href={`/#/${props.address}`}> {props.name || props.information.aliasName}</a>
-              </h4>
-              <p>{props.information.description}</p>
-              <a
-                rel="noopener noreferrer"
-                target="_blank"
-                href={props.information.website}
-              >{props.information.website}</a>
+          <Row className="ico-box-container">
+            <Col lg={12}>
+              <div className="clearfix">
+                <div className="ico-logo">
+                  <img src={props.information.logo} alt={props.address} />
+                </div>
+                <div className="ico-information">
+                  <h4><a href={`/#/${props.address}`}> {props.name || props.information.aliasName}</a></h4>
+                  <a rel="noopener noreferrer"
+                     target="_blank"
+                     href={props.information.website}>{props.information.website}</a>
+                </div>
+              </div>
             </Col>
           </Row>
         </Col>
         <Col lg={9} md={8} className="ico-quick-stats">
           <Row>
-
             <Col lg={3} xs={6} className="part">
               <p className="title">Declared Cap</p>
               <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>
@@ -48,7 +47,8 @@ const ICOApp = ({ ...props }) => (
               <button
                 href={props.name}
                 className={`transparency-button ${getValueOrNotAvailable(props, 'decision')}-status`}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   props.onModalShow(props);
                 }}
               >

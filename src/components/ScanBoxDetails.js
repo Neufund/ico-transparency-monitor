@@ -47,8 +47,9 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   </Row>
 
   <div className="scan-content">
-    {props.stats.money.tokenIssued > 0 &&
+
     <Row className="box-container">
+
       <Col md={6} className="scan-content">
         <TokenDistribution
           total={props.stats.money.tokenIssued}
@@ -56,6 +57,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           currency={props.currency}
           isProvidingEtherValue={props.isProvidingEtherValue}
           tokenHolders={props.stats.charts.tokenHolders}
+          isVisible = {props.stats.money.tokenIssued !== 0}
+          isNotVisibleMessage = "No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
       <Col md={6} >
@@ -65,13 +68,12 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           data={props.stats.charts.tokenHolders}
           xLabel={'Top Wealthiest Investors'}
           yLabel="Share of Tokens Owned"
+          isVisible = {props.stats.money.tokenIssued !== 0}
+          isNotVisibleMessage = "No Token distribution statistics: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
     </Row>
-    }
-    {props.stats.money.tokenIssued === 0 && <div className="alarm">
-      <p>No Token statistics: This ICO is not generating tokens or is not handling them in trustless way</p>
-    </div>}
+
     {props.stats.money.totalETH !== 0 &&
     <div>
       <h3 className="title">Raised amount</h3>

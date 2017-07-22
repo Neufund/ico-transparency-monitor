@@ -31,8 +31,8 @@ textarea.console{
   box-shadow: 0 2px 4px 0 #A3C0CC;
   font-size:large;
 }
-.scan-content{
-  padding:20px;
+.scan-content .token-distribution-table{
+  padding: 20px;
 }
 .box-container{
   margin-bottom: 40px;
@@ -83,11 +83,7 @@ textarea.console{
 }
 
 .table-responsive {
-  margin-left: -1em;
-  margin-right: -1em;
-  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin-bottom: 1em;
 }
 .table-responsive table {
   width: 100%;

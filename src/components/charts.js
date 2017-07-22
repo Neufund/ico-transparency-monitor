@@ -11,10 +11,12 @@ import {
 import { kFormatter } from '../utils';
 import { downloadChartImage } from '../utils/charts';
 
-export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel }) => (
+export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel , isVisible = true , isNotVisibleMessage ="" }) => (
     data != null && data.length > 0 &&
     <div id={dataKey} className="chart-parent">
       <h3 className="title">{title}</h3>
+      {isVisible &&
+        <div>
       <div className="chart-body">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data} margin={{ top: 5, right: 20, left: 50, bottom: 5 }}>
@@ -35,6 +37,7 @@ export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel }) => (
       </div>
       <label className="x-axis-label">{xLabel}</label>
       <label className="y-axis-label">{yLabel}</label>
-
+        </div>}
+      {!isVisible && <div className="alarm"><p>{isNotVisibleMessage}</p></div>}
     </div>
 );

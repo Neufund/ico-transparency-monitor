@@ -342,3 +342,10 @@ body{
   color: #8c972f;
   background: #f9f8f8;
 }
+
+/*Large*/
+@media only screen and (min-width: 75em) {
+  .container {
+    width: 69rem !important;
+  }
+}

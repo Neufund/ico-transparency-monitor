@@ -107,13 +107,13 @@ body{
 }
 
 .ico-information{
-  float:right;
+  float:left;
   width:80%;
 }
 
 .ico-logo{
-  width:15%;
   float:left;
+  margin-right:10px;
 }
 .ico-box  .name  .ico-logo img{
   height: 36.8px;
@@ -164,15 +164,14 @@ body{
   padding-left:5px;
 }
 .ico-box .desc, .ico-box-scan .desc{
-   height: 24px;
-   color: #000000;
-   font-size: 16px;
-   line-height: 24px;
-    /*padding-right:19px;*/
+  height: 24px;
+  color: #000000;
+  font-size: 16px;
+  line-height: 24px;
+  display: block;
 }
 .ico-box .part, .ico-box-scan .part{
   padding-left: 20px;
-  padding-top: 33px;
 }
 
 
@@ -182,7 +181,7 @@ body{
 }
 .transparency-button{
   height: 65px;
-  width: 245px;
+  width: 100%;
   border-radius: 2px 0 0 2px;
   border: 0;
   float:right;
@@ -212,6 +211,9 @@ body{
   border-left:10px #2BD822 solid;
 }
 
+.part.transparency{
+  padding-right:0;
+}
 .part.transparency p{
   margin:0;
   font-size: 14px;
@@ -221,12 +223,23 @@ body{
 .part.transparency strong{
   letter-spacing: 1px;
 }
+
 .part.transparency strong,.scanbox-details .stats table td{
   line-height: 24px;
   font-size: 16px;
   font-weight:bold;
 }
 
+.main-page-ico-parameters{
+  display: flex;
+  align-items: center;
+  height:100%;
+}
+
+.scanbox-details-parameters strong.desc{
+  overflow:hidden !important;
+  text-overflow: ellipsis;
+}
 .added-by-person{
   color: #8E9297 !important;
   text-align: right;
@@ -302,19 +315,19 @@ body{
 }
 
 .alert-error{
-  position: absolute;
-  left: 46px;
-  margin-top: 39px;
+  /*position: absolute;*/
+  /*left: 46px;*/
+  /*margin-top: 39px;*/
 }
 
 .nontransparent-alert{
-  color: #FF0000;
+  color: #FF0000 !important;
 }
 .withissues-alert{
-  color : #FFB600;
+  color : #FFB600 !important;
 }
 .transparent-alert{
-  color:#2BD822;
+  color:#2BD822 !important;
 }
 
 .well{

@@ -5,22 +5,32 @@ export const ICOScanHeader = ({ ...props }) => (
   <Row>
     <Grid className="ico-scan-header">
       <Row>
-        <Col md={6} className="name">
-          <Row>
-            <Col md={2} className="ico-logo">
-              <img src={props.information.logo} alt={props.address} />
-            </Col>
-            <Col md={8} className="ico-desc">
-              <h4><a href="#"> {props.name || props.information.aliasName }</a></h4>
-              <a target="_blank" href={props.information.website}>{props.information.website}</a>
+
+        <Col lg={6} md={4} xs={12} className="name">
+          <Row className="ico-box-container">
+            <Col lg={12}>
+              <div className="clearfix">
+                <div className="ico-logo">
+                  <img src={props.information.logo} alt={props.address} />
+                </div>
+                <div className="ico-information">
+                  <h4><a href={`/#/${props.address}`}> {props.name || props.information.aliasName}</a></h4>
+                  <a rel="noopener noreferrer"
+                     target="_blank"
+                     href={props.information.website}>{props.information.website}</a>
+                </div>
+              </div>
             </Col>
           </Row>
         </Col>
 
+
+
+
         <Col md={6}>
           <Row>
-            <Col md={7} />
-            <Col md={5} className="part transparency">
+            <Col md={5} />
+            <Col md={7} className="part transparency">
               <p className="title added-by-person">Added by Person</p>
 
               <button

@@ -320,7 +320,7 @@ export default {
         cap: async (web3, icoContract) => {
           const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
           const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-          return `Max: ${maxCap / 10 ** 18}\n Min: ${minCap / 10 ** 18} GNT`;
+          return [`Max: ${maxCap / 10 ** 18}` , `Min: ${minCap / 10 ** 18} GNT`];
         },
         startDate: async (web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingStartBlock)();
@@ -422,7 +422,7 @@ export default {
       icoParameters: {
         cap: async (web3, icoContract) => {
           const daoMinCap = await toPromise(icoContract.minTokensToCreate)();
-          return `Min: ${convertWeb3Value(daoMinCap, "ether")} DAOs Max: unbounded`;
+          return [`Min: ${convertWeb3Value(daoMinCap, "ether")} DAOs `, `Max: unbounded`];
         },
         startDate: async icoContract => 'contract creation',
         endDate: async (web3, icoContract) => {

@@ -160,6 +160,7 @@ font-weight: normal;
 .ico-scan-header{
   background: white;
   padding-top:20px;
+  padding-left:20px;
 }
 
 .ico-scan-header .ico-logo{
@@ -184,7 +185,7 @@ font-weight: normal;
 }
 
 .ico-scan-header .ico-logo img{
-  float: right;
+  float: left;
 }
 
 .ico-scan-header .name{
@@ -237,6 +238,23 @@ font-weight: normal;
   color: #424344;
   margin-left: 50px;
 }
+
+.scanbox-details-parameters{
+  padding-top: 20px;
+  border-top: 1px solid #e5e7e9;
+}
+.font-light{
+  font-weight: 300;
+}
+
+.part-status{
+  padding-right: 20px !important;
+}
+.right .title-status{
+  text-align: right;
+}
+
+
 @media(min-width:767px){
   .scanbox-details .stats table td {
     padding-left:150px;

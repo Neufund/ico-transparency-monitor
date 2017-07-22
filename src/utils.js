@@ -69,7 +69,12 @@ export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
   }
 );
 
-export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
+export const getValueOrNotAvailable = (props, input) => {
+  if ( props && props[input] )
+    return props[input];
+  else
+    return 'Not Available';
+};
 
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   console.log(`Start scanning for block range ${blockRange}`);

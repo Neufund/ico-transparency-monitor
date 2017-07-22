@@ -12,10 +12,11 @@ const ICOScan = ({ ...props }) => (<div>
       <div id="loadingProgressG_1" className="loadingProgressG" />
     </div>
     {!props.showLoader && props.web3 && <Col md={12}>
-      <Row>
+      <Row className="scanbox-details-parameters">
         <Col md={2} className="part">
           <p className="title">Declared Cap</p>
-          <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>
+          {props.cap && typeof props.cap === "object" && getValueOrNotAvailable(props, 'cap').map(item=><strong key={item} className="desc">{item}</strong>)}
+          {props.cap && typeof props.cap === "string" && <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>}
         </Col>
         <Col md={3} className="part">
           <p className="title">Tokens Supply</p>
@@ -27,14 +28,12 @@ const ICOScan = ({ ...props }) => (<div>
         </Col>
         <Col md={3} className="part">
           <p className="title">Declared Duration</p>
-          <strong className="desc">{getValueOrNotAvailable(props, 'startDate')}</strong>
-          <span className="separator">to</span>
-          <strong className="desc">{getValueOrNotAvailable(props, 'endDate')}</strong>
+          <strong className="desc">{getValueOrNotAvailable(props, 'startDate')} <span className="font-light">to</span> {getValueOrNotAvailable(props, 'endDate')} </strong>
         </Col>
-        <Col md={2} className="part">
+        <Col md={2} className="part part-status">
           <div className="right">
-            <p className="title">Status</p>
-            <strong className="desc">{getValueOrNotAvailable(props, 'status')}</strong>
+            <p className="title title-status">Status</p>
+            <strong className={`desc ${props.decision ? props.decision.replace(/\s+/g, '-').toLowerCase() : ''}-alert`}>{getValueOrNotAvailable(props, 'status')}</strong>
           </div>
         </Col>
       </Row>

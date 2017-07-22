@@ -62,9 +62,9 @@ class ContentTable extends Component {
                   return (<tr key={index}>
                     <td className={this.getRowClassName(key)}>
                       {mappedQuestionMatrix.question}
+                      <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>
                     </td>
                     <td>
-                      <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>
                       <p>{currentQuestion.answer === null ? 'N/A' : (currentQuestion.answer ? 'Yes' : 'No')}</p>
                     </td>
                   </tr>);

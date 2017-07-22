@@ -7,7 +7,7 @@ import { default as config } from '../config.js';
 const ICOApp = ({ ...props }) => (
   <Row className="ico-container">
     <Grid>
-      <Row className="ico-box" onClick={()=> window.location = `/#/${props.address}`}>
+      <Row className="ico-box" onClick={() => window.location = `/#/${props.address}`}>
         <Col lg={3} md={4} className="name">
           <Row className="ico-box-container">
             <Col lg={12}>
@@ -17,9 +17,11 @@ const ICOApp = ({ ...props }) => (
                 </div>
                 <div className="ico-information">
                   <h4><a href={`/#/${props.address}`}> {props.name || props.information.aliasName}</a></h4>
-                  <a rel="noopener noreferrer"
-                     target="_blank"
-                     href={props.information.website}>{props.information.website}</a>
+                  <a
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href={props.information.website}
+                  >{props.information.website}</a>
                 </div>
               </div>
             </Col>
@@ -29,8 +31,8 @@ const ICOApp = ({ ...props }) => (
           <Row className="main-page-ico-parameters">
             <Col lg={3} xs={6} className="part">
               <p className="title">Declared Cap</p>
-              {props.cap && typeof props.cap === "object" && getValueOrNotAvailable(props, 'cap').map(item=><strong key={item} className="desc">{item}</strong>)}
-              {props.cap && typeof props.cap === "string" && <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>}
+              {props.cap && typeof props.cap === 'object' && getValueOrNotAvailable(props, 'cap').map(item => <strong key={item} className="desc">{item}</strong>)}
+              {props.cap && typeof props.cap === 'string' && <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>}
 
             </Col>
             <Col lg={2} xs={6} className="part">

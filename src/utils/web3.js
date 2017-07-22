@@ -49,7 +49,7 @@ export const web3Connect = () => async (dispatch, getState) => {
   console.log(`${config.rpcHost} new connection`);
   // start monitoring current block
   engine.on('block', (block) => {
-    if ( currentBlock === null){
+    if (currentBlock === null) {
       dispatch(setBlock(block));
     }
   });
@@ -102,7 +102,7 @@ export const convertBlockNumberToDate = async (web3, blockNumber) => {
 export const convertWeb3Value = (value, type) => {
   switch (type) {
     case 'string' :return value;
-    case 'ether' :return parseFloat(value.div(10**18).valueOf());
+    case 'ether' :return parseFloat(value.div(10 ** 18).valueOf());
     case 'timestamp' :return new Date(parseInt(value.valueOf()) * 1000);
   }
 };

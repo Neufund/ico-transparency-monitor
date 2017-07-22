@@ -15,16 +15,16 @@ export const ICOScanHeader = ({ ...props }) => (
                 </div>
                 <div className="ico-information">
                   <h4><a href={`/#/${props.address}`}> {props.name || props.information.aliasName}</a></h4>
-                  <a rel="noopener noreferrer"
-                     target="_blank"
-                     href={props.information.website}>{props.information.website}</a>
+                  <a
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href={props.information.website}
+                  >{props.information.website}</a>
                 </div>
               </div>
             </Col>
           </Row>
         </Col>
-
-
 
 
         <Col md={6}>
@@ -40,7 +40,7 @@ export const ICOScanHeader = ({ ...props }) => (
                 }}
               >
                 <p>Transparency</p>
-                <strong> {props.decision?props.decision.toUpperCase():''} </strong>
+                <strong> {props.decision ? props.decision.toUpperCase() : ''} </strong>
                 <span className="arrow">&#8594;</span>
               </button>
             </Col>

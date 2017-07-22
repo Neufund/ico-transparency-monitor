@@ -13,12 +13,12 @@ class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isBlockMounted:false
-    }
+      isBlockMounted: false,
+    };
   }
   render() {
-    if(this.props.blocks  && this.state.isBlockMounted === false){
-      this.setState({isBlockMounted:true});
+    if (this.props.blocks && this.state.isBlockMounted === false) {
+      this.setState({ isBlockMounted: true });
       this.props.getLogs(this.props.address);
     }
     return (
@@ -28,19 +28,23 @@ class Scan extends Component {
             <Row className="nav-buttons">
               <Col md={6}>
                 <div className="back-list">
-                  <button onClick={()=>window.location="/"} className="arrow-btn arrow-btn-left"><span className="arrow arrow-left">&#8592;</span></button>
+                  <button onClick={() => window.location = '/'} className="arrow-btn arrow-btn-left"><span className="arrow arrow-left">&#8592;</span></button>
                   <a href="/">Go back to the list </a>
                 </div>
               </Col>
               <Col md={6}>
                 <div className="next-list">
-                  <a className="pointer-cursor" onClick={()=>{
-                    getNextICO(this.props.address);
-                  }}> Go to the next</a>
+                  <a
+                    className="pointer-cursor" onClick={() => {
+                      getNextICO(this.props.address);
+                    }}
+                  > Go to the next</a>
 
-                  <button onClick={()=>{
-                    getNextICO(this.props.address);
-                  }} className="arrow-btn arrow-btn-right"><span className="arrow">&#8594;</span></button>
+                  <button
+                    onClick={() => {
+                      getNextICO(this.props.address);
+                    }} className="arrow-btn arrow-btn-right"
+                  ><span className="arrow">&#8594;</span></button>
                 </div>
               </Col>
             </Row>
@@ -60,13 +64,13 @@ class Scan extends Component {
 const mapStateToProps = (state, props) => {
   const address = props.match.params.name;
   return {
-    address:address,
+    address,
     ico: config.ICOs[address],
     currencyValue: state.currency.value,
     isComponentReady: state.scan.showStats,
     isLoading: state.scan.showLoader,
     web3: state.modal.web3,
-    blocks:state.blocks
+    blocks: state.blocks,
   };
 };
 

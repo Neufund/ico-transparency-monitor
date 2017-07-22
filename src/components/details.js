@@ -48,7 +48,7 @@ export const RaisedAmount = ({ total, avgTicket, avgPrice, currency }) => (
 );
 
 export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
-  <div>
+  <div >
     <h3 className="title">Tokens issuance</h3>
     <div className="stats">
       <table>
@@ -78,8 +78,8 @@ export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInv
   </div>
 );
 
-export const TokenDistribution = ({ tokenHolders ,isVisible , isNotVisibleMessage=""}) => (
-    <div>
+export const TokenDistribution = ({ tokenHolders, isVisible, isNotVisibleMessage = '' }) => (
+  <div className="relative full-height">
     <h3 className="title">Token distribution</h3>
 
     {isVisible && <div className="token-distribution-table"> <table className="table table-responsive">

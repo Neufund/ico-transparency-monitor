@@ -24,9 +24,9 @@ export const formatNumber = (number, precision = 2) => {
   return number.toFixed(precision).replace(/./g, (c, i, a) => i && c !== '.' && ((a.length - i) % 3 === 0) ? ` ${c}` : c);
 };
 
-export const icoTransparencyLevel = Object.freeze({NONTRANSPARENT: 'nontransparent', WITHISSUES: 'withissues', TRANSPARENT: 'transparent'});
+export const icoTransparencyLevel = Object.freeze({ NONTRANSPARENT: 'nontransparent', WITHISSUES: 'withissues', TRANSPARENT: 'transparent' });
 
-export const criticalToTransparencyLevel = (critical) =>
+export const criticalToTransparencyLevel = critical =>
   critical ? icoTransparencyLevel.NONTRANSPARENT : icoTransparencyLevel.WITHISSUES;
 
 export const computeICOTransparency = (answers) => {
@@ -63,17 +63,15 @@ String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function () {
 export const getEtherRate = async (currency, time) => axios.get(`https://api.coinbase.com/v2/prices/${currency}/spot?date=${time.toISOString()}`);
 
 export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
-    const ico = config.ICOs[icoKey];
-    ico.address = icoKey;
-    return ico;
-  }
+  const ico = config.ICOs[icoKey];
+  ico.address = icoKey;
+  return ico;
+}
 );
 
 export const getValueOrNotAvailable = (props, input) => {
-  if ( props && props[input] )
-    return props[input];
-  else
-    return 'Not Available';
+  if (props && props[input]) { return props[input]; }
+  return 'Not Available';
 };
 
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
@@ -87,7 +85,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   const event = icoConfig.events[eventName];
   const filter = icoContract[eventName](event.customArgs || {}, {
     fromBlock: blockRange[0],
-    toBlock: blockRange[1]
+    toBlock: blockRange[1],
   });
   filter.stopWatching(() => {});
 
@@ -243,7 +241,7 @@ const sortInvestorsByTicket = (investors) => {
   sortedByTokens.sort((first, last) => last.value - first.value);
   sortedByETH.sort((first, last) => last.value - first.value);
 
-  return [sortedByTokens, sortedByETH]
+  return [sortedByTokens, sortedByETH];
 };
 
 export const getPercentagesDataSet = (limit = 100) => {
@@ -298,18 +296,18 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
 
 const getChartTimescale = (durationHours, startTimestamp) => {
   if (durationHours < 12) {
-    return ['blocks', (event) => event.blockNumber];
+    return ['blocks', event => event.blockNumber];
   } else if (durationHours > 12 && durationHours < 96) {
     // difference in full hours
-    return ['hours', (event) => 1 + ((event.timestamp - startTimestamp) / 3600) >> 0];
+    return ['hours', event => 1 + ((event.timestamp - startTimestamp) / 3600) >> 0];
   }
-  //difference in full days
-  return ['days', (event) => 1 + ((event.timestamp - startTimestamp) / 86400) >> 0];
+  // difference in full days
+  return ['days', event => 1 + ((event.timestamp - startTimestamp) / 86400) >> 0];
 };
 
 export const getNextICO = (address) => {
   const icosKeys = Object.keys(config.ICOs);
-  let currentICOIndex = icosKeys.indexOf(address) % (icosKeys.length-1);
+  const currentICOIndex = icosKeys.indexOf(address) % (icosKeys.length - 1);
   const nextICOIndex = currentICOIndex + 1;
   const nextICO = icosKeys[nextICOIndex];
   window.location = `/#/${nextICO}`;
@@ -323,7 +321,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
 
   // get event that defines investor transaction and extract timestamps that will scale the time charts
   console.log(allLogs);
-  const transactionLogs = allLogs[Object.keys(allLogs).filter((name) => icoConfig.events[name].countTransactions)[0]];
+  const transactionLogs = allLogs[Object.keys(allLogs).filter(name => icoConfig.events[name].countTransactions)[0]];
   const startTimestamp = transactionLogs[0].timestamp;
   const endTimestamp = transactionLogs[transactionLogs.length - 1].timestamp;
   const startTime = new Date(startTimestamp * 1000);
@@ -392,7 +390,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
           s.ETH += etherValue;
           s.tokens += tokenValue;
         } else {
-          senders[investor] = {tokens: tokenValue, ETH: etherValue};
+          senders[investor] = { tokens: tokenValue, ETH: etherValue };
         }
 
         stats.money.totalETH += etherValue;
@@ -408,13 +406,13 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
 
   // when building charts fill empty days and hours with 0
   let timeIterator = stats.time.scale !== 'blocks' ?
-    Array.from(new Array(toTimeBucket(transactionLogs[transactionLogs.length - 1])), (x,i) => i + 1) : Object.keys(chartTokensCountTemp);
+    Array.from(new Array(toTimeBucket(transactionLogs[transactionLogs.length - 1])), (x, i) => i + 1) : Object.keys(chartTokensCountTemp);
   timeIterator.forEach(key => stats.charts.tokensCount.push({
     name: key,
-    amount: key in chartTokensCountTemp ? parseFloat(chartTokensCountTemp[key].toFixed(2)) : 0
+    amount: key in chartTokensCountTemp ? parseFloat(chartTokensCountTemp[key].toFixed(2)) : 0,
   }));
   timeIterator = stats.time.scale !== 'blocks' ?
-    Array.from(new Array(toTimeBucket(transactionLogs[transactionLogs.length - 1])), (x,i) => i + 1) : Object.keys(chartTransactionsCountTemp);
+    Array.from(new Array(toTimeBucket(transactionLogs[transactionLogs.length - 1])), (x, i) => i + 1) : Object.keys(chartTransactionsCountTemp);
   timeIterator.forEach(key => stats.charts.transactionsCount.push({
     name: key,
     amount: key in chartTransactionsCountTemp ? parseFloat(chartTransactionsCountTemp[key].toFixed(2)) : 0,

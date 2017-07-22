@@ -57,8 +57,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           currency={props.currency}
           isProvidingEtherValue={props.isProvidingEtherValue}
           tokenHolders={props.stats.charts.tokenHolders}
-          isVisible = {props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage = "No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
+          isVisible={props.stats.money.tokenIssued !== 0}
+          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
       <Col md={6} >
@@ -68,8 +68,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           data={props.stats.charts.tokenHolders}
           xLabel={'Top Wealthiest Investors'}
           yLabel="Share of Tokens Owned"
-          isVisible = {props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage = "No Token distribution statistics: This ICO is not generating tokens or is not handling them in trustless way"
+          isVisible={props.stats.money.tokenIssued !== 0}
+          isNotVisibleMessage="No Token distribution statistics: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
     </Row>
@@ -90,33 +90,33 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       />
     </div>}
 
-      <h3 className="title">Funds distribution</h3>
-      <Row className="box-container">
-        <Col md={12}>
-          <SingleBarChart
-            data={props.stats.charts.investorsDistribution}
-            dataKey="Investors"
-            title="Number of Investors with Ticket of Size"
-            xLabel={`Ticket Size in [${props.currency}]`}
-            yLabel="Number of Investors"
-            isVisible = {props.stats.money.totalETH !== 0}
-            isNotVisibleMessage = "No ETH statistics: This ICO Is not handling funds in a trustless way"
-          />
-        </Col>
-      </Row>
-      <Row className="box-container">
-        <Col md={12} >
-          <SingleBarChart
-            data={props.stats.charts.investmentDistribution}
-            dataKey="Investments"
-            title="Total Amount Invested with Ticket of Size"
-            xLabel={`Ticket Size in [${props.currency}]`}
-            yLabel="Total Amount Invested"
-            isVisible = {props.stats.money.totalETH !== 0}
-            isNotVisibleMessage = "No ETH statistics: This ICO Is not handling funds in a trustless way"
-          />
-        </Col>
-      </Row>
+    <h3 className="title">Funds distribution</h3>
+    <Row className="box-container">
+      <Col md={12}>
+        <SingleBarChart
+          data={props.stats.charts.investorsDistribution}
+          dataKey="Investors"
+          title="Number of Investors with Ticket of Size"
+          xLabel={`Ticket Size in [${props.currency}]`}
+          yLabel="Number of Investors"
+          isVisible={props.stats.money.totalETH !== 0}
+          isNotVisibleMessage="No ETH statistics: This ICO Is not handling funds in a trustless way"
+        />
+      </Col>
+    </Row>
+    <Row className="box-container">
+      <Col md={12} >
+        <SingleBarChart
+          data={props.stats.charts.investmentDistribution}
+          dataKey="Investments"
+          title="Total Amount Invested with Ticket of Size"
+          xLabel={`Ticket Size in [${props.currency}]`}
+          yLabel="Total Amount Invested"
+          isVisible={props.stats.money.totalETH !== 0}
+          isNotVisibleMessage="No ETH statistics: This ICO Is not handling funds in a trustless way"
+        />
+      </Col>
+    </Row>
 
   </div>
 

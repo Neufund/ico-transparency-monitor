@@ -15,8 +15,8 @@ const ICOScan = ({ ...props }) => (<div>
       <Row className="scanbox-details-parameters">
         <Col md={2} className="part">
           <p className="title">Declared Cap</p>
-          {props.cap && typeof props.cap === "object" && getValueOrNotAvailable(props, 'cap').map(item=><strong key={item} className="desc">{item}</strong>)}
-          {props.cap && typeof props.cap === "string" && <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>}
+          {props.cap && typeof props.cap === 'object' && getValueOrNotAvailable(props, 'cap').map(item => <strong key={item} className="desc">{item}</strong>)}
+          {props.cap && typeof props.cap === 'string' && <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>}
         </Col>
         <Col md={3} className="part">
           <p className="title">Tokens Supply</p>

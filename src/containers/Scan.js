@@ -7,6 +7,7 @@ import { default as config } from '../config.js';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { getLogs } from '../reducers/web3';
+import { getNextICO } from '../utils';
 
 class Scan extends Component {
   constructor(props) {
@@ -27,14 +28,19 @@ class Scan extends Component {
             <Row className="nav-buttons">
               <Col md={6}>
                 <div className="back-list">
-                  <button className="arrow-btn arrow-btn-left"><span className="arrow arrow-left">&#8592;</span></button>
+                  <button onClick={()=>window.location="/"} className="arrow-btn arrow-btn-left"><span className="arrow arrow-left">&#8592;</span></button>
                   <a href="/">Go back to the list </a>
                 </div>
               </Col>
               <Col md={6}>
                 <div className="next-list">
-                  <a href="/">Go back to the list</a>
-                  <button className="arrow-btn arrow-btn-right"><span className="arrow">&#8594;</span></button>
+                  <a className="pointer-cursor" onClick={()=>{
+                    getNextICO(this.props.address);
+                  }}> Go to the next</a>
+
+                  <button onClick={()=>{
+                    getNextICO(this.props.address);
+                  }} className="arrow-btn arrow-btn-right"><span className="arrow">&#8594;</span></button>
                 </div>
               </Col>
             </Row>
@@ -54,7 +60,7 @@ class Scan extends Component {
 const mapStateToProps = (state, props) => {
   const address = props.match.params.name;
   return {
-    address,
+    address:address,
     ico: config.ICOs[address],
     currencyValue: state.currency.value,
     isComponentReady: state.scan.showStats,

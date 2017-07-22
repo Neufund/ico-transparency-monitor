@@ -90,6 +90,9 @@ body{
 .ico-container{
   cursor: pointer;
 }
+.pointer-cursor{
+  cursor: pointer;
+}
 .ico-box,.scanbox{
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 0 #BBC2C7;

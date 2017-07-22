@@ -320,7 +320,7 @@ export default {
         cap: async (web3, icoContract) => {
           const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
           const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-          return [`Max: ${maxCap / 10 ** 18}` , `Min: ${minCap / 10 ** 18} GNT`];
+          return [`Max: ${maxCap / 10 ** 18} GNT` , `Min: ${minCap / 10 ** 18} GNT`];
         },
         startDate: async (web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingStartBlock)();

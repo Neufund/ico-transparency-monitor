@@ -42,7 +42,7 @@ const ICOApp = ({ ...props }) => (
               <strong className="desc">{getValueOrNotAvailable(props, 'endDate')}</strong>
             </Col>
             <Col lg={3} xs={12} className="part transparency">
-              <p className="title">Added by Person</p>
+              <p className="title added-by-person">Added by Person</p>
 
               <button
                 href={props.name}

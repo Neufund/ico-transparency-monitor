@@ -71,10 +71,11 @@ body{
   line-height: 24px;
   clear: both;
 }
+
 .header-paragraph p{
   clear: both;
   /*height: 91px;*/
-  /*width: 532px;*/
+  width: 532px;
   color: #4A4A4A;
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
@@ -215,11 +216,21 @@ body{
   margin:0;
   font-size: 14px;
   color: #4A4A4A;
+  font-weight: 300;
+}
+.part.transparency strong{
+  letter-spacing: 1px;
 }
 .part.transparency strong,.scanbox-details .stats table td{
   line-height: 24px;
   font-size: 16px;
   font-weight:bold;
+}
+
+.added-by-person{
+  color: #8E9297 !important;
+  text-align: right;
+  padding-right: 16px;
 }
 
 .arrow{

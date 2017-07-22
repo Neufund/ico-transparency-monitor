@@ -101,5 +101,5 @@ export const TokenDistribution = ({ tokenHolders ,isVisible , isNotVisibleMessag
         }
       </tbody>
     </table></div>}
-    {!isVisible && <div className="alarm"><p>{isNotVisibleMessage}</p></div>}
+    {!isVisible && <div className="alarm alarm-middle"><p>{isNotVisibleMessage}</p></div>}
   </div>);

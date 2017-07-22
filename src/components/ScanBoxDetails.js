@@ -24,16 +24,16 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
   <Row className="statistics box-container">
     <Col md={6} className="relative">
-      {props.stats.money.tokenIssued > 0 && <SingleBarChart
+      {console.log(parseFloat(props.stats.money.tokenIssued))}
+      <SingleBarChart
         title="Tokens over time"
         data={props.stats.charts.tokensCount}
         dataKey="Tokens/Time"
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
-      />}
-      {props.stats.money.tokenIssued === 0 && <div className="alarm alarm-middle">
-        <p>No Token statistics: This ICO is not generating tokens or is not handling them in trustless way</p>
-      </div>}
+        isVisible={parseInt(props.stats.money.tokenIssued) > 0}
+        isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not handling them in trustless way"
+      />
     </Col>
     <Col md={6}>
       <SingleBarChart
@@ -88,17 +88,19 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         avgTicket={props.stats.money.totalETH * props.currencyValue / Object.keys(props.stats.investors.senders).length}
         avgPrice={props.stats.money.totalETH * props.currencyValue / props.stats.money.tokenIssued}
       />
+    </div>}
 
       <h3 className="title">Funds distribution</h3>
       <Row className="box-container">
         <Col md={12}>
-
           <SingleBarChart
             data={props.stats.charts.investorsDistribution}
             dataKey="Investors"
             title="Number of Investors with Ticket of Size"
             xLabel={`Ticket Size in [${props.currency}]`}
             yLabel="Number of Investors"
+            isVisible = {props.stats.money.totalETH !== 0}
+            isNotVisibleMessage = "No ETH statistics: This ICO Is not handling funds in a trustless way"
           />
         </Col>
       </Row>
@@ -110,16 +112,14 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
             title="Total Amount Invested with Ticket of Size"
             xLabel={`Ticket Size in [${props.currency}]`}
             yLabel="Total Amount Invested"
+            isVisible = {props.stats.money.totalETH !== 0}
+            isNotVisibleMessage = "No ETH statistics: This ICO Is not handling funds in a trustless way"
           />
         </Col>
       </Row>
-    </div>}
+
   </div>
 
-  {!props.stats.money.totalETH &&
-  <div className="alarm">
-    <p>No ETH statistics: This ICO Is not handling funds in a trustless way</p>
-  </div>}
   <button className="chart-btn" onClick={() => props.downloadCSV(props.address)}>[Download Raw Data as CSV]</button>
 </div>);
 

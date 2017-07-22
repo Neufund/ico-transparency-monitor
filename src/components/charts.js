@@ -38,6 +38,6 @@ export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel , isVisibl
       <label className="x-axis-label">{xLabel}</label>
       <label className="y-axis-label">{yLabel}</label>
         </div>}
-      {!isVisible && <div className="alarm"><p>{isNotVisibleMessage}</p></div>}
+      {!isVisible && <div className="alarm alarm-middle"><p>{isNotVisibleMessage}</p></div>}
     </div>
 );

@@ -124,6 +124,7 @@ textarea.console{
   vertical-align: middle;
   position: absolute;
   top: 40%;
+  width: 100%;
 }
 .relative{
   position: relative;

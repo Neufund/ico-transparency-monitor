@@ -23,16 +23,18 @@ class Scan extends Component {
     return (
       <div className="App">
         {this.state.isBlockMounted && <div>
-          <Grid fluid>
+          <Grid>
             <Row className="nav-buttons">
               <Col md={6}>
                 <div className="back-list">
-                  <a href="/"><i className="fa fa-arrow-left" /> Go back to the list </a>
+                  <button className="arrow-btn arrow-btn-left"><span className="arrow arrow-left">&#8592;</span></button>
+                  <a href="/">Go back to the list </a>
                 </div>
               </Col>
               <Col md={6}>
                 <div className="next-list">
-                  <a href="/">Go back to the list <i className="fa fa-arrow-right" /></a>
+                  <a href="/">Go back to the list</a>
+                  <button className="arrow-btn arrow-btn-right"><span className="arrow">&#8594;</span></button>
                 </div>
               </Col>
             </Row>

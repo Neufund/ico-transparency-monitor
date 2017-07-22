@@ -21,7 +21,7 @@ export const ICOScanHeader = ({ ...props }) => (
           <Row>
             <Col md={7} />
             <Col md={5} className="part transparency">
-              <p className="title">Added by Person</p>
+              <p className="title added-by-person">Added by Person</p>
 
               <button
                 className={`transparency-button ${props.decision ? props.decision.replace(/\s+/g, '-').toLowerCase() : ''}-status`}

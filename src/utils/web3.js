@@ -99,10 +99,10 @@ export const convertBlockNumberToDate = async (web3, blockNumber) => {
   return new Date(parseInt(timestamp) * 1000);
 };
 
-export const convertWeb3Value = (web3, value, type) => {
+export const convertWeb3Value = (value, type) => {
   switch (type) {
     case 'string' :return value;
-    case 'ether' :return web3.fromWei(value, 'ether').valueOf();
+    case 'ether' :return parseFloat(value.div(10**18).valueOf());
     case 'timestamp' :return new Date(parseInt(value.valueOf()) * 1000);
   }
 };

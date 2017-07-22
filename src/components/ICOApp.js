@@ -47,7 +47,7 @@ const ICOApp = ({ ...props }) => (
 
               <button
                 href={props.name}
-                className={`transparency-button ${getValueOrNotAvailable(props, 'decision').replace(/\s+/g, '-').toLowerCase()}-status`}
+                className={`transparency-button ${getValueOrNotAvailable(props, 'decision')}-status`}
                 onClick={() => {
                   props.onModalShow(props);
                 }}

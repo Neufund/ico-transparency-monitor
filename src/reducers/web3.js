@@ -1,5 +1,5 @@
 import { default as config } from '../config.js';
-import { getICOParameters, isConnected, web3Connect } from '../utils/web3';
+import { getICOParameters, isConnected, web3Connect, getSmartContract } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
@@ -26,55 +26,65 @@ export const readSmartContract = address => async (dispatch, getState) => {
   if (!web3) {
     return;
   }
-  const matrix = config.ICOs[address].matrix;
-  const transparencyDecision = computeICOTransparency(matrix)[0];
+  const answers = config.ICOs[address].matrix;
+  const transparencyDecision = computeICOTransparency(answers)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
-  getICOParameters(web3, address).then((parameters) => {
-    Object.keys(parameters).forEach((constant) => {
-      const parameter = parameters[constant];
-      if (parameter === null) return;
-      const tempResult = {};
-      if (typeof parameter === 'object' && typeof parameter.then === 'function') {
-        parameter.then(async (value) => {
-          if (typeof value === 'function') { tempResult[constant] = await value(web3); } else { tempResult[constant] = value; }
-
-          dispatch(setProperties(address, tempResult));
-        });
-      } else {
-        tempResult[constant] = parameter;
+  const parameters = await getICOParameters(web3, address);
+  config.ICOs[address].decimals = parameters.decimals || config.ICOs[address].decimals; // set decimals in config from smart contract
+  Object.keys(parameters).forEach((par) => {
+    const parameter = parameters[par];
+    if (parameter === null) return;
+    const tempResult = {};
+    if (typeof parameter === 'object' && typeof parameter.then === 'function') {
+      parameter.then(async (value) => {
+        if (typeof value === 'function') { tempResult[par] = await value(web3); } else { tempResult[par] = value; }
         dispatch(setProperties(address, tempResult));
-      }
-    });
+      });
+    } else {
+      tempResult[par] = parameter;
+      dispatch(setProperties(address, tempResult));
+    }
   });
 };
 
 export const getLogs = address => async (dispatch, getState) => {
   dispatch(showLoader());
   const web3 = getState().modal.web3;
-
-  const lastBlockNumber = `0x${getState().blocks.number.toString('hex')}`;
+  const lastBlockNumber = parseInt(`0x${getState().blocks.number.toString('hex')}`);
 
   if (!web3) {
     dispatch(errorMessage());
     return;
   }
 
-  const lastBlock = getState().blocks;
-  console.log('Start working on logs');
+  const icoConfig = config.ICOs[address];
+  const icoContract = getSmartContract(web3, address);
 
-  getICOLogs(web3, lastBlockNumber, address, async (error, logs) => {
-    dispatch(hideLoader());
+  // now parition into many smaller calls
+  const logRequests = [];
+  Object.keys(icoConfig.events).forEach((eventName) => {
+    const event = icoConfig.events[eventName];
+    const firstTxBlockNumber = event.firstTransactionBlockNumber || 0;
+    const lastTxBlockNumber = event.lastTransactionBlockNumber || lastBlockNumber;
+    console.log(eventName, firstTxBlockNumber, lastTxBlockNumber);
 
-    if (error || logs.length === 0) dispatch({ type: error });
-
-    else {
-      const smartContractConstants = await getICOParameters(web3, address);
-      const ico = config.ICOs[address];
-      ico.decimals = smartContractConstants.decimals;
-      const statistics = getStatistics(web3, ico, logs, initStatistics());
-
-        // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
+    if (!event.maxBlocksInChunk || !firstTxBlockNumber || lastTxBlockNumber === 'latest') {
+      // do in one request
+      logRequests.push([firstTxBlockNumber, lastTxBlockNumber, eventName]);
+    } else {
+      let i = firstTxBlockNumber;
+      for (; i < lastTxBlockNumber; i += event.maxBlocksInChunk) {
+        logRequests.push([i, i + event.maxBlocksInChunk - 1, eventName]);
+      }
+      // push last block which is variable
+      logRequests.push([i, lastTxBlockNumber, eventName]);
+    }
+  });
+  const allLogs = {};
+  const finalProcessor = () => {
+      const statistics = getStatistics(icoConfig, allLogs, initStatistics());
+      // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
       dispatch(drawStatistics(statistics[0]));
       dispatch(allocateCSVFile(statistics[1]));
 
@@ -90,6 +100,30 @@ export const getLogs = address => async (dispatch, getState) => {
         dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
         dispatch(showStatistics());
       });
-    }
-  });
+  };
+  const logProcessor = () => {
+    const range = logRequests.shift();
+    const eventName = range[2];
+    getICOLogs(range, icoConfig, icoContract, async(error, logs) => {
+      if (error) {
+        dispatch(hideLoader());
+        dispatch({type: error});
+      } else {
+        // store logs, for each event separately
+        if (eventName in allLogs) {
+          allLogs[eventName].push(...logs);
+        } else {
+          allLogs[eventName] = logs;
+        }
+        if (logRequests.length === 0) {
+          dispatch(hideLoader());
+          finalProcessor();
+        }
+        else {
+          logProcessor();
+        }
+      }
+    });
+  };
+  logProcessor();
 };

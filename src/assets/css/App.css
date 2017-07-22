@@ -163,20 +163,20 @@ body{
 .transparency-button .title{
   margin:0px;
 }
-.non-transparent-status{
+.nontransparent-status{
   border-left:10px #FF0000 solid;
 }
-.with-issues-status{
+.withissues-status{
   border-left:10px #FFB600 solid;
 }
 .transparent-status{
   border-left:10px #2BD822 solid;
 }
 
-.non-transparent-row{
+.nontransparent-row{
   border-left:10px #FF0000 solid;
 }
-.with-issues-row{
+.withissues-row{
   border-left:10px #FFB600 solid;
 }
 .transparent-row{
@@ -241,10 +241,10 @@ body{
   margin-top: 39px;
 }
 
-.non-transparent-alert{
+.nontransparent-alert{
   color: #FF0000;
 }
-.with-issues-alert{
+.withissues-alert{
   color : #FFB600;
 }
 .transparent-alert{

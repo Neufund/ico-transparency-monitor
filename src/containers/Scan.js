@@ -26,13 +26,13 @@ class Scan extends Component {
         {this.state.isBlockMounted && <div>
           <Grid>
             <Row className="nav-buttons">
-              <Col md={6}>
+              <Col md={6} sm={6}>
                 <div className="back-list">
                   <button onClick={() => window.location = '/'} className="arrow-btn arrow-btn-left"><span className="arrow arrow-left">&#8592;</span></button>
                   <a href="/">Go back to the list </a>
                 </div>
               </Col>
-              <Col md={6}>
+              <Col md={6} sm={6}>
                 <div className="next-list">
                   <a
                     className="pointer-cursor" onClick={() => {

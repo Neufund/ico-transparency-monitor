@@ -23,7 +23,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   </Row>
 
   <Row className="statistics box-container">
-    <Col md={6} className="relative">
+    <Col md={6} sm={12} className="relative">
       {console.log(parseFloat(props.stats.money.tokenIssued))}
       <SingleBarChart
         title="Tokens over time"
@@ -35,7 +35,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not handling them in trustless way"
       />
     </Col>
-    <Col md={6}>
+    <Col md={6} sm={12}>
       <SingleBarChart
         title="Transactions over time"
         data={props.stats.charts.transactionsCount}
@@ -50,7 +50,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
     <Row className="box-container">
 
-      <Col md={6} className="scan-content">
+      <Col md={6} sm={12} className="scan-content">
         <TokenDistribution
           total={props.stats.money.tokenIssued}
           investors={props.stats.investors}
@@ -61,7 +61,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
-      <Col md={6} >
+      <Col md={6} sm={12}>
         <SingleBarChart
           title="Token holders distribution"
           dataKey="TokenHolders"
@@ -92,7 +92,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
     <h3 className="title">Funds distribution</h3>
     <Row className="box-container">
-      <Col md={12}>
+      <Col md={12} sm={12} >
         <SingleBarChart
           data={props.stats.charts.investorsDistribution}
           dataKey="Investors"
@@ -105,7 +105,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       </Col>
     </Row>
     <Row className="box-container">
-      <Col md={12} >
+      <Col md={12} sm={12} >
         <SingleBarChart
           data={props.stats.charts.investmentDistribution}
           dataKey="Investments"

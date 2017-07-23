@@ -301,22 +301,6 @@ body{
   float: left !important;
 }
 
-
-@media(max-width:767px) {
-  .transparency{
-    margin-bottom: 17px;
-  }
-}
-@media(min-width:767px){
-  .ico-box{
-    height: 139px;
-  }
-  .ico-box .ico-quick-stats{
-    height: 139px;
-    background-color: #F7F8F9;
-  }
-}
-
 .alert-error{
   /*position: absolute;*/
   /*left: 46px;*/
@@ -347,5 +331,81 @@ body{
 @media only screen and (min-width: 75em) {
   .container {
     width: 69rem !important;
+  }
+}
+@media(max-width:767px) {
+  .transparency{
+    margin-bottom: 17px;
+  }
+}
+
+@media(min-width:1200px){
+  .ico-box{
+    height: 139px;
+  }
+  .ico-box .ico-quick-stats{
+    height: 139px;
+    background-color: #F7F8F9;
+  }
+}
+
+/*Middle Device*/
+@media only screen and (max-width: 1024px) {
+  .hide-md{
+    display: none !important;
+  }
+  .container {
+
+  }
+}
+
+/*Small Device*/
+@media only screen and (max-width: 768px) {
+  .hide-sm {
+    display: none !important;
+  }
+  .container{
+    width: 48rem !important;
+  }
+
+  .ico-box-container .clearfix{
+    width: 600px;
+    padding: 20px;
+  }
+  .part.transparency{
+    padding-right: 20px;
+    padding-bottom: 20px;
+  }
+  .ico-quick-stats{
+    padding-top: 20px;
+  }
+  .ico-box .ico-quick-stats{
+    width:100%;
+  }
+  .ico-box{
+    margin: 0;
+  }
+  .name{
+    padding-bottom: 20px;
+  }
+  .ico-scan-header .name{
+    height: auto !important;
+  }
+  .exchangeRate{
+    position: static !important;
+  }
+  .scanbox-details{
+    padding: 20px;
+  }
+  .arrow-btn{
+    position: inherit !important;
+    top:6px;
+  }
+  .arrow-btn-left{
+    margin-left: -4px !important;
+  }
+  .arrow-btn-right{
+    margin-left: 4px !important;
+
   }
 }

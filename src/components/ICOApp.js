@@ -39,7 +39,7 @@ const ICOApp = ({ ...props }) => (
               <p className="title">Tokens Supply</p>
               <strong className="desc">{formatNumber(parseFloat(props.totalSupply))}</strong>
             </Col>
-            <Col lg={2} sm={6} md={6} xs={12} className="part">
+            <Col lg={3} sm={6} md={6} xs={12} className="part">
               <p className="title">Declared Duration</p>
               <strong className="desc">{getValueOrNotAvailable(props, 'startDate')}</strong>
               <strong className="desc">{getValueOrNotAvailable(props, 'endDate')}</strong>

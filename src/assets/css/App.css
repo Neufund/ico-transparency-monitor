@@ -349,8 +349,10 @@ body{
   }
 }
 
+
+
 /*Middle Device*/
-@media only screen and (max-width: 1024px) {
+@media screen and (max-width: 1024px) and (min-device-width: 769px) {
   .hide-sm{
     display: none !important;
   }
@@ -363,12 +365,31 @@ body{
   .container{
     width: 64rem !important;
   }
-
-
 }
 
+/* Mobile */
+@media only screen and (max-device-width: 767px) {
+  .container{
+    margin:0px;
+  }
+  .hide-xs{
+    display: none;
+  }
+  .exchangeRate{
+    position: static !important;
+  }
+  .header-paragraph p{
+    width:100%;
+  }
+  .ico-box .name h4{
+    max-width:230px;
+  }
+  .container-fluid{
+    padding: 0px;
+  }
+}
 /*Small Device*/
-@media only screen and (max-width: 768px) {
+@media screen and (max-width: 768px) and (min-device-width: 450px){
   .hide-sm {
     display: none !important;
   }
@@ -401,8 +422,8 @@ body{
   }
 }
 
-
-@media screen and (min-device-width : 768px) and  (max-device-width : 1024px){
+/* All of them */
+@media screen and (max-device-width : 1024px){
   .part.transparency{
     padding-right: 20px;
     padding-bottom: 20px;
@@ -431,5 +452,19 @@ body{
   .scanbox-details{
     padding: 20px;
   }
+  .App-logo{
 
+    margin-left: 0 !important;
+    border-right: 1px solid black;
+    padding-right: 10px;
+  }
+  .App-header{
+    border: 0 !important;
+  }
+  .App-header h4{
+    margin-left: 35px;
+  }
+  .ico-box .desc, .ico-box-scan .desc{
+    height:auto !important;
+  }
 }

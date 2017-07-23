@@ -29,22 +29,22 @@ const ICOApp = ({ ...props }) => (
         </Col>
         <Col lg={9} md={12} sm={12} xs={12} className="ico-quick-stats">
           <Row className="main-page-ico-parameters">
-            <Col lg={3} xs={6} className="part">
+            <Col lg={3} sm={6} md={6} xs={12} className="part">
               <p className="title">Declared Cap</p>
               {props.cap && typeof props.cap === 'object' && getValueOrNotAvailable(props, 'cap').map(item => <strong key={item} className="desc">{item}</strong>)}
               {props.cap && typeof props.cap === 'string' && <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>}
 
             </Col>
-            <Col lg={2} xs={6} className="part">
+            <Col lg={2} sm={6} md={6} xs={12} className="part">
               <p className="title">Tokens Supply</p>
               <strong className="desc">{formatNumber(parseFloat(props.totalSupply))}</strong>
             </Col>
-            <Col lg={3} xs={6} className="part">
+            <Col lg={2} sm={6} md={6} xs={12} className="part">
               <p className="title">Declared Duration</p>
               <strong className="desc">{getValueOrNotAvailable(props, 'startDate')}</strong>
               <strong className="desc">{getValueOrNotAvailable(props, 'endDate')}</strong>
             </Col>
-            <Col lg={4} xs={12} className="part transparency">
+            <Col lg={4} sm={6} md={6} xs={12} className="part transparency">
               <p className="title added-by-person">Added by Person</p>
               <button
                 href={props.name}

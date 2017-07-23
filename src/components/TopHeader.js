@@ -4,7 +4,7 @@ import logo from '../assets/NeuFund_icon_white_300dpi.png';
 
 const TopHeader = () => (
 
-  <div className="top-header hide-sm hide-xs">
+  <div className="top-header">
     <Grid>
       <Row className="App-header">
         <a href="/" className="App-logo" > <img src={logo} alt="logo" /></a>

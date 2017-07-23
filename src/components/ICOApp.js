@@ -10,7 +10,7 @@ const ICOApp = ({ ...props }) => (
       <Row className="ico-box" onClick={() => window.location = `/#/${props.address}`}>
         <Col lg={3} md={12} sm={12} xs={12} className="name">
           <Row className="ico-box-container">
-            <Col lg={12}>
+            <Col lg={12} md={12} sm={12} xs={12}>
               <div className="clearfix">
                 <div className="ico-logo">
                   <img src={props.information.logo} alt={props.address} />

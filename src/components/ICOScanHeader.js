@@ -6,7 +6,7 @@ export const ICOScanHeader = ({ ...props }) => (
     <Grid className="ico-scan-header">
       <Row>
 
-        <Col lg={6} md={4} xs={6} className="name">
+        <Col lg={6} sm={6} md={6} xs={6} className="name">
           <Row className="ico-box-container">
             <Col lg={12}>
               <div className="clearfix">
@@ -27,10 +27,10 @@ export const ICOScanHeader = ({ ...props }) => (
         </Col>
 
 
-        <Col md={6} xs={6}>
+        <Col md={6} sm={6} xs={6}>
           <Row>
-            <Col md={5} sm={1} xs={1}/>
-            <Col md={7} sm={11} xs={11} className="part transparency">
+            <Col lg={5}  md={1} sm={1} xs={1}/>
+            <Col lg={7}  md={11} sm={11} xs={11} className="part transparency">
               <p className="title added-by-person">Added by Person</p>
 
               <button

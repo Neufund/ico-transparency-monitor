@@ -351,12 +351,20 @@ body{
 
 /*Middle Device*/
 @media only screen and (max-width: 1024px) {
-  .hide-md{
+  .hide-sm{
     display: none !important;
   }
-  .container {
-
+  .ico-box-container{
+    padding:20px;
   }
+  .ico-scan-header .part{
+    padding: 0 !important;
+  }
+  .container{
+    width: 64rem !important;
+  }
+
+
 }
 
 /*Small Device*/
@@ -391,12 +399,21 @@ body{
   .ico-scan-header .name{
     height: auto !important;
   }
-  .exchangeRate{
-    position: static !important;
+}
+
+
+@media screen and (min-device-width : 768px) and  (max-device-width : 1024px){
+  .part.transparency{
+    padding-right: 20px;
+    padding-bottom: 20px;
   }
-  .scanbox-details{
-    padding: 20px;
+  .ico-quick-stats{
+    padding-top: 20px;
   }
+  .ico-box .ico-quick-stats{
+    width:100%;
+  }
+
   .arrow-btn{
     position: inherit !important;
     top:6px;
@@ -406,6 +423,13 @@ body{
   }
   .arrow-btn-right{
     margin-left: 4px !important;
-
   }
+
+  .exchangeRate{
+    position: static !important;
+  }
+  .scanbox-details{
+    padding: 20px;
+  }
+
 }

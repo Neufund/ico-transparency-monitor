@@ -31,8 +31,11 @@ textarea.console{
   box-shadow: 0 2px 4px 0 #A3C0CC;
   font-size:large;
 }
-.scan-content{
-  padding:20px;
+.scan-content .token-distribution-table{
+  padding: 20px;
+}
+.box-container{
+  margin-bottom: 40px;
 }
 
 .scanbox-details .statistics .title , .scan-content .title{
@@ -80,11 +83,7 @@ textarea.console{
 }
 
 .table-responsive {
-  margin-left: -1em;
-  margin-right: -1em;
-  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin-bottom: 1em;
 }
 .table-responsive table {
   width: 100%;
@@ -125,11 +124,14 @@ textarea.console{
   vertical-align: middle;
   position: absolute;
   top: 40%;
+  width:100%;
 }
 .relative{
   position: relative;
 }
-
+.full-height{
+  height: 100%;
+}
 .table{
   width: 100%;
   border: solid thin;
@@ -157,6 +159,7 @@ font-weight: normal;
 .ico-scan-header{
   background: white;
   padding-top:20px;
+  padding-left:20px;
 }
 
 .ico-scan-header .ico-logo{
@@ -181,7 +184,7 @@ font-weight: normal;
 }
 
 .ico-scan-header .ico-logo img{
-  float: right;
+  float: left;
 }
 
 .ico-scan-header .name{
@@ -229,18 +232,35 @@ font-weight: normal;
   font-size: 13px;
 }
 .chart-btn{
-  background: white;
-  border: 1px solid #D4E20F;
-  color: #424344;
-  margin-left: 50px;
+  background: none;
+  border: 0;
+  color: #2f89ba;
+  font-size: 16px;
+  font-weight:500;
+  cursor: pointer;
 }
+.chart-btn .fa{
+  margin-right: 10px;
+}
+
+.scanbox-details-parameters{
+  padding-top: 20px;
+  border-top: 1px solid #e5e7e9;
+}
+.font-light{
+  font-weight: 300;
+}
+
+.part-status{
+  padding-right: 20px !important;
+}
+.right .title-status{
+  text-align: right;
+}
+
+
 @media(min-width:767px){
   .scanbox-details .stats table td {
     padding-left:150px;
   }
-}
-
-
-.row{
-  margin-bottom: 40px;
 }

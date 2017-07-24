@@ -9,7 +9,7 @@ import { downloadCSV } from '../utils';
 import { default as config } from '../config.js';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
-  <Row className="statistics">
+  <Row className="statistics box-container">
     {console.log('ScanBoxDetails component did mount')}
     <Col md={12} className="scan-content">
       <TimeDetails {...props.stats.time} />
@@ -22,20 +22,20 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     </Col>
   </Row>
 
-  <Row className="statistics">
-    <Col md={6} className="relative">
-      {props.stats.money.tokenIssued > 0 && <SingleBarChart
+  <Row className="statistics box-container">
+    <Col md={6} sm={12} xs={12} className="relative">
+      {console.log(parseFloat(props.stats.money.tokenIssued))}
+      <SingleBarChart
         title="Tokens over time"
         data={props.stats.charts.tokensCount}
         dataKey="Tokens/Time"
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
-      />}
-      {props.stats.money.tokenIssued === 0 && <div className="alarm alarm-middle">
-        <p>No Token statistics: This ICO is not generating tokens or is not handling them in trustless way</p>
-      </div>}
+        isVisible={parseInt(props.stats.money.tokenIssued) > 0}
+        isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not handling them in trustless way"
+      />
     </Col>
-    <Col md={6}>
+    <Col md={6} sm={12} xs={12}>
       <SingleBarChart
         title="Transactions over time"
         data={props.stats.charts.transactionsCount}
@@ -47,31 +47,33 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   </Row>
 
   <div className="scan-content">
-    {props.stats.money.tokenIssued > 0 &&
-    <Row>
-      <Col md={6} className="scan-content">
+
+    <Row className="box-container">
+
+      <Col md={6} sm={12} xs={12} className="scan-content">
         <TokenDistribution
           total={props.stats.money.tokenIssued}
           investors={props.stats.investors}
           currency={props.currency}
           isProvidingEtherValue={props.isProvidingEtherValue}
           tokenHolders={props.stats.charts.tokenHolders}
+          isVisible={props.stats.money.tokenIssued !== 0}
+          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
-      <Col md={6} >
+      <Col md={6} sm={12} xs={12} >
         <SingleBarChart
           title="Token holders distribution"
           dataKey="TokenHolders"
           data={props.stats.charts.tokenHolders}
           xLabel={'Top Wealthiest Investors'}
           yLabel="Share of Tokens Owned"
+          isVisible={props.stats.money.tokenIssued !== 0}
+          isNotVisibleMessage="No Token distribution statistics: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
     </Row>
-    }
-    {props.stats.money.tokenIssued === 0 && <div className="alarm">
-      <p>No Token statistics: This ICO is not generating tokens or is not handling them in trustless way</p>
-    </div>}
+
     {props.stats.money.totalETH !== 0 &&
     <div>
       <h3 className="title">Raised amount</h3>
@@ -86,39 +88,42 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         avgTicket={props.stats.money.totalETH * props.currencyValue / Object.keys(props.stats.investors.senders).length}
         avgPrice={props.stats.money.totalETH * props.currencyValue / props.stats.money.tokenIssued}
       />
-
-      <h3 className="title">Funds distribution</h3>
-      <Row>
-        <Col md={12}>
-
-          <SingleBarChart
-            data={props.stats.charts.investorsDistribution}
-            dataKey="Investors"
-            title="Number of Investors with Ticket of Size"
-            xLabel={`Ticket Size in [${props.currency}]`}
-            yLabel="Number of Investors"
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col md={12} >
-          <SingleBarChart
-            data={props.stats.charts.investmentDistribution}
-            dataKey="Investments"
-            title="Total Amount Invested with Ticket of Size"
-            xLabel={`Ticket Size in [${props.currency}]`}
-            yLabel="Total Amount Invested"
-          />
-        </Col>
-      </Row>
     </div>}
+
+    <h3 className="title">Funds distribution</h3>
+    <Row className="box-container">
+      <Col md={12} sm={12} xs={12} >
+        <SingleBarChart
+          data={props.stats.charts.investorsDistribution}
+          dataKey="Investors"
+          title="Number of Investors with Ticket of Size"
+          xLabel={`Ticket Size in [${props.currency}]`}
+          yLabel="Number of Investors"
+          isVisible={props.stats.money.totalETH !== 0}
+          isNotVisibleMessage="No ETH statistics: This ICO Is not handling funds in a trustless way"
+        />
+      </Col>
+    </Row>
+    <Row className="box-container">
+      <Col md={12} sm={12} xs={12} >
+        <SingleBarChart
+          data={props.stats.charts.investmentDistribution}
+          dataKey="Investments"
+          title="Total Amount Invested with Ticket of Size"
+          xLabel={`Ticket Size in [${props.currency}]`}
+          yLabel="Total Amount Invested"
+          isVisible={props.stats.money.totalETH !== 0}
+          isNotVisibleMessage="No ETH statistics: This ICO Is not handling funds in a trustless way"
+        />
+      </Col>
+    </Row>
+
   </div>
 
-  {!props.stats.money.totalETH &&
-  <div className="alarm">
-    <p>No ETH statistics: This ICO Is not handling funds in a trustless way</p>
-  </div>}
-  <button className="chart-btn" onClick={() => props.downloadCSV(props.address)}>[Download Raw Data as CSV]</button>
+  <button className="chart-btn" onClick={() => props.downloadCSV(props.address)}>
+    <i className="fa fa-download" />
+    Download Raw Data as CSV
+  </button>
 </div>);
 
 const mapStateToProps = (state, props) =>

@@ -100,8 +100,10 @@ export const getHexadecimalValueIfExist = (web3, value) => {
 
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
+export const trimString = value => value.replace(/ /g, '');
+
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
-  console.log(`Start scanning for block range ${blockRange}`);
+  console.log(`Start scanning for block range ${blockRange}`, icoContract.address);
   /* if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
     console.log(`${address} cached already.`);
     return callback(null, JSON.parse(localStorage.getItem(address)));
@@ -330,12 +332,22 @@ const getChartTimescale = (durationHours, startTimestamp) => {
   return ['days', event => 1 + ((event.timestamp - startTimestamp) / 86400) >> 0];
 };
 
+export const getNextICO = (address) => {
+  const icosKeys = Object.keys(config.ICOs);
+  const currentICOIndex = icosKeys.indexOf(address) % (icosKeys.length - 1);
+  const nextICOIndex = currentICOIndex + 1;
+  const nextICO = icosKeys[nextICOIndex];
+  window.location = `/#/${nextICO}`;
+  window.location.reload();
+};
+
 // allLogs contains dictionary {event_name: logs_array} where each logs_array is sorted by timestamp (by ETH node)
 export const getStatistics = (icoConfig, allLogs, stats) => {
   console.log('stats started');
   const csvContentArray = [];
 
   // get event that defines investor transaction and extract timestamps that will scale the time charts
+  console.log(allLogs);
   const transactionLogs = allLogs[Object.keys(allLogs).filter(name => icoConfig.events[name].countTransactions)[0]];
   const startTimestamp = transactionLogs[0].timestamp;
   const endTimestamp = transactionLogs[transactionLogs.length - 1].timestamp;
@@ -347,7 +359,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   stats.time.durationDays = icoDuration.get('days');
   stats.time.duration = formatDuration(icoDuration);
 
-  const precision = 10 ** parseFloat(icoConfig.decimals);
+  const precision = 10 ** (parseFloat(icoConfig.decimals) || config.defaultDecimal);
 
   const chartTokensCountTemp = {};
   const chartTransactionsCountTemp = {};
@@ -370,6 +382,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
       const item = events[i];
       // allow for ICOs that do not generate tokens: like district0x
       const tokenValue = eventArgs.tokens ? parseFloat(item.args[eventArgs.tokens].valueOf()) / precision : 0;
+
       // removed operations on bigint which may decrease precision!
       const etherValue = parseFloat(eventArgs.ether ? item.args[eventArgs.ether].valueOf() : parseInt(item.value)) / 10 ** 18;
 
@@ -431,7 +444,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
     name: key,
     amount: key in chartTransactionsCountTemp ? parseFloat(chartTransactionsCountTemp[key].toFixed(2)) : 0,
   }));
-
+  console.log(stats.charts);
   const sortedSenders = sortInvestorsByTicket(senders);
   stats.investors.sortedByTicket = sortedSenders[0];
   stats.investors.sortedByETH = sortedSenders[1];

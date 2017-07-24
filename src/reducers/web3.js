@@ -66,7 +66,7 @@ export const getLogs = address => async (dispatch, getState) => {
   const icoConfig = config.ICOs[address];
   const icoContract = getSmartContract(web3, address);
 
-  // now parition into many smaller calls
+  // now partition into many smaller calls
   const logRequests = [];
   Object.keys(icoConfig.events).forEach((eventName) => {
     const event = icoConfig.events[eventName];
@@ -86,6 +86,7 @@ export const getLogs = address => async (dispatch, getState) => {
       logRequests.push([i, lastTxBlockNumber, eventName]);
     }
   });
+  logRequests.map(item => console.log(item));
   const allLogs = {};
   const finalProcessor = () => {
     const statistics = getStatistics(icoConfig, allLogs, initStatistics());

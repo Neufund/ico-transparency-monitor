@@ -2,7 +2,7 @@ import { default as config } from '../config.js';
 import { getICOParameters, isConnected, web3Connect, getSmartContract } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
 import { computeICOTransparency } from '../utils';
-import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
+import { getICOLogs, getStatistics, initStatistics , getHexadecimalValueIfExist } from '../utils.js';
 import { setCurrency, setStatisticsByCurrency } from '../actions/CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile, makeSmartContractAsLoaded } from '../actions/ScanAction';
 
@@ -38,11 +38,15 @@ export const readSmartContract = address => async (dispatch, getState) => {
     const tempResult = {};
     if (typeof parameter === 'object' && typeof parameter.then === 'function') {
       parameter.then(async (value) => {
-        if (typeof value === 'function') { tempResult[par] = await value(web3); } else { tempResult[par] = value; }
+        if (typeof value === 'function') {
+          tempResult[par] = getHexadecimalValueIfExist(web3, await value(web3));
+        } else {
+          tempResult[par] = getHexadecimalValueIfExist(web3, value);
+        }
         dispatch(setProperties(address, tempResult));
       });
     } else {
-      tempResult[par] = parameter;
+      tempResult[par] = getHexadecimalValueIfExist(web3, parameter);
       dispatch(setProperties(address, tempResult));
     }
   });

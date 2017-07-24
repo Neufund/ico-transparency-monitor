@@ -11,7 +11,7 @@ export const ICOScanHeader = ({ ...props }) => (
               <img src={props.information.logo} alt={props.address} />
             </Col>
             <Col md={8} className="ico-desc">
-              <h4><a href="#"> {props.name || props.information.aliasName }</a></h4>
+              <h4><a href="#"> {props.name || props.information.aliasName}</a></h4>
               <a target="_blank" href={props.information.website}>{props.information.website}</a>
             </Col>
           </Row>

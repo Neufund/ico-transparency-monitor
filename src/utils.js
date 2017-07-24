@@ -69,6 +69,34 @@ export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
 }
 );
 
+const isHexadecimal = (value) => {
+  if (typeof value !== "string")
+    return false;
+
+  if (value.startsWith("-"))
+    value = value.substring(1);
+
+  value = value.toLowerCase();
+
+  if (value.length <= 2 || !value.startsWith("0x"))
+    return false;
+
+  for (let i = 2; i < value.length; i++) {
+    const c = value.charAt(i);
+
+    if (!(c >= '0' && c <= '9' || c >= 'a' && c <= 'f'))
+      return false;
+
+  };
+
+  return true;
+};
+
+export const getHexadecimalValueIfExist = (web3, value) => {
+  return isHexadecimal(value) ? web3.toAscii(`0x${value.split("x")[1].replace(/0/g, '')}`) : value;
+};
+
+
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {

@@ -10,6 +10,8 @@ export const hideLoader = () => ({ type: 'HIDE_LOADER' });
 
 export const setProperties = (address, prop) => ({ type: 'SET_ICO_PROPERTY', address, prop });
 
+export const makeSmartContractAsLoaded = value => ({ type: 'IS_SMART_CONTRACT_LOADED', value });
+
 export const resetRpc = () => ({ type: 'RESET_RPC' });
 
 export const errorMessage = () => ({ type: 'SHOW_MODAL_ERROR', message: 'WEB3_CONNECTION_FAIL' });

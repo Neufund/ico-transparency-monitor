@@ -7,18 +7,24 @@ import { default as config } from '../config.js';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { getLogs } from '../reducers/web3';
+import { readSmartContract } from '../reducers/web3';
 
 class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isBlockMounted:false
+      isBlockMounted: false,
+    };
+  }
+  componentDidMount() {
+    if (this.props.web3) {
+      this.props.readSmartContract(this.props.address);
     }
   }
-  render() {
 
-    if(this.props.blocks  && this.state.isBlockMounted === false){
-      this.setState({isBlockMounted:true});
+  render() {
+    if (this.props.isSmartContractLoaded && this.props.blocks && this.state.isBlockMounted === false) {
+      this.setState({ isBlockMounted: true });
       this.props.getLogs(this.props.address);
     }
 
@@ -60,13 +66,17 @@ const mapStateToProps = (state, props) => {
     isComponentReady: state.scan.showStats,
     isLoading: state.scan.showLoader,
     web3: state.modal.web3,
-    blocks:state.blocks
+    blocks: state.blocks,
+    isSmartContractLoaded: state.scan.isSmartContractLoaded,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   getLogs: (address) => {
     dispatch(getLogs(address));
+  },
+  readSmartContract: (address) => {
+    dispatch(readSmartContract(address));
   },
 });
 

@@ -13,7 +13,7 @@ class ICO extends Component {
   }
 
   componentDidMount() {
-    if (this.props.web3) {
+    if (this.props.web3 && !this.props.isSmartContractLoaded) {
       this.props.readSmartContract(this.props.address);
     }
   }
@@ -32,6 +32,7 @@ class ICO extends Component {
 const mapStateToProps = state => ({
   showModal: state.modal.showModal,
   web3: state.modal.web3,
+  isSmartContractLoaded: state.scan.isSmartContractLoaded,
 });
 
 const mapDispatchToProps = (dispatch, state) => ({

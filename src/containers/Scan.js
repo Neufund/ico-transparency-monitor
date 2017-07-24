@@ -7,34 +7,44 @@ import { default as config } from '../config.js';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { getLogs } from '../reducers/web3';
+import { getNextICO } from '../utils';
 
 class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isBlockMounted:false
-    }
+      isBlockMounted: false,
+    };
   }
   render() {
-
-    if(this.props.blocks  && this.state.isBlockMounted === false){
-      this.setState({isBlockMounted:true});
+    if (this.props.blocks && this.state.isBlockMounted === false) {
+      this.setState({ isBlockMounted: true });
       this.props.getLogs(this.props.address);
     }
-
     return (
       <div className="App">
         {this.state.isBlockMounted && <div>
-          <Grid fluid>
+          <Grid>
             <Row className="nav-buttons">
-              <Col md={6}>
+              <Col md={6} sm={6} xs={6}>
                 <div className="back-list">
-                  <a href="/"><i className="fa fa-arrow-left" /> Go back to the list </a>
+                  <button onClick={() => window.location = '/'} className="arrow-btn arrow-btn-left"><span className="arrow arrow-left">&#8592;</span></button>
+                  <a href="/">Go back to the list </a>
                 </div>
               </Col>
-              <Col md={6}>
+              <Col md={6} sm={6} xs={6}>
                 <div className="next-list">
-                  <a href="/">Go back to the list <i className="fa fa-arrow-right" /></a>
+                  <a
+                    className="pointer-cursor" onClick={() => {
+                      getNextICO(this.props.address);
+                    }}
+                  > Go to the next</a>
+
+                  <button
+                    onClick={() => {
+                      getNextICO(this.props.address);
+                    }} className="arrow-btn arrow-btn-right"
+                  ><span className="arrow">&#8594;</span></button>
                 </div>
               </Col>
             </Row>
@@ -60,7 +70,7 @@ const mapStateToProps = (state, props) => {
     isComponentReady: state.scan.showStats,
     isLoading: state.scan.showLoader,
     web3: state.modal.web3,
-    blocks:state.blocks
+    blocks: state.blocks,
   };
 };
 

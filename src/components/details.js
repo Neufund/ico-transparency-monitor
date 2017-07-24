@@ -48,7 +48,7 @@ export const RaisedAmount = ({ total, avgTicket, avgPrice, currency }) => (
 );
 
 export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
-  <div>
+  <div >
     <h3 className="title">Tokens issuance</h3>
     <div className="stats">
       <table>
@@ -78,10 +78,11 @@ export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInv
   </div>
 );
 
-export const TokenDistribution = ({ tokenHolders }) => (
-  <div>
+export const TokenDistribution = ({ tokenHolders, isVisible, isNotVisibleMessage = '' }) => (
+  <div className="relative full-height">
     <h3 className="title">Token distribution</h3>
-    <table className="table table-responsive">
+
+    {isVisible && <div className="token-distribution-table"> <table className="table table-responsive">
       <thead>
         <tr>
           <th>Top Wealthiest Investors</th>
@@ -99,6 +100,6 @@ export const TokenDistribution = ({ tokenHolders }) => (
           })
         }
       </tbody>
-    </table>
-
+    </table></div>}
+    {!isVisible && <div className="alarm alarm-middle"><p>{isNotVisibleMessage}</p></div>}
   </div>);

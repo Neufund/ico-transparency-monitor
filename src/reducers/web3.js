@@ -61,7 +61,7 @@ export const getLogs = address => async (dispatch, getState) => {
   const icoConfig = config.ICOs[address];
   const icoContract = getSmartContract(web3, address);
 
-  // now parition into many smaller calls
+  // now partition into many smaller calls
   const logRequests = [];
   Object.keys(icoConfig.events).forEach((eventName) => {
     const event = icoConfig.events[eventName];
@@ -81,33 +81,34 @@ export const getLogs = address => async (dispatch, getState) => {
       logRequests.push([i, lastTxBlockNumber, eventName]);
     }
   });
+  logRequests.map(item => console.log(item));
   const allLogs = {};
   const finalProcessor = () => {
-      const statistics = getStatistics(icoConfig, allLogs, initStatistics());
+    const statistics = getStatistics(icoConfig, allLogs, initStatistics());
       // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
-      dispatch(drawStatistics(statistics[0]));
-      dispatch(allocateCSVFile(statistics[1]));
+    dispatch(drawStatistics(statistics[0]));
+    dispatch(allocateCSVFile(statistics[1]));
 
-      setCurrency('EUR', new Date(), (error, currencyResult) => {
-        if (error) {
-          dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
-          return;
-        }
+    setCurrency('EUR', new Date(), (error, currencyResult) => {
+      if (error) {
+        dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
+        return;
+      }
 
-        const currencyRate = currencyResult.value;
-        console.log('Fetched Currency is ', currencyRate);
+      const currencyRate = currencyResult.value;
+      console.log('Fetched Currency is ', currencyRate);
 
-        dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
-        dispatch(showStatistics());
-      });
+      dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
+      dispatch(showStatistics());
+    });
   };
   const logProcessor = () => {
     const range = logRequests.shift();
     const eventName = range[2];
-    getICOLogs(range, icoConfig, icoContract, async(error, logs) => {
+    getICOLogs(range, icoConfig, icoContract, async (error, logs) => {
       if (error) {
         dispatch(hideLoader());
-        dispatch({type: error});
+        dispatch({ type: error });
       } else {
         // store logs, for each event separately
         if (eventName in allLogs) {
@@ -118,8 +119,7 @@ export const getLogs = address => async (dispatch, getState) => {
         if (logRequests.length === 0) {
           dispatch(hideLoader());
           finalProcessor();
-        }
-        else {
+        } else {
           logProcessor();
         }
       }

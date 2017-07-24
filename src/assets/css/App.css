@@ -8,14 +8,16 @@ body{
 
 .App-logo {
   position: absolute;
-  left: 56px;
-  top: 14px;
+  margin-left: -48px;
+  margin-top: 5px;
 }
 .App-logo img{
   height: 29.88px;	width: 29.54px;
 
 }
-
+.clearfix{
+  clear: both;
+}
 .App-header {
   background-color: white;
   color:black;
@@ -34,7 +36,7 @@ body{
   width: 253px;
   color: #262B2F;
   font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   padding-left: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -69,10 +71,11 @@ body{
   line-height: 24px;
   clear: both;
 }
+
 .header-paragraph p{
   clear: both;
   /*height: 91px;*/
-  /*width: 532px;*/
+  width: 532px;
   color: #4A4A4A;
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
@@ -83,20 +86,49 @@ body{
 .scanbox{
   height:100%;
 }
+
+.ico-container{
+  cursor: pointer;
+}
+.pointer-cursor{
+  cursor: pointer;
+}
 .ico-box,.scanbox{
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 0 #BBC2C7;
 }
+.ico-box .clearfix{
+  height: 100%;
+}
 .ico-box .name{
-  margin-top:13px;
+  display: flex;
+  align-items: center
+}
+
+.ico-box-container{
+  width:100%;
+}
+
+.ico-information{
+  float:left;
+  width:75%;
+}
+
+.ico-logo{
+  float:left;
+  margin-right:10px;
+  padding-left: 10px;
 }
 .ico-box  .name  .ico-logo img{
   height: 36.8px;
   width: auto;
 }
 .ico-box .name h4{
-  margin: 0px;
+  margin: 0;
   margin-bottom: 2px;
+
+  overflow:hidden !important;
+  text-overflow: ellipsis;
 }
 .ico-box .name h4 a{
   color: #000000;
@@ -136,16 +168,15 @@ body{
   padding-left:5px;
 }
 .ico-box .desc, .ico-box-scan .desc{
-   height: 24px;
-   color: #000000;
-   font-size: 16px;
-   line-height: 24px;
-    /*padding-right:19px;*/
+  height: 24px;
+  color: #000000;
+  font-size: 16px;
+  line-height: 24px;
+  display: block;
 }
-.ico-box .part, .ico-box-scan .part{
-  padding-left: 20px;
-  padding-top: 33px;
-}
+/*.ico-box .part, .ico-box-scan .part{*/
+  /*padding-left: 20px;*/
+/*}*/
 
 
 .container {
@@ -153,10 +184,11 @@ body{
   padding: .5em;
 }
 .transparency-button{
-  height:54px;
+  height: 65px;
+  width: 100%;
   border-radius: 2px 0 0 2px;
   border: 0;
-  width:100%;
+  float:right;
   background-color: #D9DBDC;
   text-align: left;
 }
@@ -183,17 +215,56 @@ body{
   border-left:10px #2BD822 solid;
 }
 
-.part.transparency p{
-  margin:0px;
+.part.transparency{
+  padding-right:0;
 }
+.part.transparency p{
+  margin:0;
+  font-size: 14px;
+  color: #4A4A4A;
+  font-weight: 300;
+}
+.part.transparency strong{
+  letter-spacing: 1px;
+}
+
 .part.transparency strong,.scanbox-details .stats table td{
+  line-height: 24px;
   font-size: 16px;
   font-weight:bold;
+}
+
+.main-page-ico-parameters .part{
+  margin-top: 30px;
+}
+
+.scanbox-details-parameters strong.desc{
+  overflow:hidden !important;
+  text-overflow: ellipsis;
+}
+.added-by-person{
+  color: #8E9297 !important;
+  text-align: right;
+  padding-right: 16px;
+}
+
+.arrow{
+  content: "\2192";
+  float: right;
+  width:18px;
+  line-height: 19px;
+  font-size: 19px;
+}
+
+.arrow-left{
+  content: "\2190" !important;
+  float:left !important;
 }
 .nav-buttons{
   clear: both;
   /*height: 45px;*/
   margin-top:5px;
+  padding: 16px 0px 16px 0px;
 }
 .nav-buttons  .back-list{
   float :left;
@@ -203,13 +274,23 @@ body{
   float :right;
   line-height: 40px;
 }
-.nav-buttons  .back-list > a {
-  margin-left: 28px;
-}
-.nav-buttons  .next-list > a {
-  margin-right: 28px;
+.back-list, .next-list{
+  position: relative;
 }
 
+.arrow-btn {
+  position: absolute;
+  top: 12px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.arrow-btn-right{
+  margin-left: 22px;
+}
+.arrow-btn-left{
+  margin-left: -53px;
+}
 .nav-buttons  .next-list  a ,.nav-buttons  .back-list  a {
   text-decoration: none;
   color: #09719B;
@@ -219,36 +300,21 @@ body{
   float: left !important;
 }
 
-
-@media(max-width:767px) {
-  .transparency{
-    margin-bottom: 17px;
-  }
-}
-@media(min-width:767px){
-  .ico-box{
-    height: 139px;
-  }
-  .ico-box .ico-quick-stats{
-    height: 139px;
-    background-color: #F7F8F9;
-  }
-}
-
 .alert-error{
-  position: absolute;
-  left: 46px;
-  margin-top: 39px;
+  font-style: italic;
 }
 
 .nontransparent-alert{
-  color: #FF0000;
+  color: #FF0000 !important;
+  font-style: normal!important;
 }
 .withissues-alert{
-  color : #FFB600;
+  color : #FFB600 !important;
+  font-style: normal!important;
 }
 .transparent-alert{
-  color:#2BD822;
+  color:#2BD822 !important;
+  font-style: normal!important;
 }
 
 .well{
@@ -259,4 +325,225 @@ body{
 .well-error{
   color: #8c972f;
   background: #f9f8f8;
+}
+
+.ico-information a{
+  color:#0971aa;
+  text-decoration: none;
+}
+.successful{
+  color:#2BD822 !important;
+}
+.inprogress{
+  color:#FFB600 !important;
+}
+.pure-table{
+  max-width: 1014px;
+  margin-top: 50px;
+}
+
+/* Modals */
+div[class^="narcissus_"]{
+  border-radius: 8px !important;
+}
+.modal-container{
+  padding: 50px;
+}
+.modal-title-container{
+  width: 100%;
+  padding:14px;
+}
+.modal-title {
+  float: left;
+  width: 70%;
+}
+.modal-title h3{
+  font-size: 22px;
+}
+.modal-title-button{
+  float: right;
+  width: 30%;
+}
+.modal-title-button .transparency-button p{
+  line-height: 20px;
+  font-size: 14px;
+  font-weight: 300;
+  margin: 0;
+}
+.modal-title-button .transparency-button strong{
+  font-size: 16px;
+  line-height: 24px;
+}
+.modal-title-button .transparency-button{
+  position: absolute;
+  width: 35%;
+  right: 0;
+}
+.pure-table{
+  border-spacing: 0.5rem;
+  border-collapse: collapse;
+  border:1px solid #BBC2C7;
+}
+.pure-table td, .pure-table th{
+  padding: 0;
+  margin: 0;
+  border-top:1px solid #BBC2C7;
+  padding-top: 10px;
+}
+.pure-table td{
+  font-size: 14px;
+}
+.pure-table th{
+  font-size: 14px;
+}
+
+div.transparency.part button{
+  margin-top: 6px;
+}
+/*Large*/
+@media only screen and (min-width: 75em) {
+  .container{
+    width: 65rem !important;
+  }
+}
+
+@media(max-width:767px) {
+  .transparency{
+    margin-bottom: 17px;
+  }
+}
+
+@media(min-width:1200px){
+
+  .scanbox-details , .scanbox-details-parameters{
+    padding:20px;
+  }
+
+  .ico-box{
+    height: 139px;
+  }
+  .ico-box .ico-quick-stats{
+    height: 139px;
+    background-color: #F7F8F9;
+  }
+}
+
+
+
+/*Middle Device*/
+@media screen and (max-width: 1024px) and (min-device-width: 769px) {
+  .hide-sm{
+    display: none !important;
+  }
+  .ico-box-container{
+    padding:20px;
+  }
+  .ico-scan-header .part{
+    padding: 0 !important;
+  }
+  .container{
+    width: 64rem !important;
+  }
+}
+
+/* Mobile */
+@media only screen and (max-device-width: 767px) {
+  .container{
+    margin:0;
+  }
+  .hide-xs{
+    display: none;
+  }
+  .exchangeRate{
+    position: static !important;
+  }
+  .header-paragraph p{
+    width:100%;
+  }
+  .ico-box .name h4{
+    max-width:230px;
+  }
+  .container-fluid{
+    padding: 0;
+  }
+}
+/*Small Device*/
+@media screen and (max-width: 768px) and (min-device-width: 450px){
+  .hide-sm {
+    display: none !important;
+  }
+  .container{
+    width: 48rem !important;
+  }
+
+  .ico-box-container .clearfix{
+    width: 600px;
+    padding: 20px;
+  }
+  .part.transparency{
+    padding-right: 20px;
+    padding-bottom: 20px;
+  }
+  .ico-quick-stats{
+    padding-top: 20px;
+  }
+  .ico-box .ico-quick-stats{
+    width:100%;
+  }
+  .ico-box{
+    margin: 0;
+  }
+  .name{
+    padding-bottom: 20px;
+  }
+  .ico-scan-header .name{
+    height: auto !important;
+  }
+}
+
+/* All of them */
+@media screen and (max-device-width : 1024px){
+  .part.transparency{
+    padding-right: 20px;
+    padding-bottom: 20px;
+  }
+  .ico-quick-stats{
+    padding-top: 20px;
+  }
+  .ico-box .ico-quick-stats{
+    width:100%;
+  }
+
+  .arrow-btn{
+    position: inherit !important;
+    top:6px;
+  }
+  .arrow-btn-left{
+    margin-left: -4px !important;
+  }
+  .arrow-btn-right{
+    margin-left: 4px !important;
+  }
+
+  .exchangeRate{
+    position: static !important;
+  }
+  .scanbox-details{
+    padding: 20px;
+  }
+  .App-logo{
+
+    margin-left: 0 !important;
+    border-right: 1px solid black;
+    padding-right: 10px;
+  }
+  .App-header{
+    border: 0 !important;
+  }
+  .App-header h4{
+    margin-left: 35px;
+  }
+  .ico-box .desc, .ico-box-scan .desc{
+    height:auto !important;
+  }
 }

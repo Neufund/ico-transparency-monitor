@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { formatNumber, getValueOrNotAvailable, icoTransparencyLevel} from '../utils';
+import { formatNumber, getValueOrNotAvailable, icoTransparencyLevel } from '../utils';
 import { connect } from 'react-redux';
 import { default as config } from '../config.js';
 
@@ -45,13 +45,13 @@ const ICOApp = ({ ...props }) => (
               <strong className="desc">{getValueOrNotAvailable(props, 'endDate')}</strong>
             </Col>
             <Col lg={4} sm={6} md={6} xs={12} className="part transparency">
-              <p className="title added-by-person">Added by <b>{props.addedBy || "Person"}</b></p>
+              <p className="title added-by-person">Added by <b>{props.addedBy || 'Person'}</b></p>
               <button
                 href={props.name}
                 className={`transparency-button ${getValueOrNotAvailable(props, 'decision')}-status`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  console.log(props.name)
+                  console.log(props.name);
                   props.onModalShow(props);
                 }}
               >

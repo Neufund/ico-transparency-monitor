@@ -33,7 +33,7 @@ export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel, isVisible
                 downloadChartImage(dataKey, title, xLabel, yLabel);
               }}
             >
-              <i className="fa fa-download"/>
+              <i className="fa fa-download" />
               Download as image
             </button>
           </div>

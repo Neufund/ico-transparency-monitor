@@ -121,7 +121,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   </div>
 
   <button className="chart-btn" onClick={() => props.downloadCSV(props.address)}>
-    <i className="fa fa-download"/>
+    <i className="fa fa-download" />
     Download Raw Data as CSV
   </button>
 </div>);

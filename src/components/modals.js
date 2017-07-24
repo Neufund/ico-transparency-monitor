@@ -24,7 +24,7 @@ class ContentTable extends Component {
       issuesArray: result[1],
       decision: result[0],
     });
-    console.log(this.currentICO)
+    console.log(this.currentICO);
   }
   getRowClassName(key) {
     return this.state.issuesArray[key] ? `${criticalToTransparencyLevel(config.matrix[key].critical)}-row` : '';
@@ -55,8 +55,7 @@ class ContentTable extends Component {
           <Col md={12}>
 
             <table className="pure-table">
-              <thead>
-              </thead>
+              <thead />
               <tbody>
                 {Object.keys(config.matrix).map((key, index) => {
                   const currentQuestion = this.state.matrix[key];

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import {icoTransparencyLevel} from '../utils';
+import { icoTransparencyLevel } from '../utils';
 export const ICOScanHeader = ({ ...props }) => (
   <Row>
     <Grid className="ico-scan-header">
@@ -38,7 +38,7 @@ export const ICOScanHeader = ({ ...props }) => (
                 }}
               >
                 <p>Transparency</p>
-                <strong>{props.decision ? icoTransparencyLevel[props.decision.toUpperCase()] :''} </strong>
+                <strong>{props.decision ? icoTransparencyLevel[props.decision.toUpperCase()] : ''} </strong>
                 <span className="arrow">&#8594;</span>
               </button>
             </Col>

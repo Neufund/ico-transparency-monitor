@@ -74,9 +74,7 @@ export const getValueOrNotAvailable = (props, input) => {
   return 'Not Available';
 };
 
-export const trimString = (value) => {
-  return value.replace(/ /g, '');
-};
+export const trimString = value => value.replace(/ /g, '');
 
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   console.log(`Start scanning for block range ${blockRange}`, icoContract.address);

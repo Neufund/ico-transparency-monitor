@@ -32,7 +32,9 @@ export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel, isVisible
               onClick={() => {
                 downloadChartImage(dataKey, title, xLabel, yLabel);
               }}
-            >Download as image
+            >
+              <i className="fa fa-download"/>
+              Download as image
             </button>
           </div>
           <label className="x-axis-label">{xLabel}</label>

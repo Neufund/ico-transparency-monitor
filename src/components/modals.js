@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import { connect } from 'react-redux';
-import { computeICOTransparency, criticalToTransparencyLevel } from '../utils';
+import { computeICOTransparency, criticalToTransparencyLevel, icoTransparencyLevel } from '../utils';
 import { onModalClose, onErrorMessage } from '../actions/ModalAction';
 import { default as config } from '../config.js';
 
@@ -24,6 +24,7 @@ class ContentTable extends Component {
       issuesArray: result[1],
       decision: result[0],
     });
+    console.log(this.currentICO)
   }
   getRowClassName(key) {
     return this.state.issuesArray[key] ? `${criticalToTransparencyLevel(config.matrix[key].critical)}-row` : '';
@@ -35,24 +36,26 @@ class ContentTable extends Component {
 
   render() {
     return (
-      <div>
+      <div className="modal-container">
         <Row>
-          <Col md={9}><h1> {this.currentICO.name}</h1></Col>
-
-          <Col md={3}>
-            <button href="" className={`transparency-button ${this.state.decision}-status`}>
-              <p>Transparency</p>
-              <strong>{this.state.decision.toUpperCase()} </strong>
-              <span className="arrow">&#8594;</span>
-            </button>
-          </Col>
+          <div className="modal-title-container">
+            <div className="modal-title">
+              <h3> {this.currentICO.name || this.currentICO.information.aliasName}</h3>
+            </div>
+            <div className="modal-title-button">
+              <button className={`transparency-button ${this.state.decision}-status`}>
+                <p>Transparency</p>
+                <strong>{icoTransparencyLevel[this.state.decision.toUpperCase()]} </strong>
+                <span className="arrow">&#8594;</span>
+              </button>
+            </div>
+          </div>
         </Row>
         <Row>
           <Col md={12}>
 
             <table className="pure-table">
               <thead>
-                <tr><th>Question</th><th>Answer</th></tr>
               </thead>
               <tbody>
                 {Object.keys(config.matrix).map((key, index) => {
@@ -64,9 +67,9 @@ class ContentTable extends Component {
                       {mappedQuestionMatrix.question}
                       <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>
                     </td>
-                    <td>
+                    <th>
                       <p>{currentQuestion.answer === null ? 'N/A' : (currentQuestion.answer ? 'Yes' : 'No')}</p>
-                    </td>
+                    </th>
                   </tr>);
                 })}
               </tbody>

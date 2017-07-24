@@ -87,6 +87,7 @@ export default {
         q13: { answer: true, comment: 'May be started and re-started whenever Tezos wants' },
         q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim' },
       },
+      addedBy:"Marcin Rudlfix"
     },
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
@@ -147,6 +148,7 @@ export default {
         q13: { answer: true },
         q14: { answer: true },
       },
+      addedBy:"Marcin Rudlfix"
     },
     '0xb56d622DDF60ec532B5f43B4Ff9B0e7b1FF92dB3': {
       information: {
@@ -295,6 +297,7 @@ export default {
         q13: { answer: true, comment: 'yes, with multiple rounds' },
         q14: { answer: true, comment: 'owner can stop ICO before failSafe' },
       },
+      addedBy:"Mostafa Balata"
     },
     '0xa74476443119a942de498590fe1f2454d7d4ac0d': {
       information: {
@@ -349,6 +352,7 @@ export default {
         q14: { answer: true },
       },
       decimals: 18, // golem does not provide decimals
+      addedBy:"Mostafa Balata"
     },
     '0x3BF541f87056D134E0109BE1Be92978b26Cb09e0': {
       tokenContract: '0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',

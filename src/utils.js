@@ -74,6 +74,10 @@ export const getValueOrNotAvailable = (props, input) => {
   return 'Not Available';
 };
 
+export const trimString = (value) => {
+  return value.replace(/ /g, '');
+};
+
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   console.log(`Start scanning for block range ${blockRange}`, icoContract.address);
   /* if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { formatNumber, getValueOrNotAvailable, icoTransparencyLevel } from '../utils';
+import { formatNumber, getValueOrNotAvailable, icoTransparencyMap } from '../utils';
 import { connect } from 'react-redux';
 import { default as config } from '../config.js';
 
@@ -57,7 +57,7 @@ const ICOApp = ({ ...props }) => (
                 }}
               >
                 <p>Transparency</p>
-                <strong> {icoTransparencyLevel[getValueOrNotAvailable(props, 'decision').toUpperCase()]}
+                <strong> {icoTransparencyMap[getValueOrNotAvailable(props, 'decision').toUpperCase()]}
                 </strong>
                 <span className="arrow">&#8594;</span>
               </button>

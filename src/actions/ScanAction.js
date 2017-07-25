@@ -10,7 +10,7 @@ export const hideLoader = () => ({ type: 'HIDE_LOADER' });
 
 export const setProperties = (address, prop) => ({ type: 'SET_ICO_PROPERTY', address, prop });
 
-export const makeSmartContractAsLoaded = value => ({ type: 'IS_SMART_CONTRACT_LOADED', value });
+export const setSmartContractLoaded = value => ({ type: 'IS_SMART_CONTRACT_LOADED', value });
 
 export const resetRpc = () => ({ type: 'RESET_RPC' });
 

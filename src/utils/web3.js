@@ -79,10 +79,19 @@ const getERC20Parameters = async (smartContract) => {
   };
 };
 
+const mapSmartContractToDictionary = (abi) => {
+  const result = {};
+  abi.forEach(item => result[item.name] = item.outputs && item.outputs.length > 0 ? item.outputs[0].type : null);
+  return result;
+};
+
 export const getICOParameters = async (web3, address) => {
   // tokenContract may be different that ICO contract that governs ICO process
   const tokenContractAddress = config.ICOs[address].tokenContract || address;
   const tokenContract = getSmartContract(web3, tokenContractAddress);
+
+  const smartContractDic = mapSmartContractToDictionary(tokenContract.abi);
+
   // read standard ERC20 parameters
   const result = await getERC20Parameters(tokenContract);
   const icoContract = tokenContractAddress === address ? tokenContract : getSmartContract(web3, address);
@@ -91,7 +100,7 @@ export const getICOParameters = async (web3, address) => {
     if (icoParameters[prop] !== null) { result[prop] = icoParameters[prop](web3, icoContract); }
   });
 
-  return result;
+  return [result, smartContractDic];
 };
 
 export const convertBlockNumberToDate = async (web3, blockNumber) => {

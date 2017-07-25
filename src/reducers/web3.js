@@ -2,7 +2,7 @@ import { default as config } from '../config.js';
 import { getICOParameters, isConnected, web3Connect, getSmartContract } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
 import { computeICOTransparency } from '../utils';
-import { getICOLogs, getStatistics, initStatistics , getHexadecimalValueIfExist } from '../utils.js';
+import { getICOLogs, getStatistics, initStatistics, getHexadecimalValueIfExist } from '../utils.js';
 import { setCurrency, setStatisticsByCurrency } from '../actions/CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile, makeSmartContractAsLoaded } from '../actions/ScanAction';
 
@@ -30,23 +30,37 @@ export const readSmartContract = address => async (dispatch, getState) => {
   const transparencyDecision = computeICOTransparency(answers)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
-  const parameters = await getICOParameters(web3, address);
+  const icoParameters = await getICOParameters(web3, address);
+  const parameters = icoParameters[0];
+  const smartContractDictionary = icoParameters[1];
+
   config.ICOs[address].decimals = parameters.decimals || config.ICOs[address].decimals; // set decimals in config from smart contract
   Object.keys(parameters).forEach((par) => {
     const parameter = parameters[par];
     if (parameter === null) return;
     const tempResult = {};
-    if (typeof parameter === 'object' && typeof parameter.then === 'function') {
+    if (smartContractDictionary[par] === 'bytes32') {
+      const asciiValue = web3.toAscii(parameter);
+        // check if it has value
+      const characters = [];
+      for (let i = 0; i < asciiValue.length; i++) {
+        const ch = asciiValue[i];
+        if (ch.charCodeAt(0)) { characters.push(ch); }
+      }
+
+      tempResult[par] = characters.length > 0 ? asciiValue : null;
+      dispatch(setProperties(address, tempResult));
+    } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {
       parameter.then(async (value) => {
         if (typeof value === 'function') {
-          tempResult[par] = getHexadecimalValueIfExist(web3, await value(web3));
+          tempResult[par] = await value(web3);
         } else {
-          tempResult[par] = getHexadecimalValueIfExist(web3, value);
+          tempResult[par] = value;
         }
         dispatch(setProperties(address, tempResult));
       });
     } else {
-      tempResult[par] = getHexadecimalValueIfExist(web3, parameter);
+      tempResult[par] = parameter;
       dispatch(setProperties(address, tempResult));
     }
   });

@@ -3,7 +3,7 @@ import { default as config } from './config.js';
 import axios from 'axios';
 
 const moment = require('moment');
-const variableEnvironments= require('./env.json');
+const variableEnvironments = require('./env.json');
 
 export const deepFreeze = (obj) => {
   if (obj !== null && typeof obj === 'object') {
@@ -72,34 +72,6 @@ export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
 }
 );
 
-const isHexadecimal = (value) => {
-  if (typeof value !== "string")
-    return false;
-
-  if (value.startsWith("-"))
-    value = value.substring(1);
-
-  value = value.toLowerCase();
-
-  if (value.length <= 2 || !value.startsWith("0x"))
-    return false;
-
-  for (let i = 2; i < value.length; i++) {
-    const c = value.charAt(i);
-
-    if (!(c >= '0' && c <= '9' || c >= 'a' && c <= 'f'))
-      return false;
-
-  };
-
-  return true;
-};
-
-export const getHexadecimalValueIfExist = (web3, value) => {
-  return isHexadecimal(value) ? web3.toAscii(`0x${value.split("x")[1].replace(/0/g, '')}`) : value;
-};
-
-
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
 export const trimString = value => value.replace(/ /g, '');
@@ -124,7 +96,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
     url: config.rpcHost,
     Accept: 'application/json',
     contentType: 'application/json',
-    headers: 'cache' in variableEnvironments ? variableEnvironments['cache'] :{},
+    headers: 'cache' in variableEnvironments ? variableEnvironments.cache : {},
     data: JSON.stringify({
       id: 1497353430507566, // keep this ID to make cache work
       jsonrpc: '2.0',

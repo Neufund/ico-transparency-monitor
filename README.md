@@ -19,37 +19,53 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
  ### Parity Node
  To be added soon
 
-### Questions
-ICO smart contracts are assigned a class, based on a decision matrix by manually answering these questions:
+### Transparency Questionnaire
+ICO smart contracts are assigned a transparency class via a decision function (point to the code) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:
 
-1. Is ICO controlled by a smart contract? (some ICOs are entirely performed in the backend and smart contract is created post factum. Example ICONOMI)
+* Breaches in trustless trust, where essential terms are controlled by a person, not a smart contract. A serious breach is for example a contracts that issues tokens from previously pledged ETH by action of an owner (and not in typical 'claim' pattern), less serious are token prices, caps and end dates that can be changed by the owner and not by some market mechanism or smart contract code.
+* ETH/money flow is not going through smart contract but is handled by some backend service (serious breach) or ETH goes directly to some wallet where it is out of control of smart contract even before ICO ends and tokens are issued.
+* Smart Contract code is convoluted or it does something different than it looks. Most serious breach is a lack of source code. Less serious breach could be for example a day constant that has 23 hours not 24 ;>
 
-2. Is smart contract source code available? (license type ie. if this is open source or not does not matter)
+Please note again note that we are not evaluation products or business model. A scam (like financial pyramid) can be 100% trustless and transparent from the code point of view.
 
-3. Is smart contract source code provided in etherscan?
+To help assess ICO issues we answer following set of questions for ICOs we list here:
 
-4. Is instruction provided how to reproduce deployed byte-code? (does not apply if etherscan source is there)
+1. Is ICO controlled by a smart contract? (some ICOs are entirely performed on the backend or smart contract and filled by data post factum.)
+
+2. Is smart contract source code available? (even if there is a smart contract we need its source code, pretty obvious)
+
+3. Is smart contract source code provided in etherscan? (it is very handy but not required)
+
+4. Is instruction provided how to reproduce deployed byte-code? (we trust etherscan but other byte code verification methods are also fine!)
 
 5. Does smart contract provide all tracking data via events? (if it is easy to read accounts, tokens, and token price from events)
 
 6. Is information on token price in ETH provided? (via event or in transaction?)
 
-7. Does smart contract handle ETH in a trustless way? Is ETH really sent to ICO smart contract in a transaction or we need to trust some backend on it. Please note that there can be ICO without ether at all (like Neufund ICO)
+7. Does smart contract handle ETH in a trustless way? Is ETH really sent to ICO smart contract in a transaction or we need to trust some backend on it?
 
-8. If ICO is using other currencies is information on token price provided?
+8. If ICO is using other currencies is information on token price provided? (future ICOs may use tokens or tokenized fiat currencies as base currency for the ICO)
 
-9. Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies? (it is like our EUR Token)
+9. Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies? (like Melonport's EURO Token)
 
 10. Was smart contract code easy to read and properly commented?
-11. Does the ICO doing exactly the same what they say on their website?
 
-### Classes
+11. Are token holder rights protected in trustless way? (see paragraph on breaches of trustless trust above)
+
+12. Is price of the token deterministic? (is price or mechanism controlling the price specified in smart contract or owner can change it as s/he wants?)
+
+13. Is ICO start condition specified in contract? (as above)
+
+14. Is ICO end condition specified in contract? (as above)
+
+### Transparency Decision
 Using the collected data and answered questions an ICO is given one of these states:
 1. Non-transparent
 2. Transparent with issues
 3. Fully transparent
 
-### Decision Matrix
+@Moe please rewrite above using data from config file. each question has two properties 'critical' and 'notApplicable'. ask mostafa where decision function is and describe decision matrix and function (it's simple, you can also talk to me)
+<<<<<<
 Based on the Decision Matrix An ICO is assigned a class. An ICO is considered Non-transparent when N "No" is given to all the questions asked for example.
 
 The decision matrix is represented as:
@@ -67,6 +83,7 @@ The decision matrix is represented as:
 |9|Does smart contract handle other currencies in a trustless way?|N| Y or N or N/A| Y or N or N/A|Does some smart contract store balance of those currencies?
 |10|Was smart contract code easy to read and properly commented?|N|Y or N|Y or N||
 |11|Is the ICO doing exactly the same what they say on their website ?|N|Y|Y|This is a post factum question, to be added during or after ICO|
+>>>>
 
 ## Adding custom ICOs to the Transparency-Monitor
 The ICO-monitor collects information from the blockchain public-ledger using a set of predefined
@@ -84,9 +101,10 @@ To add your own ICO you would have to:
   and then merged to the ICO-Monitor which can be accessed through our running node.
 
   ### Config.js
-  Config.js holds the configuration data for ICOs currently available. Every ICO should has a set of parameters in order for the ICO monitor to processes the data correctly.
+  Config.js holds the configuration data for ICOs currently available. Every ICO should have a set of parameters in order for the ICO monitor to processes the data correctly.
 
-  A general form of an ICO configration can be presented as:
+  A general form of an ICO configuration can be presented as:
+  @Moe this is old format of the config
 
 ```
     '#ADDRES-OF-CONTRACT': {
@@ -146,29 +164,31 @@ To add your own ICO you would have to:
 
   `tokenContract` (Optional) : In some cases a dedicated token smart contract is responsible for token issuing and release.
 
-  `aliasName`: Name of the ICO or its alias
+  `aliasName`: Name of the ICO, will be overwritten by `name` from ERC20 token interface
 
   `website`: Link that points to the ICO website
 
-  `logo`: Link that points to the ICO logo
-  `event`: An array of events generated by the ICO, under this section we specify ICO events
-  `NameofEvent`: Name of Generated event
+  `logo`: Link that points to the ICO logo image
 
-  `Args`: Arguments of generated event
+  `event`: An array of events generated by the ICO, under this section we specify events that we acquire from Ethereum logs
+  `NameofEvent`: Name of event in ICO contract ABI
+
+  `Args`: Arguments of interest in generated event
 
   `tokens`: Name of Variable that represents a token in some cases `Amount, Transfer, _amount` This can be taken from the smart contract source code or [etherscan](https://etherscan.io/)
 
   `sender`: Variable name that holds the address of the receiver of tokens or the investor
 
-  `name`: Name of event generated by the smart-contract and logged in the etherium blockchain sometimes `Transfer, TokensBought, CreatedToken`. *Note:Without the correct event flag it is impossible to track token issue events*
+  `name`: Name of event generated by the smart-contract and logged in the Ethereum blockchain sometimes `Transfer, TokensBought, CreatedToken`. *Note:Without the correct event flag it is impossible to track token issue events*
 
-  `_from`: In some cases smart-contracts include From addresses that are generated in the public blockchain blockchain, if that was case for your smart contract you will have to include it here
+  `customArgs`: Additional filter for the events as passed to eth_getLogs. Typical use case is `Transfer` event of ERC20 Token where token generation is marked by having '_from' set to 0x0. See `Golem` ICO for a reference.
 
-  `firstTransactionBlockNumber`(Optional): Starting block number of the ICO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified ICO-Monitor will scan it automatically
+  `firstTransactionBlockNumber`(Optional): Starting block number of the ICO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified ICO-Monitor will scan for events from genesis block. (when submitting ICO please use as close range as possible)
 
-  `lastTransactionBlockNumber`(Optional): Final Block of the ICO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified ICO-Monitor will scan it automatically
+  `lastTransactionBlockNumber`(Optional): Final Block of the ICO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified ICO-Monitor will scan until current block. `latest` is a valid value here. (when submitting ICO please use as close range as possible))
 
-  `icoParameters`: ICO Monitor uses four main parameters to analyze an ICO `cap, startDate, endDate, states`. Every parameter should be returned after conducting the needed requests and calculations from the smart-contract.
+@Moe please fix below, this is terrible English
+  `icoParameters`: ICO Monitor uses four main parameters to analyze an ICO `cap, startDate, endDate, status`. Every parameter should be returned after conducting the needed requests and calculations from the smart-contract.
   This must be written manually for every ICO due to the lack of standards. Every smart-contract handles generating a these parameters differently
 
   `cap` Capsize of an ICO
@@ -177,18 +197,22 @@ To add your own ICO you would have to:
 
   `endDate` End date of an ICO
 
+@Moe not states but status, and status is allowed ot return an enum of string, ask Mostafa and describe
   `states` Current states of smart contract
 
   `Matrix` Answers for the [decision matrix](https://github.com/Neufund/ico-transparency-monitor#decision-matrix) where `True = Y , False = N , null = N/A`, all questions should be in the form
   `q'n': { answer: true, comment: '' }, ` where `n` is the questions number
 
 ### Examples
+@Moe take EOS config and explain every value. I will help you here
  For examples on how to add manual ICO, look at the already available contracts in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
 
 #### Note
 Not all smart contracts provide the needed information, some use different smart-contracts to generate tokens, some have an obscure processes, some have no source code, and some only used a smart-contract after the end of
 an ICO
 
+
+@Moe this below looks like some shitty generic how to, please write correct one, include env.json info etc. you can remove most of this section
 ## Getting started
 
 ### Setting up your development environment

@@ -505,8 +505,8 @@ export default {
     q3: { question: 'Is smart contract source code provided in etherscan?', critical: false, notApplicable: false },
     q4: {
       question: 'Is instruction provided how to reproduce deployed bytecode? (does not apply if etherscan source is there)',
-      critical: false,
-      notApplicable: false,
+      critical: true,
+      notApplicable: true,
     },
     q5: {
       question: 'Does smart contract provide all tracking data via events?',

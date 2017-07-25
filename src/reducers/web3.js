@@ -2,7 +2,7 @@ import { default as config } from '../config.js';
 import { getICOParameters, isConnected, web3Connect, getSmartContract } from '../utils/web3';
 import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
 import { computeICOTransparency } from '../utils';
-import { getICOLogs, getStatistics, initStatistics, getHexadecimalValueIfExist } from '../utils.js';
+import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
 import { setCurrency, setStatisticsByCurrency } from '../actions/CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile, makeSmartContractAsLoaded } from '../actions/ScanAction';
 

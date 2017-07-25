@@ -337,6 +337,13 @@ body{
 .inprogress{
   color:#FFB600 !important;
 }
+.notyetstarted{
+  color:black !important;
+}
+.failed{
+  color: #FF0000 !important;
+}
+
 .pure-table{
   max-width: 1014px;
   margin-top: 50px;

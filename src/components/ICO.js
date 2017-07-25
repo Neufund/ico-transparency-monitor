@@ -8,9 +8,6 @@ import { isConnected } from '../utils/web3';
 import { errorMessage, resetRpc } from '../actions/ScanAction';
 
 class ICO extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     if (this.props.web3 && !this.props.isSmartContractLoaded) {

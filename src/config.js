@@ -33,18 +33,6 @@ export default {
           maxBlocksInChunk: 12960, // scan in 3 days blocks, last one is open
         },
       },
-      /* event: {
-        args: {
-          tokens: 'amount',
-          sender: 'user',
-
-        },
-        // in this transaction investors send money but claim their tokens later
-        name: 'LogClaim',
-        firstTransactionBlockNumber: 0,
-        lastTransactionBlockNumber: "latest"
-      },*/
-
       icoParameters: {
         cap: async (web3, icoContract) => {
           const totEOS = convertWeb3Value(await toPromise(icoContract.totalSupply)(), 'ether');
@@ -105,6 +93,17 @@ export default {
           },
           firstTransactionBlockNumber: 4039777,
           lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
+          maxBlocksInChunk: 12960,
+          countTransactions: true,
+        },
+        onCompensated: {
+          args: {
+            tokens: 'amount', // Amount of DNT received. Not really needed to store,
+            sender: 'contributor',
+          },
+          firstTransactionBlockNumber: 4039777,
+          lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
+          maxBlocksInChunk: 12960,
           countTransactions: true,
         },
       },
@@ -112,7 +111,7 @@ export default {
         cap: async (web3, icoContract) => {
           const softCapETH = await toPromise(icoContract.softCapAmount)();
           const hardCapETH = await toPromise(icoContract.hardCapAmount)();
-          return `Hard: ${convertWeb3Value(hardCapETH, 'ether')} ETH, Soft: ${convertWeb3Value(softCapETH, 'ether')} ETH`;
+          return [`Hard: ${convertWeb3Value(hardCapETH, 'ether')} ETH`, `Soft: ${convertWeb3Value(softCapETH, 'ether')} ETH`];
         },
         startDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();

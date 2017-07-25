@@ -17,9 +17,9 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
  Using [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#watch-callback-return-value) The ICO-Monitor takes the address of an ICO Smart Contract and scans through the whole blockchain and collects all token generation events logged by the ICO smart contract.
 
 ### Questions
-In addition to the collected data, ICO smart contracts are assigned a class based on a decision matrix by manually answering these questions:
+ICO smart contracts are assigned a class, based on a decision matrix by manually answering these questions:
 
-1. Is ICO controlled by a smart contract? (some ICOs are entirely performed in the backend and smart contract is created post factum. Example ICONOMI
+1. Is ICO controlled by a smart contract? (some ICOs are entirely performed in the backend and smart contract is created post factum. Example ICONOMI)
 
 2. Is smart contract source code available? (license type ie. if this is open source or not does not matter)
 
@@ -38,7 +38,7 @@ In addition to the collected data, ICO smart contracts are assigned a class base
 9. Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies? (it is like our EUR Token)
 
 10. Was smart contract code easy to read and properly commented?
-11. the ICO doing exactly the same what they say on their website ?
+11. Does the ICO doing exactly the same what they say on their website?
 
 ### Classes
 Using the collected data and answered questions an ico is given one of these states:
@@ -47,7 +47,9 @@ Using the collected data and answered questions an ico is given one of these sta
 3. Fully transparent
 
 ### Decision Matrix
-Based on the Decision Matrix An ICO is assigned a class, An ICO is considered non Transparent when N "No" is given to all the questions asked for example
+Based on the Decision Matrix An ICO is assigned a class. An ICO is considered Non-transparent when N "No" is given to all the questions asked for example.
+
+The dicision matrix is represented as:
 
 | |Question | Non-Transparent |Transparent with issues|Fully Transparent|Comment|
 |-|----------|-----------------|-----------------------|-----------------|-------|
@@ -67,7 +69,7 @@ Based on the Decision Matrix An ICO is assigned a class, An ICO is considered no
 The ICO-monitor collects information from the blockchain public-ledger using a set of predefined
 rules set in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
 
-To add your own ICO you would have to
+To add your own ICO you would have to:
 
 1. Include the ICO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder
     this ABI is generated from the smart-contract source code and can be found in some cases in [etherscan](https://etherscan.io/)

@@ -9,14 +9,14 @@ In addition a number of generated graphs from these ICOs can help users assess s
 Currently a number of ICOs are already available and more can be manually added to the Transperancy-Monitor in order study a specific ICO or compare between diffrent ICOs.
 ## How it works
 
-#### Data Collection
+### Data Collection
 All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#index-8) executed in the ethereum network are logged and stored as [blocks](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#blocks) in the public ethereum blockchain. These transactions can either be a transfer or execution of code in the form of a [Smart Contract](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contract).<br/>
 
  When a Smart Contract is executed, it generates  [log](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#logs) events based on how it is programmed and what function is  executed at the time. In most cases ICOs are token generating smart contracts, where every token generation by the ICO's smart contract is perminantly logged in the blockchain.
 
  Using [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#watch-callback-return-value) The ICO-Monitor takes the address of an ICO Smart Contract and scans through the whole blockchain and collects all token generation events logged by the ICO smart contract.
 
-#### Questions
+### Questions
 In addition to the collected data, ICO smart contracts are assigned a class based on a dicisopn matrix by manually answering these questions:
 
 1. *Is ICO controlled by a smart contract? (some ICOs are entirely performed in the backend and smart contract is created post factum. Example ICONOMI*
@@ -40,13 +40,13 @@ In addition to the collected data, ICO smart contracts are assigned a class base
 10. *Was smart contract code easy to read and properly commented?*
 11. *the ICO doing exactly the same what they say on their website ?*
 
-#### Classes
+### Classes
 Using the collected data and answered questions an ico is given one of these states:
 1. *Non-transparent*
 2. *Transparent with issues*
 3. *Fully transparent*
 
-#### Dicision Matrix
+### Dicision Matrix
 Based on the Dicision Matrix An ICO is assigned a class, An ICO is considered non Transparent when N "No" is given to all the questions asked for example
 
 | |Question | Non-Transparant |Transparant with issues|Fully Transparant|Comment|

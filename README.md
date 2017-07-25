@@ -17,7 +17,7 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
  Using [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#watch-callback-return-value) The ICO-Monitor takes the address of an ICO Smart Contract and scans through the whole blockchain and collects all token generation events logged by the ICO smart contract.
 
  ### Parity Node
- Add Info Here
+ To be added soon
 
 ### Questions
 ICO smart contracts are assigned a class, based on a decision matrix by manually answering these questions:

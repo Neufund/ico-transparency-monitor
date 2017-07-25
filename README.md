@@ -2,14 +2,69 @@
 
 [![Build Status](https://travis-ci.org/Neufund/ico-transparency-monitor.svg)](https://travis-ci.org/Neufund/ico-transparency-monitor) [![Greenkeeper badge](https://badges.greenkeeper.io/Neufund/generic-ico.svg)](https://greenkeeper.io/)
 
-Ico-Transprency-Monitor is a powerful tool that scans ICOs for diffrent features in order to evaluate how transparent ICO's are. This is done by answering a number of questions, for example the availability, quality of smart-contract code and processes. <br/>
+ICO-Transprency-Monitor is a powerful tool that tracks ICOs for different features in order to evaluate how transparent these ICO's are. This is done by answering a number of questions, for example the availability of source code and quality of the ICOs smart-contract. <br/>
 
-In addition a number of generated graphs from these ICOs help assess statistically these ICOs, These graphgs can be direcly taken and used for publication and articles related to ICO analsys.
+In addition a number of generated graphs from these ICOs can help users assess statistically these ICOs. These graphs can be direcly used for publication and articles related to analsys if ICOs.
 
-Currently a number of ICO's are already available and more can be manually added to the Transperancy-Monitor in order study a specific ICO or compare between the diffrent ICOs.
+Currently a number of ICOs are already available and more can be manually added to the Transperancy-Monitor in order study a specific ICO or compare between diffrent ICOs.
+## How it works
+
+#### Data Collection
+All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#index-8) executed in the ethereum network are logged and stored as [blocks](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#blocks) in the public ethereum blockchain. These transactions can either be a transfer or execution of code in the form of a [Smart Contract](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contract).<br/>
+
+ When a Smart Contract is executed, it generates  [log](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#logs) events based on how it is programmed and what function is  executed at the time. In most cases ICOs are token generating smart contracts, where every token generation by the ICO's smart contract is perminantly logged in the blockchain.
+
+ Using [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#watch-callback-return-value) The ICO-Monitor takes the address of an ICO Smart Contract and scans through the whole blockchain and collects all token generation events logged by the ICO smart contract.
+
+#### Questions
+In addition to the collected data, ICO smart contracts are assigned a class based on a dicisopn matrix by manually answering these questions:
+
+1. *Is ICO controlled by a smart contract? (some ICOs are entirely performed in the backend and smart contract is created post factum. Example ICONOMI*
+
+2. *Is smart contract source code available? (license type ie. if this is open source or not does not matter)*
+
+3. *Is smart contract source code provided in etherscan?*
+
+4. *Is instruction provided how to reproduce deployed byte-code? (does not apply if etherscan source is there)*
+
+5. *Does smart contract provide all tracking data via events? (if it is easy to read accounts, tokens, and token price from events)*
+
+6. *Is information on token price in ETH provided? (via event or in transaction?)*
+
+7. *Does smart contract handle ETH in a trustless way? Is ETH really sent to ICO smart contract in a transaction or we need to trust some backend on it. Please note that there can be ICO without ether at all (like Neufund ICO)*
+
+8. *If ICO is using other currencies is information on token price provided?*
+
+9. *Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies? (it is like our EUR Token)*
+
+10. *Was smart contract code easy to read and properly commented?*
+11. *the ICO doing exactly the same what they say on their website ?*
+
+#### Classes
+Using the collected data and answered questions an ico is given one of these states:
+1. *Non-transparent*
+2. *Transparent with issues*
+3. *Fully transparent*
+
+#### Dicision Matrix
+Based on the Dicision Matrix An ICO is assigned a class, An ICO is considered non Transparent when N "No" is given to all the questions asked for example
+
+| |Question | Non-Transparant |Transparant with issues|Fully Transparant|Comment|
+|-|----------|-----------------|-----------------------|-----------------|-------|
+|1|Is ICO controlled by a smart contract?|N|Y|Y||
+|2|Is smart contract source code available?|N|Y|Y||
+|3|Is smart contract source code provided in etherscan?|N|Y or N| Y|
+|4|Is instruction provided how to reproduce deployed bytecode?|N|Y|Y|Source code in ether scan counts as Y|
+|5|Does smart contract provide all tracking data via events?|N|Y|Y|We need information on accounts and number of tokens created. If those are sent by a backend answer is N|
+|6|Is information on token price in ETH provided?|N| Y or N/A| Y or N/A|Information on token price must be provided in an event or in transaction. For non-ETH ICOs we skip this question|
+|7|Does smart contract handle ETH in a trustless way?|N| Y or N or N/A| Y |ETH price must be a part of transaction.See comments above|
+|8|If ICO is using other currencies is information on token price provided?|N|Y or N/A| Y|If ICO is handling other currencies natively then token price should be provided (or equivalent information like rate to ICOs base currency)|
+|9|Does smart contract handle other currencies in a trustless way?|N| Y or N or N/A| Y or N or N/A|Does some smart contract store balance of those currencies?
+|10|Was smart contract code easy to read and properly commented?|N|Y or N|Y or N||
+|11|Is the ICO doing exactly the same what they say on their website ?|N|Y|Y|This is a post factum question, to be added during or after ICO|
 
 ## Adding custom ICOs to the Transparency-Monitor
-The ICO-monitor collects information from the blockchain public-ledger using a set of pre-defined
+The ICO-monitor collects information from the blockchain public-ledger using a set of predefined
 rules set in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
 
 To add your own ICO you would have to

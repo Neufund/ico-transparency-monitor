@@ -1,14 +1,15 @@
+/* global document */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Route, Switch, HashRouter } from 'react-router-dom';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import App from './containers/App';
 import Scan from './containers/Scan';
 import './assets/css/index.css';
-import { Route, Switch, HashRouter } from 'react-router-dom';
 import Layout from './views/Layout';
 import RPCProvider from './components/RPCProvider';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
 import MessageBoxModal from './components/modals';
 import reducer from './reducers';
 
@@ -31,5 +32,5 @@ const render = (store) => {
     </Provider>, root);
 };
 
-export const store = compose(applyMiddleware(thunk))(createStore)(reducer);
+const store = createStore(reducer, applyMiddleware(thunk));
 render(store);

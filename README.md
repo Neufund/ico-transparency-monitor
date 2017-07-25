@@ -19,26 +19,26 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
 ### Questions
 In addition to the collected data, ICO smart contracts are assigned a class based on a dicisopn matrix by manually answering these questions:
 
-1. *Is ICO controlled by a smart contract? (some ICOs are entirely performed in the backend and smart contract is created post factum. Example ICONOMI*
+1. Is ICO controlled by a smart contract? (some ICOs are entirely performed in the backend and smart contract is created post factum. Example ICONOMI
 
-2. *Is smart contract source code available? (license type ie. if this is open source or not does not matter)*
+2. Is smart contract source code available? (license type ie. if this is open source or not does not matter)
 
-3. *Is smart contract source code provided in etherscan?*
+3. Is smart contract source code provided in etherscan?
 
-4. *Is instruction provided how to reproduce deployed byte-code? (does not apply if etherscan source is there)*
+4. Is instruction provided how to reproduce deployed byte-code? (does not apply if etherscan source is there)
 
-5. *Does smart contract provide all tracking data via events? (if it is easy to read accounts, tokens, and token price from events)*
+5. Does smart contract provide all tracking data via events? (if it is easy to read accounts, tokens, and token price from events)
 
-6. *Is information on token price in ETH provided? (via event or in transaction?)*
+6. Is information on token price in ETH provided? (via event or in transaction?)
 
-7. *Does smart contract handle ETH in a trustless way? Is ETH really sent to ICO smart contract in a transaction or we need to trust some backend on it. Please note that there can be ICO without ether at all (like Neufund ICO)*
+7. Does smart contract handle ETH in a trustless way? Is ETH really sent to ICO smart contract in a transaction or we need to trust some backend on it. Please note that there can be ICO without ether at all (like Neufund ICO)
 
-8. *If ICO is using other currencies is information on token price provided?*
+8. If ICO is using other currencies is information on token price provided?
 
-9. *Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies? (it is like our EUR Token)*
+9. Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies? (it is like our EUR Token)
 
-10. *Was smart contract code easy to read and properly commented?*
-11. *the ICO doing exactly the same what they say on their website ?*
+10. Was smart contract code easy to read and properly commented?
+11. the ICO doing exactly the same what they say on their website ?
 
 ### Classes
 Using the collected data and answered questions an ico is given one of these states:

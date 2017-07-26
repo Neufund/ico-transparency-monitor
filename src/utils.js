@@ -3,7 +3,6 @@ import { default as config } from './config.js';
 import axios from 'axios';
 
 const moment = require('moment');
-const variableEnvironments = require('./env.json');
 
 export const deepFreeze = (obj) => {
   if (obj !== null && typeof obj === 'object') {
@@ -96,7 +95,6 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
     url: config.rpcHost,
     Accept: 'application/json',
     contentType: 'application/json',
-    headers: 'cache' in variableEnvironments ? variableEnvironments.cache : {},
     data: JSON.stringify({
       id: 1497353430507566, // keep this ID to make cache work
       jsonrpc: '2.0',

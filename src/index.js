@@ -1,4 +1,4 @@
-/* global document */
+/* eslint-env browser */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch, HashRouter } from 'react-router-dom';

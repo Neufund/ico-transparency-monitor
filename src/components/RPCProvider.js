@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { web3Connection } from '../reducers/web3';
-import { Grid, Row, Col } from 'react-flexbox-grid';
-import TopHeader from '../components/TopHeader';
-import { default as config } from '../config.js';
+import { web3Connection } from '../actions/web3';
 
 class RPCProvider extends Component {
-  constructor() {
-    super();
-  }
+
+
   componentWillMount() {
     this.props.rpcConnection();
   }

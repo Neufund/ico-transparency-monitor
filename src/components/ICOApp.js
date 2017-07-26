@@ -45,7 +45,7 @@ const ICOApp = ({ ...props }) => (
               <strong className={`desc ${trimString(getValueOrNotAvailable(props, 'status'))}`}>{getValueOrNotAvailable(props, 'status')}</strong>
             </Col>
             <Col lg={4} sm={6} md={6} xs={12} className="part transparency">
-              <p className="title added-by-person">Added by <b>{props.addedBy || 'Person'}</b></p>
+              {props.addedBy && <p className="title added-by-person">Added by <b>{props.addedBy}</b></p>}
               <button
                 href={props.name}
                 className={`transparency-button ${getValueOrNotAvailable(props, 'decision')}-status`}

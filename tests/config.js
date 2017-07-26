@@ -1,10 +1,5 @@
 import chai, { expect, should } from 'chai';
 
-should();
-import chaiAsPromised from 'chai-as-promised';
-import 'babel-polyfill';
-
-chai.use(chaiAsPromised);
 const resolvingPromise = new Promise(resolve =>
     resolve('promise resolved')
 );

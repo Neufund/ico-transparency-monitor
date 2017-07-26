@@ -1,4 +1,5 @@
 import jQuery from 'jquery';
+import testJQuery from './utils/jQueryMock';
 import { default as config } from './config.js';
 import axios from 'axios';
 
@@ -41,7 +42,7 @@ export const computeICOTransparency = (answers) => {
       const answer = answers[key];
       const definition = config.matrix[key];
       // return lists of transparent-with-issues and non-transparent a answers
-      if (answer.answer == false || answer.answer === null && !definition.notApplicable) {
+      if (answer.answer === false || answer.answer === null && !definition.notApplicable) {
         foundIssues[key] = true;
         hasCritical = hasCritical || definition.critical;
       }
@@ -78,20 +79,19 @@ export const trimString = value => value.replace(/ /g, '');
 
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   console.log(`Start scanning for block range ${blockRange}`, icoContract.address);
-  /* if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
-    console.log(`${address} cached already.`);
-    return callback(null, JSON.parse(localStorage.getItem(address)));
-  }*/
   const address = icoContract.address;
   const eventName = blockRange[2];
   const event = icoConfig.events[eventName];
+
   const filter = icoContract[eventName](event.customArgs || {}, {
     fromBlock: blockRange[0],
     toBlock: blockRange[1],
   });
   filter.stopWatching(() => {});
 
-  jQuery.ajax({
+  const $ = process.env.NODE_ENV === "test"?testJQuery.jQuery:jQuery;
+
+  return $.ajax({
     type: 'POST',
     url: config.rpcHost,
     Accept: 'application/json',
@@ -125,6 +125,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
     },
     dataType: 'json',
   });
+
 };
 
 export const initStatistics = () => ({

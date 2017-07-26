@@ -1,4 +1,5 @@
-import { default as config } from '../config.js';
+import config from '../config.js';
+import testConfig from '../config.test';
 import { getICOParameters, isConnected, web3Connect, getSmartContract, getAbiAsDictionary, getTokenSmartContract} from '../utils/web3';
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
@@ -21,12 +22,16 @@ export const web3Connection = () => async (dispatch, getState) => {
 
 export const readSmartContract = address => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
-
   console.log(`Reading Smart contract , RPC connection ${web3 ? 'Connected' : 'Disconnected'}`);
   if (!web3) {
     return;
   }
-  const answers = config.ICOs[address].matrix;
+  let configFile = config.ICOs;
+  if (process.env.NODE_ENV === 'test')
+    configFile = testConfig.ICOs;
+
+
+  const answers = configFile[address].matrix;
   const transparencyDecision = computeICOTransparency(answers)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
@@ -36,7 +41,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 
   const parameters = await getICOParameters(web3, address);
 
-  config.ICOs[address].decimals = parameters.decimals || config.ICOs[address].decimals; // set decimals in config from smart contract
+  configFile[address].decimals = parameters.decimals || configFile[address].decimals; // set decimals in config from smart contract
   Object.keys(parameters).forEach((par) => {
     const parameter = parameters[par];
     if (parameter === null) return;
@@ -46,6 +51,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
         // check if it has value
       tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue : null;
       dispatch(setProperties(address, tempResult));
+
     } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {
       parameter.then(async (value) => {
         if (typeof value === 'function') {
@@ -54,13 +60,16 @@ export const readSmartContract = address => async (dispatch, getState) => {
           tempResult[par] = value;
         }
         dispatch(setProperties(address, tempResult));
+
       });
     } else {
       tempResult[par] = parameter;
       dispatch(setProperties(address, tempResult));
+
     }
   });
   dispatch(setSmartContractLoaded(true));
+
 };
 
 export const getLogs = address => async (dispatch, getState) => {
@@ -73,7 +82,9 @@ export const getLogs = address => async (dispatch, getState) => {
     return;
   }
 
-  const icoConfig = config.ICOs[address];
+  const configFile = process.env.NODE_ENV === 'test'? testConfig.ICOs :config.ICOs;
+
+  const icoConfig = configFile[address];
   const icoContract = getSmartContract(web3, address);
 
   // now partition into many smaller calls
@@ -120,6 +131,7 @@ export const getLogs = address => async (dispatch, getState) => {
   const logProcessor = () => {
     const range = logRequests.shift();
     const eventName = range[2];
+    console.log(range);
     getICOLogs(range, icoConfig, icoContract, async (error, logs) => {
       if (error) {
         dispatch(hideLoader());

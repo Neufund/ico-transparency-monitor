@@ -508,7 +508,7 @@ export default {
     q2: { question: 'Is smart contract source code available?', critical: true, notApplicable: false },
     q3: { question: 'Is smart contract source code provided in etherscan?', critical: false, notApplicable: false },
     q4: {
-      question: 'Is instruction provided how to reproduce deployed bytecode? (does not apply if etherscan source is there)',
+      question: 'Is instruction provided how to reproduce deployed bytecode?',
       critical: false,
       notApplicable: false,
     },

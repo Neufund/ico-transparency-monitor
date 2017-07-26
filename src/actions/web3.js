@@ -44,7 +44,8 @@ export const readSmartContract = address => async (dispatch, getState) => {
     if (abiAsDictionary[par] === 'bytes32') {
       const asciiValue = web3.toAscii(parameter);
         // check if it has value
-      tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue : null;
+      tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue.replace(/\00+/g, '') : null;
+
       dispatch(setProperties(address, tempResult));
     } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {
       parameter.then(async (value) => {

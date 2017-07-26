@@ -18,12 +18,11 @@ const ICOApp = ({ ...props }) => (
                 </div>
                 <div className="ico-information">
                   <h4><a href={`/#/${props.address}`}> {props.name || props.information.aliasName}</a></h4>
-                  <a
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    href={props.information.website}
-                  >{props.information.website}</a>
                 </div>
+                <h4><a href={`/#/${props.address}`}> {props.symbol}</a></h4>
+                <a className="link" rel="noopener noreferrer" target="_blank" href={props.information.website} >{props.information.website}</a>
+                <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${props.address}`} >View ICO contract on etherscan</a>
+                {props.tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${props.tokenContract}#code`} >View token contract on etherscan</a>}
               </div>
             </Col>
           </Row>
@@ -46,7 +45,7 @@ const ICOApp = ({ ...props }) => (
               <strong className={`desc ${trimString(getValueOrNotAvailable(props, 'status'))}`}>{getValueOrNotAvailable(props, 'status')}</strong>
             </Col>
             <Col lg={4} sm={6} md={6} xs={12} className="part transparency">
-              <p className="title added-by-person">Added by <b>{props.addedBy || 'Person'}</b></p>
+              {props.addedBy && <p className="title added-by-person">Added by <b>{props.addedBy}</b></p>}
               <button
                 href={props.name}
                 className={`transparency-button ${getValueOrNotAvailable(props, 'decision')}-status`}

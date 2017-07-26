@@ -4,7 +4,7 @@ import GroupButtons from './GroupButtons';
 import '../assets/css/ScanBox.css';
 import { connect } from 'react-redux';
 import { TimeDetails, RaisedAmount, TokenIssued, TokenDistribution } from './details';
-import { SingleBarChart } from './charts';
+import SingleBarChart from './charts';
 import { downloadCSV } from '../utils';
 import { default as config } from '../config.js';
 

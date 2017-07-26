@@ -20,20 +20,20 @@ import { toPromise } from '../src/utils';
 
 import { default as config } from '../src/config.js';
 
-describe('Config constants', () => {
-    // this.timeout(5000);
-  it('assertion success', async () => {
-    const result = await resolvingPromise;
-    expect(result).to.equal('promise resolved');
-  });
-
-
-  it('symbol', async () => {
-    const address = '0xa74476443119a942de498590fe1f2454d7d4ac0d';
-    const smartContract = getSmartContract(address);
-
-        // const symbol = await config.ICOs[address].constants.symbol(smartContract);
-        // console.log(symbol)
-        // expect(symbol).to.equal('GLM');
-  });
-});
+// describe('Config constants', () => {
+//     // this.timeout(5000);
+//   it('assertion success', async () => {
+//     const result = await resolvingPromise;
+//     expect(result).to.equal('promise resolved');
+//   });
+//
+//
+//   it('symbol', async () => {
+//     const address = '0xa74476443119a942de498590fe1f2454d7d4ac0d';
+//     const smartContract = getSmartContract(address);
+//
+//         // const symbol = await config.ICOs[address].constants.symbol(smartContract);
+//         // console.log(symbol)
+//         // expect(symbol).to.equal('GLM');
+//   });
+// });

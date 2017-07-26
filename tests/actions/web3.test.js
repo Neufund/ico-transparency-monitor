@@ -17,7 +17,6 @@ describe('web3Connection', () => {
     expect(dispatchMock.called).to.be.false;
   });
 
-
   it('should create new connection', async () => {
     const dispatchMock = spy();
     const stateProvider = () => ({ modal: {} });
@@ -29,4 +28,8 @@ describe('web3Connection', () => {
 
 });
 
+
+describe('readSmartContract', () => {
+
+});
 

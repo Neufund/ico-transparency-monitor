@@ -27,5 +27,9 @@ export default () => ({
         return "ASCII";
       }
     }
+  },
+  blocks:{
+    number : 1234667
   }
+
 });

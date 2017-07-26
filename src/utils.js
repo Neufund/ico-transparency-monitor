@@ -218,7 +218,7 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
   return [investorsChartXAxis, investmentChartXAxis];
 };
 
-const formatDuration = duration => `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
+export const formatDuration = duration => `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
             ${duration.get('months') > 0 ? `${duration.get('months')} Months` : ''}
             ${duration.get('days') > 0 ? `${duration.get('days')} Days` : ''}
 
@@ -316,13 +316,15 @@ export const getNextICO = (address) => {
   window.location.reload();
 };
 
+export const getICODuration = (endTime , startTime) => moment.duration(moment(endTime).diff(moment(startTime)));
+
 // allLogs contains dictionary {event_name: logs_array} where each logs_array is sorted by timestamp (by ETH node)
 export const getStatistics = (icoConfig, allLogs, stats) => {
   console.log('stats started');
   const csvContentArray = [];
 
   // get event that defines investor transaction and extract timestamps that will scale the time charts
-  console.log(allLogs);
+  // console.log(allLogs);
   const transactionLogs = allLogs[Object.keys(allLogs).filter(name => icoConfig.events[name].countTransactions)[0]];
   const startTimestamp = transactionLogs[0].timestamp;
   const endTimestamp = transactionLogs[transactionLogs.length - 1].timestamp;
@@ -330,7 +332,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   stats.time.startDate = startTime;
   const endTime = new Date(endTimestamp * 1000);
   stats.time.endDate = endTime;
-  const icoDuration = moment.duration(moment(endTime).diff(moment(startTime)));
+  const icoDuration = getICODuration(endTime , startTime);
   stats.time.durationDays = icoDuration.get('days');
   stats.time.duration = formatDuration(icoDuration);
 
@@ -419,7 +421,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
     name: key,
     amount: key in chartTransactionsCountTemp ? parseFloat(chartTransactionsCountTemp[key].toFixed(2)) : 0,
   }));
-  console.log(stats.charts);
+
   const sortedSenders = sortInvestorsByTicket(senders);
   stats.investors.sortedByTicket = sortedSenders[0];
   stats.investors.sortedByETH = sortedSenders[1];

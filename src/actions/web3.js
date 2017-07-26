@@ -75,6 +75,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 export const getLogs = address => async (dispatch, getState) => {
   dispatch(showLoader());
   const web3 = getState().modal.web3;
+  console.log("Block number",getState().blocks.number);
   const lastBlockNumber = parseInt(`0x${getState().blocks.number.toString('hex')}`);
 
   if (!web3) {

@@ -1,8 +1,7 @@
 import { expect, assert } from 'chai';
 import { spy } from 'sinon';
 import { web3Connection, readSmartContract, getLogs } from '../../src/actions/web3';
-import { setProperties, setSmartContractLoaded ,showLoader} from '../../src/actions/ScanAction';
-import { web3Connect, getSmartContract } from '../../src/utils/web3';
+import { setProperties,showLoader} from '../../src/actions/ScanAction';
 import stateProvider from '../helpers/web3Mock';
 
 describe('web3Connection', () => {

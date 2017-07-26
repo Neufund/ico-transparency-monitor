@@ -1,9 +1,6 @@
 import { assert, expect, should } from 'chai';
-import { spy } from 'sinon';
-import { web3Connection, readSmartContract } from '../../src/actions/web3';
 import { getSmartContract, getAbiAsDictionary, getICOParameters } from '../../src/utils/web3';
 import stateProvider from '../helpers/web3Mock';
-
 
 describe('getSmartContract', () => {
   const address = '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf';

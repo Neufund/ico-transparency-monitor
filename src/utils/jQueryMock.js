@@ -3,12 +3,9 @@
  */
 export default {
   jQuery: {
-    ajax: (options , callback) => {
-
-      return {
-        success: result => callback(result),
-        error: status => callback(status)
-      }
-    }
-  }
+    ajax: (options, callback) => ({
+      success: result => callback(result),
+      error: status => callback(status),
+    }),
+  },
 };

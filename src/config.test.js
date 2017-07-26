@@ -31,18 +31,10 @@ export default {
         },
       },
       icoParameters: {
-        cap: (web3, icoContract) => {
-          return `TESTING DATA`;
-        },
-        startDate: (web3, icoContract) => {
-          return `TESTING DATA`;
-        },
-        endDate: (web3, icoContract) => {
-          return `TESTING DATA`;
-        },
-        status: (web3, icoContract) => {
-          return `TESTING DATA`;
-        },
+        cap: (web3, icoContract) => 'TESTING DATA',
+        startDate: (web3, icoContract) => 'TESTING DATA',
+        endDate: (web3, icoContract) => 'TESTING DATA',
+        status: (web3, icoContract) => 'TESTING DATA',
       },
       matrix: {
         q1: { answer: true },
@@ -61,8 +53,8 @@ export default {
         q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim' },
       },
       addedBy: 'Marcin Rudlfix',
-      decimals : 18
-    }
+      decimals: 18,
+    },
   },
   rpcHost,
   defaultDecimal: 18,

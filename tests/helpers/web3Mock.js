@@ -4,32 +4,24 @@
 export default () => ({
   modal: {
     web3: {
-      eth : {
-        contract : (abi) => {
-          return { at : (address) => {
-            return {
-              abi : [] ,
-              address:address ,
-              LogBuy : (customArgs , options ) =>{
-                return {
-                  stopWatching: () => {
+      eth: {
+        contract: abi => ({ at: address => ({
+          abi: [],
+          address,
+          LogBuy: (customArgs, options) => ({
+            stopWatching: () => {
 
-                  },
-                  options:options
-                }
-              }
-            };
-          }
-          }
-        }
+            },
+            options,
+          }),
+        }),
+        }),
       },
-      toAscii : () => {
-        return "ASCII";
-      }
-    }
+      toAscii: () => 'ASCII',
+    },
   },
-  blocks:{
-    number : 1234667
-  }
+  blocks: {
+    number: '0x3e38b2',
+  },
 
 });

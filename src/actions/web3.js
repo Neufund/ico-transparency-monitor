@@ -1,6 +1,6 @@
 import config from '../config.js';
 import testConfig from '../config.test';
-import { getICOParameters, isConnected, web3Connect, getSmartContract, getAbiAsDictionary, getTokenSmartContract} from '../utils/web3';
+import { getICOParameters, isConnected, web3Connect, getSmartContract, getAbiAsDictionary, getTokenSmartContract } from '../utils/web3';
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
 import { setCurrency, setStatisticsByCurrency } from './CurrencyAction';
@@ -27,8 +27,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
     return;
   }
   let configFile = config.ICOs;
-  if (process.env.NODE_ENV === 'test')
-    configFile = testConfig.ICOs;
+  if (process.env.NODE_ENV === 'test') { configFile = testConfig.ICOs; }
 
 
   const answers = configFile[address].matrix;
@@ -51,7 +50,6 @@ export const readSmartContract = address => async (dispatch, getState) => {
         // check if it has value
       tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue : null;
       dispatch(setProperties(address, tempResult));
-
     } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {
       parameter.then(async (value) => {
         if (typeof value === 'function') {
@@ -60,30 +58,29 @@ export const readSmartContract = address => async (dispatch, getState) => {
           tempResult[par] = value;
         }
         dispatch(setProperties(address, tempResult));
-
       });
     } else {
       tempResult[par] = parameter;
       dispatch(setProperties(address, tempResult));
-
     }
   });
   dispatch(setSmartContractLoaded(true));
-
 };
 
 export const getLogs = address => async (dispatch, getState) => {
   dispatch(showLoader());
+  console.log(showLoader())
   const web3 = getState().modal.web3;
-  console.log("Block number",getState().blocks.number);
-  const lastBlockNumber = parseInt(`0x${getState().blocks.number.toString('hex')}`);
+  const blockNumber = getState().blocks.number;
+
+  const lastBlockNumber = typeof blockNumber === 'string' ? parseInt(blockNumber) : parseInt(`0x${blockNumber.toString('hex')}`);
 
   if (!web3) {
     dispatch(errorMessage());
     return;
   }
 
-  const configFile = process.env.NODE_ENV === 'test'? testConfig.ICOs :config.ICOs;
+  const configFile = process.env.NODE_ENV === 'test' ? testConfig.ICOs : config.ICOs;
 
   const icoConfig = configFile[address];
   const icoContract = getSmartContract(web3, address);
@@ -114,7 +111,9 @@ export const getLogs = address => async (dispatch, getState) => {
     const statistics = getStatistics(icoConfig, allLogs, initStatistics());
       // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
     dispatch(drawStatistics(statistics[0]));
+    console.log(drawStatistics(statistics[0]))
     dispatch(allocateCSVFile(statistics[1]));
+    console.log(allocateCSVFile(statistics[1]));
 
     setCurrency('EUR', new Date(), (error, currencyResult) => {
       if (error) {
@@ -126,16 +125,19 @@ export const getLogs = address => async (dispatch, getState) => {
       console.log('Fetched Currency is ', currencyRate);
 
       dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
+      console.log(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time))
       dispatch(showStatistics());
+      console.log(showStatistics())
     });
   };
   const logProcessor = () => {
     const range = logRequests.shift();
     const eventName = range[2];
-    console.log(range);
+
     getICOLogs(range, icoConfig, icoContract, async (error, logs) => {
       if (error) {
         dispatch(hideLoader());
+        console.log(hideLoader())
         dispatch({ type: error });
       } else {
         // store logs, for each event separately

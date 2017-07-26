@@ -13,7 +13,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     <Col md={12} className="scan-content">
       <TimeDetails {...props.stats.time} />
       <TokenIssued
-        totalSupply={props.totalSupply} tokenIssued={props.stats.money.tokenIssued}
+        totalSupply={props.totalSupply}
+        tokenIssued={props.stats.money.tokenIssued}
         tokensOverflow={props.totalSupply - props.stats.money.tokenIssued}
         totalInvestors={Object.keys(props.stats.investors.senders).length}
         totalTransactions={props.stats.general.transactionsCount}
@@ -77,13 +78,15 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     <div>
       <h3 className="title">Raised amount</h3>
       <RaisedAmount
-        total={props.stats.money.totalETH} currency="ETH"
+        total={props.stats.money.totalETH}
+        currency="ETH"
         avgTicket={props.stats.money.totalETH / Object.keys(props.stats.investors.senders).length}
         avgPrice={props.stats.money.totalETH / props.stats.money.tokenIssued}
       />
       <GroupButtons currencyValue={props.currencyValue} currency={props.currency} />
       <RaisedAmount
-        total={props.stats.money.totalETH * props.currencyValue} currency={props.currency}
+        total={props.stats.money.totalETH * props.currencyValue}
+        currency={props.currency}
         avgTicket={props.stats.money.totalETH * props.currencyValue / Object.keys(props.stats.investors.senders).length}
         avgPrice={props.stats.money.totalETH * props.currencyValue / props.stats.money.tokenIssued}
       />

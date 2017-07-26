@@ -89,7 +89,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   });
   filter.stopWatching(() => {});
 
-  const $ = process.env.NODE_ENV === "test"?testJQuery.jQuery:jQuery;
+  const $ = process.env.NODE_ENV === 'test' ? testJQuery.jQuery : jQuery;
 
   return $.ajax({
     type: 'POST',
@@ -125,7 +125,6 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
     },
     dataType: 'json',
   });
-
 };
 
 export const initStatistics = () => ({
@@ -316,7 +315,7 @@ export const getNextICO = (address) => {
   window.location.reload();
 };
 
-export const getICODuration = (endTime , startTime) => moment.duration(moment(endTime).diff(moment(startTime)));
+export const getICODuration = (endTime, startTime) => moment.duration(moment(endTime).diff(moment(startTime)));
 
 // allLogs contains dictionary {event_name: logs_array} where each logs_array is sorted by timestamp (by ETH node)
 export const getStatistics = (icoConfig, allLogs, stats) => {
@@ -332,7 +331,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   stats.time.startDate = startTime;
   const endTime = new Date(endTimestamp * 1000);
   stats.time.endDate = endTime;
-  const icoDuration = getICODuration(endTime , startTime);
+  const icoDuration = getICODuration(endTime, startTime);
   stats.time.durationDays = icoDuration.get('days');
   stats.time.duration = formatDuration(icoDuration);
 

@@ -4,7 +4,7 @@ import GroupButtons from './GroupButtons';
 import '../assets/css/ScanBox.css';
 import { connect } from 'react-redux';
 import { TimeDetails, RaisedAmount, TokenIssued, TokenDistribution } from './details';
-import SingleBarChart from './charts';
+import Chart from './Chart';
 import { downloadCSV } from '../utils';
 import { default as config } from '../config.js';
 
@@ -24,7 +24,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <Row className="statistics box-container">
     <Col md={6} sm={12} xs={12} className="relative">
       {console.log(parseFloat(props.stats.money.tokenIssued))}
-      <SingleBarChart
+      <Chart
         title="Tokens over time"
         data={props.stats.charts.tokensCount}
         dataKey="Tokens/Time"
@@ -35,7 +35,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       />
     </Col>
     <Col md={6} sm={12} xs={12}>
-      <SingleBarChart
+      <Chart
         title="Transactions over time"
         data={props.stats.charts.transactionsCount}
         dataKey={`Transactions/${props.stats.time.scale}`}
@@ -61,7 +61,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         />
       </Col>
       <Col md={6} sm={12} xs={12} >
-        <SingleBarChart
+        <Chart
           title="Token holders distribution"
           dataKey="TokenHolders"
           data={props.stats.charts.tokenHolders}
@@ -92,7 +92,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     <h3 className="title">Funds distribution</h3>
     <Row className="box-container">
       <Col md={12} sm={12} xs={12} >
-        <SingleBarChart
+        <Chart
           data={props.stats.charts.investorsDistribution}
           dataKey="Investors"
           title="Number of Investors with Ticket of Size"
@@ -105,7 +105,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     </Row>
     <Row className="box-container">
       <Col md={12} sm={12} xs={12} >
-        <SingleBarChart
+        <Chart
           data={props.stats.charts.investmentDistribution}
           dataKey="Investments"
           title="Total Amount Invested with Ticket of Size"

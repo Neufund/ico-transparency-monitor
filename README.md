@@ -71,24 +71,23 @@ An ICO is immediately considered *Non-Transparent* if any question that was answ
 In some cases a question is considered `notApplicable` for some ICO's where answering this question does not effect the transparency, if a `notApplicable: true` question was given `answer: null` the ICO monitor will discard this question and not count it in the transparency processes.
 
 The decision matrix is represented as:
-@Moe just take it from config.js
 
-| |Question | Critical |Not Applicable|--remove--|--remove--|
-|-|----------|-----------------|-----------------------|-----------------|-------|
-|1|Is ICO controlled by a smart contract?|N/A|N|Y||
-|2|Is smart contract source code available?|N|N/A|Y||
-|3|Is smart contract source code provided in etherscan?|N/A|N| Y|
-|4|Is instruction provided how to reproduce deployed bytecode?|N or N/A| N/A|Y or N/A|Source code in ether scan counts as Y|
-|5|Does smart contract provide all tracking data via events?|N/A|N|Y|We need information on accounts and number of tokens created. If those are sent by a backend answer is N|
-|6|Is information on token price in ETH provided?|N or N/A| N/A| Y or N/A|Information on token price must be provided in an event or in transaction. For non-ETH ICOs we skip this question|
-|7|Does smart contract handle ETH in a trustless way?|N/A|N or N/A| Y or N/A |ETH price must be a part of transaction.See comments above|
-|8|If ICO is using other currencies is information on token price provided?|N/A|N or N/A| Y or N/A|If ICO is handling other currencies natively then token price should be provided (or equivalent information like rate to ICOs base currency)|
-|9|Does smart contract handle other currencies in a trustless way?|N/A| N or N/A| Y or N/A|Does some smart contract store balance of those currencies?
-|10|Was smart contract code easy to read and properly commented?|N/A|N|Y||
-|11|Is the ICO doing exactly the same what they say on their website ?|N|N/A|Y|This is a post factum question, to be added during or after ICO|
-|12|Is price of the token deterministic?|N/A| N | Y ||
-|13|Is ICO start condition specified in contract?| N/A | N | Y||
-|14|Is ICO end condition specified in contract?| N/A | N | Y||
+| |Question | Critical |Not Applicable|
+|-|----------|-----------------|-----------------------|
+|1|Is ICO controlled by a smart contract?|false|false|
+|2|Is smart contract source code available?|true|false|
+|3|Is smart contract source code provided in etherscan?|false|false|
+|4|Is instruction provided how to reproduce deployed bytecode?|true| true|
+|5|Does smart contract provide all tracking data via events?|false|false|
+|6|Is information on token price in ETH provided?|true|true|
+|7|Does smart contract handle ETH in a trustless way?|false|true|
+|8|If ICO is using other currencies is information on token price provided?|true|true|
+|9|Does smart contract handle other currencies in a trustless way?|false|true|
+|10|Was smart contract code easy to read and properly commented?|false|false|
+|11|Is the ICO doing exactly the same what they say on their website ?|true|false|
+|12|Is price of the token deterministic?|false| false |
+|13|Is ICO start condition specified in contract?| false| false |
+|14|Is ICO end condition specified in contract?| false | false |
 
 ## Adding custom ICOs to the Transparency-Monitor
 The ICO-monitor collects information from the blockchain public-ledger using a set of predefined
@@ -165,7 +164,6 @@ A general form of an ICO configuration can be presented as:
         q13: { answer: true, comment: '' },
         q14: { answer: true, comment: '' },
       }
-      @Moe explain
       addedBy:
     }
 ```
@@ -211,13 +209,15 @@ A general form of an ICO configuration can be presented as:
 
   3. `endDate` End date of an ICO
 
-@Moe not for example! enumerate all possibilities. ask mostafa
-  4. `status` Current status of smart contract, this can be returned as an enum or a string for example `in progress`, `successful`, `not provided`.
+  4. `status` Current status of smart contract, this can be returned as a string enum and must be one of these values  `in progress`, `successful`, `not provided`.
 
-@Moe this is not clear! decision matrix format has changed, also in javascript there is true, not True
-  `Matrix` Answers for the [decision matrix](https://github.com/Neufund/ico-transparency-monitor#decision-matrix) where `True = Y , False = N , null = N/A`, all questions should be in the form
-  `q'n': { answer: true, comment: '' }, ` where `n` is the questions number
+  `Matrix` Answers for the [decision matrix](https://github.com/Neufund/ico-transparency-monitor#decision-matrix). The ICO monitor scans this matrix for answers and produces a final conclusion based on the answers. For each specific question in the dicision matrix an answer should be either:
 
+  1. `true`: if the answer to the specific qustion is **Yes**
+  2. `false`: if the answer to the specific qustion is **No**
+  3. `null` if the answer was **Not Applicable** and couldn't be answered
+
+  `addedBy` Name of the person that added this ICO. This will be displayed on the ICO monitor next to this ICO
 ### Examples
 Best way to learn how to add new ICO is to look at existing examples. Let's take EOS ICO
 ```

@@ -300,7 +300,7 @@ body{
 .arrow-btn-left{
   margin-left: -53px;
 }
-.nav-buttons  .next-list  a ,.nav-buttons  .back-list  a {
+a, .nav-buttons  .next-list  a ,.nav-buttons  .back-list  a {
   text-decoration: none;
   color: #09719B;
   font-size: 18px;
@@ -444,6 +444,9 @@ div.transparency.part button:hover{
   color:#afba1f;
 }
 
+.ico-paragraph{
+  max-width: 500px;
+}
 
 /*Large*/
 @media only screen and (min-width: 75em) {

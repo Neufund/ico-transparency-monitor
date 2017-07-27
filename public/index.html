@@ -16,6 +16,11 @@
     </noscript>
     <div id="root"></div>
     <script src="main.js"></script>
-
+    <script>
+      window.onhashchange = function(e) {
+        if(location.hash === "#/")
+          location.reload()
+      }
+    </script>
   </body>
 </html>

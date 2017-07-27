@@ -275,7 +275,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
   console.log(getState());
   const csvContentArray = getState().scan.csvContent;
 
-  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value', 'Timestamp', '\n'].join(',');
+  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value', 'Timestamp', 'Block Number', '\n'].join(',');
   csvContentArray.forEach((item, index) => {
     const dataString = item.join(',');
     csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
@@ -358,7 +358,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
       const etherValue = parseFloat(eventArgs.ether ? item.args[eventArgs.ether].valueOf() : parseInt(item.value)) / 10 ** 18;
 
       const investor = item.args[eventArgs.sender];
-      csvContentArray.push([investor, tokenValue, etherValue, item.timestamp]); // (new Date(item.timestamp * 1000)).formatDate(true)
+      csvContentArray.push([investor, tokenValue, etherValue, item.timestamp, item.blockNumber]); // (new Date(item.timestamp * 1000)).formatDate(true)
 
       // only if event is transaction event
       const timeBucket = toTimeBucket(item);

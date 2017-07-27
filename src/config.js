@@ -168,8 +168,8 @@ export default {
       },
       icoParameters: {
         cap: async (web3, icoContract) => 'no max nor min cap',
-        startDate: async (web3, icoContract) => 'NOT AND ICO!',
-        endDate: async (web3, icoContract) => 'NOT AND ICO!',
+        startDate: async (web3, icoContract) => 'NOT AN ICO!',
+        endDate: async (web3, icoContract) => 'NOT AN ICO!',
         status: async (web3, icoContract) => {
           const isRunning = await toPromise(icoContract.accept)();
           // tezos does what they want. may start at any moment in the future

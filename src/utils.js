@@ -1,6 +1,8 @@
 import jQuery from 'jquery';
 import { default as config } from './config.js';
+import SolidityEvent from 'web3/lib/web3/event'
 import axios from 'axios';
+import { fastEventDecoder } from './utils/fastDecode';
 
 const moment = require('moment');
 
@@ -84,11 +86,14 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   const address = icoContract.address;
   const eventName = blockRange[2];
   const event = icoConfig.events[eventName];
-  const filter = icoContract[eventName](event.customArgs || {}, {
+
+  const eventAbi = icoContract.abi.filter(json => json.type === 'event').filter(json => json.name === eventName)[0];
+  const solidityEvent = new SolidityEvent(null, eventAbi, address);
+  const solidityEventEncoded = solidityEvent.encode(event.customArgs || {}, {
     fromBlock: blockRange[0],
     toBlock: blockRange[1],
   });
-  filter.stopWatching(() => {});
+  const fastDecodeEvent = fastEventDecoder(solidityEvent);
 
   jQuery.ajax({
     type: 'POST',
@@ -99,10 +104,10 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
       id: 1497353430507566, // keep this ID to make cache work
       jsonrpc: '2.0',
       params: [{
-        fromBlock: filter.options.fromBlock,
-        toBlock: filter.options.toBlock,
+        fromBlock: solidityEventEncoded.fromBlock,
+        toBlock: solidityEventEncoded.toBlock,
         address,
-        topics: filter.options.topics,
+        topics: solidityEventEncoded.topics,
       }],
       method: 'eth_getLogsDetails',
     }),
@@ -113,7 +118,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
       } else {
         const res = e.result;
         console.log(`formatting ${res.length} log entries`);
-        const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
+        const logsFormat = res.map(log => fastDecodeEvent(log));
         console.log('log entries formatted');
         callback(null, logsFormat);
       }

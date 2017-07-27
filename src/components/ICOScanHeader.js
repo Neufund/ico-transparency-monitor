@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { icoTransparencyMap } from '../utils';
 
-export const ICOScanHeader = ( props ) => {
-  const { address, information, name , addedBy, decision, onModalShow } = props;
+export const ICOScanHeader = (props) => {
+  const { address, information, name, addedBy, decision, onModalShow } = props;
   return (
     <Row>
       <Grid className="ico-scan-header">
@@ -13,7 +13,7 @@ export const ICOScanHeader = ( props ) => {
               <Col lg={12}>
                 <div className="clearfix">
                   <div className="ico-logo">
-                    <img src={information.logo} alt={address}/>
+                    <img src={information.logo} alt={address} />
                   </div>
                   <div className="ico-information">
                     <h4><a href={`/#/${address}`}> {name || information.aliasName}</a></h4>
@@ -30,7 +30,7 @@ export const ICOScanHeader = ( props ) => {
 
           <Col md={6} sm={6} xs={6}>
             <Row>
-              <Col lg={5} md={1} sm={1} xs={1}/>
+              <Col lg={5} md={1} sm={1} xs={1} />
               <Col lg={7} md={11} sm={11} xs={11} className="part transparency">
                 <p className="title added-by-person">Added by Person</p>
 
@@ -52,4 +52,4 @@ export const ICOScanHeader = ( props ) => {
       </Grid>
     </Row>
   );
-}
+};

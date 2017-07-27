@@ -1,18 +1,18 @@
 import React from 'react';
 import {
-    BarChart,
-    ResponsiveContainer,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
+  BarChart,
+  ResponsiveContainer,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
 } from 'recharts';
 import { kFormatter } from '../utils';
 import { downloadChartImage } from '../utils/charts';
 
 export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel, isVisible = true, isNotVisibleMessage = '' }) => (
-    data != null && data.length > 0 &&
+  data != null && data.length > 0 &&
     <div id={dataKey} className="chart-parent relative">
       <h3 className="title">{title}</h3>
       {isVisible &&

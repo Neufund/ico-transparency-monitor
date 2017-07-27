@@ -29,19 +29,19 @@ export const isConnected = () => {
 };
 
 export const createEngine = rpcUrl =>
-    engineWithProviders([
-      new FixtureSubprovider({
-        web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
-        net_listening: true,
-        eth_hashrate: '0x00',
-        eth_mining: false,
-        eth_syncing: true,
-      }),
-      // new CacheSubprovider(),
-      // new FilterSubprovider(),
-      new NonceSubprovider(),
-      new RpcSubprovider({ rpcUrl }),
-    ]);
+  engineWithProviders([
+    new FixtureSubprovider({
+      web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
+      net_listening: true,
+      eth_hashrate: '0x00',
+      eth_mining: false,
+      eth_syncing: true,
+    }),
+    // new CacheSubprovider(),
+    // new FilterSubprovider(),
+    new NonceSubprovider(),
+    new RpcSubprovider({ rpcUrl }),
+  ]);
 
 
 export const web3Connect = () => async (dispatch, getState) => {

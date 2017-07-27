@@ -16,9 +16,9 @@ export const deepFreeze = (obj) => {
 };
 
 export const toPromise = func => (...args) =>
-    new Promise((resolve, reject) =>
-        func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
-    );
+  new Promise((resolve, reject) =>
+    func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
+  );
 
 export const formatNumber = (number, precision = 2) => {
   if (isNaN(number) || typeof number === 'undefined') { return 'Not Available'; }
@@ -75,7 +75,7 @@ export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
 
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
-export const getValueOrDefault = (value) => value ? value : 'Not Available';
+export const getValueOrDefault = value => value || 'Not Available';
 
 export const trimString = value => value.replace(/ /g, '');
 
@@ -170,12 +170,12 @@ const calculateTicks = (max) => {
 
 export const kFormatter = (num) => {
   const ranges = [
-        { divider: 1e18, suffix: 'P' },
-        { divider: 1e15, suffix: 'E' },
-        { divider: 1e12, suffix: 'T' },
-        { divider: 1e9, suffix: 'G' },
-        { divider: 1e6, suffix: 'M' },
-        { divider: 1e3, suffix: 'k' },
+    { divider: 1e18, suffix: 'P' },
+    { divider: 1e15, suffix: 'E' },
+    { divider: 1e12, suffix: 'T' },
+    { divider: 1e9, suffix: 'G' },
+    { divider: 1e6, suffix: 'M' },
+    { divider: 1e3, suffix: 'k' },
   ];
 
   for (let i = 0; i < ranges.length; i++) {
@@ -287,7 +287,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
   });
 
   const csvData = new Blob([csvContent], { type: 'application/csv;charset=utf-8;' });
-    // FOR OTHER BROWSERS
+  // FOR OTHER BROWSERS
   const link = document.createElement('a');
   link.href = URL.createObjectURL(csvData);
   link.style = 'visibility:hidden';
@@ -428,9 +428,9 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   stats.investors.sortedByETH = sortedSenders[1];
 
   stats.charts.tokenHolders = tokenHoldersPercentage(
-        stats.money.tokenIssued,
-        stats.investors.sortedByTicket
-    );
+    stats.money.tokenIssued,
+    stats.investors.sortedByTicket
+  );
   console.log('stats done');
   return [stats, csvContentArray];
 };

@@ -12,4 +12,4 @@ export default ({ ...props }) => (
       {getICOs().map(ico => <ICO key={ico.address} ico={ico} address={ico.address} />)}
     </Grid>
   </div>
-  );
+);

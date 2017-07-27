@@ -1,10 +1,10 @@
 import chai, { expect, should } from 'chai';
 
 const resolvingPromise = new Promise(resolve =>
-    resolve('promise resolved')
+  resolve('promise resolved')
 );
 const rejectingPromise = new Promise((resolve, reject) =>
-    reject(new Error('promise rejected'))
+  reject(new Error('promise rejected'))
 );
 
 

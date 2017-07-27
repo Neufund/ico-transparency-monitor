@@ -4,14 +4,14 @@ import { getICODuration, formatDuration } from '../../src/utils';
 import getLogsDetails from '../helpers/LogsMock';
 
 import {
-    formateDate,
-    computeICOTransparency,
-    getEtherRate,
-    getICOs,
-    getValueOrNotAvailable,
-    getStatistics,
-    initStatistics,
-    getICOLogs } from '../../src/utils';
+  formateDate,
+  computeICOTransparency,
+  getEtherRate,
+  getICOs,
+  getValueOrNotAvailable,
+  getStatistics,
+  initStatistics,
+  getICOLogs } from '../../src/utils';
 
 import { default as config } from '../../src/config.js';
 import testConfig from '../../src/config.test';
@@ -20,7 +20,7 @@ import stateProvider from '../helpers/web3Mock';
 describe('Decision Matrix', () => {
   it('Should take ico decision matrix and return and array', () => {
     assert.typeOf(computeICOTransparency(config.ICOs['0xa74476443119a942de498590fe1f2454d7d4ac0d'].matrix),
-            'Array');
+      'Array');
   });
 });
 

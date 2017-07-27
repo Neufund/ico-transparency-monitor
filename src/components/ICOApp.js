@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { default as config } from '../config.js';
 
 export const ICOApp = (props) => {
-  const { address, information, name , cap, startDate, endDate, status, addedBy, decision, onModalShow } = props;
+  const { address, information, name, cap, startDate, endDate, status, addedBy, decision, onModalShow } = props;
   return (
     <Row className="ico-container">
       <Grid>
@@ -16,7 +16,7 @@ export const ICOApp = (props) => {
               <Col lg={12} md={12} sm={12} xs={12}>
                 <div className="clearfix">
                   <div className="ico-logo">
-                    <img src={information.logo} alt={address}/>
+                    <img src={information.logo} alt={address} />
                   </div>
                   <div className="ico-information">
                     <h4><a href={`/#/${address}`}>{ name || information.aliasName }</a></h4>
@@ -34,8 +34,10 @@ export const ICOApp = (props) => {
             <Row className="main-page-ico-parameters">
               <Col lg={3} sm={6} md={6} xs={12} className="part" data-test-id="ico-app-cap">
                 <p className="title">Declared Cap</p>
-                {cap && typeof cap === 'object' && getValueOrDefault(cap).map(item => <strong key={item}
-                                                                                              className="desc">{item}</strong>)}
+                {cap && typeof cap === 'object' && getValueOrDefault(cap).map(item => (<strong
+                  key={item}
+                  className="desc"
+                >{item}</strong>))}
                 {cap && typeof cap === 'string' && <strong className="desc">{getValueOrDefault(cap)}</strong>}
               </Col>
               <Col lg={3} sm={6} md={6} xs={12} className="part">
@@ -71,7 +73,7 @@ export const ICOApp = (props) => {
       </Grid>
     </Row>
   );
-}
+};
 
 const mapStateToProps = (state, props) => ({
   ...state.ICO.icos[props.address],
@@ -79,6 +81,6 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default connect(
-    mapStateToProps,
-    null
+  mapStateToProps,
+  null
 )(ICOApp);

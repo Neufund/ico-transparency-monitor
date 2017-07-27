@@ -1,3 +1,1 @@
-export const tid = (component, id) => {
-  return component.find(`[data-test-id="${id}"]`)
-}
+export const tid = (component, id) => component.find(`[data-test-id="${id}"]`);

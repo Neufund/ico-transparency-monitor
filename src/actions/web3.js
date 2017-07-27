@@ -47,7 +47,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
     const tempResult = {};
     if (abiAsDictionary[par] === 'bytes32') {
       const asciiValue = web3.toAscii(parameter);
-        // check if it has value
+      // check if it has value
       tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue : null;
       dispatch(setProperties(address, tempResult));
     } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {
@@ -70,7 +70,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 
 export const getLogs = address => async (dispatch, getState) => {
   dispatch(showLoader());
-  console.log(showLoader())
+  console.log(showLoader());
   const web3 = getState().modal.web3;
   const blockNumber = getState().blocks.number;
 
@@ -110,9 +110,9 @@ export const getLogs = address => async (dispatch, getState) => {
   const allLogs = {};
   const finalProcessor = () => {
     const statistics = getStatistics(icoConfig, allLogs, initStatistics());
-      // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
+    // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
     dispatch(drawStatistics(statistics[0]));
-    console.log(drawStatistics(statistics[0]))
+    console.log(drawStatistics(statistics[0]));
     dispatch(allocateCSVFile(statistics[1]));
     console.log(allocateCSVFile(statistics[1]));
 
@@ -126,9 +126,9 @@ export const getLogs = address => async (dispatch, getState) => {
       console.log('Fetched Currency is ', currencyRate);
 
       dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
-      console.log(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time))
+      console.log(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
       dispatch(showStatistics());
-      console.log(showStatistics())
+      console.log(showStatistics());
     });
   };
   const logProcessor = () => {
@@ -138,7 +138,7 @@ export const getLogs = address => async (dispatch, getState) => {
     getICOLogs(range, icoConfig, icoContract, async (error, logs) => {
       if (error) {
         dispatch(hideLoader());
-        console.log(hideLoader())
+        console.log(hideLoader());
         dispatch({ type: error });
       } else {
         // store logs, for each event separately

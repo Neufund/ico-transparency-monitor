@@ -9,10 +9,10 @@ module.exports = {
     filename: 'main.js',
   },
   plugins: [
-        // Copy our app's index.html to the build folder.
+    // Copy our app's index.html to the build folder.
     new CopyWebpackPlugin([
-            { from: './public/index.html', to: 'index.html' },
-            { from: './public/favicon.ico', to: 'favicon.ico' },
+      { from: './public/index.html', to: 'index.html' },
+      { from: './public/favicon.ico', to: 'favicon.ico' },
     ]),
     new webpack.NamedModulesPlugin(),
   ],
@@ -33,12 +33,12 @@ module.exports = {
       {
         test: /\.s?css$/,
         use: [
-                    { loader: 'style-loader' },
-                    { loader: 'css-loader' },
-                    { loader: 'sass-loader' },
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' },
         ],
       },
-            { test: /\.json$/, use: 'json-loader' },
+      { test: /\.json$/, use: 'json-loader' },
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,

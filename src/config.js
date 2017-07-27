@@ -3,8 +3,79 @@ import { convertWeb3Value, convertBlockNumberToDate } from './utils/web3';
 import testConfig from './config.test';
 import { rpcHost } from './env.json';
 
+const gnosis = {
+  tokenContract: '0x6810e776880C02933D47DB1b9fc05908e5386b96',
+  information: {
+    aliasName: 'Gnosis',
+    website: 'https://gnosis.pm/',
+    logo: 'https://coindexter.s3.amazonaws.com/uploads/network/logo/59/gnosis.png',
+  },
+  events: {
+    BidSubmission: {
+      args: {
+        ether: 'amount',
+        sender: 'sender',
+      },
+      firstTransactionBlockNumber: 3593271,
+      lastTransactionBlockNumber: 3593309,
+      countTransactions: true,
+    },
+    Transfer: {
+      args: {
+        tokens: 'value',
+        sender: 'to'
+      },
+      customArgs: {
+        from: '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc',
+      },
+      firstTransactionBlockNumber: 3593310, // next block after finalizeAuction() call
+      lastTransactionBlockNumber: null,
+      maxBlocksInChunk: 12960 * 10, // scan in ~ 30 days blocks, last one is open
+      countTransactions: false,
+      tokenEvent: true
+    },
+  },
+  icoParameters: {
+    cap: async (web3, icoContract) => {
+      const maxCap = await toPromise(icoContract.MAX_TOKENS_SOLD)().valueOf();
+      return `${maxCap / (10 ** 18)} GNO`;
+    },
+    startDate: async (web3, icoContract) => {
+      const blockNumber = await toPromise(icoContract.startBlock)();
+      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+    },
+    endDate: async (web3, icoContract) => {
+      const endTime = await toPromise(icoContract.endTime)();
+      return convertWeb3Value(endTime, 'timestamp').formatDate();
+    },
+    status: async icoContract => 'successful',
+  },
+  matrix: {
+    q1: {answer: true},
+    q2: {answer: true},
+    q3: {answer: true},
+    q4: {answer: true},
+    q5: {answer: true},
+    q6: {
+      answer: true,
+      comment: 'This ICO was conducted as Dutch Auction so final price was available after ICO finished.'
+    },
+    q7: {answer: true, comment: 'There is no small cap - tokens will be always distributed.'},
+    q8: {answer: null},
+    q9: {answer: null},
+    q10: {answer: true},
+    q11: {answer: true},
+    q12: {answer: true},
+    q13: {answer: true},
+    q14: {answer: true},
+  },
+  decimals: 18,
+  addedBy: 'Krzysztof Kaczor',
+};
+
 let config = {
   ICOs: {
+    '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
       information: {
@@ -546,14 +617,18 @@ let config = {
       critical: true,
       notApplicable: false,
     },
-    q12: { question: 'Is price of the token deterministic?', critical: false, notApplicable: false },
+    q12: {
+      question: 'Is price of the token controlled by smart contract?',
+      critical: false,
+      notApplicable: false,
+    },
     q13: {
-      question: 'Is ICO start condition specified in contract?',
+      question: 'Is ICO start condition controlled by smart contract?',
       critical: false,
       notApplicable: false,
     },
     q14: {
-      question: 'Is ICO end condition specified in contract?',
+      question: 'Is ICO end condition controlled by smart contract?',
       critical: false,
       notApplicable: false,
     },

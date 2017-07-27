@@ -47,9 +47,11 @@ export const RaisedAmount = ({ total, avgTicket, avgPrice, currency }) => (
   </div>
 );
 
-export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
+export const TokenIssued = ({ tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
   <div >
-    <h3 className="title">Tokens issuance</h3>
+    <h3 className="title">
+      <span className="tooltip" data-tip="This section shows ICO activity over time.<br/> Were most transactions done first day? Were there any spikes? Activity at the end?">Tokens issuance</span>
+    </h3>
     <div className="stats">
       <table>
         <tbody>
@@ -66,9 +68,12 @@ export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInv
             <td>{formatNumber(tokenIssued)}</td>
           </tr>
           {
-            tokensOverflow != 0 &&
+            tokensOverflow !== 0 &&
             <tr>
-              <th>Number of tokens created outside of ICO <br /><i>*those tokens are not part of results below*</i></th>
+              <th>
+                Number of tokens created outside of ICO<br />
+                <i>*those tokens are not part of results below*</i>
+              </th>
               <td>{formatNumber(tokensOverflow)}</td>
             </tr>
           }
@@ -80,9 +85,12 @@ export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInv
 
 export const TokenDistribution = ({ tokenHolders, isVisible, isNotVisibleMessage = '' }) => (
   <div className="relative full-height">
-    <h3 className="title">Token distribution</h3>
+    <h3 className="title">
+      <span className="tooltip" data-tip="This section shows level of inequality among token holders.<br/>How much tokens 1% of wealthiest investors have?<br/> How much tokens are owned by small investors?">Token distribution</span>
+    </h3>
 
-    {isVisible && <div className="token-distribution-table"> <table className="table table-responsive">
+    {isVisible &&
+    <div className="token-distribution-table"> <table className="table table-responsive">
       <thead>
         <tr>
           <th>Top Wealthiest Investors</th>

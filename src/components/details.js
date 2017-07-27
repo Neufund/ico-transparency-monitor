@@ -50,7 +50,7 @@ export const RaisedAmount = ({ total, avgTicket, avgPrice, currency }) => (
 export const TokenIssued = ({ tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
   <div >
     <h3 className="title">
-      <span className="tooltip" data-tip="tool tip data <br /> with new line">Tokens issuance</span>
+      <span className="tooltip" data-tip="This section shows ICO activity over time.<br/> Were most transactions done first day? Were there any spikes? Activity at the end?">Tokens issuance</span>
     </h3>
     <div className="stats">
       <table>
@@ -86,7 +86,7 @@ export const TokenIssued = ({ tokenIssued, tokensOverflow, totalInvestors, total
 export const TokenDistribution = ({ tokenHolders, isVisible, isNotVisibleMessage = '' }) => (
   <div className="relative full-height">
     <h3 className="title">
-      <span className="tooltip" data-tip="Token distribution">Token distribution</span>
+      <span className="tooltip" data-tip="This section shows level of inequality among token holders.<br/>How much tokens 1% of wealthiest investors have?<br/> How much tokens are owned by small investors?">Token distribution</span>
     </h3>
 
     {isVisible &&

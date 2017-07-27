@@ -98,7 +98,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     </div>}
 
     <h3 className="title">
-      <span className="tooltip" data-tip="Funds distribution <br /> tooltip">Funds distribution</span>
+      <span className="tooltip" data-tip="This section shows how different types of investors (with different ticket size) impacted ICO results.<br/>First chart shows which ticket sizes were most popular among investors.<br/>Second chart shows which ticket size generated most funds. Were those few large 1M EUR tickets? Or rather many smaller 10k tickets?">Funds distribution</span>
     </h3>
     <Row className="box-container">
       <Col md={12} sm={12} xs={12} >

@@ -65,6 +65,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
     }
   });
   dispatch(setSmartContractLoaded(true));
+  // dispatch(getLogs(address));
 };
 
 export const getLogs = address => async (dispatch, getState) => {

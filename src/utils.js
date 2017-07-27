@@ -75,6 +75,8 @@ export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
 
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
+export const getValueOrDefault = (value) => value ? value : 'Not Available';
+
 export const trimString = value => value.replace(/ /g, '');
 
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {

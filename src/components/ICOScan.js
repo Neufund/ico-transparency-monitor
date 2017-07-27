@@ -1,46 +1,55 @@
 import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
-import { formatNumber, getValueOrNotAvailable, trimString } from '../utils';
+import { formatNumber, getValueOrDefault, trimString } from '../utils';
 import { ICOScanHeader } from '../components/ICOScanHeader';
 import { connect } from 'react-redux';
 import { default as config } from '../config.js';
 
-const ICOScan = ({ ...props }) => (<div>
-  <ICOScanHeader {...props} />
-  <Row>
-    <div id="loadingProgressG" className={props.isLoading === true ? 'show' : 'hide'}>
-      <div id="loadingProgressG_1" className="loadingProgressG" />
-    </div>
-    {!props.showLoader && props.web3 && <Col md={12}>
-      <Row className="scanbox-details-parameters">
-        <Col md={3} className="part">
-          <p className="title">Declared Cap</p>
-          {props.cap && typeof props.cap === 'object' && getValueOrNotAvailable(props, 'cap').map(item => <strong key={item} className="desc">{item}</strong>)}
-          {props.cap && typeof props.cap === 'string' && <strong className="desc">{getValueOrNotAvailable(props, 'cap')}</strong>}
-        </Col>
-        <Col md={2} className="part">
-          <p className="title">Tokens Supply</p>
-          <strong className="desc">{formatNumber(parseFloat(props.totalSupply))}</strong>
-        </Col>
-        <Col md={2} className="part">
-          <p className="title">Token symbol</p>
-          <strong className="desc">{getValueOrNotAvailable(props, 'symbol')}</strong>
-        </Col>
-        <Col md={3} className="part">
-          <p className="title">Declared Duration</p>
-          <strong className="desc">{getValueOrNotAvailable(props, 'startDate')} <span className="font-light">to</span> {getValueOrNotAvailable(props, 'endDate')} </strong>
-        </Col>
-        <Col md={2} className="part part-status">
-          <div className="right">
-            <p className="title title-status">Status</p>
-            <strong className={`desc ${trimString(getValueOrNotAvailable(props, 'status'))}`}>{getValueOrNotAvailable(props, 'status')}</strong>
-          </div>
-        </Col>
+export const ICOScan = (props) => {
+  const { isLoading, totalSupply, web3, showLoader, symbol , cap, startDate, endDate, status } = props;
+
+  return (<div>
+      <ICOScanHeader {...props} />
+      <Row>
+        <div id="loadingProgressG" className={isLoading === true ? 'show' : 'hide'}>
+          <div id="loadingProgressG_1" className="loadingProgressG"/>
+        </div>
+
+        {!showLoader && web3 && <Col md={12}>
+          <Row className="scanbox-details-parameters">
+            <Col md={3} className="part">
+              <p className="title">Declared Cap</p>
+              {cap && typeof cap === 'object' && getValueOrDefault(cap).map(item => <strong
+                key={item} className="desc">{item}</strong>)}
+              {cap && typeof cap === 'string' &&
+              <strong className="desc">{getValueOrDefault(cap)}</strong>}
+            </Col>
+            <Col md={2} className="part">
+              <p className="title">Tokens Supply</p>
+              <strong className="desc">{formatNumber(parseFloat(totalSupply))}</strong>
+            </Col>
+            <Col md={2} className="part">
+              <p className="title">Token symbol</p>
+              <strong className="desc">{getValueOrDefault(symbol)}</strong>
+            </Col>
+            <Col md={3} className="part">
+              <p className="title">Declared Duration</p>
+              <strong className="desc">{getValueOrDefault(startDate)} <span
+                className="font-light">to</span> {getValueOrDefault(endDate)} </strong>
+            </Col>
+            <Col md={2} className="part part-status">
+              <div className="right">
+                <p className="title title-status">Status</p>
+                <strong
+                  className={`desc ${trimString(getValueOrDefault(status))}`}>{getValueOrDefault(status)}</strong>
+              </div>
+            </Col>
+          </Row>
+        </Col>}
       </Row>
-    </Col>}
-  </Row>
-</div>
-    );
+    </div>
+  )
+}
 
 
 const mapStateToProps = (state, props) => ({

@@ -68,6 +68,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.0.1",
+    "jsx-chai": "^4.0.0",
     "react-hot-loader": "next",
     "react-scripts": "1.0.9",
     "sinon": "^2.4.0",
@@ -77,7 +78,7 @@
     "start": "react-scripts start",
     "serve": "babel-node node_modules/.bin/webpack-dev-server --https --colors --progress --history-api-fallback",
     "build": "babel-node node_modules/.bin/webpack",
-    "test": "NODE_ENV=test babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require node_modules/ignore-styles",
+    "test": "NODE_ENV=test babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require node_modules/ignore-styles --require tests/mochaConfig.js",
     "eslint": "eslint --ignore-path .gitignore .",
     "lint": "yarn eslint"
   }

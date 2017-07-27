@@ -24,7 +24,6 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
   <Row className="statistics box-container">
     <Col md={6} sm={12} xs={12} className="relative">
-      {console.log(parseFloat(props.stats.money.tokenIssued))}
       <SingleBarChart
         title="Tokens over time"
         data={props.stats.charts.tokensCount}

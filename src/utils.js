@@ -191,19 +191,18 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
 
   const ticks = calculateTicks(max);
   let previousTick = 0;
-  let xAxisLength = 0;
+
   for (let i = 0; i < ticks.length; i++) {
     const tick = ticks[i];
     const name = `${kFormatter(previousTick)} - ${kFormatter(tick)}`;
     investorsChartXAxis.push({ name: `${name}`, amount: 0 });
     investmentChartXAxis.push({ name: `${name}`, amount: 0 });
     previousTick = tick;
-    xAxisLength = i;
   }
 
   sortedInvestors.forEach((item) => {
     const money = item.value * currencyPerEther;
-    for (let i = 0; i < xAxisLength; i++) {
+    for (let i = 0; i < ticks.length ; i++) {
       if (money < ticks[i]) {
         investorsChartXAxis[i].amount += 1;
         investmentChartXAxis[i].amount += parseFloat(money.toFixed(2));

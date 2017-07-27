@@ -20,7 +20,7 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
  To be added soon
 
 ### Transparency Questionnaire
-ICO smart contracts are assigned a transparency class via a decision function (@moe point to the code) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:
+ICO smart contracts are assigned a transparency class via a [decision function](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/utils.js#L34) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:
 
 * Breaches in trustless trust, where essential terms are controlled by a person, not a smart contract. A serious breach is for example a contracts that issues tokens from previously pledged ETH by action of an owner (and not in typical 'claim' pattern), less serious are token prices, caps and end dates that can be changed by the owner and not by some market mechanism or smart contract code.
 * ETH/money flow is not going through smart contract but is handled by some backend service (serious breach) or ETH goes directly to some wallet where it is out of control of smart contract even before ICO ends and tokens are issued.
@@ -70,7 +70,7 @@ An ICO is immediately considered *Non-Transparent* if any question that was answ
 
 In some cases a question is considered `notApplicable` for some ICO's where answering this question does not effect the transparency, if a `notApplicable: true` question was given `answer: null` the ICO monitor will discard this question and not count it in the transparency processes.
 
-The decision matrix is represented as (as specified in @moe add link to code):
+The decision matrix is represented as (as specified in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js#L506)):
 
 | |Question | Critical |Not Applicable|
 |-|----------|-----------------|-----------------------|

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexbox-grid';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import { connect } from 'react-redux';
 import { computeICOTransparency, criticalToTransparencyLevel, icoTransparencyMap } from '../utils';
-import { onModalClose, onErrorMessage } from '../actions/ModalAction';
-import { default as config } from '../config.js';
+import { onModalClose } from '../actions/ModalAction';
+import config from '../config';
 
 class ContentTable extends Component {
   constructor({ currentICO }) {
@@ -16,6 +17,7 @@ class ContentTable extends Component {
     };
     this.currentICO = currentICO;
   }
+
   componentWillMount() {
     const result = computeICOTransparency(this.currentICO.matrix);
 
@@ -26,6 +28,7 @@ class ContentTable extends Component {
     });
     console.log(this.currentICO);
   }
+
   getRowClassName(key) {
     return this.state.issuesArray[key] ? `${criticalToTransparencyLevel(config.matrix[key].critical)}-row` : '';
   }
@@ -85,6 +88,23 @@ class ContentTable extends Component {
   }
 }
 
+const ModalContent = ({ message, isError }) => (
+  <div className="modal-content">
+    {isError && <h3>Ups we have a problem</h3>}
+    <ul>
+      {message.map(item => <li key={item}>{item}</li>)}
+    </ul>
+    {isError && <a href="/" >Reload</a>}
+  </div>);
+
+ModalContent.propTypes = {
+  message: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isError: PropTypes.bool.isRequired,
+};
+
+ModalContent.defaultProps = {
+  isError: false,
+};
 const ErrorModal = ({ title, message }) => (<div>
   <div>
     <h3>{title}</h3>
@@ -107,26 +127,45 @@ const MessageModal = ({ type, message }) => (
 class MessageBoxModal extends Component {
   render() {
     const { showModal, onModalClose, messageType, currentICO, message } = this.props;
+
+    if (!showModal) {
+      return null;
+    }
+
     if (messageType === 'SHOW_MODAL_MESSAGE') {
-      return (showModal === true && <ModalContainer onClose={onModalClose}>
-        <ModalDialog onClose={onModalClose}>
-          <MessageModal type={messageType} message={message} />
-        </ModalDialog>
-      </ModalContainer>);
+      return (
+        <ModalContainer onClose={onModalClose}>
+          <ModalDialog onClose={onModalClose}>
+            <ModalContent message={message} />
+          </ModalDialog>
+        </ModalContainer>);
     } else if (messageType === 'SHOW_MODAL_ERROR') {
+      return (
+        <ModalContainer>
+          <ModalDialog>
+            <ModalContent
+              message={[
+                'RPC connection fail',
+                `Trying to connect to rpc node ${config.rpcHost} received an invalid response.`,
+              ]}
+              isError
+            />
+          </ModalDialog>
+        </ModalContainer>);
       return (showModal === true && <ModalContainer onClose={onModalClose}>
         <ModalDialog onClose={onModalClose}>
           <ErrorModal code={503} title="RPC connection fail" message={`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`} />
         </ModalDialog>
       </ModalContainer>);
     }
-
-    return (showModal === true && Object.keys(currentICO).length > 0 && <ModalContainer onClose={onModalClose}>
-
-      <ModalDialog onClose={onModalClose}>
-        <ContentTable currentICO={currentICO} />
-      </ModalDialog>
-    </ModalContainer>);
+    if (Object.keys(currentICO).length > 0) {
+      return (
+        <ModalContainer onClose={onModalClose}>
+          <ModalDialog onClose={onModalClose}>
+            <ContentTable currentICO={currentICO} />
+          </ModalDialog>
+        </ModalContainer>);
+    }
   }
 }
 
@@ -136,11 +175,9 @@ const mapStateToProps = state => ({
   messageType: state.modal.messageType,
   message: state.modal.message,
 });
+
 const mapDispatchToProps = dispatch => ({
   onModalClose: () => dispatch(onModalClose()),
-  onErrorMessage: (message) => {
-    dispatch(onErrorMessage(message));
-  },
 });
 
 export default connect(

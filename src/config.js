@@ -441,6 +441,7 @@ export default {
         },
         status: async icoContract => 'successful', // could return isFueled
       },
+      boostDecoding: true,
       matrix: {
         q1: { answer: true },
         q2: { answer: true },

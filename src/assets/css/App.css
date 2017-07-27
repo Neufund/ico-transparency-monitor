@@ -425,6 +425,10 @@ div.transparency.part button{
   background: none;
   color: #2f89ba;
   font-size: 16px;
+  text-decoration: none;
+}
+.add-new-ico i{
+  margin-right: 5px;
 }
 
 /*Large*/

@@ -17,7 +17,7 @@ export const ICOScanHeader = ({ ...props }) => (
                   <h4><a href={`/#/${props.address}`}> {props.name || props.information.aliasName}</a></h4>
                   <a className="link" rel="noopener noreferrer" target="_blank" href={props.information.website} >{props.information.website}</a>
                   <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${props.address}`} >View ICO contract on etherscan</a>
-                  {props.tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${props.tokenContract}#code`} >View token contract on etherscan</a>}
+                  {props.tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/token/${props.tokenContract}`} >View token contract on etherscan</a>}
                 </div>
               </div>
             </Col>

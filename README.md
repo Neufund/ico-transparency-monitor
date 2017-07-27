@@ -20,11 +20,11 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
  To be added soon
 
 ### Transparency Questionnaire
-ICO smart contracts are assigned a transparency class via a decision function (point to the code) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:
+ICO smart contracts are assigned a transparency class via a decision function (@moe point to the code) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:
 
 * Breaches in trustless trust, where essential terms are controlled by a person, not a smart contract. A serious breach is for example a contracts that issues tokens from previously pledged ETH by action of an owner (and not in typical 'claim' pattern), less serious are token prices, caps and end dates that can be changed by the owner and not by some market mechanism or smart contract code.
 * ETH/money flow is not going through smart contract but is handled by some backend service (serious breach) or ETH goes directly to some wallet where it is out of control of smart contract even before ICO ends and tokens are issued.
-* Smart Contract code is convoluted or it does something different than it looks. Most serious breach is a lack of source code. Less serious breach could be for example a day constant that has 23 hours not 24 ;>
+* Smart Contract code is convoluted or it does something different than it looks. Most serious breach is a lack of source code. Less serious breach could be for example a day computation that uses 23 hours not 24 ;>
 
 Please note again note that we are not evaluation products or business model. A scam (like financial pyramid) can be 100% trustless and transparent from the code point of view.
 
@@ -59,7 +59,7 @@ To help assess ICO issues we answer following set of questions for ICOs we list 
 14. Is ICO end condition specified in contract? (as above)
 
 ### Transparency Decision
-Using the collected data and answered questions an ICO is given one of these states:
+Transparency decision is based on answers to questions above, as a result an ICO is assigned to one of these classes:
 1. Non-transparent
 2. Transparent with issues
 3. Fully transparent
@@ -70,7 +70,7 @@ An ICO is immediately considered *Non-Transparent* if any question that was answ
 
 In some cases a question is considered `notApplicable` for some ICO's where answering this question does not effect the transparency, if a `notApplicable: true` question was given `answer: null` the ICO monitor will discard this question and not count it in the transparency processes.
 
-The decision matrix is represented as:
+The decision matrix is represented as (as specified in @moe add link to code):
 
 | |Question | Critical |Not Applicable|
 |-|----------|-----------------|-----------------------|
@@ -301,11 +301,10 @@ ICOs: {
 
   ```
 
-We'll go thru important config settings only. We start simply by looking for EOS in etherscan and we found ICO smart contract
+We'll go thru important config settings only. We start simply by looking for EOS in etherscan and we find ICO smart contract and from there all accompanying contracts:
 `0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf`: smart contracts main address taken from etherscan
 
 `tokenContract: 0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0` In this case there was a different smart contract dealt with token generation.
-
 
 `events`: The smart-contract should be scanned for events, in this case there were two `LogBuy,LogClaim`.It was apparent that the smart contract first uses `LogBuy` to gather received ether and `LogClaim` to issue tokens.
 
@@ -347,7 +346,7 @@ startDate: async (web3, icoContract) => {
   const timestamp = await toPromise(icoContract.openTime)();
   return convertWeb3Value(timestamp, 'timestamp').formatDate();
 ```
-startDate was taken by converting the `openTime` variable in a smart contract to a date
+startDate was taken by converting the `openTime` timestamp in a smart contract to a date
 
 `endDate:`
 ```

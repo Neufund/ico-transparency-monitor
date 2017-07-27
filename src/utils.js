@@ -77,6 +77,96 @@ export const getValueOrNotAvailable = (props, input) => props && props[input] ? 
 
 export const trimString = value => value.replace(/ /g, '');
 
+function boostedDecoding(icoContract, address, event, eventName, blockRange) {
+  return new Promise((resolve, reject) => {
+    const eventAbi = icoContract.abi.filter(json => json.type === 'event').filter(json => json.name === eventName)[0];
+    const solidityEvent = new SolidityEvent(null, eventAbi, address);
+    const solidityEventEncoded = solidityEvent.encode(event.customArgs || {}, {
+      fromBlock: blockRange[0],
+      toBlock: blockRange[1],
+    });
+    const fastDecodeEvent = fastEventDecoder(solidityEvent);
+
+    jQuery.ajax({
+      type: 'POST',
+      url: config.rpcHost,
+      Accept: 'application/json',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        id: 1497353430507566, // keep this ID to make cache work
+        jsonrpc: '2.0',
+        params: [{
+          fromBlock: solidityEventEncoded.fromBlock,
+          toBlock: solidityEventEncoded.toBlock,
+          address,
+          topics: solidityEventEncoded.topics,
+        }],
+        method: 'eth_getLogsDetails',
+      }),
+      success: (e) => {
+        if (e.error) {
+          console.log(e);
+          reject('SHOW_MODAL_ERROR', `Error when getting logs ${e.error.message}`);
+        } else {
+          const res = e.result;
+          console.log(`formatting ${res.length} log entries`);
+          const logsFormat = res.map(log => fastDecodeEvent(log));
+          console.log('log entries formatted');
+          resolve(logsFormat);
+        }
+      },
+      error: (status) => {
+        reject('SHOW_MODAL_ERROR', `Error ${status}`);
+      },
+      dataType: 'json',
+    });
+  })
+}
+
+function standardDecoding(icoContract, address, event, eventName, blockRange) {
+  return new Promise((resolve, reject) => {
+    const filter = icoContract[eventName](event.customArgs || {}, {
+      fromBlock: blockRange[0],
+      toBlock: blockRange[1],
+    });
+    filter.stopWatching(() => {});
+
+    jQuery.ajax({
+      type: 'POST',
+      url: config.rpcHost,
+      Accept: 'application/json',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        id: 1497353430507566, // keep this ID to make cache work
+        jsonrpc: '2.0',
+        params: [{
+          fromBlock: filter.options.fromBlock,
+          toBlock: filter.options.toBlock,
+          address,
+          topics: filter.options.topics,
+        }],
+        method: 'eth_getLogsDetails',
+      }),
+      success: (e) => {
+        if (e.error) {
+          console.log(e);
+          reject(`Error when getting logs ${e.error.message}`);
+        } else {
+          const res = e.result;
+          console.log(`formatting ${res.length} log entries`);
+          const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
+          console.log('log entries formatted');
+          resolve(logsFormat);
+        }
+      },
+      error: (status) => {
+        reject(`Error ${status}`);
+      },
+      dataType: 'json',
+    });
+  });
+}
+
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   console.log(`Start scanning for block range ${blockRange}`, icoContract.address);
   /* if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
@@ -87,46 +177,13 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   const eventName = blockRange[2];
   const event = icoConfig.events[eventName];
 
-  const eventAbi = icoContract.abi.filter(json => json.type === 'event').filter(json => json.name === eventName)[0];
-  const solidityEvent = new SolidityEvent(null, eventAbi, address);
-  const solidityEventEncoded = solidityEvent.encode(event.customArgs || {}, {
-    fromBlock: blockRange[0],
-    toBlock: blockRange[1],
-  });
-  const fastDecodeEvent = fastEventDecoder(solidityEvent);
 
-  jQuery.ajax({
-    type: 'POST',
-    url: config.rpcHost,
-    Accept: 'application/json',
-    contentType: 'application/json',
-    data: JSON.stringify({
-      id: 1497353430507566, // keep this ID to make cache work
-      jsonrpc: '2.0',
-      params: [{
-        fromBlock: solidityEventEncoded.fromBlock,
-        toBlock: solidityEventEncoded.toBlock,
-        address,
-        topics: solidityEventEncoded.topics,
-      }],
-      method: 'eth_getLogsDetails',
-    }),
-    success: (e) => {
-      if (e.error) {
-        console.log(e);
-        callback('SHOW_MODAL_ERROR', `Error when getting logs ${e.error.message}`);
-      } else {
-        const res = e.result;
-        console.log(`formatting ${res.length} log entries`);
-        const logsFormat = res.map(log => fastDecodeEvent(log));
-        console.log('log entries formatted');
-        callback(null, logsFormat);
-      }
-    },
-    error: (status) => {
-      callback('SHOW_MODAL_ERROR', `Error ${status}`);
-    },
-    dataType: 'json',
+  const logsPromise = icoConfig.boostDecoding? boostedDecoding : standardDecoding;
+
+  logsPromise(icoContract, address, event, eventName, blockRange).then((res) => {
+    callback(null, res);
+  }).catch((err) => {
+    callback('SHOW_MODAL_ERROR', err);
   });
 };
 

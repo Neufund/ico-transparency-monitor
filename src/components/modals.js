@@ -143,13 +143,7 @@ class MessageBoxModal extends Component {
       return (
         <ModalContainer>
           <ModalDialog>
-            <ModalContent
-              message={[
-                'RPC connection fail',
-                `Trying to connect to rpc node ${config.rpcHost} received an invalid response.`,
-              ]}
-              isError
-            />
+            <ModalContent message={message} isError />
           </ModalDialog>
         </ModalContainer>);
       return (showModal === true && <ModalContainer onClose={onModalClose}>
@@ -158,6 +152,7 @@ class MessageBoxModal extends Component {
         </ModalDialog>
       </ModalContainer>);
     }
+
     if (Object.keys(currentICO).length > 0) {
       return (
         <ModalContainer onClose={onModalClose}>
@@ -166,6 +161,8 @@ class MessageBoxModal extends Component {
           </ModalDialog>
         </ModalContainer>);
     }
+
+    return null;
   }
 }
 

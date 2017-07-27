@@ -416,6 +416,10 @@ div[class^="narcissus_"]{
 div.transparency.part button{
   margin-top: 6px;
 }
+div.transparency.part button:hover{
+  background: #a5a8ac;
+  cursor: pointer;
+}
 .add-new-ico{
   position: absolute;
   top:50%;
@@ -430,6 +434,16 @@ div.transparency.part button{
 .add-new-ico i{
   margin-right: 5px;
 }
+
+.footer{
+  text-align: center;
+  padding:20px;
+  border-top: #afba1f 2px solid;
+  margin-top: 40px;
+  background: #424a52;
+  color:#afba1f;
+}
+
 
 /*Large*/
 @media only screen and (min-width: 75em) {

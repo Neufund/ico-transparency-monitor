@@ -54,14 +54,11 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
       <Col md={6} sm={12} xs={12} className="scan-content">
         <TokenDistribution
-          total={props.stats.money.tokenIssued}
-          investors={props.stats.investors}
-          currency={props.currency}
-          isProvidingEtherValue={props.isProvidingEtherValue}
+          giniIndex={props.stats.general.giniIndex}
           tokenHolders={props.stats.charts.tokenHolders}
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is
-          ot handling them in trustless way"
+          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or
+          is not handling them in trustless way"
         />
       </Col>
       <Col md={6} sm={12} xs={12} >

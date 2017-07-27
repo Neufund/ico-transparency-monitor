@@ -1,8 +1,9 @@
 import jQuery from 'jquery';
-import { default as config } from './config.js';
 import axios from 'axios';
+import moment from 'moment';
+import gini from 'gini';
+import config from './config';
 
-const moment = require('moment');
 
 export const deepFreeze = (obj) => {
   if (obj !== null && typeof obj === 'object') {
@@ -128,6 +129,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
 export const initStatistics = () => ({
   general: {
     transactionsCount: 0,
+    giniIndex: null,
   },
   time: {
     startDate: null,
@@ -424,6 +426,13 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
         stats.money.tokenIssued,
         stats.investors.sortedByTicket
     );
+
+  if (stats.money.tokenIssued > 0) {
+    const tokens = Object.keys(stats.investors.senders)
+      .map(investor => stats.investors.senders[investor].tokens);
+    stats.general.giniIndex = gini.unordered(tokens);
+  }
+
   console.log('stats done');
   return [stats, csvContentArray];
 };

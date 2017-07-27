@@ -26,6 +26,8 @@ export const formatNumber = (number, precision = 2) => {
 
 export const icoTransparencyLevel = Object.freeze({ NONTRANSPARENT: 'nontransparent', WITHISSUES: 'withissues', TRANSPARENT: 'transparent' });
 
+export const icoTransparencyMap = { NONTRANSPARENT: 'NON TRANSPARENT', WITHISSUES: 'WITH ISSUES', TRANSPARENT: 'TRANSPARENT' };
+
 export const criticalToTransparencyLevel = critical =>
   critical ? icoTransparencyLevel.NONTRANSPARENT : icoTransparencyLevel.WITHISSUES;
 
@@ -69,10 +71,7 @@ export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
 }
 );
 
-export const getValueOrNotAvailable = (props, input) => {
-  if (props && props[input]) { return props[input]; }
-  return 'Not Available';
-};
+export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
 export const trimString = value => value.replace(/ /g, '');
 
@@ -96,8 +95,6 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
     url: config.rpcHost,
     Accept: 'application/json',
     contentType: 'application/json',
-    // TODO: request data from cache
-    // headers: {'X-Node-Cache': 'long'},
     data: JSON.stringify({
       id: 1497353430507566, // keep this ID to make cache work
       jsonrpc: '2.0',

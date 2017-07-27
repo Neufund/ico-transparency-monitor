@@ -79,7 +79,7 @@ export default {
         q13: { answer: true, comment: 'May be started and re-started whenever Tezos wants' },
         q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim' },
       },
-      addedBy: 'Marcin Rudlfix',
+      addedBy: 'Rudolfix',
     },
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
@@ -97,14 +97,25 @@ export default {
           },
           firstTransactionBlockNumber: 4039777,
           lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
+          maxBlocksInChunk: 12960,
           countTransactions: true,
+        },
+        onCompensated: {
+          args: {
+            tokens: 'amount', // Amount of DNT received. Not really needed to store,
+            sender: 'contributor',
+          },
+          firstTransactionBlockNumber: 4039777,
+          lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
+          maxBlocksInChunk: 12960,
+          countTransactions: false,
         },
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
           const softCapETH = await toPromise(icoContract.softCapAmount)();
           const hardCapETH = await toPromise(icoContract.hardCapAmount)();
-          return `Hard: ${convertWeb3Value(hardCapETH, 'ether')} ETH, Soft: ${convertWeb3Value(softCapETH, 'ether')} ETH`;
+          return [`Hard: ${convertWeb3Value(hardCapETH, 'ether')} ETH`, `Soft: ${convertWeb3Value(softCapETH, 'ether')} ETH`];
         },
         startDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
@@ -140,7 +151,7 @@ export default {
         q13: { answer: true },
         q14: { answer: true },
       },
-      addedBy: 'Marcin Rudlfix',
+      addedBy: 'Rudolfix',
     },
     '0xb56d622DDF60ec532B5f43B4Ff9B0e7b1FF92dB3': {
       information: {
@@ -161,8 +172,8 @@ export default {
       },
       icoParameters: {
         cap: async (web3, icoContract) => 'no max nor min cap',
-        startDate: async (web3, icoContract) => 'NOT AND ICO!',
-        endDate: async (web3, icoContract) => 'NOT AND ICO!',
+        startDate: async (web3, icoContract) => 'NOT AN ICO!',
+        endDate: async (web3, icoContract) => 'NOT AN ICO!',
         status: async (web3, icoContract) => {
           const isRunning = await toPromise(icoContract.accept)();
           // tezos does what they want. may start at any moment in the future
@@ -185,6 +196,7 @@ export default {
         q13: { answer: false, comment: 'May be started and re-started whenever Tezos wants' },
         q14: { answer: false, comment: 'May be stopped and re-started whenever Tezos wants' },
       },
+      addedBy: 'Rudolfix',
     },
     '0x0cEB0D54A7e87Dfa16dDF7656858cF7e29851fD7': {
       tokenContract: '0x960b236A07cf122663c4303350609A66A7B288C0',
@@ -236,6 +248,7 @@ export default {
         q13: { answer: true },
         q14: { answer: true, comment: 'there is a hidden cap that is revealed during ICO. hard to say what was the intention of having two caps was' },
       },
+      addedBy: 'Rudolfix',
     },
     '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c': {
       tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
@@ -289,7 +302,7 @@ export default {
         q13: { answer: true, comment: 'yes, with multiple rounds' },
         q14: { answer: true, comment: 'owner can stop ICO before failSafe' },
       },
-      addedBy: 'Mostafa Balata',
+      addedBy: 'Rudolfix',
     },
     '0xa74476443119a942de498590fe1f2454d7d4ac0d': {
       information: {
@@ -397,6 +410,7 @@ export default {
         q13: { answer: true },
         q14: { answer: true, comment: 'Halting function has no impact as there is no minimum cap' },
       },
+      addedBy: 'Mostafa Balata'
     },
     '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413': {
       information: {
@@ -443,6 +457,7 @@ export default {
         q13: { answer: true },
         q14: { answer: true },
       },
+      addedBy: 'Mostafa Balata'
 
     },
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {
@@ -487,6 +502,7 @@ export default {
         q13: { answer: null },
         q14: { answer: null },
       },
+      addedBy: 'Mostafa Balata',
     },
   },
   rpcHost,
@@ -496,9 +512,9 @@ export default {
     q2: { question: 'Is smart contract source code available?', critical: true, notApplicable: false },
     q3: { question: 'Is smart contract source code provided in etherscan?', critical: false, notApplicable: false },
     q4: {
-      question: 'Is instruction provided how to reproduce deployed bytecode? (does not apply if etherscan source is there)',
-      critical: true,
-      notApplicable: true,
+      question: 'Is instruction provided how to reproduce deployed bytecode?',
+      critical: false,
+      notApplicable: false,
     },
     q5: {
       question: 'Does smart contract provide all tracking data via events?',

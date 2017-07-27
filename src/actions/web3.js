@@ -1,10 +1,10 @@
 import { default as config } from '../config.js';
-import { getICOParameters, isConnected, web3Connect, getSmartContract } from '../utils/web3';
-import { setProperties, errorMessage, resetRpc } from '../actions/ScanAction';
+import { getICOParameters, isConnected, web3Connect, getSmartContract, getAbiAsDictionary, getTokenSmartContract} from '../utils/web3';
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
-import { setCurrency, setStatisticsByCurrency } from '../actions/CurrencyAction';
-import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile } from '../actions/ScanAction';
+import { setCurrency, setStatisticsByCurrency } from './CurrencyAction';
+import { drawStatistics, showStatistics, hideLoader, showLoader,
+  allocateCSVFile, setSmartContractLoaded, setProperties, errorMessage, resetRpc } from './ScanAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
   console.log('Start Web3 connection');
@@ -30,15 +30,30 @@ export const readSmartContract = address => async (dispatch, getState) => {
   const transparencyDecision = computeICOTransparency(answers)[0];
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
+
+  const tokenContract = getTokenSmartContract(web3, address);
+  const abiAsDictionary = getAbiAsDictionary(tokenContract.abi);
+
   const parameters = await getICOParameters(web3, address);
+
   config.ICOs[address].decimals = parameters.decimals || config.ICOs[address].decimals; // set decimals in config from smart contract
   Object.keys(parameters).forEach((par) => {
     const parameter = parameters[par];
     if (parameter === null) return;
     const tempResult = {};
-    if (typeof parameter === 'object' && typeof parameter.then === 'function') {
+    if (abiAsDictionary[par] === 'bytes32') {
+      const asciiValue = web3.toAscii(parameter);
+        // check if it has value
+      tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue.replace(/\00+/g, '') : null;
+
+      dispatch(setProperties(address, tempResult));
+    } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {
       parameter.then(async (value) => {
-        if (typeof value === 'function') { tempResult[par] = await value(web3); } else { tempResult[par] = value; }
+        if (typeof value === 'function') {
+          tempResult[par] = await value(web3);
+        } else {
+          tempResult[par] = value;
+        }
         dispatch(setProperties(address, tempResult));
       });
     } else {
@@ -46,6 +61,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
       dispatch(setProperties(address, tempResult));
     }
   });
+  dispatch(setSmartContractLoaded(true));
 };
 
 export const getLogs = address => async (dispatch, getState) => {
@@ -81,7 +97,7 @@ export const getLogs = address => async (dispatch, getState) => {
       logRequests.push([i, lastTxBlockNumber, eventName]);
     }
   });
-  logRequests.map(item => console.log(item));
+
   const allLogs = {};
   const finalProcessor = () => {
     const statistics = getStatistics(icoConfig, allLogs, initStatistics());

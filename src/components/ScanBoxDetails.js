@@ -10,7 +10,6 @@ import { default as config } from '../config.js';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <Row className="statistics box-container">
-    {console.log('ScanBoxDetails component did mount')}
     <Col md={12} className="scan-content">
       <TimeDetails {...props.stats.time} />
       <TokenIssued

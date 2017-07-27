@@ -3,17 +3,14 @@ import { connect } from 'react-redux';
 import { onModalShow } from '../actions/ModalAction';
 import ICOApp from './ICOApp';
 import ICOScan from './ICOScan';
-import { readSmartContract } from '../reducers/web3';
+import { readSmartContract } from '../actions/web3';
 import { isConnected } from '../utils/web3';
 import { errorMessage, resetRpc } from '../actions/ScanAction';
 
 class ICO extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
-    if (this.props.web3) {
+    if (this.props.web3 && !this.props.isSmartContractLoaded) {
       this.props.readSmartContract(this.props.address);
     }
   }
@@ -30,8 +27,8 @@ class ICO extends Component {
 
 
 const mapStateToProps = state => ({
-  showModal: state.modal.showModal,
   web3: state.modal.web3,
+  isSmartContractLoaded: state.scan.isSmartContractLoaded,
 });
 
 const mapDispatchToProps = (dispatch, state) => ({

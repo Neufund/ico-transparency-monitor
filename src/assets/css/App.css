@@ -141,6 +141,15 @@ body{
   float: right;
 }
 
+.ico-box-container .link{
+  color:#2f89ba !important;
+  font-size:14px;
+  font-weight:300;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 4px;
+}
+
 .ico-box .name{
   /*height: 40px;*/
   color: #4A4A4A;
@@ -337,6 +346,13 @@ body{
 .inprogress{
   color:#FFB600 !important;
 }
+.notyetstarted{
+  color:black !important;
+}
+.failed{
+  color: #FF0000 !important;
+}
+
 .pure-table{
   max-width: 1014px;
   margin-top: 50px;
@@ -400,6 +416,21 @@ div[class^="narcissus_"]{
 div.transparency.part button{
   margin-top: 6px;
 }
+.add-new-ico{
+  position: absolute;
+  top:50%;
+  right:15px;
+  cursor: pointer;
+  border: 0;
+  background: none;
+  color: #2f89ba;
+  font-size: 16px;
+  text-decoration: none;
+}
+.add-new-ico i{
+  margin-right: 5px;
+}
+
 /*Large*/
 @media only screen and (min-width: 75em) {
   .container{

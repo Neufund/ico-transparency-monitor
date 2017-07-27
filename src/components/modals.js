@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import { connect } from 'react-redux';
-import { computeICOTransparency, criticalToTransparencyLevel, icoTransparencyLevel } from '../utils';
+import { computeICOTransparency, criticalToTransparencyLevel, icoTransparencyMap } from '../utils';
 import { onModalClose, onErrorMessage } from '../actions/ModalAction';
 import { default as config } from '../config.js';
 
@@ -45,7 +45,7 @@ class ContentTable extends Component {
             <div className="modal-title-button">
               <button className={`transparency-button ${this.state.decision}-status`}>
                 <p>Transparency</p>
-                <strong>{icoTransparencyLevel[this.state.decision.toUpperCase()]} </strong>
+                <strong>{icoTransparencyMap[this.state.decision.toUpperCase()]} </strong>
                 <span className="arrow">&#8594;</span>
               </button>
             </div>

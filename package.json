@@ -36,8 +36,6 @@
     "react-tap-event-plugin": "^2.0.1",
     "recharts": "^0.20.0",
     "redux": "^3.0.0",
-    "redux-devtools-extension": "^2.13.2",
-    "redux-logger": "^3.0.6",
     "redux-promise-middleware": "4.2.1",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.0",

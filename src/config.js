@@ -13,16 +13,19 @@ export default {
         website: 'https://eos.io/',
       },
       events: {
+        // in this transactions investors send money but claim their tokens later
         LogBuy: {
           args: {
             tokens: null, // tokens not generated here, just ether gathered
             sender: 'user',
+            ether: null // we will take ether from transaction value
           },
           firstTransactionBlockNumber: 3932884,
           lastTransactionBlockNumber: null, // follow last block
           maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
           countTransactions: true,
         },
+        // in this transaction people come and claim their tokens
         LogClaim: {
           args: {
             tokens: 'amount', // tokens are generated when claimed
@@ -31,6 +34,7 @@ export default {
           firstTransactionBlockNumber: 3932884,
           lastTransactionBlockNumber: null, // follow last block
           maxBlocksInChunk: 12960, // scan in 3 days blocks, last one is open
+          countTransactions: false,
         },
       },
       icoParameters: {

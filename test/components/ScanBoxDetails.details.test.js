@@ -70,13 +70,13 @@ describe('<TokenIssued/>', () => {
 
 describe('<TokenDistribution/>', () => {
   it('should render', () => {
-    const component = shallow(<TokenDistribution tokenHolders={[{ name: '1%', amount: 60 }, { name: '3%', amount: 90 }]} isVisible isNotVisibleMessage="this message should be apear if is visible true" />);
+    const component = shallow(<TokenDistribution tokenHolders={[{ name: '1%', amount: 60 }, { name: '3%', amount: 90 }]} isVisible isNotVisibleMessage="this message should be apear if is visible true" giniIndex={0} />);
     expect(component.find('.token-distribution-table').exists()).to.equal(true);
     expect(component.find('.alarm.alarm-middle').exists()).to.equal(false);
   });
 
   it('should not render', () => {
-    const component = shallow(<TokenDistribution tokenHolders={[{ name: '1%', amount: 60 }, { name: '3%', amount: 90 }]} isVisible={false} isNotVisibleMessage="this message should be apear if is visible true" />);
+    const component = shallow(<TokenDistribution tokenHolders={[{ name: '1%', amount: 60 }, { name: '3%', amount: 90 }]} isVisible={false} isNotVisibleMessage="this message should be apear if is visible true" giniIndex={0} />);
     expect(component.find('.token-distribution-table').exists()).to.equal(false);
     expect(component.find('.alarm.alarm-middle').exists()).to.equal(true);
   });

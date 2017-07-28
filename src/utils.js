@@ -1,6 +1,5 @@
-import jQuery from 'jquery';
-import testJQuery from './utils/jQueryMock';
 import { default as config } from './config.js';
+import jquery from './utils/jQueryModule';
 import axios from 'axios';
 
 const moment = require('moment');
@@ -91,9 +90,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   });
   filter.stopWatching(() => {});
 
-  const $ = process.env.NODE_ENV === 'test' ? testJQuery.jQuery : jQuery;
-
-  return $.ajax({
+  return jquery.ajax({
     type: 'POST',
     url: config.rpcHost,
     Accept: 'application/json',

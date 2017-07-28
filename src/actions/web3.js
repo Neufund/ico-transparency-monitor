@@ -23,12 +23,8 @@ export const web3Connection = () => async (dispatch, getState) => {
 export const readSmartContract = address => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
   console.log(`Reading Smart contract , RPC connection ${web3 ? 'Connected' : 'Disconnected'}`);
-  if (!web3) {
-    return;
-  }
+  if (!web3) { return }
   let configFile = config.ICOs;
-  if (process.env.NODE_ENV === 'test') { configFile = testConfig.ICOs; }
-
 
   const answers = configFile[address].matrix;
   const transparencyDecision = computeICOTransparency(answers)[0];
@@ -65,12 +61,10 @@ export const readSmartContract = address => async (dispatch, getState) => {
     }
   });
   dispatch(setSmartContractLoaded(true));
-  // dispatch(getLogs(address));
 };
 
 export const getLogs = address => async (dispatch, getState) => {
   dispatch(showLoader());
-  console.log(showLoader());
   const web3 = getState().modal.web3;
   const blockNumber = getState().blocks.number;
 
@@ -112,9 +106,9 @@ export const getLogs = address => async (dispatch, getState) => {
     const statistics = getStatistics(icoConfig, allLogs, initStatistics());
     // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
     dispatch(drawStatistics(statistics[0]));
-    console.log(drawStatistics(statistics[0]));
+
     dispatch(allocateCSVFile(statistics[1]));
-    console.log(allocateCSVFile(statistics[1]));
+
 
     setCurrency('EUR', new Date(), (error, currencyResult) => {
       if (error) {
@@ -138,7 +132,7 @@ export const getLogs = address => async (dispatch, getState) => {
     getICOLogs(range, icoConfig, icoContract, async (error, logs) => {
       if (error) {
         dispatch(hideLoader());
-        console.log(hideLoader());
+
         dispatch({ type: error });
       } else {
         // store logs, for each event separately

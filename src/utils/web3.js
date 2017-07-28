@@ -98,8 +98,6 @@ export const getTokenSmartContract = (web3, address) => {
 
 export const getICOParameters = async (web3, address) => {
   let configFile = config.ICOs;
-  if (process.env.NODE_ENV === 'test') { configFile = testConfig.ICOs; }
-
   // tokenContract may be different that ICO contract that governs ICO process
   const tokenContract = getTokenSmartContract(web3, address);
   // read standard ERC20 parameters

@@ -1,4 +1,4 @@
-import { assert, expect, should } from 'chai';
+import { expect, should } from 'chai';
 import { getSmartContract, getAbiAsDictionary, getICOParameters } from '../../src/utils/web3';
 import stateProvider from '../helpers/web3Mock';
 
@@ -8,12 +8,12 @@ describe('getSmartContract', () => {
 
   it('should create new web3 instance', () => {
     const smartConstract = getSmartContract(web3, address);
-    assert.deepEqual(smartConstract, { abi: [] });
+    expect(smartConstract).to.deep.include({ abi: [] });
   });
 
   it('should return null because web3 is missing', () => {
     const smartConstract = getSmartContract(null, address);
-    assert.deepEqual(smartConstract, null);
+    expect(smartConstract).to.equal(null);
   });
 });
 
@@ -24,7 +24,7 @@ describe('getAbiAsDictionary', () => {
   it('should convert abi array to an object', () => {
     const smartConstract = getSmartContract(web3, address);
     const abiObject = getAbiAsDictionary(smartConstract.abi);
-    assert.deepEqual(abiObject, {});
+    expect(abiObject).to.deep.equal({});
   });
 });
 
@@ -34,7 +34,7 @@ describe('getICOParameters', () => {
 
   it('should convert abi array to an object', async () => {
     const res = await getICOParameters(web3, address);
-    assert.deepEqual(res, { name: null,
+    expect(res).to.deep.equal({ name: null,
       totalSupply: 0,
       symbol: null,
       decimals: 18,

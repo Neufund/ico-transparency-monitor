@@ -6,32 +6,24 @@ import { shallow } from 'enzyme';
 describe('<TimeDetails/>', () => {
   it('should render', () => {
     const component = shallow(<TimeDetails
-      startDate={new Date(1488510183 * 1000)}
-      endDate={new Date(1488510183 * 1000)}
+      startDate={new Date(2017, 3, 3, 4, 3, 3)}
+      endDate={new Date(2017, 3, 3, 4, 3, 3)}
       duration={0}
     />);
 
     expect(component.find('.stats')).to.contain(
       (
         <tr>
-          <th>
-            First transaction date
-          </th>
-          <td>
-            2017-03-03 04:03:03
-          </td>
+          <th>First transaction date</th>
+          <td>2017-04-03 04:03:03</td>
         </tr>
       )
     );
     expect(component.find('.stats')).to.contain(
       (
         <tr>
-          <th>
-            Last transaction date
-          </th>
-          <td>
-            2017-03-03 04:03:03
-          </td>
+          <th>Last transaction date</th>
+          <td>2017-04-03 04:03:03</td>
         </tr>
       )
     );

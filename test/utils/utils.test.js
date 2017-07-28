@@ -2,6 +2,8 @@ import { expect } from 'chai';
 import { getSmartContract } from '../../src/utils/web3';
 import { getICODuration, formatDuration } from '../../src/utils';
 import getLogsDetails from '../helpers/LogsMock';
+import axios from 'axios'
+import AxiosMock from 'axios-mock-adapter';
 
 import {
   computeICOTransparency,
@@ -24,11 +26,18 @@ describe('Decision Matrix', () => {
 });
 
 describe('getEtherRate', () => {
-  it('Should return the currency by time', () => getEtherRate('ETH-EUR', new Date('2016-11-03')).then((result) => {
-    expect(parseInt(result.data.data.amount)).to.equal(9);
-  }).catch((error) => {
-    expect(error).to.equal(null);
-  }));
+  it('Should return the currency by time', async () => {
+    const axiosMock = new AxiosMock(axios);
+    axiosMock.onGet('https://api.coinbase.com/v2/prices/ETH-EUR/spot?date=2016-11-03T00:00:00.000Z').reply(200, {
+      data: {
+        amount: 9,
+      },
+    });
+
+    const result = await getEtherRate('ETH-EUR', new Date('2016-11-03'));
+
+    expect(result.data.data.amount).to.equal(9);
+  });
 });
 
 describe('getICOs', () => {

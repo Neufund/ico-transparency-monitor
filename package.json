@@ -49,6 +49,7 @@
     "webpack": "^3.3.0"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.9.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.0.0",
@@ -80,7 +81,7 @@
     "start": "react-scripts start",
     "serve": "babel-node node_modules/.bin/webpack-dev-server --https --colors --progress --history-api-fallback",
     "build": "babel-node node_modules/.bin/webpack",
-    "test": "NODE_ENV=test babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require node_modules/ignore-styles --require tests/mochaConfig.js",
+    "test": "NODE_ENV=test babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require ignore-styles --require test/mochaConfig.js ./test/**/*.test.js",
     "eslint": "eslint --ignore-path .gitignore .",
     "lint": "yarn eslint"
   }

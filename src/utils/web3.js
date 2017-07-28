@@ -20,7 +20,7 @@ const engineWithProviders = (providers) => {
 
 // TODO: Find another solution
 export const isConnected = () => {
-  if (process.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     return true;
   }
   const web3 = new Web3();

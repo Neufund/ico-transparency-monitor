@@ -1,9 +1,10 @@
 import { toPromise, formatNumber } from './utils';
 import { convertWeb3Value, convertBlockNumberToDate } from './utils/web3';
+import testConfig from './config.test';
 
 const rpcHost = require('./env.json').rpcHost;
 
-export default {
+let config = {
   ICOs: {
     '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf': {
       tokenContract: '0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0',
@@ -560,3 +561,7 @@ export default {
     },
   },
 };
+
+if (process.env.NODE_ENV === 'test') { config = testConfig; }
+
+export default config;

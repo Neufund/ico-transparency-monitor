@@ -97,10 +97,9 @@ const MessageModal = ({ type, message }) => (
       </ul>
     </div>
   </div>
-    );
+);
 
 class MessageBoxModal extends Component {
-
   render() {
     const { showModal, onModalClose, messageType, currentICO, message } = this.props;
     if (messageType === 'SHOW_MODAL_MESSAGE') {
@@ -114,7 +113,7 @@ class MessageBoxModal extends Component {
         <ModalDialog onClose={onModalClose}>
           <ErrorModal code={503} title="RPC connection fail" message={`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`} />
         </ModalDialog>
-        </ModalContainer>);
+      </ModalContainer>);
     }
 
     return (showModal === true && Object.keys(currentICO).length > 0 && <ModalContainer onClose={onModalClose}>
@@ -140,6 +139,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(MessageBoxModal);

@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { web3Connection } from '../actions/web3';
 
 class RPCProvider extends Component {
-
-
   componentWillMount() {
     this.props.rpcConnection();
   }

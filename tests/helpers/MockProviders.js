@@ -12,7 +12,7 @@ const wrapReducer = next => (...args) => deepFreeze(next(...args));
 export const store = createStore(wrapReducer(reducer));
 export const { getState } = store;
 export const dispatch = actions =>
-    Array.isArray(actions) ? actions.forEach(action => store.dispatch(action)) : dispatch([actions]);
+  Array.isArray(actions) ? actions.forEach(action => store.dispatch(action)) : dispatch([actions]);
 
 export const MockProviders = ({ children }) => (
   <Provider store={store}>

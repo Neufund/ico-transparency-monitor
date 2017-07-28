@@ -203,7 +203,7 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
 
   sortedInvestors.forEach((item) => {
     const money = item.value * currencyPerEther;
-    for (let i = 0; i < ticks.length ; i++) {
+    for (let i = 0; i < ticks.length; i++) {
       if (money < ticks[i]) {
         investorsChartXAxis[i].amount += 1;
         investmentChartXAxis[i].amount += parseFloat(money.toFixed(2));
@@ -424,9 +424,9 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   stats.investors.sortedByETH = sortedSenders[1];
 
   stats.charts.tokenHolders = tokenHoldersPercentage(
-        stats.money.tokenIssued,
-        stats.investors.sortedByTicket
-    );
+    stats.money.tokenIssued,
+    stats.investors.sortedByTicket
+  );
 
   if (stats.money.tokenIssued > 0) {
     const tokens = Object.keys(stats.investors.senders)

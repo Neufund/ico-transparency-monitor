@@ -40,7 +40,9 @@ class Scan extends Component {
               </Col>
               <Col md={6} sm={6} xs={6}>
                 <div className="next-list">
-                  <a className="pointer-cursor hide-xs" onClick={() => {
+                  <a
+                    className="pointer-cursor hide-xs"
+                    onClick={() => {
                       getNextICO(this.props.address);
                     }}
                   > Go to the next</a>

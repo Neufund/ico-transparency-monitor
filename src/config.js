@@ -19,7 +19,7 @@ let config = {
           args: {
             tokens: null, // tokens not generated here, just ether gathered
             sender: 'user',
-            ether: null // we will take ether from transaction value
+            ether: null, // we will take ether from transaction value
           },
           firstTransactionBlockNumber: 3932884,
           lastTransactionBlockNumber: null, // follow last block
@@ -411,7 +411,7 @@ let config = {
         q13: { answer: true },
         q14: { answer: true, comment: 'Halting function has no impact as there is no minimum cap' },
       },
-      addedBy: 'Mostafa Balata'
+      addedBy: 'Mostafa Balata',
     },
     '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413': {
       information: {
@@ -458,7 +458,7 @@ let config = {
         q13: { answer: true },
         q14: { answer: true },
       },
-      addedBy: 'Mostafa Balata'
+      addedBy: 'Mostafa Balata',
 
     },
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {

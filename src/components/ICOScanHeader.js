@@ -23,27 +23,27 @@ export const ICOScanHeader = (props) => {
                   </div>
                 </div>
 
-            </Col>
-          </Row>
-        </Col>
+              </Col>
+            </Row>
+          </Col>
 
-        <Col md={6} sm={12} xs={12}>
-          <Row>
-            <Col lg={5} md={1} sm={1} xs={1} />
-            <Col lg={7} md={11} sm={11} xs={11} className="part transparency">
-              {props.addedBy && <p className="title added-by-person">Added by <b>{addedBy}</b></p>}
-              <button
-                className={`transparency-button ${decision ? decision.replace(/\s+/g, '-').toLowerCase() : ''}-status`}
-                onClick={() => {
-                  onModalShow(props);
-                }}
-              >
-                <p>Transparency</p>
-                <strong>{decision ? icoTransparencyMap[decision.toUpperCase()] : ''} </strong>
-                <span className="arrow">&#8594;</span>
-              </button>
-            </Col>
-          </Row>
+          <Col md={6} sm={12} xs={12}>
+            <Row>
+              <Col lg={5} md={1} sm={1} xs={1} />
+              <Col lg={7} md={11} sm={11} xs={11} className="part transparency">
+                {props.addedBy && <p className="title added-by-person">Added by <b>{addedBy}</b></p>}
+                <button
+                  className={`transparency-button ${decision ? decision.replace(/\s+/g, '-').toLowerCase() : ''}-status`}
+                  onClick={() => {
+                    onModalShow(props);
+                  }}
+                >
+                  <p>Transparency</p>
+                  <strong>{decision ? icoTransparencyMap[decision.toUpperCase()] : ''} </strong>
+                  <span className="arrow">&#8594;</span>
+                </button>
+              </Col>
+            </Row>
 
           </Col>
         </Row>

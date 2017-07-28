@@ -17,9 +17,8 @@ import stateProvider from '../helpers/web3Mock';
 
 describe('Decision Matrix', () => {
   it('Should take ico decision matrix and return and array', () => {
-
     expect(computeICOTransparency(config.ICOs['0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf'].matrix)).to.deep.equal(
-      [ 'withissues', { q10: true, q14: true } ]
+      ['withissues', { q10: true, q14: true }]
     );
   });
 });

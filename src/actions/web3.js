@@ -22,8 +22,8 @@ export const web3Connection = () => async (dispatch, getState) => {
 export const readSmartContract = address => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
   console.log(`Reading Smart contract , RPC connection ${web3 ? 'Connected' : 'Disconnected'}`);
-  if (!web3) { return }
-  let configFile = config.ICOs;
+  if (!web3) { return; }
+  const configFile = config.ICOs;
 
   const answers = configFile[address].matrix;
   const transparencyDecision = computeICOTransparency(answers)[0];
@@ -42,7 +42,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
     const tempResult = {};
     if (abiAsDictionary[par] === 'bytes32') {
       const asciiValue = web3.toAscii(parameter);
-        // check if it has value
+      // check if it has value
       tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue.replace(/\00+/g, '') : null;
       dispatch(setProperties(address, tempResult));
     } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {

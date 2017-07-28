@@ -300,7 +300,7 @@ body{
 .arrow-btn-left{
   margin-left: -53px;
 }
-.nav-buttons  .next-list  a ,.nav-buttons  .back-list  a {
+a, .nav-buttons  .next-list  a ,.nav-buttons  .back-list  a {
   text-decoration: none;
   color: #09719B;
   font-size: 18px;
@@ -415,6 +415,38 @@ div[class^="narcissus_"]{
 
 div.transparency.part button{
   margin-top: 6px;
+}
+
+div.transparency.part button:hover{
+  background: #a5a8ac;
+  cursor: pointer;
+}
+.add-new-ico{
+  position: absolute;
+  top:50%;
+  right:15px;
+  cursor: pointer;
+  border: 0;
+  background: none;
+  color: #2f89ba;
+  font-size: 16px;
+  text-decoration: none;
+}
+.add-new-ico i{
+  margin-right: 5px;
+}
+
+.footer{
+  text-align: center;
+  padding:20px;
+  border-top: #afba1f 2px solid;
+  margin-top: 40px;
+  background: #424a52;
+  color:#afba1f;
+}
+
+.ico-paragraph{
+  max-width: 500px;
 }
 
 /*Large*/

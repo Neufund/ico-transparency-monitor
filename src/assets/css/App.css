@@ -416,6 +416,7 @@ div[class^="narcissus_"]{
 div.transparency.part button{
   margin-top: 6px;
 }
+
 div.transparency.part button:hover{
   background: #a5a8ac;
   cursor: pointer;
@@ -453,6 +454,21 @@ div.transparency.part button:hover{
   .container{
     width: 65rem !important;
   }
+  .add-new-ico{
+    position: absolute;
+    top:50%;
+    right:15px;
+    cursor: pointer;
+    border: 0;
+    background: none;
+    color: #2f89ba;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  .add-new-ico i{
+    margin-right: 5px;
+  }
+
 }
 
 @media(max-width:767px) {
@@ -544,13 +560,47 @@ div.transparency.part button:hover{
   .name{
     padding-bottom: 20px;
   }
-  .ico-scan-header .name{
-    height: auto !important;
-  }
 }
 
 /* All of them */
 @media screen and (max-device-width : 1024px){
+  .scanbox-details-parameters{
+    padding:20px;
+  }
+  .scanbox-details{
+    padding: 20px !important;
+  }
+
+  .ico-scan-header .name{
+    height: auto !important;
+  }
+  .hide-md {
+    display: none !important;
+  }
+  .chart-parent{
+    margin-top: 20px !important;
+  }
+  .title.added-by-person{
+    text-align: left;
+  }
+  .add-new-ico{
+    cursor: pointer;
+    border: 0;
+    background: none;
+    color: #2f89ba;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  .add-new-ico i{
+    margin-right: 5px;
+  }
+  .header-paragraph h6{
+    margin-top: 0;
+    margin-bottom: 20px !important;
+  }
+  .part{
+    margin-bottom: 20px;
+  }
   .part.transparency{
     padding-right: 20px;
     padding-bottom: 20px;

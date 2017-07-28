@@ -1,5 +1,6 @@
 import Web3 from 'web3';
-import { default as config } from '../config.js';
+import config from '../config.js';
+import testConfig from '../config.test.js';
 import { toPromise } from '../utils';
 import { setBlock } from '../actions/ScanAction';
 
@@ -19,25 +20,28 @@ const engineWithProviders = (providers) => {
 
 // TODO: Find another solution
 export const isConnected = () => {
+  if (process.NODE_ENV === 'test') {
+    return true;
+  }
   const web3 = new Web3();
   web3.setProvider(new web3.providers.HttpProvider(config.rpcHost));
   return web3.isConnected();
 };
 
 export const createEngine = rpcUrl =>
-    engineWithProviders([
-      new FixtureSubprovider({
-        web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
-        net_listening: true,
-        eth_hashrate: '0x00',
-        eth_mining: false,
-        eth_syncing: true,
-      }),
-      // new CacheSubprovider(),
-      // new FilterSubprovider(),
-      new NonceSubprovider(),
-      new RpcSubprovider({ rpcUrl }),
-    ]);
+  engineWithProviders([
+    new FixtureSubprovider({
+      web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
+      net_listening: true,
+      eth_hashrate: '0x00',
+      eth_mining: false,
+      eth_syncing: true,
+    }),
+    // new CacheSubprovider(),
+    // new FilterSubprovider(),
+    new NonceSubprovider(),
+    new RpcSubprovider({ rpcUrl }),
+  ]);
 
 
 export const web3Connect = () => async (dispatch, getState) => {
@@ -53,6 +57,7 @@ export const web3Connect = () => async (dispatch, getState) => {
       dispatch(setBlock(block));
     }
   });
+
   dispatch({ type: 'SET_WEB3_CONNECTION', web3 });
 };
 
@@ -92,18 +97,18 @@ export const getTokenSmartContract = (web3, address) => {
 
 
 export const getICOParameters = async (web3, address) => {
+  const configFile = config.ICOs;
   // tokenContract may be different that ICO contract that governs ICO process
   const tokenContract = getTokenSmartContract(web3, address);
   // read standard ERC20 parameters
   const result = await getERC20Parameters(tokenContract);
 
-  const tokenContractAddress = config.ICOs[address].tokenContract || address;
+  const tokenContractAddress = configFile[address].tokenContract || address;
   const icoContract = tokenContractAddress === address ? tokenContract : getSmartContract(web3, address);
-  const icoParameters = config.ICOs[address].icoParameters;
+  const icoParameters = configFile[address].icoParameters;
   Object.keys(icoParameters).forEach((prop) => {
     if (icoParameters[prop] !== null) { result[prop] = icoParameters[prop](web3, icoContract); }
   });
-
   return result;
 };
 

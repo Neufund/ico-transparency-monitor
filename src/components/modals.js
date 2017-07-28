@@ -43,7 +43,8 @@ class ContentTable extends Component {
               <h3> {this.currentICO.name || this.currentICO.information.aliasName}</h3>
               <p className="ico-paragraph">
                 These criteria are chosen based on the concept of trustless-trust. You can read more about it &nbsp;
-                <a href="https://docs.google.com/spreadsheets/d/1nHnl1vvDRQ5wsVXrGbkMAvfyw1D9LfWoP1q4fa0Ld7U/edit#gid=0" target="_blank">here</a>&nbsp;If you want to submit new criteria please do it via github&nbsp;<a href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor" target="_black">here</a>.
+                <a href="https://docs.google.com/spreadsheets/d/1nHnl1vvDRQ5wsVXrGbkMAvfyw1D9LfWoP1q4fa0Ld7U/edit#gid=0" target="_blank">here</a>
+                &nbsp;If you want to submit new criteria please do it via github&nbsp;<a href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor" target="_black">here</a>.
               </p>
             </div>
             <div className="modal-title-button">
@@ -101,10 +102,9 @@ const MessageModal = ({ type, message }) => (
       </ul>
     </div>
   </div>
-    );
+);
 
 class MessageBoxModal extends Component {
-
   render() {
     const { showModal, onModalClose, messageType, currentICO, message } = this.props;
     if (messageType === 'SHOW_MODAL_MESSAGE') {
@@ -118,7 +118,7 @@ class MessageBoxModal extends Component {
         <ModalDialog onClose={onModalClose}>
           <ErrorModal code={503} title="RPC connection fail" message={`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`} />
         </ModalDialog>
-        </ModalContainer>);
+      </ModalContainer>);
     }
 
     return (showModal === true && Object.keys(currentICO).length > 0 && <ModalContainer onClose={onModalClose}>
@@ -144,6 +144,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(MessageBoxModal);

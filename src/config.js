@@ -1,9 +1,10 @@
 import { toPromise, formatNumber } from './utils';
 import { convertWeb3Value, convertBlockNumberToDate } from './utils/web3';
+import testConfig from './config.test';
 
 const rpcHost = require('./env.json').rpcHost;
 
-export default {
+let config = {
   ICOs: {
     '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf': {
       tokenContract: '0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0',
@@ -18,7 +19,7 @@ export default {
           args: {
             tokens: null, // tokens not generated here, just ether gathered
             sender: 'user',
-            ether: null // we will take ether from transaction value
+            ether: null, // we will take ether from transaction value
           },
           firstTransactionBlockNumber: 3932884,
           lastTransactionBlockNumber: null, // follow last block
@@ -410,7 +411,7 @@ export default {
         q13: { answer: true },
         q14: { answer: true, comment: 'Halting function has no impact as there is no minimum cap' },
       },
-      addedBy: 'Mostafa Balata'
+      addedBy: 'Mostafa Balata',
     },
     '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413': {
       information: {
@@ -457,7 +458,7 @@ export default {
         q13: { answer: true },
         q14: { answer: true },
       },
-      addedBy: 'Mostafa Balata'
+      addedBy: 'Mostafa Balata',
 
     },
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {
@@ -560,3 +561,7 @@ export default {
     },
   },
 };
+
+if (process.env.NODE_ENV === 'test') { config = testConfig; }
+
+export default config;

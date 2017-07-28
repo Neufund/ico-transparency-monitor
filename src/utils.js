@@ -1,8 +1,9 @@
-import jQuery from 'jquery';
-import { default as config } from './config.js';
+import jquery from './utils/jQuery';
 import axios from 'axios';
+import moment from 'moment';
+import gini from 'gini';
+import config from './config';
 
-const moment = require('moment');
 
 export const deepFreeze = (obj) => {
   if (obj !== null && typeof obj === 'object') {
@@ -14,9 +15,9 @@ export const deepFreeze = (obj) => {
 };
 
 export const toPromise = func => (...args) =>
-    new Promise((resolve, reject) =>
-        func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
-    );
+  new Promise((resolve, reject) =>
+    func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
+  );
 
 export const formatNumber = (number, precision = 2) => {
   if (isNaN(number) || typeof number === 'undefined') { return 'Not Available'; }
@@ -40,7 +41,7 @@ export const computeICOTransparency = (answers) => {
       const answer = answers[key];
       const definition = config.matrix[key];
       // return lists of transparent-with-issues and non-transparent a answers
-      if (answer.answer == false || answer.answer === null && !definition.notApplicable) {
+      if (answer.answer === false || answer.answer === null && !definition.notApplicable) {
         foundIssues[key] = true;
         hasCritical = hasCritical || definition.critical;
       }
@@ -73,24 +74,23 @@ export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
 
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
+export const getValueOrDefault = value => value || 'Not Available';
+
 export const trimString = value => value.replace(/ /g, '');
 
 export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
   console.log(`Start scanning for block range ${blockRange}`, icoContract.address);
-  /* if (typeof localStorage !== 'undefined' && localStorage.getItem(address)) {
-    console.log(`${address} cached already.`);
-    return callback(null, JSON.parse(localStorage.getItem(address)));
-  }*/
   const address = icoContract.address;
   const eventName = blockRange[2];
   const event = icoConfig.events[eventName];
+
   const filter = icoContract[eventName](event.customArgs || {}, {
     fromBlock: blockRange[0],
     toBlock: blockRange[1],
   });
   filter.stopWatching(() => {});
 
-  jQuery.ajax({
+  return jquery.ajax({
     type: 'POST',
     url: config.rpcHost,
     Accept: 'application/json',
@@ -128,6 +128,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
 export const initStatistics = () => ({
   general: {
     transactionsCount: 0,
+    giniIndex: null,
   },
   time: {
     startDate: null,
@@ -166,12 +167,12 @@ const calculateTicks = (max) => {
 
 export const kFormatter = (num) => {
   const ranges = [
-        { divider: 1e18, suffix: 'P' },
-        { divider: 1e15, suffix: 'E' },
-        { divider: 1e12, suffix: 'T' },
-        { divider: 1e9, suffix: 'G' },
-        { divider: 1e6, suffix: 'M' },
-        { divider: 1e3, suffix: 'k' },
+    { divider: 1e18, suffix: 'P' },
+    { divider: 1e15, suffix: 'E' },
+    { divider: 1e12, suffix: 'T' },
+    { divider: 1e9, suffix: 'G' },
+    { divider: 1e6, suffix: 'M' },
+    { divider: 1e3, suffix: 'k' },
   ];
 
   for (let i = 0; i < ranges.length; i++) {
@@ -202,7 +203,7 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
 
   sortedInvestors.forEach((item) => {
     const money = item.value * currencyPerEther;
-    for (let i = 0; i < ticks.length ; i++) {
+    for (let i = 0; i < ticks.length; i++) {
       if (money < ticks[i]) {
         investorsChartXAxis[i].amount += 1;
         investmentChartXAxis[i].amount += parseFloat(money.toFixed(2));
@@ -214,7 +215,7 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
   return [investorsChartXAxis, investmentChartXAxis];
 };
 
-const formatDuration = duration => `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
+export const formatDuration = duration => `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
             ${duration.get('months') > 0 ? `${duration.get('months')} Months` : ''}
             ${duration.get('days') > 0 ? `${duration.get('days')} Days` : ''}
 
@@ -282,7 +283,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
   });
 
   const csvData = new Blob([csvContent], { type: 'application/csv;charset=utf-8;' });
-    // FOR OTHER BROWSERS
+  // FOR OTHER BROWSERS
   const link = document.createElement('a');
   link.href = URL.createObjectURL(csvData);
   link.style = 'visibility:hidden';
@@ -312,13 +313,15 @@ export const getNextICO = (address) => {
   window.location.reload();
 };
 
+export const getICODuration = (endTime, startTime) => moment.duration(moment(endTime).diff(moment(startTime)));
+
 // allLogs contains dictionary {event_name: logs_array} where each logs_array is sorted by timestamp (by ETH node)
 export const getStatistics = (icoConfig, allLogs, stats) => {
   console.log('stats started');
   const csvContentArray = [];
 
   // get event that defines investor transaction and extract timestamps that will scale the time charts
-  console.log(allLogs);
+  // console.log(allLogs);
   const transactionLogs = allLogs[Object.keys(allLogs).filter(name => icoConfig.events[name].countTransactions)[0]];
   const startTimestamp = transactionLogs[0].timestamp;
   const endTimestamp = transactionLogs[transactionLogs.length - 1].timestamp;
@@ -326,7 +329,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   stats.time.startDate = startTime;
   const endTime = new Date(endTimestamp * 1000);
   stats.time.endDate = endTime;
-  const icoDuration = moment.duration(moment(endTime).diff(moment(startTime)));
+  const icoDuration = getICODuration(endTime, startTime);
   stats.time.durationDays = icoDuration.get('days');
   stats.time.duration = formatDuration(icoDuration);
 
@@ -415,15 +418,21 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
     name: key,
     amount: key in chartTransactionsCountTemp ? parseFloat(chartTransactionsCountTemp[key].toFixed(2)) : 0,
   }));
-  console.log(stats.charts);
+
   const sortedSenders = sortInvestorsByTicket(senders);
   stats.investors.sortedByTicket = sortedSenders[0];
   stats.investors.sortedByETH = sortedSenders[1];
 
   stats.charts.tokenHolders = tokenHoldersPercentage(
-        stats.money.tokenIssued,
-        stats.investors.sortedByTicket
-    );
-  console.log('stats done');
+    stats.money.tokenIssued,
+    stats.investors.sortedByTicket
+  );
+
+  if (stats.money.tokenIssued > 0) {
+    const tokens = Object.keys(stats.investors.senders)
+      .map(investor => stats.investors.senders[investor].tokens);
+    stats.general.giniIndex = gini.unordered(tokens);
+  }
+
   return [stats, csvContentArray];
 };

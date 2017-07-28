@@ -55,7 +55,7 @@ describe('<ICOScan/>', () => {
     initProps.showLoader = false;
     const rendered = render(initProps);
     expect(rendered.find('.scanbox-details-parameters')).to.contain((
-      <Col md={3} className="part">
+      <Col lg={3} md={12} sm={12} xs={12} className="part">
         <p className="title">
           Declared Cap
         </p>
@@ -83,7 +83,7 @@ describe('<ICOScan/>', () => {
     initProps.cap = null;
     const rendered = render(initProps);
     expect(rendered.find('.scanbox-details-parameters')).to.contain((
-      <Col md={3} className="part">
+      <Col lg={3} md={12} sm={12} xs={12} className="part">
         <p className="title">
           Declared Cap
         </p>
@@ -96,7 +96,7 @@ describe('<ICOScan/>', () => {
     initProps.symbol = null;
     const rendered = render(initProps);
     expect(rendered.find('.scanbox-details-parameters')).to.contain((
-      <Col md={2} className="part">
+      <Col lg={2} md={12} sm={12} xs={12} className="part">
         <p className="title">
           Token symbol
         </p>

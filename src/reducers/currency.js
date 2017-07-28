@@ -1,6 +1,5 @@
 export const currency = (state = { currency: 'EUR', value: null, time: new Date() }, action) => {
   switch (action.type) {
-
     case 'SET_CURRENCY':
       console.log(`Currency ${action.currency} dispatched by ${action.value}`);
       return { ...state,

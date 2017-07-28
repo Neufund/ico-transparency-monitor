@@ -37,7 +37,9 @@
     "react-tap-event-plugin": "^2.0.1",
     "react-tooltip": "^3.3.0",
     "recharts": "^0.20.0",
-    "redux": "^3.0.0",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6",
     "redux-promise-middleware": "4.2.1",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.0",
@@ -67,15 +69,18 @@
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^7.0.1",
     "react-hot-loader": "next",
-    "react-scripts": "1.0.9"
+    "react-scripts": "1.0.9",
+    "sinon": "^2.4.0",
+    "sinon-chai": "^2.12.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "serve": "babel-node node_modules/.bin/webpack-dev-server --https --colors --progress --history-api-fallback",
     "build": "babel-node node_modules/.bin/webpack",
-    "test": "babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require node_modules/ignore-styles",
+    "test": "NODE_ENV=test babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require node_modules/ignore-styles --require tests/mochaConfig.js",
     "eslint": "eslint --ignore-path .gitignore .",
     "lint": "yarn eslint"
   }

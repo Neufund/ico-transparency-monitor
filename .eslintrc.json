@@ -4,7 +4,11 @@
     "node": true,
     "mocha": true
   },
+  "plugins": [
+    "mocha"
+  ],
   "rules": {
+    "mocha/no-exclusive-tests": "error",
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
       "objects": "always-multiline",

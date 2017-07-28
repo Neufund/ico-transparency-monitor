@@ -6,7 +6,7 @@ import ScanBoxDetails from '../components/ScanBoxDetails';
 import { default as config } from '../config.js';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { getLogs ,readSmartContract } from '../actions/web3';
+import { getLogs, readSmartContract } from '../actions/web3';
 import { getNextICO } from '../utils';
 
 class Scan extends Component {
@@ -40,8 +40,7 @@ class Scan extends Component {
               </Col>
               <Col md={6} sm={6} xs={6}>
                 <div className="next-list">
-                  <a
-                    className="pointer-cursor hide-xs" onClick={() => {
+                  <a className="pointer-cursor hide-xs" onClick={() => {
                       getNextICO(this.props.address);
                     }}
                   > Go to the next</a>
@@ -49,7 +48,8 @@ class Scan extends Component {
                   <button
                     onClick={() => {
                       getNextICO(this.props.address);
-                    }} className="arrow-btn arrow-btn-right"
+                    }}
+                    className="arrow-btn arrow-btn-right"
                   ><span className="arrow">&#8594;</span></button>
                 </div>
               </Col>

@@ -59,13 +59,13 @@ class CurrencyButton extends Component {
                   (<li key={item}><a
                     className={this.state.exchangeRateActiveClass === item ? 'active' : ''}
                     onClick={
-                              () => {
-                                this.onCurrencyHandle(null, item);
-                              }
-                            }
+                      () => {
+                        this.onCurrencyHandle(null, item);
+                      }
+                    }
                   >
                     {CurrencyButton.mapButtonKeysToText(item)}</a></li>)
-                  )
+                )
                 }
               </ul>
             </div>
@@ -99,9 +99,8 @@ const mapDispatchToProps = (dispatch, props) => ({
     })),
 });
 
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(CurrencyButton);
 

@@ -1,5 +1,5 @@
 import { default as config } from './config.js';
-import jquery from './utils/jQueryModule';
+import jquery from './utils/jQuery';
 import axios from 'axios';
 
 const moment = require('moment');

@@ -1,4 +1,4 @@
-import { assert, expect, should } from 'chai';
+import { expect } from 'chai';
 import { getSmartContract } from '../../src/utils/web3';
 import { getICODuration, formatDuration } from '../../src/utils';
 import getLogsDetails from '../helpers/LogsMock';
@@ -69,13 +69,12 @@ describe('getStatistics', () => {
   const statistics = getStatistics(icoConfig, logs, initStatistics());
 
   it('Should return array of two objects [stats , csvContent]', () => {
-    const stats = statistics[0];
-    assert.equal(statistics.length, 2);
+    expect(statistics.length).to.equal(2);
   });
 
   it('Should return 1 as count of transactions', () => {
     const stats = statistics[0];
-    assert.equal(stats.general.transactionsCount, 1);
+    expect(stats.general.transactionsCount).to.equal(1);
   });
 
   it('Should return an object of time', () => {
@@ -90,12 +89,12 @@ describe('getStatistics', () => {
       durationDays: 21,
       duration: formatDuration(getICODuration(expectedEndDate, expectedStartDate)),
     };
-    assert.deepEqual(stats.time, expectedTimeObject);
+    expect(stats.time).to.deep.equal(expectedTimeObject);
   });
 
   it('Should return 6 investors', () => {
     const stats = statistics[0];
-    assert.equal(Object.keys(stats.investors.senders).length, 3);
+    expect(Object.keys(stats.investors.senders).length).to.equal(3);
   });
   it('Should has sortedByTicket object', () => {
     const stats = statistics[0];
@@ -104,7 +103,7 @@ describe('getStatistics', () => {
       { investor: '0x0000000000000000000000000000002', value: 0 },
       { investor: '0x0000000000000000000000000000003', value: 0 }];
 
-    assert.deepEqual(stats.investors.sortedByTicket, expectedObject);
+    expect(stats.investors.sortedByTicket).to.deep.equal(expectedObject);
   });
 
   it('Should has sortedByETH object', () => {
@@ -113,30 +112,23 @@ describe('getStatistics', () => {
       { investor: '0x0000000000000000000000000000002', value: 0.48 },
       { investor: '0x0000000000000000000000000000003', value: 0.48 }];
 
-    assert.deepEqual(stats.investors.sortedByETH, expectedObject);
+    expect(stats.investors.sortedByETH).to.deep.equal(expectedObject);
   });
 
   it('Should has money object as the data', () => {
     const stats = statistics[0];
-    assert.deepEqual(stats.money, { tokenIssued: 0, totalETH: 1.44 });
+    expect(stats.money).to.deep.equal({ tokenIssued: 0, totalETH: 1.44 });
   });
 
   it('Should has charts data filled', () => {
     const stats = statistics[0];
-    assert.equal(stats.charts.transactionsCount.length, 34690);
-    assert.equal(stats.charts.tokensCount.length, 34690);
-    assert.equal(stats.charts.tokenHolders.length, 11);
+    expect(stats.charts.transactionsCount.length).equal(34690);
+    expect(stats.charts.tokensCount.length).to.equal(34690);
+    expect(stats.charts.tokenHolders.length).to.equal(11);
   });
 
   it('Should has csv content as array', () => {
     const csvContent = statistics[1];
-    const expectedCSVArray = [['0x0000000000000000000000000000001', 0, 0.24, 1498598604],
-      ['0x0000000000000000000000000000002', 0, 0.24, 2997197208],
-      ['0x0000000000000000000000000000003', 0, 0.24, 4495795812],
-      ['0x0000000000000000000000000000001', 0, 0.24, 1498598604],
-      ['0x0000000000000000000000000000002', 0, 0.24, 2997197208],
-      ['0x0000000000000000000000000000003', 0, 0.24, 4495795812]];
-
-    assert.deepEqual(csvContent, expectedCSVArray);
+    expect(csvContent).to.be.an('Array');
   });
 });

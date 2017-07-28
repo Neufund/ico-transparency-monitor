@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { formatNumber } from '../utils';
 
 export const TimeDetails = ({ startDate, endDate, duration }) => (
@@ -47,9 +48,11 @@ export const RaisedAmount = ({ total, avgTicket, avgPrice, currency }) => (
   </div>
 );
 
-export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
+export const TokenIssued = ({ tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
   <div >
-    <h3 className="title">Tokens issuance</h3>
+    <h3 className="title">
+      <span className="tooltip" data-tip="This section shows ICO activity over time.<br/> Were most transactions done first day? Were there any spikes? Activity at the end?">Tokens issuance</span>
+    </h3>
     <div className="stats">
       <table>
         <tbody>
@@ -68,7 +71,10 @@ export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInv
           {
             tokensOverflow !== 0 &&
             <tr>
-              <th>Number of tokens created outside of ICO <br /><i>*those tokens are not part of results below*</i></th>
+              <th>
+                Number of tokens created outside of ICO<br />
+                <i>*those tokens are not part of results below*</i>
+              </th>
               <td>{formatNumber(tokensOverflow)}</td>
             </tr>
           }
@@ -78,28 +84,62 @@ export const TokenIssued = ({ totalSupply, tokenIssued, tokensOverflow, totalInv
   </div>
 );
 
-export const TokenDistribution = ({ tokenHolders, isVisible, isNotVisibleMessage = '' }) => (
+export const TokenDistribution = ({ tokenHolders, isVisible, isNotVisibleMessage, giniIndex }) => (
   <div className="relative full-height">
-    <h3 className="title">Token distribution</h3>
-
-    {isVisible && <div className="token-distribution-table"> <table className="table table-responsive">
-      <thead>
-        <tr>
-          <th>Top Wealthiest Investors</th>
-          <th>Share of Tokens Owned</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          tokenHolders.map((item) => {
-            const key = item.name;
-            return (<tr key={key}>
-              <td key={`${key}_${key}`}>{key}</td>
-              <td>{item.amount.toFixed(2)}%</td>
-            </tr>);
-          })
-        }
-      </tbody>
-    </table></div>}
-    {!isVisible && <div className="alarm alarm-middle"><p>{isNotVisibleMessage}</p></div>}
+    <h3 className="title">
+      <span
+        className="tooltip"
+        data-tip="This section shows level of inequality among token holders.<br/>How much tokens
+         1% of wealthiest investors have?<br/> How much tokens are owned by small investors?"
+      >
+        Token distribution
+      </span>
+    </h3>
+    {giniIndex &&
+    <div className="stats">
+      <table>
+        <tbody>
+          <tr>
+            <th>Gini index</th>
+            <td>{giniIndex.toFixed(4)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    }
+    {isVisible ?
+      <div className="token-distribution-table"><table className="table table-responsive">
+        <thead>
+          <tr>
+            <th>Top Wealthiest Investors</th>
+            <th>Share of Tokens Owned</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            tokenHolders.map((item) => {
+              const key = item.name;
+              return (<tr key={key}>
+                <td key={`${key}_${key}`}>{key}</td>
+                <td>{item.amount.toFixed(2)}%</td>
+              </tr>);
+            })
+          }
+        </tbody>
+      </table></div>
+      :
+      <div className="alarm alarm-middle"><p>{isNotVisibleMessage}</p></div>
+    }
   </div>);
+
+TokenDistribution.propTypes = {
+  tokenHolders: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  isNotVisibleMessage: PropTypes.string.isRequired,
+  giniIndex: PropTypes.number.isRequired,
+};
+
+TokenDistribution.defaultProps = {
+  isNotVisibleMessage: '',
+};
+

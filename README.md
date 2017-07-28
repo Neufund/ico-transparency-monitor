@@ -19,54 +19,75 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
  ### Parity Node
  To be added soon
 
-### Questions
-ICO smart contracts are assigned a class, based on a decision matrix by manually answering these questions:
+### Transparency Questionnaire
+ICO smart contracts are assigned a transparency class via a [decision function](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/utils.js#L34) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:
 
-1. Is ICO controlled by a smart contract? (some ICOs are entirely performed in the backend and smart contract is created post factum. Example ICONOMI)
+* Breaches in trustless trust, where essential terms are controlled by a person, not a smart contract. A serious breach is for example a contracts that issues tokens from previously pledged ETH by action of an owner (and not in typical 'claim' pattern), less serious are token prices, caps and end dates that can be changed by the owner and not by some market mechanism or smart contract code.
+* ETH/money flow is not going through smart contract but is handled by some backend service (serious breach) or ETH goes directly to some wallet where it is out of control of smart contract even before ICO ends and tokens are issued.
+* Smart Contract code is convoluted or it does something different than it looks. Most serious breach is a lack of source code. Less serious breach could be for example a day computation that uses 23 hours not 24 ;>
 
-2. Is smart contract source code available? (license type ie. if this is open source or not does not matter)
+Please note again note that we are not evaluation products or business model. A scam (like financial pyramid) can be 100% trustless and transparent from the code point of view.
 
-3. Is smart contract source code provided in etherscan?
+To help assess ICO issues we answer following set of questions for ICOs we list here:
 
-4. Is instruction provided how to reproduce deployed byte-code? (does not apply if etherscan source is there)
+1. Is ICO controlled by a smart contract? (some ICOs are entirely performed on the backend or smart contract and filled by data post factum.)
+
+2. Is smart contract source code available? (even if there is a smart contract we need its source code, pretty obvious)
+
+3. Is smart contract source code provided in etherscan? (it is very handy but not required)
+
+4. Is instruction provided how to reproduce deployed byte-code? (we trust etherscan but other byte code verification methods are also fine!)
 
 5. Does smart contract provide all tracking data via events? (if it is easy to read accounts, tokens, and token price from events)
 
 6. Is information on token price in ETH provided? (via event or in transaction?)
 
-7. Does smart contract handle ETH in a trustless way? Is ETH really sent to ICO smart contract in a transaction or we need to trust some backend on it. Please note that there can be ICO without ether at all (like Neufund ICO)
+7. Does smart contract handle ETH in a trustless way? Is ETH really sent to ICO smart contract in a transaction or we need to trust some backend on it?
 
-8. If ICO is using other currencies is information on token price provided?
+8. If ICO is using other currencies is information on token price provided? (future ICOs may use tokens or tokenized fiat currencies as base currency for the ICO)
 
-9. Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies? (it is like our EUR Token)
+9. Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies? (like Melonport's EURO Token)
 
 10. Was smart contract code easy to read and properly commented?
-11. Does the ICO doing exactly the same what they say on their website?
 
-### Classes
-Using the collected data and answered questions an ICO is given one of these states:
+11. Are token holder rights protected in trustless way? (see paragraph on breaches of trustless trust above)
+
+12. Is price of the token deterministic? (is price or mechanism controlling the price specified in smart contract or owner can change it as s/he wants?)
+
+13. Is ICO start condition specified in contract? (as above)
+
+14. Is ICO end condition specified in contract? (as above)
+
+### Transparency Decision
+Transparency decision is based on answers to questions above, as a result an ICO is assigned to one of these classes:
 1. Non-transparent
 2. Transparent with issues
 3. Fully transparent
 
-### Decision Matrix
-Based on the Decision Matrix An ICO is assigned a class. An ICO is considered Non-transparent when N "No" is given to all the questions asked for example.
+Each question has two properties `critical` and `notApplicable`, based on the type of question and how much it effects the transparency processes of the ICO.
 
-The decision matrix is represented as:
+An ICO is immediately considered *Non-Transparent* if any question that was answered false `answer: false` and was considered critical `critical: true`. However, if the question was considered non critical `critical: false` and had `answer: false` the ICO is considered *Transparent with issues* instead.
 
-| |Question | Non-Transparent |Transparent with issues|Fully Transparent|Comment|
-|-|----------|-----------------|-----------------------|-----------------|-------|
-|1|Is ICO controlled by a smart contract?|N|Y|Y||
-|2|Is smart contract source code available?|N|Y|Y||
-|3|Is smart contract source code provided in etherscan?|N|Y or N| Y|
-|4|Is instruction provided how to reproduce deployed bytecode?|N|Y|Y|Source code in ether scan counts as Y|
-|5|Does smart contract provide all tracking data via events?|N|Y|Y|We need information on accounts and number of tokens created. If those are sent by a backend answer is N|
-|6|Is information on token price in ETH provided?|N| Y or N/A| Y or N/A|Information on token price must be provided in an event or in transaction. For non-ETH ICOs we skip this question|
-|7|Does smart contract handle ETH in a trustless way?|N| Y or N or N/A| Y |ETH price must be a part of transaction.See comments above|
-|8|If ICO is using other currencies is information on token price provided?|N|Y or N/A| Y|If ICO is handling other currencies natively then token price should be provided (or equivalent information like rate to ICOs base currency)|
-|9|Does smart contract handle other currencies in a trustless way?|N| Y or N or N/A| Y or N or N/A|Does some smart contract store balance of those currencies?
-|10|Was smart contract code easy to read and properly commented?|N|Y or N|Y or N||
-|11|Is the ICO doing exactly the same what they say on their website ?|N|Y|Y|This is a post factum question, to be added during or after ICO|
+In some cases a question is considered `notApplicable` for some ICO's where answering this question does not effect the transparency, if a `notApplicable: true` question was given `answer: null` the ICO monitor will discard this question and not count it in the transparency processes.
+
+The decision matrix is represented as (as specified in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js#L506)):
+
+| |Question | Critical |Not Applicable|
+|-|----------|-----------------|-----------------------|
+|1|Is ICO controlled by a smart contract?|false|false|
+|2|Is smart contract source code available?|true|false|
+|3|Is smart contract source code provided in etherscan?|false|false|
+|4|Is instruction provided how to reproduce deployed bytecode?|true| true|
+|5|Does smart contract provide all tracking data via events?|false|false|
+|6|Is information on token price in ETH provided?|true|true|
+|7|Does smart contract handle ETH in a trustless way?|false|true|
+|8|If ICO is using other currencies is information on token price provided?|true|true|
+|9|Does smart contract handle other currencies in a trustless way?|false|true|
+|10|Was smart contract code easy to read and properly commented?|false|false|
+|11|Is the ICO doing exactly the same what they say on their website ?|true|false|
+|12|Is price of the token deterministic?|false| false |
+|13|Is ICO start condition specified in contract?| false| false |
+|14|Is ICO end condition specified in contract?| false | false |
 
 ## Adding custom ICOs to the Transparency-Monitor
 The ICO-monitor collects information from the blockchain public-ledger using a set of predefined
@@ -83,10 +104,10 @@ To add your own ICO you would have to:
 3. Any official addition to the ICO-Monitor should be done in the form of a Pull Request. This PR will be checked for accuracy
   and then merged to the ICO-Monitor which can be accessed through our running node.
 
-  ### Config.js
-  Config.js holds the configuration data for ICOs currently available. Every ICO should has a set of parameters in order for the ICO monitor to processes the data correctly.
+### Config.js
+Config.js holds the configuration data for ICOs currently available. Every ICO should have a set of parameters in order for the ICO monitor to processes the data correctly.
 
-  A general form of an ICO configration can be presented as:
+A general form of an ICO configuration can be presented as:
 
 ```
     '#ADDRES-OF-CONTRACT': {
@@ -96,19 +117,22 @@ To add your own ICO you would have to:
         website: "WEBSITE-OF-ICO",
         logo: 'ICO-LOGO'
       },
-      event: {
+      events: {
         NameofEvent: {
         args: {
           tokens: 'TOKEN-VARIABLE',
           sender: 'INVESTOR-VARIABLE',
+          ether: 'EHTER-VALUE'
         },
-        name: 'ICO-EVENT-NAME',
         customArgs: {
-          _from: 'FROM-ADDRESS'
+          CUSTOM-ARGS
         },
         firstTransactionBlockNumber: FIRST-BLOCK
         lastTransactionBlockNumber: LAST-BLOCK
+        maxBlocksInChunk: BLOCK-SIZE
+        countTransactions: TRUE or FALSE
         },
+        {}
       },
       icoParameters: {
         cap: {
@@ -140,102 +164,237 @@ To add your own ICO you would have to:
         q13: { answer: true, comment: '' },
         q14: { answer: true, comment: '' },
       }
+      addedBy:
     }
 ```
   `ADDRESS-OF-CONTRACT` : Ethereum address that points to the main ICO smart contract
 
   `tokenContract` (Optional) : In some cases a dedicated token smart contract is responsible for token issuing and release.
 
-  `aliasName`: Name of the ICO or its alias
+  `aliasName`: Name of the ICO, will be overwritten by `name` from ERC20 token interface
 
   `website`: Link that points to the ICO website
 
-  `logo`: Link that points to the ICO logo
-  `event`: An array of events generated by the ICO, under this section we specify ICO events
-  `NameofEvent`: Name of Generated event
+  `logo`: Link that points to the ICO logo image
 
-  `Args`: Arguments of generated event
+  `events`: An dictionary of events generated by the ICO, under this section we specify events that we will acquire from Ethereum logs
 
-  `tokens`: Name of Variable that represents a token in some cases `Amount, Transfer, _amount` This can be taken from the smart contract source code or [etherscan](https://etherscan.io/)
+  `NameofEvent`: Name of event in ICO contract ABI
 
-  `sender`: Variable name that holds the address of the receiver of tokens or the investor
+  `Args`: Arguments of interest in generated event
 
-  `name`: Name of event generated by the smart-contract and logged in the etherium blockchain sometimes `Transfer, TokensBought, CreatedToken`. *Note:Without the correct event flag it is impossible to track token issue events*
+  `tokens`: Name of argument that represents amount of created tokens; in some cases `Amount, Transfer, _amount`. Skip if there is no information on tokens in event.
 
-  `_from`: In some cases smart-contracts include From addresses that are generated in the public blockchain blockchain, if that was case for your smart contract you will have to include it here
+  'ether': Name of argument that represents amount of ether for which tokens were acquired. If skipped we'll take ether value from transaction that created this event.
 
-  `firstTransactionBlockNumber`(Optional): Starting block number of the ICO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified ICO-Monitor will scan it automatically
+  `sender`: Variable name that holds the address of the receiver of tokens and or sender of ether.
 
-  `lastTransactionBlockNumber`(Optional): Final Block of the ICO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified ICO-Monitor will scan it automatically
+  `customArgs`: Additional filter for the events as passed to eth_getLogs. Typical use case is `Transfer` event of ERC20 Token where token generation is marked by having '_from' set to 0x0. See `Golem` ICO for a reference.
 
-  `icoParameters`: ICO Monitor uses four main parameters to analyze an ICO `cap, startDate, endDate, states`. Every parameter should be returned after conducting the needed requests and calculations from the smart-contract.
-  This must be written manually for every ICO due to the lack of standards. Every smart-contract handles generating a these parameters differently
+  `firstTransactionBlockNumber`(Optional): Starting block number of the ICO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified ICO-Monitor will scan for events from genesis block. (when submitting ICO please use as close range as possible)
 
-  `cap` Capsize of an ICO
+  `lastTransactionBlockNumber`(Optional): Final Block of the ICO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified ICO-Monitor will scan until current block. `latest` is a valid value here. (when submitting ICO please use as close range as possible))
 
-  `startDate` Start date of an ICO
+  `maxBlocksInChunk` (Optional): Used in case of large or ongoing ICO. We will download data from Parity in chunks with specified size. This is required for caching as Parity is currently serializing all request and wait times under heavy load will be long.
 
-  `endDate` End date of an ICO
+  `countTransactions`: At least one event in dictionary should be marked as true. This will tell Monitor to count those events as Transactions in graphs. Typically those should be events that are associated with sender/investor sending ether to smart contract.
 
-  `states` Current states of smart contract
+  `icoParameters`: This section should be written manually using JavaScript code that connects with the smart contract and return the needed variables.
 
-  `Matrix` Answers for the [decision matrix](https://github.com/Neufund/ico-transparency-monitor#decision-matrix) where `True = Y , False = N , null = N/A`, all questions should be in the form
-  `q'n': { answer: true, comment: '' }, ` where `n` is the questions number
+  The ICO-Monitor uses four main parameters:
 
+  1. `cap` Capsize of an ICO
+
+  2. `startDate` Start date of an ICO
+
+  3. `endDate` End date of an ICO
+
+  4. `status` Current status of smart contract, this can be returned as a string enum and must be one of these values  `in progress`, `successful`, `not provided`.
+
+  `Matrix` Answers for the [decision matrix](https://github.com/Neufund/ico-transparency-monitor#decision-matrix). The ICO monitor scans this matrix for answers and produces a final conclusion based on the answers. For each specific question in the dicision matrix an answer should be either:
+
+  1. `true`: if the answer to the specific qustion is **Yes**
+  2. `false`: if the answer to the specific qustion is **No**
+  3. `null` if the answer was **Not Applicable** and couldn't be answered
+
+  `addedBy` Name of the person that added this ICO. This will be displayed on the ICO monitor next to this ICO
 ### Examples
- For examples on how to add manual ICO, look at the already available contracts in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
+Best way to learn how to add new ICO is to look at existing examples. Let's take EOS ICO
+```
+ICOs: {
+    '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf': {
+      tokenContract: '0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0',
+      information: {
+        aliasName: 'EOS',
+        logo: 'https://d340lr3764rrcr.cloudfront.net/Images/favicon.ico',
+        website: 'https://eos.io/',
+      },
+      events: {
+        // in this transactions investors send money but claim their tokens later
+        LogBuy: {
+          args: {
+            tokens: null, // tokens not generated here, just ether gathered
+            sender: 'user',
+            ether: null // we will take ether from transaction value
+          },
+          firstTransactionBlockNumber: 3932884,
+          lastTransactionBlockNumber: null, // follow last block
+          maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
+          countTransactions: true,
+        },
+        // in this transaction people come and claim their tokens
+        LogClaim: {
+          args: {
+            tokens: 'amount', // tokens are generated when claimed
+            sender: 'user',
+          },
+          firstTransactionBlockNumber: 3932884,
+          lastTransactionBlockNumber: null, // follow last block
+          maxBlocksInChunk: 12960, // scan in 3 days blocks, last one is open
+          countTransactions: false,
+        },
+      },
+      icoParameters: {
+        cap: async (web3, icoContract) => {
+          const totEOS = convertWeb3Value(await toPromise(icoContract.totalSupply)(), 'ether');
+          const foundersEOS = convertWeb3Value(await toPromise(icoContract.foundersAllocation)().valueOf(), 'ether');
+          return `Max ${formatNumber(totEOS - foundersEOS)} EOS, no ETH cap!`;
+        },
+        startDate: async (web3, icoContract) => {
+          const timestamp = await toPromise(icoContract.openTime)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
+        },
+        endDate: async (web3, icoContract) => {
+          const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf());
+          // (timestamp - startTime) / 23 hours + 1 -> EOS day has 23 hour days :P
+          // enddate = (numberofdays - 1) * 23h + startdate
+          const endTs = (await toPromise(icoContract.numberOfDays)().valueOf() - 1) * 23 * 60 * 60 + timestamp;
+          return (new Date(endTs * 1000)).formatDate();
+        },
+        status: async (web3, icoContract) => {
+          // mind EOS 23h days
+          // assert(time() >= openTime && today() <= numberOfDays);
+          const today = await toPromise(icoContract.today)().valueOf();
+          const noDays = await toPromise(icoContract.numberOfDays)().valueOf();
+          console.log(`${today} ${noDays}`);
+          return today <= noDays ? 'in progress' : 'successful';
+        },
+      },
+      matrix: {
+        q1: { answer: true },
+        q2: { answer: true },
+        q3: { answer: true },
+        q4: { answer: true },
+        q5: { answer: true },
+        q6: { answer: true },
+        q7: { answer: true, comment: 'Mind that owners can take ETH whenever thay want - nothing is locked! In principle this allows to manipulate daily EOS price' },
+        q8: { answer: null },
+        q9: { answer: null },
+        q10: { answer: false, comment: 'Code is short but full of tricks: for example EOS day has 23 hours, claimAll method will soon throw out of gas (it is a gas eater!), one day after ICO ends claims are blocked etc.' },
+        q11: { answer: true, comment: 'Contract is designed to be an ETH sucking mechanism without any shame, but as it is done transparently and in a trustless way, we say Yes here. code is law ;>' },
+        q12: { answer: true, comment: 'Price set due to demand each day, mind to claim your tokens!' },
+        q13: { answer: true, comment: 'May be started and re-started whenever Tezos wants' },
+        q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim' },
+      },
+      addedBy: 'Rudolfix',
+    },
+
+  ```
+
+We'll go thru important config settings only. We start simply by looking for EOS in etherscan and we find ICO smart contract and from there all accompanying contracts:
+`0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf`: smart contracts main address taken from etherscan
+
+`tokenContract: 0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0` In this case there was a different smart contract dealt with token generation.
+
+`events`: The smart-contract should be scanned for events, in this case there were two `LogBuy,LogClaim`.It was apparent that the smart contract first uses `LogBuy` to gather received ether and `LogClaim` to issue tokens.
+
+`LogBuy`: First event that gathers tokens
+
+`tokens: null`: Null was given, since this was not a token issuing event
+
+`sender: 'user'`: In this event `user` was the name of variable that indicates the sender address
+
+`firstTransactionBlockNumber: 3932884`: we started with 0 value and then we took first block from Chrome console (Monitor will log block ranges)
+
+ `lastTransactionBlockNumber: null`: This was set null for the ICO monitor to scan till the last block as this is ICO in progress
+
+`maxBlocksInChunk: 12960`: We download in chunks as EOS is an ICO with hundred of thousands of log entries to analyze
+
+`countTransactions: true`: This indicates ether sending transaction
+
+
+`LogClaim`: Second event that issue tokens after investors buy them
+
+`tokens: amount`: In this event `amount` was the name of variable that indicates amount of tokens
+
+`sender: 'user'`: In this event `user` was the name of variable that indicates the sender address
+
+
+`cap:`
+```
+cap: async (web3, icoContract) => {
+  const totEOS = convertWeb3Value(await toPromise(icoContract.totalSupply)(), 'ether');
+  const foundersEOS = convertWeb3Value(await toPromise(icoContract.foundersAllocation)().valueOf(), 'ether');
+  return 'Max ${formatNumber(totEOS - foundersEOS)} EOS, no ETH cap!';
+},
+```
+Analyzing smart contract source code, we quickly discovered that there is no ETH cap, but there is predefined number of tokens sold. All tokens were created at start (`totalSupply`) and some were transfered to founders `foundersAllocation`, rest is being sold
+
+`startDate:`
+```
+startDate: async (web3, icoContract) => {
+  const timestamp = await toPromise(icoContract.openTime)();
+  return convertWeb3Value(timestamp, 'timestamp').formatDate();
+```
+startDate was taken by converting the `openTime` timestamp in a smart contract to a date
+
+`endDate:`
+```
+const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf());
+// (timestamp - startTime) / 23 hours + 1 -> EOS day has 23 hour days :P
+// enddate = (numberofdays - 1) * 23h + startdate
+const endTs = (await toPromise(icoContract.numberOfDays)().valueOf() - 1) * 23 * 60 * 60 + timestamp;
+return (new Date(endTs * 1000)).formatDate();
+```
+This is really tricky, there is time limit in BuyWithLimit method and we had to painfully reverse engineer how it is computed and we ported it to javascript... mind the 23h day EOS is using ;>
+
+`status`
+```
+status: async (web3, icoContract) => {
+  // mind EOS 23h days
+  // assert(time() >= openTime && today() <= numberOfDays);
+  const today = await toPromise(icoContract.today)().valueOf();
+  const noDays = await toPromise(icoContract.numberOfDays)().valueOf();
+  console.log(`${today} ${noDays}`);
+  return today <= noDays ? 'in progress' : 'successful';
+},
+```
+ICO is simply in progress before it's end day. We are using smart contract methods directly to compute those days and then did comparison in javascript. Cool, no?
+
+For examples on how to add manual ICO, look at the already available contracts in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
 
 #### Note
 Not all smart contracts provide the needed information, some use different smart-contracts to generate tokens, some have an obscure processes, some have no source code, and some only used a smart-contract after the end of
 an ICO
 
+
 ## Getting started
+Clone project into local directory
 
-### Setting up your development environment
-
-I recommend and Ubuntu machine with Chrome and Atom. You can use whatever you want.
-
-Install [Chrome][chrome] and the extensions [React Developer Tools][react-ext] and [Redux DecTools][redux-ext].
-
-[chrome]: https://www.google.com/chrome/browser/features.html?brand=CHBD&gclid=CO2x8Ibw5NMCFYoQ0wodulgAlQ&dclid=CO7Tmofw5NMCFUakUQodVc8BvA
-[react-ext]: https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en
-[redux-ext]: https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en
-
-#### Atom
-Install [Atom][atom] and run the command bellow to install a bunch of packages. Afterwards, configure the eslint plugin to ‘fix on save’.
-
+Edit
 ```
-apm install editorconfig file-icons language-diff language-ini language-markdown linter linter-eslint linter-solidity linter-sass-lint linter-write-good minimap minimap-git-diff minimap-highlight-selected
+"rpcHost": "http://localhost:8545"
 ```
-
-[atom]: https://atom.io/
-
-#### Webstorm
-Enable editorconfig plugin - [JetBrains manual](https://www.jetbrains.com/help/webstorm/2017.1/configuring-code-style.html#editorconfig)
-Enable ESLint plugin - [JetBrains manual](https://www.jetbrains.com/help/webstorm/2017.1/eslint.html)
-Note that at this time (WebStorm 2017.1.3) you cannot set formatting rules to use one's from ```.eslintrc.json```
-([issue](https://youtrack.jetbrains.com/issue/WEB-19350)). So you cannot use "Reformat Code" function but you can use plugin
-integration. If you see ESLint error you can hit "alt-enter" and choose "ESLint: fix current file". Another option would be to manually edit IDE's javascript codestyle settings.
-
+in `env.json` to our running parity node
+```
+"rpcHost": "https://neufund.net/nodes/mainnet/:8545"
+```
 ### Getting up and running
-
-Open the project folder in Atom. Then in a terminal, download all the dependencies:
-
+Install Dependencies
 ```
 yarn
 ```
-
-
-#### Possible `node-sass` issues
-
-For some node / npm versions there is slight problem with `node-sass`. You need to recompile it for your node version after issuing `yarn`.
+Run Server
 ```
-npm rebuild node-sass
-```
-
-For now we are using [create-react-app](https://github.com/facebookincubator/create-react-app) to run project:
-
-```
-yarn start
-
+yarn run serve
 ```

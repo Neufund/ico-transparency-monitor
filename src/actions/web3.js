@@ -1,5 +1,4 @@
 import config from '../config.js';
-import testConfig from '../config.test';
 import { getICOParameters, isConnected, web3Connect, getSmartContract, getAbiAsDictionary, getTokenSmartContract } from '../utils/web3';
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
@@ -43,8 +42,8 @@ export const readSmartContract = address => async (dispatch, getState) => {
     const tempResult = {};
     if (abiAsDictionary[par] === 'bytes32') {
       const asciiValue = web3.toAscii(parameter);
-      // check if it has value
-      tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue : null;
+        // check if it has value
+      tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue.replace(/\00+/g, '') : null;
       dispatch(setProperties(address, tempResult));
     } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {
       parameter.then(async (value) => {
@@ -75,7 +74,7 @@ export const getLogs = address => async (dispatch, getState) => {
     return;
   }
 
-  const configFile = process.env.NODE_ENV === 'test' ? testConfig.ICOs : config.ICOs;
+  const configFile = config.ICOs;
 
   const icoConfig = configFile[address];
   const icoContract = getSmartContract(web3, address);

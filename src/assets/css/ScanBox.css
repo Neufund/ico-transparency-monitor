@@ -2,6 +2,7 @@
   background-color: #F7F8F9;
   padding-top:0px;
 }
+
 .scan-ico-for-detaile {
   height: 24px;
   width: 328px;
@@ -11,6 +12,7 @@
   font-weight: 300;
   line-height: 24px;
 }
+
 textarea.console{
   height: 50px;
   width: 100%;
@@ -31,6 +33,7 @@ textarea.console{
   box-shadow: 0 2px 4px 0 #A3C0CC;
   font-size:large;
 }
+
 .scan-content .token-distribution-table{
   padding: 20px;
 }
@@ -45,6 +48,11 @@ textarea.console{
   font-weight: 300;
   line-height: 24px;
   margin-bottom: 20px;
+}
+
+/* special case for gini index*/
+.scanbox-details .scan-content .stats {
+  margin-bottom: 0;
 }
 
 .scanbox-details .stats {
@@ -62,14 +70,24 @@ textarea.console{
   line-height: 20px;
 }
 
+.scanbox-details .tooltip {
+  cursor: pointer;
+}
+
+.scanbox-details .tooltip::after{
+  content: "\f05a";
+  font-family: FontAwesome;
+  font-size: 20px;
+  font-weight: 400;
+  margin-left: 5px;
+}
+
 .inner-table {
   margin-left:80px !important;
 }
 .inner-table  table th{
   padding-left: 50px !important;;
 }
-
-
 
 /* -------------
  * Table Styles
@@ -96,16 +114,20 @@ textarea.console{
   width: 100%;
   min-width: 44em;
 }
+
 .mq-table th.highlight {
   background-color: rgb(255, 234, 133);
 }
+
 .mq-table td.highlight {
   background-color: rgb(255, 250, 229);
 }
+
 .mq-table th.highlight code,
 .mq-table td.highlight code {
   background: rgb(255, 255, 243);
 }
+
 .mq-table-mq code {
   font-size: 0.875em;
 }
@@ -126,12 +148,15 @@ textarea.console{
   top: 40%;
   width:100%;
 }
+
 .relative{
   position: relative;
 }
+
 .full-height{
   height: 100%;
 }
+
 .table{
   width: 100%;
   border: solid thin;
@@ -144,8 +169,9 @@ textarea.console{
   vertical-align: top;
 
 }
+
 .table th {
-font-weight: normal;
+  font-weight: normal;
   padding: 0.2em;
   vertical-align: middle;
   text-align: center;
@@ -166,16 +192,17 @@ font-weight: normal;
   text-align: center;
   line-height: 75px;
 }
+
 .ico-scan-header .ico-logo img, .ico-box  .name  .ico-logo img{
   height: 36.8px;
   width: auto;
 }
 
-
 .ico-scan-header .name h4{
   margin: 0px;
   margin-bottom: 2px;
 }
+
 .ico-scan-header .name h4 a{
   color: #000000;
   text-decoration: none;
@@ -211,20 +238,24 @@ font-weight: normal;
   height:351px;
   padding-bottom:20px;
 }
+
 .chart-body{
   position: absolute;
   margin-top:26px;
   width: 100%;
 }
+
 .chart-parent .x-axis-label{
   position: absolute;
   right: 0;
   bottom: 0;
   font-size: 13px;
 }
+
 .chart-parent .title{
   text-align: center;
 }
+
 .chart-parent .y-axis-label{
   position: absolute;
   top: 40px;
@@ -239,6 +270,7 @@ font-weight: normal;
   font-weight:500;
   cursor: pointer;
 }
+
 .chart-btn .fa{
   margin-right: 10px;
 }
@@ -247,6 +279,7 @@ font-weight: normal;
   padding-top: 20px;
   border-top: 1px solid #e5e7e9;
 }
+
 .font-light{
   font-weight: 300;
 }
@@ -254,10 +287,10 @@ font-weight: normal;
 .part-status{
   padding-right: 20px !important;
 }
+
 .right .title-status{
   text-align: right;
 }
-
 
 @media(min-width:767px){
   .scanbox-details .stats table td {

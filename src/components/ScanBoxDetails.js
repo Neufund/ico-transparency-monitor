@@ -1,14 +1,16 @@
 import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
+import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 import GroupButtons from './GroupButtons';
 import '../assets/css/ScanBox.css';
-import { connect } from 'react-redux';
 import { TimeDetails, RaisedAmount, TokenIssued, TokenDistribution } from './details';
-import { SingleBarChart } from './charts';
+import Chart from './Chart';
 import { downloadCSV } from '../utils';
-import { default as config } from '../config.js';
+import config from '../config';
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
+  <ReactTooltip multiline />
   <Row className="statistics box-container">
     <Col md={12} className="scan-content">
       <TimeDetails {...props.stats.time} />
@@ -24,18 +26,19 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
   <Row className="statistics box-container">
     <Col md={6} sm={12} xs={12} className="relative">
-      <SingleBarChart
+      <Chart
         title="Tokens over time"
         data={props.stats.charts.tokensCount}
         dataKey="Tokens/Time"
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
-        isVisible={parseInt(props.stats.money.tokenIssued) > 0}
-        isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not handling them in trustless way"
+        isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
+        isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not
+        handling them in trustless way"
       />
     </Col>
     <Col md={6} sm={12} xs={12}>
-      <SingleBarChart
+      <Chart
         title="Transactions over time"
         data={props.stats.charts.transactionsCount}
         dataKey={`Transactions/${props.stats.time.scale}`}
@@ -51,24 +54,22 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
       <Col md={6} sm={12} xs={12} className="scan-content">
         <TokenDistribution
-          total={props.stats.money.tokenIssued}
-          investors={props.stats.investors}
-          currency={props.currency}
-          isProvidingEtherValue={props.isProvidingEtherValue}
+          giniIndex={props.stats.general.giniIndex}
           tokenHolders={props.stats.charts.tokenHolders}
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
+          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or
+          is not handling them in trustless way"
         />
       </Col>
       <Col md={6} sm={12} xs={12} >
-        <SingleBarChart
-          title="Token holders distribution"
+        <Chart
           dataKey="TokenHolders"
           data={props.stats.charts.tokenHolders}
           xLabel={'Top Wealthiest Investors'}
           yLabel="Share of Tokens Owned"
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution statistics: This ICO is not generating tokens or is not handling them in trustless way"
+          isNotVisibleMessage="No Token distribution statistics: This ICO is not generating tokens
+          or is not handling them in trustless way"
         />
       </Col>
     </Row>
@@ -86,15 +87,19 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       <RaisedAmount
         total={props.stats.money.totalETH * props.currencyValue}
         currency={props.currency}
-        avgTicket={props.stats.money.totalETH * props.currencyValue / Object.keys(props.stats.investors.senders).length}
-        avgPrice={props.stats.money.totalETH * props.currencyValue / props.stats.money.tokenIssued}
+        avgTicket={(props.stats.money.totalETH * props.currencyValue)
+        / Object.keys(props.stats.investors.senders).length}
+        avgPrice={(props.stats.money.totalETH * props.currencyValue)
+        / props.stats.money.tokenIssued}
       />
     </div>}
 
-    <h3 className="title">Funds distribution</h3>
+    <h3 className="title">
+      <span className="tooltip" data-tip="This section shows how different types of investors (with different ticket size) impacted ICO results.<br/>First chart shows which ticket sizes were most popular among investors.<br/>Second chart shows which ticket size generated most funds. Were those few large 1M EUR tickets? Or rather many smaller 10k tickets?">Funds distribution</span>
+    </h3>
     <Row className="box-container">
       <Col md={12} sm={12} xs={12} >
-        <SingleBarChart
+        <Chart
           data={props.stats.charts.investorsDistribution}
           dataKey="Investors"
           title="Number of Investors with Ticket of Size"
@@ -107,7 +112,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     </Row>
     <Row className="box-container">
       <Col md={12} sm={12} xs={12} >
-        <SingleBarChart
+        <Chart
           data={props.stats.charts.investmentDistribution}
           dataKey="Investments"
           title="Total Amount Invested with Ticket of Size"

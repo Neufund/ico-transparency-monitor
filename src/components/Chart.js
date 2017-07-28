@@ -11,8 +11,8 @@ import {
 import { kFormatter } from '../utils';
 import { downloadChartImage } from '../utils/charts';
 
-export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel, isVisible = true, isNotVisibleMessage = '' }) => (
-  data != null && data.length > 0 &&
+export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, isNotVisibleMessage = '' }) => (
+  data !== null && data.length > 0 &&
     <div id={dataKey} className="chart-parent relative">
       <h3 className="title">{title}</h3>
       {isVisible &&
@@ -29,16 +29,13 @@ export const SingleBarChart = ({ title, data, dataKey, xLabel, yLabel, isVisible
             </ResponsiveContainer>
             <button
               className="chart-btn"
-              onClick={() => {
-                downloadChartImage(dataKey, title, xLabel, yLabel);
-              }}
+              onClick={() => { downloadChartImage(dataKey, title, xLabel, yLabel); }}
             >
-              <i className="fa fa-download" />
-              Download as image
+              <i className="fa fa-download" /> Download as image
             </button>
           </div>
-          <label className="x-axis-label">{xLabel}</label>
-          <label className="y-axis-label">{yLabel}</label>
+          <span className="x-axis-label">{xLabel}</span>
+          <span className="y-axis-label">{yLabel}</span>
         </div>}
       {!isVisible && <div className="alarm alarm-middle"><p>{isNotVisibleMessage}</p></div>}
     </div>

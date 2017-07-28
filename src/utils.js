@@ -1,9 +1,9 @@
-import { default as config } from './config.js';
 import jquery from './utils/jQuery';
 import axios from 'axios';
+import moment from 'moment';
+import gini from 'gini';
+import config from './config';
 
-const moment = require('moment');
-const variableEnvironments = require('./env.json');
 
 export const deepFreeze = (obj) => {
   if (obj !== null && typeof obj === 'object') {
@@ -95,7 +95,6 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
     url: config.rpcHost,
     Accept: 'application/json',
     contentType: 'application/json',
-    headers: 'cache' in variableEnvironments ? variableEnvironments.cache : {},
     data: JSON.stringify({
       id: 1497353430507566, // keep this ID to make cache work
       jsonrpc: '2.0',
@@ -129,6 +128,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
 export const initStatistics = () => ({
   general: {
     transactionsCount: 0,
+    giniIndex: null,
   },
   time: {
     startDate: null,
@@ -192,19 +192,18 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
 
   const ticks = calculateTicks(max);
   let previousTick = 0;
-  let xAxisLength = 0;
+
   for (let i = 0; i < ticks.length; i++) {
     const tick = ticks[i];
     const name = `${kFormatter(previousTick)} - ${kFormatter(tick)}`;
     investorsChartXAxis.push({ name: `${name}`, amount: 0 });
     investmentChartXAxis.push({ name: `${name}`, amount: 0 });
     previousTick = tick;
-    xAxisLength = i;
   }
 
   sortedInvestors.forEach((item) => {
     const money = item.value * currencyPerEther;
-    for (let i = 0; i < xAxisLength; i++) {
+    for (let i = 0; i < ticks.length ; i++) {
       if (money < ticks[i]) {
         investorsChartXAxis[i].amount += 1;
         investmentChartXAxis[i].amount += parseFloat(money.toFixed(2));
@@ -277,7 +276,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
   console.log(getState());
   const csvContentArray = getState().scan.csvContent;
 
-  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value', 'Timestamp', '\n'].join(',');
+  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value', 'Timestamp', 'Block Number', '\n'].join(',');
   csvContentArray.forEach((item, index) => {
     const dataString = item.join(',');
     csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
@@ -362,7 +361,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
       const etherValue = parseFloat(eventArgs.ether ? item.args[eventArgs.ether].valueOf() : parseInt(item.value)) / 10 ** 18;
 
       const investor = item.args[eventArgs.sender];
-      csvContentArray.push([investor, tokenValue, etherValue, item.timestamp]); // (new Date(item.timestamp * 1000)).formatDate(true)
+      csvContentArray.push([investor, tokenValue, etherValue, item.timestamp, item.blockNumber]); // (new Date(item.timestamp * 1000)).formatDate(true)
 
       // only if event is transaction event
       const timeBucket = toTimeBucket(item);
@@ -425,9 +424,15 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   stats.investors.sortedByETH = sortedSenders[1];
 
   stats.charts.tokenHolders = tokenHoldersPercentage(
-    stats.money.tokenIssued,
-    stats.investors.sortedByTicket
-  );
-  console.log('stats done');
+        stats.money.tokenIssued,
+        stats.investors.sortedByTicket
+    );
+
+  if (stats.money.tokenIssued > 0) {
+    const tokens = Object.keys(stats.investors.senders)
+      .map(investor => stats.investors.senders[investor].tokens);
+    stats.general.giniIndex = gini.unordered(tokens);
+  }
+
   return [stats, csvContentArray];
 };

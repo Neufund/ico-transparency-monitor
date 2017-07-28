@@ -67,6 +67,7 @@ export const ICOApp = (props) => {
                 </button>
               </Col>
 
+
             </Row>
           </Col>
         </Row>

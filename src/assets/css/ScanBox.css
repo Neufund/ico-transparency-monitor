@@ -50,6 +50,11 @@ textarea.console{
   margin-bottom: 20px;
 }
 
+/* special case for gini index*/
+.scanbox-details .scan-content .stats {
+  margin-bottom: 0;
+}
+
 .scanbox-details .stats {
   margin-bottom: 30px;
 }

@@ -17,7 +17,7 @@ export const ICOScan = (props) => {
 
       {!showLoader && web3 && <Col md={12}>
         <Row className="scanbox-details-parameters">
-          <Col md={3} className="part">
+          <Col lg={3} md={12} sm={12} xs={12} className="part">
             <p className="title">Declared Cap</p>
             {cap && typeof cap === 'object' && getValueOrDefault(cap).map(item => (<strong
               key={item}
@@ -26,21 +26,21 @@ export const ICOScan = (props) => {
             {cap && typeof cap === 'string' &&
               <strong className="desc">{getValueOrDefault(cap)}</strong>}
           </Col>
-          <Col md={2} className="part">
+          <Col lg={2} md={12} sm={12} xs={12} className="part">
             <p className="title">Tokens Supply</p>
             <strong className="desc">{formatNumber(parseFloat(totalSupply))}</strong>
           </Col>
-          <Col md={2} className="part">
+          <Col lg={2} md={12} sm={12} xs={12} className="part">
             <p className="title">Token symbol</p>
             <strong className="desc">{getValueOrDefault(symbol)}</strong>
           </Col>
-          <Col md={3} className="part">
+          <Col lg={3} md={12} sm={12} xs={12} className="part">
             <p className="title">Declared Duration</p>
             <strong className="desc">{getValueOrDefault(startDate)} <span
               className="font-light"
             >to</span> {getValueOrDefault(endDate)} </strong>
           </Col>
-          <Col md={2} className="part part-status">
+          <Col lg={2} md={12} sm={12} xs={12} className="part part-status">
             <div className="right">
               <p className="title title-status">Status</p>
               <strong
@@ -54,7 +54,6 @@ export const ICOScan = (props) => {
   </div>
   );
 };
-
 
 const mapStateToProps = (state, props) => ({
   ...state.ICO.icos[props.address],

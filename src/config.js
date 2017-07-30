@@ -77,7 +77,7 @@ let config = {
         q10: { answer: false, comment: 'Code is short but full of tricks: for example EOS day has 23 hours, claimAll method will soon throw out of gas (it is a gas eater!), one day after ICO ends claims are blocked etc.' },
         q11: { answer: true, comment: 'Contract is designed to be an ETH sucking mechanism without any shame, but as it is done transparently and in a trustless way, we say Yes here. code is law ;>' },
         q12: { answer: true, comment: 'Price set due to demand each day, mind to claim your tokens!' },
-        q13: { answer: true, comment: 'May be started and re-started whenever Tezos wants' },
+        q13: { answer: true },
         q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim' },
       },
       addedBy: 'Rudolfix',

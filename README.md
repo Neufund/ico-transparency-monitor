@@ -16,13 +16,14 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
 
  Using [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#watch-callback-return-value) The ICO-Monitor takes the address of an ICO Smart Contract and scans through the whole blockchain and collects all token generation events logged by the ICO smart contract.
 
+
  ### Parity Node 
 Parity is an Ethereum client tool which allows you to interact with the blockchain and which is written in Rust programming language. If you wish to read more about Parity, please click [here](https://github.com/paritytech/parity#about-parity).
 
 There is a JSON-RPC method called [`eth_getLogs`](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getlogs) that returns an array of all logs matching the filter object.
- Since we scan all the logs for the ICO from the Ethereum network, and because we do not want to make two requests to have the timestamp for each log and ether value of transaction that created the log, we decided to have our
+ Since we scan all the logs for the ICO from the Ethereum network, and because we do not want to make two requests to have the `timestamp` and ether `value` of transaction that created the log, we decided to have our
   Neufund [fork](https://github.com/Neufund/parity) on `Neufund_mod` branch, we added custom JSON-RPC method `eth_getLogsDetails`.
- It has the same inputs as `eth_getLogs`, but here, you will find the timestamp attached in each log in the output. 
+ It has the same inputs as `eth_getLogs`, but here, you will find the `timestamp` and ether `value` of transaction attached in each log in the output. 
  This enhances the performance of the ICO Transparency Monitor greatly.
 
 Testing `eth_getLogsDetails` using cURL :
@@ -34,7 +35,7 @@ curl http://localhost:8545 -H "Content-Type: application/json" -X POST --data '{
 
 ```
 
-The response is exactly the same like `eth_getLogs` but with timestamp and ether of transaction value attached for each single log.
+The response is exactly the same like `eth_getLogs` but with `timestamp` and the ether `value` of transaction attached for each single log.
 ```$xslt
 [ ... ,
 {"address":"0xa74476443119a942de498590fe1f2454d7d4ac0d",

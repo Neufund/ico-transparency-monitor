@@ -2,7 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = {
+const isProduction = process.env.NODE_ENV === 'production';
+
+const config = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -16,17 +18,8 @@ module.exports = {
     ]),
     new webpack.NamedModulesPlugin(),
   ],
-  resolve: {
-    alias: {
-
-    },
-  },
   node: {
     __filename: true,
-  },
-  devServer: {
-    proxy: {
-    },
   },
   module: {
     rules: [
@@ -34,15 +27,18 @@ module.exports = {
         test: /\.s?css$/,
         use: [
           { loader: 'style-loader' },
-          { loader: 'css-loader' },
+          { loader: 'css-loader', options: { minimize: isProduction } },
           { loader: 'sass-loader' },
         ],
       },
       { test: /\.json$/, use: 'json-loader' },
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
+        exclude: {
+          test: path.resolve(__dirname, "node_modules"),
+          exclude: path.resolve(__dirname, "node_modules/web3-provider-engine") // allow some untranspiled modules
+        }
       },
       {
         test: /\.(jpg|png)$/,
@@ -61,3 +57,10 @@ module.exports = {
     ],
   },
 };
+
+
+if (isProduction) {
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+}
+
+module.exports = config;

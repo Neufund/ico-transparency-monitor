@@ -428,10 +428,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
     stats.investors.sortedByTicket
   );
 
-  console.log('get gini');
   if (stats.money.tokenIssued > 0) {
-    // const tokens = Object.keys(stats.investors.senders)
-    //  .map(investor => stats.investors.senders[investor].tokens);
     const tokens = sortedSenders[0].map(investor => investor.value);
     // todo: should just rewrite gini.ordered to accept reverse ordered array
     stats.general.giniIndex = gini.ordered(tokens.reverse());

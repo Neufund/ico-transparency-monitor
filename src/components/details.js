@@ -51,7 +51,13 @@ export const RaisedAmount = ({ total, avgTicket, avgPrice, currency }) => (
 export const TokenIssued = ({ tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
   <div >
     <h3 className="title">
-      <span className="tooltip" data-tip="This section shows ICO activity over time.<br/> Were most transactions done first day? Were there any spikes? Activity at the end?">Tokens issuance</span>
+      <span
+        className="tooltip"
+        data-tip="This section shows ICO activity over time.<br/> Were most transactions done
+         first day? Were there any spikes? Activity at the end?"
+      >
+        Tokens issuance
+      </span>
     </h3>
     <div className="stats">
       <table>
@@ -136,7 +142,7 @@ TokenDistribution.propTypes = {
   tokenHolders: PropTypes.arrayOf(PropTypes.object).isRequired,
   isVisible: PropTypes.bool.isRequired,
   isNotVisibleMessage: PropTypes.string.isRequired,
-  giniIndex: PropTypes.number.isRequired,
+  giniIndex: PropTypes.number,
 };
 
 TokenDistribution.defaultProps = {

@@ -19,8 +19,25 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
  ### Parity Node 
 Parity is an Ethereum client tool which allows you to interact with the blockchain and which is written in Rust programming language. If you wish to read more about Parity, please click [here](https://github.com/paritytech/parity#about-parity).
 
-There is a function in Parity called [`eth_getLogs`](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getlogs) that returns an array of all logs matching the filter object. Since we scan all the logs for the ICO from the Ethereum network, and because we do not want to make two requests to have the timestamp for each log, we decided to have our Neufund [fork](https://github.com/Neufund/parity) from the stable branch and to create a new function `eth_getLogsDetails`. It has the same inputs as `eth_getLogs`, but here, you will find the timestamp in the output. This enhances the performance of the ICO Transparency Monitor greatly.
+There is a function in Parity called [`eth_getLogs`](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getlogs) that returns an array of all logs matching the filter object.
+ Since we scan all the logs for the ICO from the Ethereum network, and because we do not want to make two requests to have the timestamp for each log and ether of transaction that created the log, we decided to have our
+  Neufund [fork](https://github.com/Neufund/parity) on `Neufund_mod` branch, we created a new function `eth_getLogsDetails`.
+ It has the same inputs as `eth_getLogs`, but here, you will find the timestamp attached in each log in the output. 
+ This enhances the performance of the ICO Transparency Monitor greatly.
 
+cURL example `eth_getLogsDetails` example :
+
+Request 
+
+```$xslt
+curl http://localhost:8545 -H "Content-Type: application/json" -X POST --data '{"id":1497353430507566,"jsonrpc":"2.0","params":[{"fromBlock":"0x0","toBlock":"latest","address":"0xa74476443119a942de498590fe1f2454d7d4ac0d","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x0000000000000000000000000000000000000000000000000000000000000000",null]}],"method":"eth_getLogsDetails"}'
+
+```
+
+Respone
+```$xslt
+{"address":"0xa74476443119a942de498590fe1f2454d7d4ac0d","blockHash":"0x49e03d72cfa4f95601b15f61d6785ddf32e17fc4c6e352bd72f49de1f7a7a56d","blockNumber":"0x27cb43","data":"0x00000000000000000000000000000000000000000094e47b8d68171534000000","logIndex":"0x10","timestamp":1478878985,"topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x0000000000000000000000000000000000000000000000000000000000000000","0x0000000000000000000000004319c142f7b6cd722fc3a49289b8a22a7a51ca1e"],"transactionHash":"0x1bdf7f7da468cdf9d5098abb2c06fd6fc1264a33eaf36bdc35e617cc8010e681","transactionIndex":"0x19","transactionLogIndex":"0x0","type":"mined","value":"0x0"}
+```
 
 ### Transparency Questionnaire
 ICO smart contracts are assigned a transparency class via a [decision function](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/utils.js#L34) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:

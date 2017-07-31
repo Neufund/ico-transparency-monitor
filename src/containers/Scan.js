@@ -1,11 +1,12 @@
+/* eslint-env browser */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 import '../assets/css/App.css';
 import ICO from '../components/ICO';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxDetails from '../components/ScanBoxDetails';
-import { default as config } from '../config.js';
-import { connect } from 'react-redux';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import config from '../config';
 import { getLogs, readSmartContract } from '../actions/web3';
 import { getNextICO } from '../utils';
 
@@ -23,7 +24,8 @@ class Scan extends Component {
   }
 
   render() {
-    if (this.props.isSmartContractLoaded && this.props.blocks && this.state.isBlockMounted === false) {
+    if (this.props.isSmartContractLoaded
+      && this.props.blocks && this.state.isBlockMounted === false) {
       this.setState({ isBlockMounted: true });
       this.props.getLogs(this.props.address);
     }
@@ -34,7 +36,12 @@ class Scan extends Component {
             <Row className="nav-buttons">
               <Col md={6} sm={6} xs={6}>
                 <div className="back-list">
-                  <button onClick={() => window.location = '/'} className="arrow-btn arrow-btn-left"><span className="arrow arrow-left">&#8592;</span></button>
+                  <button
+                    onClick={() => { window.location = '/'; }}
+                    className="arrow-btn arrow-btn-left"
+                  >
+                    <span className="arrow arrow-left">&#8592;</span>
+                  </button>
                   <a className="hide-xs" href="/">Go back to the list </a>
                 </div>
               </Col>
@@ -60,8 +67,10 @@ class Scan extends Component {
 
           <Grid className="scanbox ico-box-scan">
             {<ICO ico={this.props.ico} isInSingleICOView address={this.props.address} />}
-            {this.props.isLoading && <ScanBoxLoadingMessage longLoading={this.props.ico.longLoading === true} />}
-            {!this.props.isLoading && this.props.isComponentReady && <ScanBoxDetails address={this.props.address} /> }
+            {this.props.isLoading &&
+              <ScanBoxLoadingMessage longLoading={this.props.ico.longLoading === true} />}
+            {!this.props.isLoading && this.props.isComponentReady &&
+              <ScanBoxDetails address={this.props.address} /> }
           </Grid>
         </div>}
       </div>

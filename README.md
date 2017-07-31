@@ -34,7 +34,7 @@ curl http://localhost:8545 -H "Content-Type: application/json" -X POST --data '{
 
 ```
 
-The Response will be an array of objects, below an example of an object inside this array and this object has the timestamp and the transaction ether value for this single log."
+The response is exactly the same like `eth_getLogs` but with timestamp and value attached for each single log.
 ```$xslt
 [ ... ,
 {"address":"0xa74476443119a942de498590fe1f2454d7d4ac0d",
@@ -49,7 +49,8 @@ The Response will be an array of objects, below an example of an object inside t
 "transactionHash":"0x1bdf7f7da468cdf9d5098abb2c06fd6fc1264a33eaf36bdc35e617cc8010e681",
 "transactionIndex":"0x19",
 "transactionLogIndex":"0x0",
-"type":"mined","value":"0x0"}]
+"type":"mined",
+"value":"0x0"}]
 ```
 
 ### Transparency Questionnaire

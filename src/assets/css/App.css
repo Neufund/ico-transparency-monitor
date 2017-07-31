@@ -434,9 +434,6 @@ div.transparency.part button:hover{
   cursor: pointer;
 }
 .add-new-ico{
-  position: absolute;
-  top:50%;
-  right:15px;
   cursor: pointer;
   border: 0;
   background: none;
@@ -493,6 +490,12 @@ div.transparency.part button:hover{
 
   .scanbox-details , .scanbox-details-parameters{
     padding:20px;
+  }
+
+  .add-new-ico{
+    position: absolute;
+    top:50%;
+    right:15px;
   }
 
   .ico-box{

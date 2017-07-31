@@ -16,8 +16,11 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
 
  Using [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#watch-callback-return-value) The ICO-Monitor takes the address of an ICO Smart Contract and scans through the whole blockchain and collects all token generation events logged by the ICO smart contract.
 
- ### Parity Node
- To be added soon
+ ### Parity Node 
+Parity is an Ethereum client tool which allows you to interact with the blockchain and which is written in Rust programming language. If you wish to read more about Parity, please click [here](https://github.com/paritytech/parity#about-parity).
+
+There is a function in Parity called [`eth_getLogs`](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getlogs) that returns an array of all logs matching the filter object. Since we scan all the logs for the ICO from the Ethereum network, and because we do not want to make two requests to have the timestamp for each log, we decided to have our Neufund [fork](https://github.com/Neufund/parity) from the stable branch and to create a new function `eth_getLogsDetails`. It has the same inputs as `eth_getLogs`, but here, you will find the timestamp in the output. This enhances the performance of the ICO Transparency Monitor greatly.
+
 
 ### Transparency Questionnaire
 ICO smart contracts are assigned a transparency class via a [decision function](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/utils.js#L34) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:

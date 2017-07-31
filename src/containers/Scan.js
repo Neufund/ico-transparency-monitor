@@ -60,7 +60,7 @@ class Scan extends Component {
 
           <Grid className="scanbox ico-box-scan">
             {<ICO ico={this.props.ico} isInSingleICOView address={this.props.address} />}
-            {this.props.isLoading && <ScanBoxLoadingMessage />}
+            {this.props.isLoading && <ScanBoxLoadingMessage longLoading={this.props.ico.longLoading === true} />}
             {!this.props.isLoading && this.props.isComponentReady && <ScanBoxDetails address={this.props.address} /> }
           </Grid>
         </div>}

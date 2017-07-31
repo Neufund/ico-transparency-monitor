@@ -200,6 +200,7 @@ A general form of an ICO configuration can be presented as:
         q14: { answer: true, comment: '' },
       }
       addedBy:
+      longLoading:
     }
 ```
   `ADDRESS-OF-CONTRACT` : Ethereum address that points to the main ICO smart contract
@@ -253,6 +254,8 @@ A general form of an ICO configuration can be presented as:
   3. `null` if the answer was **Not Applicable** and couldn't be answered
 
   `addedBy` Name of the person that added this ICO. This will be displayed on the ICO monitor next to this ICO
+
+  `longLoading` If ICO takes long time to analyze you can add this flag `true`. It will change caption shown when ICO is being analyzed.
 ### Examples
 Best way to learn how to add new ICO is to look at existing examples. Let's take EOS ICO
 ```

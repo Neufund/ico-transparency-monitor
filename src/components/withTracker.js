@@ -2,10 +2,12 @@ import React from 'react';
 import GoogleAnalytics from 'react-ga';
 import config from '../env.json';
 
-if (config.env !== 'dev') {
+const trackingCodeSet = config.GaTrackingId !== undefined && config.GaTrackingId !== '';
+
+if (trackingCodeSet) {
   let options = {};
 
-  if (config.env === 'stage') {
+  if (process.env.NODE_ENV !== 'production') {
     options =
       {
         debug: true,
@@ -22,7 +24,7 @@ const withTracker = (WrappedComponent) => {
 
   return (props) => {
     const page = props.location.pathname;
-    if (config.env !== 'dev') {
+    if (trackingCodeSet) {
       trackPage(page);
     }
 

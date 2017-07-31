@@ -4,6 +4,8 @@ body{
 .App {
   text-align: left;
   border-top: 1px solid #D9DBDC;
+  position: relative;
+  min-height: 700px;
 }
 
 .App-logo {
@@ -87,9 +89,10 @@ body{
   height:100%;
 }
 
-.ico-container{
+.ico-container .ico-box{
   cursor: pointer;
 }
+
 .pointer-cursor{
   cursor: pointer;
 }
@@ -431,9 +434,6 @@ div.transparency.part button:hover{
   cursor: pointer;
 }
 .add-new-ico{
-  position: absolute;
-  top:50%;
-  right:15px;
   cursor: pointer;
   border: 0;
   background: none;
@@ -490,6 +490,12 @@ div.transparency.part button:hover{
 
   .scanbox-details , .scanbox-details-parameters{
     padding:20px;
+  }
+
+  .add-new-ico{
+    position: absolute;
+    top:50%;
+    right:15px;
   }
 
   .ico-box{
@@ -635,18 +641,20 @@ div.transparency.part button:hover{
   .exchangeRate{
     position: static !important;
   }
+
   .scanbox-details{
     padding: 20px;
   }
   .App-logo{
-
     margin-left: 0 !important;
     border-right: 1px solid black;
     padding-right: 10px;
   }
+
   .App-header{
     border: 0 !important;
   }
+
   .App-header h4{
     margin-left: 35px;
   }

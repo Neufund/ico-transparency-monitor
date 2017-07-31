@@ -14,6 +14,4 @@ export const setSmartContractLoaded = value => ({ type: 'IS_SMART_CONTRACT_LOADE
 
 export const resetRpc = () => ({ type: 'RESET_RPC' });
 
-export const errorMessage = () => ({ type: 'SHOW_MODAL_ERROR', message: 'WEB3_CONNECTION_FAIL' });
-
 export const setBlock = block => ({ type: 'SET_BLOCK', block });

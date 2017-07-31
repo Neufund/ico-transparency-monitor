@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { onModalShow } from '../actions/ModalAction';
+import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import ICOApp from './ICOApp';
 import ICOScan from './ICOScan';
 import { readSmartContract } from '../actions/web3';
 import { isConnected } from '../utils/web3';
-import { errorMessage, resetRpc } from '../actions/ScanAction';
+import { resetRpc } from '../actions/ScanAction';
+import config from '../config';
 
 class ICO extends Component {
   componentDidMount() {
@@ -24,7 +25,6 @@ class ICO extends Component {
   }
 }
 
-
 const mapStateToProps = state => ({
   web3: state.modal.web3,
   isSmartContractLoaded: state.scan.isSmartContractLoaded,
@@ -36,7 +36,7 @@ const mapDispatchToProps = (dispatch, state) => ({
       dispatch(onModalShow(currentICO));
     } else {
       dispatch(resetRpc());
-      dispatch(errorMessage());
+      dispatch(showErrorMessage(`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`));
     }
   },
   readSmartContract: (address) => {

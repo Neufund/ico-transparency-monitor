@@ -183,10 +183,6 @@ body{
   line-height: 24px;
   display: block;
 }
-/*.ico-box .part, .ico-box-scan .part{*/
-  /*padding-left: 20px;*/
-/*}*/
-
 
 .container {
   box-sizing: border-box;
@@ -411,6 +407,19 @@ div[class^="narcissus_"]{
 }
 .pure-table th{
   font-size: 14px;
+}
+
+.modal-content ul {
+  padding: 0;
+}
+
+.modal-content ul li {
+  list-style-type:none;
+  margin: 5px 0;
+}
+
+.modal-content a {
+  text-decoration: none;
 }
 
 div.transparency.part button{

@@ -106,20 +106,19 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
       }],
       method: 'eth_getLogsDetails',
     }),
-    success: (e) => {
-      if (e.error) {
-        console.log(e);
-        callback('SHOW_MODAL_ERROR', `Error when getting logs ${e.error.message}`);
+    success: (response) => {
+      if (response.error) {
+        callback('SHOW_MODAL_ERROR', `Error when getting logs ${response.error.message}`);
       } else {
-        const res = e.result;
+        const res = response.result;
         console.log(`formatting ${res.length} log entries`);
         const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
         console.log('log entries formatted');
         callback(null, logsFormat);
       }
     },
-    error: (status) => {
-      callback('SHOW_MODAL_ERROR', `Error ${status}`);
+    error: (response) => {
+      callback('SHOW_MODAL_ERROR', `Server returned error: ${response.status}`);
     },
     dataType: 'json',
   });

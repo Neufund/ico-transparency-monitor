@@ -17,6 +17,11 @@ const config = {
       { from: './public/favicon.ico', to: 'favicon.ico' },
     ]),
     new webpack.NamedModulesPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+    }),
   ],
   node: {
     __filename: true,

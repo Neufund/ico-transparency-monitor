@@ -100,6 +100,11 @@ body{
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 0 #BBC2C7;
 }
+
+.ico-box:hover{
+  box-shadow: 0 2px 4px 0 #505050;
+}
+
 .ico-box .clearfix{
   height: 100%;
 }

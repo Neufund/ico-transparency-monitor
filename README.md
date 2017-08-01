@@ -199,8 +199,8 @@ A general form of an ICO configuration can be presented as:
         q13: { answer: true, comment: '' },
         q14: { answer: true, comment: '' },
       }
+      alternativeLoadingMsg:
       addedBy:
-      longLoading:
     }
 ```
   `ADDRESS-OF-CONTRACT` : Ethereum address that points to the main ICO smart contract

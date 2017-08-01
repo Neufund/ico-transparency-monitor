@@ -20,8 +20,7 @@ let config = {
             ether: 'amount', // district0x ICO logs actual ether value !== transaction ether as they return overflow to sender
           },
           firstTransactionBlockNumber: 4039777,
-          lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
-          maxBlocksInChunk: 12960,
+          lastTransactionBlockNumber: 4104890, // this will follow new blocks for ongoing ICOs
           countTransactions: true,
         },
         onCompensated: {
@@ -30,8 +29,7 @@ let config = {
             sender: 'contributor',
           },
           firstTransactionBlockNumber: 4039777,
-          lastTransactionBlockNumber: null, // this will follow new blocks for ongoing ICOs
-          maxBlocksInChunk: 12960,
+          lastTransactionBlockNumber: 4104890, // this will follow new blocks for ongoing ICOs
           countTransactions: false,
         },
       },

@@ -196,7 +196,7 @@ let config = {
         q13: { answer: true },
         q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim' },
       },
-      longLoading: true,
+      alternativeLoadingMsg: 'EOS ICO is generating hundreds of thousands of events that we need to analyze. Loading will take more than one minute.',
       addedBy: 'Rudolfix',
     },
     '0x0cEB0D54A7e87Dfa16dDF7656858cF7e29851fD7': {

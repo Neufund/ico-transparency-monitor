@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/ScanBox.css';
 
-const ScanBoxLoadingMessage = ({ longLoading }) => {
-  const caption = longLoading ?
-    'ICO Scanning in process, please wait this one is big it will take a while...'
+const ScanBoxLoadingMessage = ({ alternativeLoadingMsg }) => {
+  const caption = alternativeLoadingMsg !== null ?
+    alternativeLoadingMsg
     :
     'ICO Scanning in process, please wait ...';
   return (<Row>
@@ -19,11 +19,11 @@ const ScanBoxLoadingMessage = ({ longLoading }) => {
 };
 
 ScanBoxLoadingMessage.propTypes = {
-  longLoading: PropTypes.bool,
+  alternativeLoadingMsg: PropTypes.string,
 };
 
 ScanBoxLoadingMessage.defaultProps = {
-  longLoading: false,
+  alternativeLoadingMsg: null,
 };
 
 export default ScanBoxLoadingMessage;

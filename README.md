@@ -199,6 +199,7 @@ A general form of an ICO configuration can be presented as:
         q13: { answer: true, comment: '' },
         q14: { answer: true, comment: '' },
       }
+      alternativeLoadingMsg:
       addedBy:
     }
 ```
@@ -252,7 +253,10 @@ A general form of an ICO configuration can be presented as:
   2. `false`: if the answer to the specific qustion is **No**
   3. `null` if the answer was **Not Applicable** and couldn't be answered
 
+  `alternativeLoadingMsg` You can provide alternative loading message that will be displayed while contract is being analyzed.
+
   `addedBy` Name of the person that added this ICO. This will be displayed on the ICO monitor next to this ICO
+
 ### Examples
 Best way to learn how to add new ICO is to look at existing examples. Let's take EOS ICO
 ```

@@ -80,9 +80,9 @@ describe('getStatistics', () => {
     expect(statistics.length).to.equal(2);
   });
 
-  it('Should return 1 as count of transactions', () => {
+  it('Should return 3 as count of transactions', () => {
     const stats = statistics[0];
-    expect(stats.general.transactionsCount).to.equal(1);
+    expect(stats.general.transactionsCount).to.equal(3);
   });
 
   it('Should return an object of time', () => {
@@ -100,16 +100,16 @@ describe('getStatistics', () => {
     expect(stats.time).to.deep.equal(expectedTimeObject);
   });
 
-  it('Should return 6 investors', () => {
+  it('Should return 3 investors', () => {
     const stats = statistics[0];
     expect(Object.keys(stats.investors.senders).length).to.equal(3);
   });
   it('Should has sortedByTicket object', () => {
     const stats = statistics[0];
     const expectedObject = [
-      { investor: '0x0000000000000000000000000000001', value: 0 },
-      { investor: '0x0000000000000000000000000000002', value: 0 },
-      { investor: '0x0000000000000000000000000000003', value: 0 }];
+      { investor: '0x0000000000000000000000000000003', value: 3 },
+      { investor: '0x0000000000000000000000000000002', value: 2 },
+      { investor: '0x0000000000000000000000000000001', value: 1 }];
 
     expect(stats.investors.sortedByTicket).to.deep.equal(expectedObject);
   });
@@ -125,13 +125,13 @@ describe('getStatistics', () => {
 
   it('Should has money object as the data', () => {
     const stats = statistics[0];
-    expect(stats.money).to.deep.equal({ tokenIssued: 0, totalETH: 1.44 });
+    expect(stats.money).to.deep.equal({ tokenIssued: 6, totalETH: 1.44 });
   });
 
   it('Should has charts data filled', () => {
     const stats = statistics[0];
-    expect(stats.charts.transactionsCount.length).equal(34690);
     expect(stats.charts.tokensCount.length).to.equal(34690);
+    expect(stats.charts.transactionsCount.length).equal(34690);
     expect(stats.charts.tokenHolders.length).to.equal(11);
   });
 

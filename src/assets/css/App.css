@@ -77,7 +77,7 @@ body{
 .header-paragraph p{
   clear: both;
   /*height: 91px;*/
-  width: 532px;
+  /*width: 532px;*/
   color: #4A4A4A;
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
@@ -462,6 +462,9 @@ div.transparency.part button:hover{
 .ico-paragraph{
   max-width: 500px;
 }
+.header-paragraph a{
+  font-size: 16px !important;
+}
 
 /*Large*/
 @media only screen and (min-width: 75em) {
@@ -469,7 +472,7 @@ div.transparency.part button:hover{
     width: 65rem !important;
   }
   .add-new-ico{
-    position: absolute;
+    /*position: absolute;*/
     top:50%;
     right:15px;
     cursor: pointer;
@@ -498,7 +501,7 @@ div.transparency.part button:hover{
   }
 
   .add-new-ico{
-    position: absolute;
+    /*position: absolute;*/
     top:50%;
     right:15px;
   }

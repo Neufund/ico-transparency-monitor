@@ -107,7 +107,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         <Chart
           data={props.stats.charts.investorsDistribution}
           dataKey="Investors"
-          title="Number of Investors with Ticket of Size"
+          title="Number of Investors with size of ticket"
           xLabel={`Ticket Size in [${props.currency}]`}
           yLabel="Number of Investors"
           isVisible={props.stats.money.totalETH !== 0}
@@ -120,7 +120,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         <Chart
           data={props.stats.charts.investmentDistribution}
           dataKey="Investments"
-          title="Total Amount Invested with Ticket of Size"
+          title="Total Amount Invested with size of ticket"
           xLabel={`Ticket Size in [${props.currency}]`}
           yLabel="Total Amount Invested"
           isVisible={props.stats.money.totalETH !== 0}

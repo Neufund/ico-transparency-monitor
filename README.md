@@ -420,14 +420,8 @@ an ICO
 ## Getting started
 Clone project into local directory
 
-Edit
-```
-"rpcHost": "http://localhost:8545"
-```
-in `env.json` to our running parity node
-```
-"rpcHost": "https://neufund.net/nodes/mainnet/:8545"
-```
+Make sure your local parity node is running
+
 ### Getting up and running
 Install Dependencies
 ```

@@ -43,6 +43,9 @@ body{
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.App-header a{
+  font-size:14px;
+}
 .App-header span.powerd-by-neufund {
   height: 20px;
   color: #4A4A4A;

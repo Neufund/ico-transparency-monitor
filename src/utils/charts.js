@@ -13,7 +13,7 @@ export const downloadChartImage = (chartId, title, xLabel, yLabel) => {
   const canvas = document.createElement('canvas');
 
   canvas.width = rect.width;
-  canvas.height = rect.height;
+  canvas.height = rect.height + 50;
 
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = 'white';
@@ -33,22 +33,22 @@ export const downloadChartImage = (chartId, title, xLabel, yLabel) => {
   img.height = canvas.height;
 
   img.onload = function () {
-    ctx.drawImage(img, 0, canvas.height / 10);
+    ctx.drawImage(img, 0, canvas.height / 5);
 
     ctx.fillStyle = 'black';
     ctx.fill();
     ctx.font = '10px Montserrat';
-    ctx.fillText(yLabel, 20, 20);
+    ctx.fillText(yLabel, 20, 70);
     ctx.fillText(xLabel, canvas.width / 2, canvas.height - 10);
 
     ctx.font = '20px Montserrat';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    ctx.fillText(title, canvas.width / 2, 20);
+    ctx.fillText(title, canvas.width / 2, 30);
 
     ctx.font = '30px Montserrat';
     ctx.fillStyle = gradient;
-    ctx.fillText('Powered by Neufund', canvas.width / 2, canvas.height / 2 - 40);
+    ctx.fillText('Powered by Neufund', canvas.width / 2, (canvas.height / 2) - 40);
 
     canvas.toBlob((blob) => {
       saveAs(blob, `${chartId}.png`);

@@ -68,6 +68,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       </Col>
       <Col md={6} sm={12} xs={12} >
         <Chart
+          title="Token holders distribution"
+          hideTitle
           dataKey="TokenHolders"
           data={props.stats.charts.tokenHolders}
           xLabel={'Top Wealthiest Investors'}

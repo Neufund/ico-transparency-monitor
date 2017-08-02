@@ -41,13 +41,10 @@ export const downloadChartImage = (chartId, title, xLabel, yLabel) => {
     ctx.fillText(yLabel, 20, 20);
     ctx.fillText(xLabel, canvas.width / 2, canvas.height - 10);
 
+    ctx.font = '20px Montserrat';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-
-    if (title !== undefined) {
-      ctx.font = '20px Montserrat';
-      ctx.fillText(title, canvas.width / 2, 20);
-    }
+    ctx.fillText(title, canvas.width / 2, 20);
 
     ctx.font = '30px Montserrat';
     ctx.fillStyle = gradient;

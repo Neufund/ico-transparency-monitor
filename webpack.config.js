@@ -15,6 +15,7 @@ const config = {
     new CopyWebpackPlugin([
       { from: './public/index.html', to: 'index.html' },
       { from: './public/favicon.ico', to: 'favicon.ico' },
+      { from: './public/social_logo.jpg', to: 'social_logo.jpg' },
     ]),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({

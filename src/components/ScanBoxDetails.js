@@ -32,7 +32,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         dataKey="Tokens/Time"
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
-        isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
+        isVisible={parseInt(props.stats.money.tokenIssued) > 0}
         isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not
         handling them in trustless way"
       />
@@ -42,6 +42,11 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         title="Transactions over time"
         data={props.stats.charts.transactionsCount}
         dataKey={`Transactions/${props.stats.time.scale}`}
+
+        isVisible={parseInt(props.stats.general.transactionsCount) > 0}
+        isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or
+          is not handling them in trustless way"
+
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Transactions"
       />

@@ -1,5 +1,5 @@
+/* eslint-env browser */
 const saveAs = require('file-saver').saveAs;
-const html2canvas = require('html2canvas');
 
 const svgDataURL = (svg) => {
   const svgAsXML = new XMLSerializer().serializeToString(svg);
@@ -41,10 +41,13 @@ export const downloadChartImage = (chartId, title, xLabel, yLabel) => {
     ctx.fillText(yLabel, 20, 20);
     ctx.fillText(xLabel, canvas.width / 2, canvas.height - 10);
 
-    ctx.font = '20px Montserrat';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    ctx.fillText(title, canvas.width / 2, 20);
+
+    if (title !== undefined) {
+      ctx.font = '20px Montserrat';
+      ctx.fillText(title, canvas.width / 2, 20);
+    }
 
     ctx.font = '30px Montserrat';
     ctx.fillStyle = gradient;

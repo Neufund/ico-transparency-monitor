@@ -117,12 +117,9 @@ export const getLogs = address => async (dispatch, getState) => {
       }
 
       const currencyRate = currencyResult.value;
-      console.log('Fetched Currency is ', currencyRate);
 
       dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
-      console.log(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
       dispatch(showStatistics());
-      console.log(showStatistics());
     });
   };
   const logProcessor = () => {

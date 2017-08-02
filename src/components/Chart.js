@@ -12,7 +12,7 @@ import { kFormatter } from '../utils';
 import { downloadChartImage } from '../utils/charts';
 
 export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, isNotVisibleMessage = '' }) => (
-  data !== null && data.length > 0 &&
+
     <div id={dataKey} className="chart-parent relative">
       <h3 className="title">{title}</h3>
       {isVisible &&

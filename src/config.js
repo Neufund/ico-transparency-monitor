@@ -577,7 +577,7 @@ let config = {
         q12: { answer: true, comment: 'Fixed suply of tokens, distributed proportionally to eth contribution' },
         q13: { answer: true, comment: '' },
         q14: { answer: true, comment: '' },
-      }
+      },
       addedBy: 'Fares Akel f.antonio.akel@gmail.com',
     },
   },

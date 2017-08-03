@@ -555,7 +555,7 @@ let config = {
       startDate: async (web3, icoContract) => 'contract creation',
       endDate: async (web3, icoContract) => {
           const timestamp = await toPromise(icoContract.deadline)();
-          return convertWeb3Value(timestamp, 'timestamp').formatDate();,
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
       status: async (web3, icoContract) => {
         const isRunning = await toPromise(icoContract.state)();

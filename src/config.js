@@ -457,7 +457,6 @@ let config = {
         q14: { answer: true },
       },
       addedBy: 'Mostafa Balata',
-
     },
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {
       information: {
@@ -502,6 +501,84 @@ let config = {
         q14: { answer: null },
       },
       addedBy: 'Mostafa Balata',
+    },
+    '0x0908f1678ea2Aa69912ED9b45861E2Cfe5c41C35': {
+     tokenContract:'0xbacc0a58ecd510597cac918344137c7fb49eb9ad',
+      information: {
+        aliasName: "Initial Coinless Offer",
+        website: "http://coinless.io",
+        logo: 'http://coinless.io/assets/images/logo-small.png',
+      },
+      events: {
+        LogFundingReceived: {
+          args: {
+            sender: 'addr',
+            ether: 'amount',
+          },
+          customArgs: {
+            raised:'currentTotal',
+          },
+        },
+        LogWinnerPaid: {
+          customArgs: {
+            to:'winnerAddress',
+          }
+        },
+        LogFundingSuccessful: {
+          customArgs: {
+            raised:'totalRaised',
+          },
+        },
+        LogFunderInitialized: {
+          customArgs: {
+            creator:'creator',
+            beneficiary:'beneficiary',
+            url:'url',
+            deadline:'deadline',
+          }
+        },
+        LogContributorsContributed: {
+          args: {
+            sender:'addr',
+            ether:'amount',
+          },
+          customArgs: {
+            id:'id',
+          }
+        },
+        LogContributorsPayout: {
+          tokens:'amount',
+          sender:'addr',
+        }
+      },
+      cap: async (web3, icoContract) => '9000000 CLS, no ETH cap!',
+      startDate: async (web3, icoContract) => 'contract creation',
+      endDate: async (web3, icoContract) => {
+          const timestamp = await toPromise(icoContract.deadline)();
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();,
+        },
+      status: async (web3, icoContract) => {
+        const isRunning = await toPromise(icoContract.state)();
+        // tezos does what they want. may start at any moment in the future
+        return isRunning.valueOf() ? 'in progress' : 'successful';
+        },
+      matrix: {
+        q1: { answer: true, comment: '' },
+        q2: { answer: true, comment: '' },
+        q3: { answer: true, comment: '' },
+        q4: { answer: false, comment: '' },
+        q5: { answer: true, comment: '' },
+        q6: { answer: true, comment: '' },
+        q7: { answer: true, comment: '' },
+        q8: { answer: true, comment: '' },
+        q9: { answer: true, comment: '' },
+        q10: { answer: false, comment: '' },
+        q11: { answer: true, comment: '' },
+        q12: { answer: true, comment: 'Fixed suply of tokens, distributed proportionally to eth contribution' },
+        q13: { answer: true, comment: '' },
+        q14: { answer: true, comment: '' },
+      }
+      addedBy: 'Fares Akel f.antonio.akel@gmail.com',
     },
   },
   rpcHost,

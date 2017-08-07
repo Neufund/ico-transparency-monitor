@@ -547,7 +547,7 @@ let config = {
         q11: { answer: false},
         q12: { answer: null},
         q13: { answer: true },
-        q14: { answer: false, comment:'There\'s no maximum cap or ICO end date provied in the smart contract'},
+        q14: { answer: false, comment:'There\'s no maximum cap or ICO end date provided in the smart contract'},
       },
       addedBy: 'Mostafa Balata',
     },

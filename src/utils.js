@@ -353,7 +353,6 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
 
     for (let i = 0; i < events.length; i++) {
       const item = events[i];
-      console.log(item);
       // allow for ICOs that do not generate tokens: like district0x
       const tokenValue = eventArgs.tokens ? parseFloat(item.args[eventArgs.tokens].valueOf()) / precision : 0;
 

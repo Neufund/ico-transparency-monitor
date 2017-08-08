@@ -16,20 +16,23 @@ const gnosis = {
         ether: 'amount',
         sender: 'sender',
       },
-      firstTransactionBlockNumber: 3557583,
-      lastTransactionBlockNumber: 3635851, // @todo check this
+      firstTransactionBlockNumber: 0, //3579517, 3557583,3593271, 3593274
+      lastTransactionBlockNumber: "latest", // @todo check this
       countTransactions: true,
     },
     Transfer: {
       args: {
         tokens: 'value',
+        sender: 'to'
       },
       customArgs: {
         from: '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc',
       },
-      firstTransactionBlockNumber: 3635851,
-      lastTransactionBlockNumber: 'latest', 
-      tokenEvent: true,
+      firstTransactionBlockNumber: 3593310, // next block after finalizeAuction() call
+      lastTransactionBlockNumber: null,
+      maxBlocksInChunk: 12960 * 10, // scan in ~ 30 days blocks, last one is open
+      countTransactions: false,
+      tokenEvent: true
     },
   },
   icoParameters: {
@@ -212,7 +215,7 @@ let config = {
           },
           firstTransactionBlockNumber: 3932884,
           lastTransactionBlockNumber: null, // follow last block
-          maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
+          maxBlocksInChunk: 12960, // scan in 3 days blocks, last one is open
           countTransactions: true,
         },
         // in this transaction people come and claim their tokens

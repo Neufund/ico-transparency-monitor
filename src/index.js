@@ -11,6 +11,7 @@ import './assets/css/index.css';
 import Layout from './views/Layout';
 import RPCProvider from './components/RPCProvider';
 import MessageBoxModal from './components/modals';
+import withTracker from './components/withTracker';
 import reducer from './reducers';
 
 const root = document.getElementById('root');
@@ -22,8 +23,8 @@ const render = (store) => {
         <Layout>
           <HashRouter>
             <Switch>
-              <Route exact path="/" component={App} />
-              <Route exact path="/:name" component={Scan} />
+              <Route exact path="/" component={withTracker(App)} />
+              <Route exact path="/:name" component={withTracker(Scan)} />
             </Switch>
           </HashRouter>
           <MessageBoxModal />

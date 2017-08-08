@@ -4,6 +4,8 @@ body{
 .App {
   text-align: left;
   border-top: 1px solid #D9DBDC;
+  position: relative;
+  min-height: 700px;
 }
 
 .App-logo {
@@ -41,6 +43,9 @@ body{
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.App-header a{
+  font-size:14px;
+}
 .App-header span.powerd-by-neufund {
   height: 20px;
   color: #4A4A4A;
@@ -75,7 +80,7 @@ body{
 .header-paragraph p{
   clear: both;
   /*height: 91px;*/
-  width: 532px;
+  /*width: 532px;*/
   color: #4A4A4A;
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
@@ -87,9 +92,10 @@ body{
   height:100%;
 }
 
-.ico-container{
+.ico-container .ico-box{
   cursor: pointer;
 }
+
 .pointer-cursor{
   cursor: pointer;
 }
@@ -97,6 +103,11 @@ body{
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 0 #BBC2C7;
 }
+
+.ico-box:hover{
+  box-shadow: 0 2px 4px 0 #505050;
+}
+
 .ico-box .clearfix{
   height: 100%;
 }
@@ -183,10 +194,6 @@ body{
   line-height: 24px;
   display: block;
 }
-/*.ico-box .part, .ico-box-scan .part{*/
-  /*padding-left: 20px;*/
-/*}*/
-
 
 .container {
   box-sizing: border-box;
@@ -413,6 +420,19 @@ div[class^="narcissus_"]{
   font-size: 14px;
 }
 
+.modal-content ul {
+  padding: 0;
+}
+
+.modal-content ul li {
+  list-style-type:none;
+  margin: 5px 0;
+}
+
+.modal-content a {
+  text-decoration: none;
+}
+
 div.transparency.part button{
   margin-top: 6px;
 }
@@ -422,9 +442,6 @@ div.transparency.part button:hover{
   cursor: pointer;
 }
 .add-new-ico{
-  position: absolute;
-  top:50%;
-  right:15px;
   cursor: pointer;
   border: 0;
   background: none;
@@ -448,6 +465,9 @@ div.transparency.part button:hover{
 .ico-paragraph{
   max-width: 500px;
 }
+.header-paragraph a{
+  font-size: 16px !important;
+}
 
 /*Large*/
 @media only screen and (min-width: 75em) {
@@ -455,7 +475,7 @@ div.transparency.part button:hover{
     width: 65rem !important;
   }
   .add-new-ico{
-    position: absolute;
+    /*position: absolute;*/
     top:50%;
     right:15px;
     cursor: pointer;
@@ -481,6 +501,12 @@ div.transparency.part button:hover{
 
   .scanbox-details , .scanbox-details-parameters{
     padding:20px;
+  }
+
+  .add-new-ico{
+    /*position: absolute;*/
+    top:50%;
+    right:15px;
   }
 
   .ico-box{
@@ -626,18 +652,20 @@ div.transparency.part button:hover{
   .exchangeRate{
     position: static !important;
   }
+
   .scanbox-details{
     padding: 20px;
   }
   .App-logo{
-
     margin-left: 0 !important;
     border-right: 1px solid black;
     padding-right: 10px;
   }
+
   .App-header{
     border: 0 !important;
   }
+
   .App-header h4{
     margin-left: 35px;
   }

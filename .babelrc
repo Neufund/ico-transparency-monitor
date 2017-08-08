@@ -10,5 +10,12 @@
     "transform-class-properties",
     "transform-export-extensions",
     "transform-object-rest-spread"
-  ]
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-remove-console"
+      ]
+    }
+  }
 }

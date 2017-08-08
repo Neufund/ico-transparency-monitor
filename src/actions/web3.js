@@ -3,14 +3,15 @@ import { getICOParameters, isConnected, web3Connect, getSmartContract, getAbiAsD
 import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
 import { setCurrency, setStatisticsByCurrency } from './CurrencyAction';
-import { drawStatistics, showStatistics, hideLoader, showLoader,
-  allocateCSVFile, setSmartContractLoaded, setProperties, errorMessage, resetRpc } from './ScanAction';
+import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
+  setSmartContractLoaded, setProperties, resetRpc } from './ScanAction';
+import { showErrorMessage } from './ModalAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
   console.log('Start Web3 connection');
   if (isConnected() === false) {
     await dispatch(resetRpc());
-    await dispatch(errorMessage());
+    dispatch(showErrorMessage(`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`));
     return;
   }
 
@@ -70,7 +71,7 @@ export const getLogs = address => async (dispatch, getState) => {
   const lastBlockNumber = typeof blockNumber === 'string' ? parseInt(blockNumber) : parseInt(`0x${blockNumber.toString('hex')}`);
 
   if (!web3) {
-    dispatch(errorMessage());
+    dispatch(showErrorMessage('Web3 is not initialized'));
     return;
   }
 
@@ -117,12 +118,9 @@ export const getLogs = address => async (dispatch, getState) => {
       }
 
       const currencyRate = currencyResult.value;
-      console.log('Fetched Currency is ', currencyRate);
 
       dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
-      console.log(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
       dispatch(showStatistics());
-      console.log(showStatistics());
     });
   };
   const logProcessor = () => {
@@ -132,8 +130,7 @@ export const getLogs = address => async (dispatch, getState) => {
     getICOLogs(range, icoConfig, icoContract, tokenContract, async (error, logs) => {
       if (error) {
         dispatch(hideLoader());
-
-        dispatch({ type: error });
+        dispatch({ type: error, message: logs });
       } else {
         // store logs, for each event separately
         if (eventName in allLogs) {

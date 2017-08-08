@@ -44,7 +44,7 @@ export const ICOScan = (props) => {
             <div className="right">
               <p className="title title-status">Status</p>
               <strong
-                className={`desc ${trimString(getValueOrDefault(status))}`}
+                className={`desc`}
               >{getValueOrDefault(status)}</strong>
             </div>
           </Col>

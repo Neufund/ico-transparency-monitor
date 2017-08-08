@@ -108,20 +108,19 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, tokenContract, ca
       }],
       method: 'eth_getLogsDetails',
     }),
-    success: (e) => {
-      if (e.error) {
-        console.log(e);
-        callback('SHOW_MODAL_ERROR', `Error when getting logs ${e.error.message}`);
+    success: (response) => {
+      if (response.error) {
+        callback('SHOW_MODAL_ERROR', `Error when getting logs ${response.error.message}`);
       } else {
-        const res = e.result;
-        console.log(`Formatting ${res.length} log entries for ${eventName} event.`);
+        const res = response.result;
+        console.log(`formatting ${res.length} log entries`);
         const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
         console.log('log entries formatted');
         callback(null, logsFormat);
       }
     },
-    error: (status) => {
-      callback('SHOW_MODAL_ERROR', `Error ${status}`);
+    error: (response) => {
+      callback('SHOW_MODAL_ERROR', `Server returned error: ${response.status}`);
     },
     dataType: 'json',
   });
@@ -411,18 +410,24 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   stats.charts.tokensCount = [];
 
   // when building charts fill empty days and hours with 0
-  let timeIterator = stats.time.scale !== 'blocks' ?
-    Array.from(new Array(toTimeBucket(transactionLogs[transactionLogs.length - 1])), (x, i) => i + 1) : Object.keys(chartTokensCountTemp);
-  timeIterator.forEach(key => stats.charts.tokensCount.push({
-    name: key,
-    amount: key in chartTokensCountTemp ? parseFloat(chartTokensCountTemp[key].toFixed(2)) : 0,
-  }));
-  timeIterator = stats.time.scale !== 'blocks' ?
-    Array.from(new Array(toTimeBucket(transactionLogs[transactionLogs.length - 1])), (x, i) => i + 1) : Object.keys(chartTransactionsCountTemp);
-  timeIterator.forEach(key => stats.charts.transactionsCount.push({
-    name: key,
-    amount: key in chartTransactionsCountTemp ? parseFloat(chartTransactionsCountTemp[key].toFixed(2)) : 0,
-  }));
+  const chartTokensKeys = Object.keys(chartTokensCountTemp);
+  if (chartTokensKeys.length !== 0) {
+    let timeIterator = stats.time.scale !== 'blocks' ?
+      Array.from(new Array(Math.max.apply(null, chartTokensKeys)), (x, i) => i + 1) : chartTokensKeys;
+    timeIterator.forEach(key => stats.charts.tokensCount.push({
+      name: key,
+      amount: key in chartTokensCountTemp ? chartTokensCountTemp[key] : 0,
+    }));
+  }
+  const chartTransactionsKeys = Object.keys(chartTransactionsCountTemp);
+  if (chartTransactionsKeys !== 0) {
+    let timeIterator = stats.time.scale !== 'blocks' ?
+      Array.from(new Array(Math.max.apply(null, chartTransactionsKeys)), (x, i) => i + 1) : chartTransactionsKeys;
+    timeIterator.forEach(key => stats.charts.transactionsCount.push({
+      name: key,
+      amount: key in chartTransactionsCountTemp ? chartTransactionsCountTemp[key] : 0,
+    }));
+  }
 
   const sortedSenders = sortInvestorsByTicket(senders);
   stats.investors.sortedByTicket = sortedSenders[0];
@@ -434,10 +439,11 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   );
 
   if (stats.money.tokenIssued > 0) {
-    const tokens = Object.keys(stats.investors.senders)
-      .map(investor => stats.investors.senders[investor].tokens);
-    stats.general.giniIndex = gini.unordered(tokens);
+    const tokens = sortedSenders[0].map(investor => investor.value);
+    // todo: should just rewrite gini.ordered to accept reverse ordered array
+    stats.general.giniIndex = gini.ordered(tokens.reverse());
   }
 
+  console.log('dictionaries completed');
   return [stats, csvContentArray];
 };

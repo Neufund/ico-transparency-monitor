@@ -32,7 +32,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         dataKey="Tokens/Time"
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
-        isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
+        isVisible={parseInt(props.stats.money.tokenIssued) > 0}
         isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not
         handling them in trustless way"
       />
@@ -42,6 +42,11 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         title="Transactions over time"
         data={props.stats.charts.transactionsCount}
         dataKey={`Transactions/${props.stats.time.scale}`}
+
+        isVisible={parseInt(props.stats.general.transactionsCount) > 0}
+        isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or
+          is not handling them in trustless way"
+
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Transactions"
       />
@@ -63,6 +68,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       </Col>
       <Col md={6} sm={12} xs={12} >
         <Chart
+          title="Token holders distribution"
+          hideTitle
           dataKey="TokenHolders"
           data={props.stats.charts.tokenHolders}
           xLabel={'Top Wealthiest Investors'}
@@ -102,7 +109,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         <Chart
           data={props.stats.charts.investorsDistribution}
           dataKey="Investors"
-          title="Number of Investors with Ticket of Size"
+          title="Number of Investors with size of ticket"
           xLabel={`Ticket Size in [${props.currency}]`}
           yLabel="Number of Investors"
           isVisible={props.stats.money.totalETH !== 0}
@@ -115,7 +122,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         <Chart
           data={props.stats.charts.investmentDistribution}
           dataKey="Investments"
-          title="Total Amount Invested with Ticket of Size"
+          title="Total Amount Invested with size of ticket"
           xLabel={`Ticket Size in [${props.currency}]`}
           yLabel="Total Amount Invested"
           isVisible={props.stats.money.totalETH !== 0}

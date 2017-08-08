@@ -84,7 +84,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, tokenContract, ca
   const event = icoConfig.events[eventName];
 
   const contract = event.tokenEvent ? tokenContract : icoContract;
-  const address = contract.addreess;
+  const address = contract.address;
 
   const filter = contract[eventName](event.customArgs || {}, {
     fromBlock: blockRange[0],

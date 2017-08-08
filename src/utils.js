@@ -78,13 +78,15 @@ export const getValueOrDefault = value => value || 'Not Available';
 
 export const trimString = value => value.replace(/ /g, '');
 
-export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
+export const getICOLogs = (blockRange, icoConfig, icoContract, tokenContract, callback) => {
   console.log(`Start scanning for block range ${blockRange}`, icoContract.address);
-  const address = icoContract.address;
   const eventName = blockRange[2];
   const event = icoConfig.events[eventName];
 
-  const filter = icoContract[eventName](event.customArgs || {}, {
+  const contract = event.tokenEvent ? tokenContract : icoContract;
+  const address = contract.addreess;
+
+  const filter = contract[eventName](event.customArgs || {}, {
     fromBlock: blockRange[0],
     toBlock: blockRange[1],
   });
@@ -112,7 +114,7 @@ export const getICOLogs = (blockRange, icoConfig, icoContract, callback) => {
         callback('SHOW_MODAL_ERROR', `Error when getting logs ${e.error.message}`);
       } else {
         const res = e.result;
-        console.log(`formatting ${res.length} log entries`);
+        console.log(`Formatting ${res.length} log entries for ${eventName} event.`);
         const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
         console.log('log entries formatted');
         callback(null, logsFormat);
@@ -323,6 +325,9 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   // get event that defines investor transaction and extract timestamps that will scale the time charts
   // console.log(allLogs);
   const transactionLogs = allLogs[Object.keys(allLogs).filter(name => icoConfig.events[name].countTransactions)[0]];
+  if (!transactionLogs) {
+    throw new Error("You need to mark at least one event with 'countTransactions'");
+  }
   const startTimestamp = transactionLogs[0].timestamp;
   const endTimestamp = transactionLogs[transactionLogs.length - 1].timestamp;
   const startTime = new Date(startTimestamp * 1000);

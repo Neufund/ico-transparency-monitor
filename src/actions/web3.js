@@ -78,6 +78,7 @@ export const getLogs = address => async (dispatch, getState) => {
 
   const icoConfig = configFile[address];
   const icoContract = getSmartContract(web3, address);
+  const tokenContract = icoConfig.tokenContract ? getTokenSmartContract(web3, address) : null;
 
   // now partition into many smaller calls
   const logRequests = [];
@@ -128,7 +129,7 @@ export const getLogs = address => async (dispatch, getState) => {
     const range = logRequests.shift();
     const eventName = range[2];
 
-    getICOLogs(range, icoConfig, icoContract, async (error, logs) => {
+    getICOLogs(range, icoConfig, icoContract, tokenContract, async (error, logs) => {
       if (error) {
         dispatch(hideLoader());
 

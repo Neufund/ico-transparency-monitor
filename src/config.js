@@ -14,15 +14,23 @@ const gnosis = {
   events: {
     BidSubmission: {
       args: {
-        tokens: 'amount',
+        ether: 'amount',
         sender: 'sender',
       },
-      customArgs: {
-        _from: '0x0000000000000000000000000000000000000000',
-      },
       firstTransactionBlockNumber: 3557583,
-      lastTransactionBlockNumber: 3635851, // use block number to skip tokens created in finalize()
+      lastTransactionBlockNumber: 3635851, // @todo check this
       countTransactions: true,
+    },
+    Transfer: {
+      args: {
+        tokens: 'value',
+      },
+      customArgs: {
+        from: '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc',
+      },
+      firstTransactionBlockNumber: 3635851,
+      lastTransactionBlockNumber: 'latest', 
+      tokenEvent: true,
     },
   },
   icoParameters: {

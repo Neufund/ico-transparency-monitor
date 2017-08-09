@@ -207,6 +207,24 @@ body{
   float:right;
   background-color: #D9DBDC;
   text-align: left;
+  position: relative;
+}
+.transparency-button button{
+  background: #0971a1;
+  color: white;
+  border: 0;
+  border-radius: 5px;
+  width: 98px;
+  line-height: 31px;
+  font-size: 14px;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  box-shadow: 0 2px 4px 0 #BBC2C7;
+}
+.transparency-button button:hover{
+  background: #0971a1 !important;
+  box-shadow: 0 0 0 0 #BBC2C7;
 }
 .transparency-button .title{
   margin:0px;
@@ -220,12 +238,21 @@ body{
 .transparent-status{
   border-left:10px #2BD822 solid;
 }
+.nontransparent-status-bottom{
+  border-bottom:10px #FF0000 solid;
+}
+.withissues-status-bottom{
+  border-bottom: 10px #FFB600 solid;
+}
+.transparent-status-bottom{
+  border-bottom: 10px #2BD822 solid;
+}
 
 .nontransparent-row{
-  border-left:10px #FF0000 solid;
+  border-left: 10px #FF0000 solid;
 }
 .withissues-row{
-  border-left:10px #FFB600 solid;
+  border-left: 10px #FFB600 solid;
 }
 .transparent-row{
   border-left:10px #2BD822 solid;

@@ -117,7 +117,7 @@ export const TokenDistribution = ({ tokenHolders, isVisible, isNotVisibleMessage
       <div className="token-distribution-table"><table className="table table-responsive">
         <thead>
           <tr>
-            <th>Top Wealthiest Investors</th>
+            <th>Share of investors by ownership</th>
             <th>Share of Tokens Owned</th>
           </tr>
         </thead>

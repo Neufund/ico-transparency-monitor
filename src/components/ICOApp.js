@@ -53,14 +53,14 @@ export const ICOApp = (props) => {
                 <p className="title added-by-person">Added by <b>{addedBy || 'Person'}</b></p>
                 <button
                   href={name}
-                  className={`transparency-button ${getValueOrDefault(decision)}-status`}
+                  className={`transparency-button ${getValueOrDefault(decision)}-status-bottom`}
                   onClick={(e) => {
                     e.stopPropagation();
                     console.log(name);
                     onModalShow(props);
                   }}
                 >
-                  <p>Transparency</p>
+                  <p>See more on the score</p>
                   <strong> {icoTransparencyMap[getValueOrDefault(decision).toUpperCase()]}
                   </strong>
                   <span className="arrow">&#8594;</span>

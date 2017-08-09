@@ -52,7 +52,7 @@ class ContentTable extends Component {
             </div>
             <div className="modal-title-button">
               <button className={`transparency-button ${this.state.decision}-status`}>
-                <p>Transparency</p>
+                <p>Transparency score</p>
                 <strong>{icoTransparencyMap[this.state.decision.toUpperCase()]} </strong>
                 <span className="arrow">&#8594;</span>
               </button>

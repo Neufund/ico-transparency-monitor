@@ -38,9 +38,9 @@ export const ICOScanHeader = (props) => {
                     onModalShow(props);
                   }}
                 >
-                  <p>Transparency</p>
+                  <p>Transparency score</p>
                   <strong>{decision ? icoTransparencyMap[decision.toUpperCase()] : ''} </strong>
-                  <span className="arrow">&#8594;</span>
+                  <button>Open</button>
                 </button>
               </Col>
             </Row>

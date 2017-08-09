@@ -39,6 +39,7 @@ export const ICOApp = (props) => {
                   className="desc"
                 >{item}</strong>))}
                 {cap && typeof cap === 'string' && <strong className="desc">{getValueOrDefault(cap)}</strong>}
+                {!cap && <strong>not provided</strong>}
               </Col>
               <Col lg={3} sm={6} md={6} xs={12} className="part">
                 <p className="title">Declared Duration</p>

@@ -18,7 +18,7 @@ export const ICOScanHeader = (props) => {
                   <div className="ico-information">
                     <h4><a href={`/#/${props.address}`}> {name || information.aliasName}</a></h4>
                     <a className="link" rel="noopener noreferrer" target="_blank" href={information.website} >{information.website}</a>
-                    <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View ICO contract on etherscan</a>
+                    {address.match('0x[A-Za-z0-9]{40}') && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View ICO contract on etherscan</a>}
                     {props.tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/token/${tokenContract}`} >View token contract on etherscan</a>}
                   </div>
                 </div>
@@ -29,8 +29,8 @@ export const ICOScanHeader = (props) => {
 
           <Col md={6} sm={12} xs={12}>
             <Row>
-              <Col lg={5} md={1} sm={1} xs={1} />
-              <Col lg={7} md={11} sm={11} xs={11} className="part transparency">
+              <Col lg={4} md={1} sm={1} xs={1} />
+              <Col lg={8} md={11} sm={11} xs={11} className="part transparency">
                 {props.addedBy && <p className="title added-by-person">Added by <b>{addedBy}</b></p>}
                 <button
                   className={`transparency-button ${decision ? decision.replace(/\s+/g, '-').toLowerCase() : ''}-status`}

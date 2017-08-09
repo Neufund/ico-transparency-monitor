@@ -25,6 +25,7 @@ export const ICOScan = (props) => {
             >{item}</strong>))}
             {cap && typeof cap === 'string' &&
               <strong className="desc">{getValueOrDefault(cap)}</strong>}
+            {!cap && <strong>not provided</strong>}
           </Col>
           <Col lg={2} md={12} sm={12} xs={12} className="part">
             <p className="title">Tokens Supply</p>

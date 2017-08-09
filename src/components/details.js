@@ -10,11 +10,11 @@ export const TimeDetails = ({ startDate, endDate, duration }) => (
         <tbody>
           <tr>
             <th>First transaction date</th>
-            <td>{startDate.formatDate(true)}</td>
+            <td>{startDate && startDate.formatDate(true)}</td>
           </tr>
           <tr>
             <th>Last transaction date</th>
-            <td>{endDate.formatDate(true)}</td>
+            <td>{endDate && endDate.formatDate(true)}</td>
           </tr>
           <tr>
             <th>Duration</th>

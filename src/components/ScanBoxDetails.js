@@ -72,11 +72,11 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           hideTitle
           dataKey="TokenHolders"
           data={props.stats.charts.tokenHolders}
-          xLabel={'Top Wealthiest Investors'}
+          xLabel={'Share of investors by ownership'}
           yLabel="Share of Tokens Owned"
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution statistics: This ICO is not generating tokens
-          or is not handling them in trustless way"
+          isNotVisibleMessage="No Token distribution statistics: This ICO is not
+          generating tokens or is not handling them in trustless way"
         />
       </Col>
     </Row>
@@ -101,22 +101,24 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       />
     </div>}
 
-    <h3 className="title">
-      <span className="tooltip" data-tip="This section shows how different types of investors (with different ticket size) impacted ICO results.<br/>First chart shows which ticket sizes were most popular among investors.<br/>Second chart shows which ticket size generated most funds. Were those few large 1M EUR tickets? Or rather many smaller 10k tickets?">Funds distribution</span>
-    </h3>
-    <Row className="box-container">
-      <Col md={12} sm={12} xs={12} >
-        <Chart
-          data={props.stats.charts.investorsDistribution}
-          dataKey="Investors"
-          title="Number of Investors with size of ticket"
-          xLabel={`Ticket Size in [${props.currency}]`}
-          yLabel="Number of Investors"
-          isVisible={props.stats.money.totalETH !== 0}
-          isNotVisibleMessage="No ETH statistics: This ICO Is not handling funds in a trustless way"
-        />
-      </Col>
-    </Row>
+    <div className="section-top">
+      <h3 className="title">
+        <span className="tooltip" data-tip="This section shows how different types of investors (with different ticket size) impacted ICO results.<br/>First chart shows which ticket sizes were most popular among investors.<br/>Second chart shows which ticket size generated most funds. Were those few large 1M EUR tickets? Or rather many smaller 10k tickets?">Funds distribution</span>
+      </h3>
+      <Row className="box-container">
+        <Col md={12} sm={12} xs={12} >
+          <Chart
+            data={props.stats.charts.investorsDistribution}
+            dataKey="Investors"
+            title="Number of investors according to ticket size"
+            xLabel={`Ticket Size in [${props.currency}]`}
+            yLabel="Number of Investors"
+            isVisible={props.stats.money.totalETH !== 0}
+            isNotVisibleMessage="No ETH statistics: This ICO Is not handling funds in a trustless way"
+          />
+        </Col>
+      </Row>
+    </div>
     <Row className="box-container">
       <Col md={12} sm={12} xs={12} >
         <Chart

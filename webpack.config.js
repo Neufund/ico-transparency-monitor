@@ -42,9 +42,9 @@ const config = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: {
-          test: path.resolve(__dirname, "node_modules"),
-          exclude: path.resolve(__dirname, "node_modules/web3-provider-engine") // allow some untranspiled modules
-        }
+          test: path.resolve(__dirname, 'node_modules'),
+          exclude: path.resolve(__dirname, 'node_modules/web3-provider-engine'), // allow some untranspiled modules
+        },
       },
       {
         test: /\.(jpg|png)$/,

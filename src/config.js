@@ -577,7 +577,7 @@ let config = {
     },
     'filescoin-smart-contract-not-provided': {
       information: {
-        aliasName: 'Filescoin ETH fundraiser',
+        aliasName: 'Filecoin ETH fundraiser',
         logo: 'https://pbs.twimg.com/profile_images/489720503892856832/XZt8MkUk.png',
         website: 'https://coinlist.co/',
       },

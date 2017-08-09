@@ -23,7 +23,7 @@ const gnosis = {
     Transfer: {
       args: {
         tokens: 'value',
-        sender: 'to'
+        sender: 'to',
       },
       customArgs: {
         from: '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc',
@@ -32,7 +32,7 @@ const gnosis = {
       lastTransactionBlockNumber: null,
       maxBlocksInChunk: 12960 * 10, // scan in ~ 30 days blocks, last one is open
       countTransactions: false,
-      tokenEvent: true
+      tokenEvent: true,
     },
   },
   icoParameters: {
@@ -52,23 +52,23 @@ const gnosis = {
     status: async icoContract => 'successful',
   },
   matrix: {
-    q1: {answer: true},
-    q2: {answer: true},
-    q3: {answer: true},
-    q4: {answer: true},
-    q5: {answer: true},
+    q1: { answer: true },
+    q2: { answer: true },
+    q3: { answer: true },
+    q4: { answer: true },
+    q5: { answer: true },
     q6: {
       answer: true,
-      comment: 'This ICO was conducted as Dutch Auction so final price was available after ICO finished.'
+      comment: 'This ICO was conducted as Dutch Auction so final price was available after ICO finished.',
     },
-    q7: {answer: true, comment: 'There is no min cap - tokens will be always distributed.'},
-    q8: {answer: null},
-    q9: {answer: null},
-    q10: {answer: true},
-    q11: {answer: true},
-    q12: {answer: true},
-    q13: {answer: true},
-    q14: {answer: true},
+    q7: { answer: true, comment: 'There is no min cap - tokens will be always distributed.' },
+    q8: { answer: null },
+    q9: { answer: null },
+    q10: { answer: true },
+    q11: { answer: true },
+    q12: { answer: true },
+    q13: { answer: true },
+    q14: { answer: true },
   },
   decimals: 18,
   addedBy: 'Krzysztof Kaczor',

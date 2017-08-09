@@ -3,6 +3,10 @@
   padding-top:0px;
 }
 
+.section-top{
+  margin-top: 20px;
+}
+
 .scan-ico-for-detaile {
   height: 24px;
   width: 328px;
@@ -291,6 +295,7 @@ textarea.console{
 .right .title-status{
   text-align: right;
 }
+
 
 @media(min-width:767px){
   .scanbox-details .stats table td {

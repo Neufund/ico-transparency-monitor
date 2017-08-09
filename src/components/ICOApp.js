@@ -47,7 +47,7 @@ export const ICOApp = (props) => {
               </Col>
               <Col lg={2} sm={6} md={6} xs={12} className="part">
                 <p className="title title-status">Status</p>
-                <strong className={`desc`}>{getValueOrDefault(status)}</strong>
+                <strong className={'desc'}>{getValueOrDefault(status)}</strong>
               </Col>
               <Col lg={4} sm={6} md={6} xs={12} className="part transparency">
                 <p className="title added-by-person">Added by <b>{addedBy || 'Person'}</b></p>

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { getSmartContract } from '../../src/utils/web3';
 import { getICODuration, formatDuration } from '../../src/utils';
 import getLogsDetails from '../helpers/LogsMock';
-import axios from 'axios'
+import axios from 'axios';
 import AxiosMock from 'axios-mock-adapter';
 
 import {

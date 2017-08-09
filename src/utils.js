@@ -412,7 +412,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   // when building charts fill empty days and hours with 0
   const chartTokensKeys = Object.keys(chartTokensCountTemp);
   if (chartTokensKeys.length !== 0) {
-    let timeIterator = stats.time.scale !== 'blocks' ?
+    const timeIterator = stats.time.scale !== 'blocks' ?
       Array.from(new Array(Math.max.apply(null, chartTokensKeys)), (x, i) => i + 1) : chartTokensKeys;
     timeIterator.forEach(key => stats.charts.tokensCount.push({
       name: key,
@@ -421,7 +421,7 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   }
   const chartTransactionsKeys = Object.keys(chartTransactionsCountTemp);
   if (chartTransactionsKeys !== 0) {
-    let timeIterator = stats.time.scale !== 'blocks' ?
+    const timeIterator = stats.time.scale !== 'blocks' ?
       Array.from(new Array(Math.max.apply(null, chartTransactionsKeys)), (x, i) => i + 1) : chartTransactionsKeys;
     timeIterator.forEach(key => stats.charts.transactionsCount.push({
       name: key,

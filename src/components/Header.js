@@ -23,10 +23,10 @@ const Header = () => (
               </ul>
               Please read detailed explanation <a href="https://github.com/Neufund/ico-transparency-monitor#transparency-questionnaire">here</a>.
             </p>
-              <p>
+            <p>
                 ICO Monitor is an open platform. We take no responsibility for the information published or data provided.
                 We also do not assume any liability of their correctness.
-              </p>
+            </p>
             <a href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor" target="_blank" className="add-new-ico">
               <i className="fa fa-plus" aria-hidden="true" />Submit New ICO or Update HERE! for free</a>
           </Col>

@@ -599,7 +599,7 @@ let config = {
         q7: { answer: null },
         q8: { answer: null },
         q9: { answer: null },
-        q10: { answer: null, comment: 'There\'s no smart contact provided for this ICO.'},
+        q10: { answer: null, comment: 'There\'s no smart contact provided for this ICO.' },
         q11: { answer: null },
         q12: { answer: null, comment: 'There\'s no smart contact provided for this ICO.' },
         q13: { answer: null, comment: 'There\'s no smart contact provided for this ICO.' },

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { icoTransparencyMap } from '../utils';
+import { icoTransparencyMap, isCorrectTokenAddress } from '../utils';
 
 export const ICOScanHeader = (props) => {
   const { address, information, name, addedBy, decision, onModalShow, tokenContract } = props;
@@ -18,7 +18,7 @@ export const ICOScanHeader = (props) => {
                   <div className="ico-information">
                     <h4><a href={`/#/${props.address}`}> {name || information.aliasName}</a></h4>
                     <a className="link" rel="noopener noreferrer" target="_blank" href={information.website} >{information.website}</a>
-                    {address.match('0x[A-Za-z0-9]{40}') && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View ICO contract on etherscan</a>}
+                    {isCorrectTokenAddress(address) && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View ICO contract on etherscan</a>}
                     {props.tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/token/${tokenContract}`} >View token contract on etherscan</a>}
                   </div>
                 </div>

@@ -33,7 +33,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 
   const tokenContract = getTokenSmartContract(web3, address);
 
-  if(tokenContract === null) { // Doesn't have smart contract
+  if (tokenContract === null) { // Doesn't have smart contract
     dispatch(setSmartContractLoaded(true));
     return null;
   }
@@ -84,7 +84,7 @@ export const getLogs = address => async (dispatch, getState) => {
 
   const icoConfig = configFile[address];
   const icoContract = getSmartContract(web3, address);
-  if(icoContract === null) { // doesn't have smart contract
+  if (icoContract === null) { // doesn't have smart contract
     dispatch(hideLoader());
     dispatch(drawStatistics(initStatistics()));
     dispatch(allocateCSVFile([]));

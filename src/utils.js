@@ -25,6 +25,9 @@ export const formatNumber = (number, precision = 2) => {
   return number.toFixed(precision).replace(/./g, (c, i, a) => i && c !== '.' && ((a.length - i) % 3 === 0) ? ` ${c}` : c);
 };
 
+
+export const isCorrectTokenAddress = address => address.match('0x[A-Za-z0-9]{40}');
+
 export const icoTransparencyLevel = Object.freeze({ NONTRANSPARENT: 'nontransparent', WITHISSUES: 'withissues', TRANSPARENT: 'transparent' });
 
 export const icoTransparencyMap = { NONTRANSPARENT: 'NON TRANSPARENT', WITHISSUES: 'WITH ISSUES', TRANSPARENT: 'TRANSPARENT' };

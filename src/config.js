@@ -61,7 +61,7 @@ const gnosis = {
       answer: true,
       comment: 'This ICO was conducted as Dutch Auction so final price was available after ICO finished.'
     },
-    q7: {answer: true, comment: 'There is no small cap - tokens will be always distributed.'},
+    q7: {answer: true, comment: 'There is no min cap - tokens will be always distributed.'},
     q8: {answer: null},
     q9: {answer: null},
     q10: {answer: true},

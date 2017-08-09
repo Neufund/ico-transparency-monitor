@@ -37,8 +37,9 @@ const gnosis = {
   },
   icoParameters: {
     cap: async (web3, icoContract) => {
-      const maxCap = await toPromise(icoContract.MAX_TOKENS_SOLD)().valueOf();
-      return `${maxCap / (10 ** 18)} GNO`;
+      const maxCapGno = await toPromise(icoContract.MAX_TOKENS_SOLD)().valueOf();
+      const maxCapEth = await toPromise(icoContract.ceiling)().valueOf();
+      return `${maxCapGno / (10 ** 18)} GNO or ${maxCapEth / (10 ** 18)} ETH`;
     },
     startDate: async (web3, icoContract) => {
       const blockNumber = await toPromise(icoContract.startBlock)();

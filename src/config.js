@@ -94,7 +94,8 @@ let config = {
         q1: { answer: false, comment:
           `Funds in ETH, BTC and USD are gathered by Coinlist's backend so Ether is processed no different form fiat. 
            HD wallets are created for participants (BIP32 we assume) which are probably monitored by backend that can derive private keys to control funds. 
-          CoinList could provide public master key for ETH and BTC to let external auditors monitor ICO funds, but we cannot find those.`},
+          CoinList could provide public master key for ETH and BTC to let external auditors monitor ICO funds, but we cannot find those. 
+          SO WHY IT IS HERE? BECAUSE IT IS PRESENTED AS TOKEN SALE AND IT HAPPENS ON ETHEREUM (among others)`},
         q2: { answer: false },
         q3: { answer: false },
         q4: { answer: null },
@@ -105,7 +106,8 @@ let config = {
         q9: { answer: false},
         q10: { answer: null },
         q11: { answer: true,
-          comment: "SAFT agreement is an advance in token holder rights protection. Should be cryptographically signed by private key of the token holder and kept in token contract to be trustless." },
+          comment: `SAFT agreement is an advance in token holder rights protection. It goes beyond typical ICO terms in using existing legal system for holders protection. 
+          Should be cryptographically signed by private key of the token holder and kept in token contract to be trustless.` },
         q12: { answer: false, comment: 'No tokens are generated!' },
         q13: { answer: false, comment: 'No tokens are generated!' },
         q14: { answer: false, comment: 'No tokens are generated!' },

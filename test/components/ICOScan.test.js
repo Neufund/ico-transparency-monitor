@@ -82,11 +82,15 @@ describe('<ICOScan/>', () => {
     initProps.showLoader = false;
     initProps.cap = null;
     const rendered = render(initProps);
+
     expect(rendered.find('.scanbox-details-parameters')).to.contain((
       <Col lg={3} md={12} sm={12} xs={12} className="part">
         <p className="title">
           Declared Cap
         </p>
+        <strong>
+          not provided
+        </strong>
       </Col>
     ));
   });

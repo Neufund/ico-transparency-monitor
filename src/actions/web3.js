@@ -32,6 +32,11 @@ export const readSmartContract = address => async (dispatch, getState) => {
   dispatch(setProperties(address, { decision: transparencyDecision }));
 
   const tokenContract = getTokenSmartContract(web3, address);
+
+  if (tokenContract === null) { // Doesn't have smart contract
+    dispatch(setSmartContractLoaded(true));
+    return null;
+  }
   const abiAsDictionary = getAbiAsDictionary(tokenContract.abi);
 
   const parameters = await getICOParameters(web3, address);
@@ -79,6 +84,13 @@ export const getLogs = address => async (dispatch, getState) => {
 
   const icoConfig = configFile[address];
   const icoContract = getSmartContract(web3, address);
+  if (icoContract === null) { // doesn't have smart contract
+    dispatch(hideLoader());
+    dispatch(drawStatistics(initStatistics()));
+    dispatch(allocateCSVFile([]));
+    dispatch(showStatistics());
+    return null;
+  }
   const tokenContract = icoConfig.tokenContract ? getTokenSmartContract(web3, address) : null;
 
   // now partition into many smaller calls

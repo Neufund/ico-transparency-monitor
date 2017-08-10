@@ -107,7 +107,8 @@ let config = {
         q10: { answer: null },
         q11: { answer: true,
           comment: `SAFT agreement is an advance in token holder rights protection. It goes beyond typical ICO terms in using existing legal system for holders protection. 
-          Should be cryptographically signed by private key of the token holder and kept in token contract to be trustless.` },
+          Still you need to personally trust Filecoin that tokens will be generated or refunded if deadline is not met - so it is NOT TRUSTLESS as in smart contract that will guarantee such things. 
+          See SAFT for more details.` },
         q12: { answer: false, comment: 'No tokens are generated!' },
         q13: { answer: false, comment: 'No tokens are generated!' },
         q14: { answer: false, comment: 'No tokens are generated!' },

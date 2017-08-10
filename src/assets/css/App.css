@@ -258,8 +258,12 @@ body{
   border-left:10px #2BD822 solid;
 }
 
-.part.transparency{
-  padding-right:0;
+.part.transparency {
+  padding-right: 18px;
+}
+.part.transparency button{
+  box-shadow: 0 2px 4px 0 #BBC2C7;
+  border-radius: 3px;
 }
 .part.transparency p{
   margin:0;

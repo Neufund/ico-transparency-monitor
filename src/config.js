@@ -76,6 +76,41 @@ const gnosis = {
 
 let config = {
   ICOs: {
+    'filescoin-smart-contract-not-provided': {
+      information: {
+        aliasName: 'Filecoin ETH fundraiser',
+        logo: 'https://pbs.twimg.com/profile_images/489720503892856832/XZt8MkUk.png',
+        website: 'https://coinlist.co/',
+      },
+      events: {
+      },
+      icoParameters: {
+        cap: async icoContract => 'not provided',
+        startDate: async icoContract => 'not provided',
+        endDate: async icoContract => 'not provided',
+        status: async icoContract => 'not provided',
+      },
+      matrix: {
+        q1: { answer: false, comment:
+          `Funds in ETH, BTC and USD are gathered by Coinlist's backend so Ether is processed no different form fiat. 
+           HD wallets are created for participants (BIP32 we assume) which are probably monitored by backend that can derive private keys to control funds. 
+          CoinList could provide public master key for ETH and BTC to let external auditors monitor ICO funds, but we cannot find those.`},
+        q2: { answer: false },
+        q3: { answer: false },
+        q4: { answer: null },
+        q5: { answer: null },
+        q6: { answer: false, comment: "There is no way to externally monitor ETH funds as master public key is not provided. You are as good as sending a signed transaction in envelope to Coinlist."  },
+        q7: { answer: false},
+        q8: { answer: false, comment: "Fiat is entirely handled by banks, no pegged token is used to represent it, that eliminates fiat from any external auditing." },
+        q9: { answer: false},
+        q10: { answer: null },
+        q11: { answer: null },
+        q12: { answer: false, comment: 'No tokens are generated!' },
+        q13: { answer: false, comment: 'No tokens are generated!' },
+        q14: { answer: false, comment: 'No tokens are generated!' },
+      },
+      addedBy: 'Mostafa Balata',
+    },
     '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
@@ -574,44 +609,12 @@ let config = {
         q14: { answer: null },
       },
       addedBy: 'Mostafa Balata',
-    },
-    'filescoin-smart-contract-not-provided': {
-      information: {
-        aliasName: 'Filecoin ETH fundraiser',
-        logo: 'https://pbs.twimg.com/profile_images/489720503892856832/XZt8MkUk.png',
-        website: 'https://coinlist.co/',
-      },
-      events: {
-      },
-      icoParameters: {
-        cap: async icoContract => 'not provided',
-        startDate: async icoContract => 'not provided',
-        endDate: async icoContract => 'not provided',
-        status: async icoContract => 'not provided',
-      },
-      matrix: {
-        q1: { answer: false },
-        q2: { answer: false, comment: 'There\'s no smart contact provided.' },
-        q3: { answer: false },
-        q4: { answer: null },
-        q5: { answer: null },
-        q6: { answer: false, comment: 'There\'s no smart contact and no clear information about this ICO' },
-        q7: { answer: null },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: null, comment: 'There\'s no smart contact provided for this ICO.' },
-        q11: { answer: null },
-        q12: { answer: null, comment: 'There\'s no smart contact provided for this ICO.' },
-        q13: { answer: null, comment: 'There\'s no smart contact provided for this ICO.' },
-        q14: { answer: null, comment: 'There\'s no smart contact provided for this ICO.' },
-      },
-      addedBy: 'Mostafa Balata',
-    },
+    }
   },
   rpcHost,
   defaultDecimal: 18,
   matrix: {
-    q1: { question: 'Is ICO controlled by a smart contract?', critical: false, notApplicable: false },
+    q1: { question: 'Is ICO controlled by a smart contract?', critical: true, notApplicable: false },
     q2: { question: 'Is smart contract source code available?', critical: true, notApplicable: false },
     q3: { question: 'Is smart contract source code provided in etherscan?', critical: false, notApplicable: false },
     q4: {

@@ -16,7 +16,7 @@ export const ICOApp = (props) => {
               <Col lg={12} md={12} sm={12} xs={12}>
                 <div className="clearfix">
                   <div className="ico-logo">
-                    <img src={information.logo} alt={address} />
+                    <img src={information.logo} alt="" />
                   </div>
                   <div className="ico-information">
                     <h4><a href={`/#/${address}`}>{ name || information.aliasName }</a></h4>

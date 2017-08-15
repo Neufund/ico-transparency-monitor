@@ -13,7 +13,7 @@ export const ICOScanHeader = (props) => {
               <Col lg={12}>
                 <div className="clearfix">
                   <div className="ico-logo">
-                    <img src={information.logo} alt={address} />
+                    <img src={information.logo} alt="" />
                   </div>
                   <div className="ico-information">
                     <h4><a href={`/#/${props.address}`}> {name || information.aliasName}</a></h4>

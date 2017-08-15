@@ -474,7 +474,7 @@ let config = {
       information: {
         aliasName: 'MelonPort',
         website: 'https://melonport.com/',
-        logo: 'https://melonport.com/favicon.png',
+        logo: 'https://melonport.com/img/favicon.png',
       },
       events: {
         TokensBought: {

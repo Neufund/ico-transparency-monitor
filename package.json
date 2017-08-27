@@ -42,7 +42,7 @@
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
-    "redux-promise-middleware": "4.2.1",
+    "redux-promise-middleware": "4.4.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.0",
     "sass-loader": "^6.0.0",

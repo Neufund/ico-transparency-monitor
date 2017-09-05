@@ -92,9 +92,10 @@ export const getLogs = address => async (dispatch, getState) => {
     return null;
   }
   const tokenContract = icoConfig.tokenContract ? getTokenSmartContract(web3, address) : null;
-  const contracts = {};
-  contracts[address] = icoContract;
-  contracts[icoConfig.tokenContract] = tokenContract;
+  const contracts = {
+    [address]: icoContract,
+    [icoConfig.tokenContract]: tokenContract,
+  };
 
   // load logs for all events
   const logRequests = [];

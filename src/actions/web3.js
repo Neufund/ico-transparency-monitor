@@ -80,9 +80,9 @@ export const getLogs = address => async (dispatch, getState) => {
     return;
   }
 
-  const configFile = config.ICOs;
-
-  const icoConfig = configFile[address];
+  const icoConfig = config.ICOs[address];
+  icoConfig.address = address;
+  // create interfaces for all smart contracts
   const icoContract = getSmartContract(web3, address);
   if (icoContract === null) { // doesn't have smart contract
     dispatch(hideLoader());
@@ -92,15 +92,24 @@ export const getLogs = address => async (dispatch, getState) => {
     return null;
   }
   const tokenContract = icoConfig.tokenContract ? getTokenSmartContract(web3, address) : null;
+  const contracts = {
+    [address]: icoContract,
+    [icoConfig.tokenContract]: tokenContract,
+  };
 
-  // now partition into many smaller calls
+  // load logs for all events
   const logRequests = [];
   Object.keys(icoConfig.events).forEach((eventName) => {
     const event = icoConfig.events[eventName];
+
     const firstTxBlockNumber = event.firstTransactionBlockNumber || 0;
     const lastTxBlockNumber = event.lastTransactionBlockNumber || lastBlockNumber;
     console.log(eventName, firstTxBlockNumber, lastTxBlockNumber);
-
+    // if event needs ABI for not yet loaded smart contract
+    if (event.address && !contracts[event.address]) {
+      contracts[event.address] = getSmartContract(web3, event.address);
+    }
+    // now partition into many smaller calls
     if (!event.maxBlocksInChunk || !firstTxBlockNumber || lastTxBlockNumber === 'latest') {
       // do in one request
       logRequests.push([firstTxBlockNumber, lastTxBlockNumber, eventName]);
@@ -139,7 +148,7 @@ export const getLogs = address => async (dispatch, getState) => {
     const range = logRequests.shift();
     const eventName = range[2];
 
-    getICOLogs(range, icoConfig, icoContract, tokenContract, async (error, logs) => {
+    getICOLogs(range, icoConfig, contracts, async (error, logs) => {
       if (error) {
         dispatch(hideLoader());
         dispatch({ type: error, message: logs });

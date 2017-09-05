@@ -62,11 +62,12 @@ describe('getICOLogs', () => {
   const address = '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf';
   const icoConfig = config.ICOs[address];
   const web3 = stateProvider().modal.web3;
+  icoConfig.address = address;
 
   it('Should return array of logs', () => {
     const blockRange = [3932884, 3945843, 'LogBuy'];
     const icoContract = getSmartContract(web3, address);
-    getICOLogs(blockRange, icoConfig, icoContract);
+    getICOLogs(blockRange, icoConfig, {[address]: icoContract});
   });
 });
 

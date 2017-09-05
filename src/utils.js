@@ -81,14 +81,13 @@ export const getValueOrDefault = value => value || 'Not Available';
 
 export const trimString = value => value.replace(/ /g, '');
 
-export const getICOLogs = (blockRange, icoConfig, icoContract, tokenContract, callback) => {
-  console.log(`Start scanning for block range ${blockRange}`, icoContract.address);
+export const getICOLogs = (blockRange, icoConfig, contracts, callback) => {
   const eventName = blockRange[2];
   const event = icoConfig.events[eventName];
-
-  const contract = event.tokenEvent ? tokenContract : icoContract;
+  const contract = contracts[event.address || icoConfig.address];
   const address = contract.address;
 
+  console.log(`Start scanning for block range ${blockRange} at ${address}`);
   const filter = contract[eventName](event.customArgs || {}, {
     fromBlock: blockRange[0],
     toBlock: blockRange[1],
@@ -365,7 +364,10 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
       const tokenValue = eventArgs.tokens ? parseFloat(item.args[eventArgs.tokens].valueOf()) / precision : 0;
 
       // removed operations on bigint which may decrease precision!
-      const etherValue = parseFloat(eventArgs.ether ? item.args[eventArgs.ether].valueOf() : parseInt(item.value)) / 10 ** 18;
+      const etherValue = parseFloat(
+        eventArgs.ether ? ( typeof eventArgs.ether === "function" ? eventArgs.ether(tokenValue*precision) : item.args[eventArgs.ether].valueOf() )
+          : parseInt(item.value, 16)
+        ) / 10 ** 18;
 
       const investor = item.args[eventArgs.sender];
       csvContentArray.push([investor, tokenValue, etherValue, item.timestamp, item.blockNumber]); // (new Date(item.timestamp * 1000)).formatDate(true)

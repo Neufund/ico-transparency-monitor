@@ -17,13 +17,13 @@ All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-sma
  Using [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#watch-callback-return-value) The ICO-Monitor takes the address of an ICO Smart Contract and scans through the whole blockchain and collects all token generation events logged by the ICO smart contract.
 
 
- ### Parity Node 
+ ### Parity Node
 Parity is an Ethereum client tool which allows you to interact with the blockchain and which is written in Rust programming language. If you wish to read more about Parity, please click [here](https://github.com/paritytech/parity#about-parity).
 
 There is a JSON-RPC method called [`eth_getLogs`](https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_getlogs) that returns an array of all logs matching the filter object.
  Since we scan all the logs for the ICO from the Ethereum network, and because we do not want to make two requests to have the `timestamp` and ether `value` of transaction that created the log, we decided to have our
   Neufund [fork](https://github.com/Neufund/parity) on `Neufund_mod` branch, we added custom JSON-RPC method `eth_getLogsDetails`.
- It has the same inputs as `eth_getLogs`, but here, you will find the `timestamp` and ether `value` of transaction attached in each log in the output. 
+ It has the same inputs as `eth_getLogs`, but here, you will find the `timestamp` and ether `value` of transaction attached in each log in the output.
  This enhances the performance of the ICO Transparency Monitor greatly.
 
 Testing `eth_getLogsDetails` using cURL :
@@ -166,7 +166,7 @@ A general form of an ICO configuration can be presented as:
           lastTransactionBlockNumber: LAST-BLOCK
           maxBlocksInChunk: BLOCK-SIZE
           countTransactions: TRUE or FALSE
-          tokenEvent: TRUE or FALSE
+          address: #ADDRESS-OF-CONTRACT
         },
         ...
       },
@@ -236,7 +236,7 @@ A general form of an ICO configuration can be presented as:
 
   `countTransactions`: At least one event in dictionary should be marked as true. This will tell Monitor to count those events as Transactions in graphs. Typically those should be events that are associated with sender/investor sending ether to smart contract.
 
-  `tokenEvent`: Mark event to be loaded from token contract.
+  `address`: Address of contract that generates event. ABI must be available in `smart_contracts` folder. Optional. When not provided, ICO smart contract will be used.
 
   `icoParameters`: This section should be written manually using JavaScript code that connects with the smart contract and return the needed variables.
 

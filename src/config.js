@@ -1,7 +1,7 @@
-import { toPromise, formatNumber } from './utils';
-import { convertWeb3Value, convertBlockNumberToDate } from './utils/web3';
+import {toPromise, formatNumber} from './utils';
+import {convertWeb3Value, convertBlockNumberToDate} from './utils/web3';
 import testConfig from './config.test';
-import { rpcHost } from './env.json';
+import {rpcHost} from './env.json';
 
 const gnosis = {
   tokenContract: '0x6810e776880C02933D47DB1b9fc05908e5386b96',
@@ -32,89 +32,218 @@ const gnosis = {
       lastTransactionBlockNumber: null,
       maxBlocksInChunk: 12960 * 10, // scan in ~ 30 days blocks, last one is open
       countTransactions: false,
-      tokenEvent: true,
+      address: '0x6810e776880C02933D47DB1b9fc05908e5386b96',
     },
   },
   icoParameters: {
-    cap: async (web3, icoContract) => {
+    cap: async(web3, icoContract) => {
       const maxCapGno = await toPromise(icoContract.MAX_TOKENS_SOLD)().valueOf();
       const maxCapEth = await toPromise(icoContract.ceiling)().valueOf();
       return `${maxCapGno / (10 ** 18)} GNO or ${maxCapEth / (10 ** 18)} ETH`;
     },
-    startDate: async (web3, icoContract) => {
+    startDate: async(web3, icoContract) => {
       const blockNumber = await toPromise(icoContract.startBlock)();
       return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
     },
-    endDate: async (web3, icoContract) => {
+    endDate: async(web3, icoContract) => {
       const endTime = await toPromise(icoContract.endTime)();
       return convertWeb3Value(endTime, 'timestamp').formatDate();
     },
     status: async icoContract => 'successful',
   },
   matrix: {
-    q1: { answer: true },
-    q2: { answer: true },
-    q3: { answer: true },
-    q4: { answer: true },
-    q5: { answer: true },
+    q1: {answer: true},
+    q2: {answer: true},
+    q3: {answer: true},
+    q4: {answer: true},
+    q5: {answer: true},
     q6: {
       answer: true,
       comment: 'This ICO was conducted as Dutch Auction so final price was available after ICO finished.',
     },
-    q7: { answer: true, comment: 'There is no min cap - tokens will be always distributed.' },
-    q8: { answer: null },
-    q9: { answer: null },
-    q10: { answer: true },
-    q11: { answer: true },
-    q12: { answer: true },
-    q13: { answer: true },
-    q14: { answer: true },
+    q7: {answer: true, comment: 'There is no min cap - tokens will be always distributed.'},
+    q8: {answer: null},
+    q9: {answer: null},
+    q10: {answer: true},
+    q11: {answer: true},
+    q12: {answer: true},
+    q13: {answer: true},
+    q14: {answer: true},
   },
   decimals: 18,
   addedBy: 'Krzysztof Kaczor',
 };
 
-let config = {
-  ICOs: {
-    'filescoin-smart-contract-not-provided': {
-      information: {
-        aliasName: 'Filecoin ETH fundraiser',
-        logo: 'https://pbs.twimg.com/profile_images/489720503892856832/XZt8MkUk.png',
-        website: 'https://coinlist.co/',
+const zrx = {
+  tokenContract: '0xE41d2489571d322189246DaFA5ebDe1F4699F498',
+  information: {
+    aliasName: '0x project',
+    website: 'https://0xproject.com/',
+    logo: 'https://0xproject.com/images/favicon/favicon-2-32x32.png',
+  },
+  events: {
+    // unfortunately LogFill does not allow us to connect ETH with particular investor. taker is ICO contract
+    // no information on tx.origin
+    /* LogFill: {
+      // https://etherscan.io/tx/0x4d3f6c254599ea6ff5a90f25ef89fc4c665a3b9b9584da07cafc2c1b22af18d6 - initialize sale
+      args: {
+        ether: 'filledTakerTokenAmount',
+        sender: 'taker',
       },
-      events: {
+      customArgs: {
+        // orderHash: '0x1cbf70d8f6dfee99ee740f4e0e90a97e8e1f0c38a14b8604adadbe28469c0ffa'
+        maker: '0x7f33036d984f67a864c7f413012c31329d4193a2',
+        taker: '0xd4fd252d7d2c9479a8d616f510eac6243b5dddf9'
       },
-      icoParameters: {
-        cap: async icoContract => 'not provided',
-        startDate: async icoContract => 'not provided',
-        endDate: async icoContract => 'not provided',
-        status: async icoContract => 'not provided',
+      firstTransactionBlockNumber: 4161301,
+      lastTransactionBlockNumber: 4165451,
+      countTransactions: false,
+      address: '0x12459C951127e0c374FF9105DdA097662A027093'
+    },*/
+    Transfer: {
+      args: {
+        tokens: '_value',
+        sender: '_to',
+        // ZXR price taken directly from caps: getOrderMakerTokenAmount / getOrderTakerTokenAmount
+        // our other choice was to not provide any ETH information as ICO smart contract is not auditable
+        ether: (tokens) => tokens/5906.8750000012323217968752570931
       },
-      matrix: {
-        q1: { answer: false, comment:
-          `Funds in ETH, BTC and USD are gathered by Coinlist's backend so Ether is processed no different form fiat. 
+      customArgs: {
+        _from: '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9',
+      },
+      firstTransactionBlockNumber: 4161301,
+      lastTransactionBlockNumber: 4165451,
+      countTransactions: true,
+      address: '0xE41d2489571d322189246DaFA5ebDe1F4699F498'
+    },
+  },
+  icoParameters: {
+    cap: async(web3, icoContract) => {
+      const maxCapZrx = await toPromise(icoContract.getOrderMakerTokenAmount)().valueOf();
+      const maxCapEth = await toPromise(icoContract.getOrderTakerTokenAmount)().valueOf();
+      return `${maxCapZrx / (10 ** 18)} ZRX or ${maxCapEth / (10 ** 18)} ETH`;
+    },
+    startDate: async(web3, icoContract) => {
+      const timestamp = await toPromise(icoContract.startTimeInSec)();
+      return convertWeb3Value(timestamp, 'timestamp').formatDate();
+    },
+    endDate: async(web3, icoContract) => 'until ZRX cap reached',
+    status: async icoContract => 'successful',
+  },
+  matrix: {
+    q1: {answer: true},
+    q2: {answer: true},
+    q3: {answer: true},
+    q4: {answer: true},
+    q5: {answer: true, comment: `Crowdsale contract provides no tracking data. Actual value of ZXR amount  per ETH amount for given investor is never logged. 
+      Thanks to fixed ZXR to ETH peg it can be easily inferred which we do here.`},
+    q6: {answer: true},
+    q7: {answer: true},
+    q8: {answer: null},
+    q9: {answer: null},
+    q10: {answer: true},
+    q11: {answer: true, comment: `Crowdsale happens via 0x Exchange. The maker of the order is a simple address so order could be cancelled any time. 
+      Otherwise ZRX is ERC20 token and its usage is laid out in Exchange contract. This goes beyond typical ICO which does not showcase future products.`},
+    q12: {answer: true},
+    q13: {answer: true},
+    q14: {answer: false, comment: 'See Q11. Maker can cancel the order any time thus effectively ending ICO.'},
+  },
+  decimals: 18,
+  addedBy: 'Rudolfix',
+};
+
+const kin = {
+  information: {
+    aliasName: 'Kin',
+    logo: 'https://kin.kik.com/favicon-32x32.png',
+    website: 'https://kin.kik.com/',
+  },
+  events: {},
+  icoParameters: {
+    cap: async icoContract => 'not provided',
+    startDate: async icoContract => 'not provided',
+    endDate: async icoContract => 'not provided',
+    status: async icoContract => 'not provided',
+  },
+  matrix: {
+    q1: {
+      answer: false, comment: `No source code and no information how actual fundraiser will proceed is disclosed. Is there crowdsale smart contract? Is it backend driven fundraiser 
+      like Filecoin? Certainly less information is available to external observers than in Filecoin case. On the other hand it is announced that funds are raised only in ETH and kin is 
+      ERC20 token so we `
+    },
+    q2: {answer: false},
+    q3: {answer: false},
+    q4: {answer: null},
+    q5: {answer: null},
+    q6: {answer: false, comment: 'Auditing funds not possible.'},
+    q7: {answer: false},
+    q8: {answer: false},
+    q9: {answer: false},
+    q10: {answer: null},
+    q11: {
+      answer: false,
+      comment: 'No token smart contract available. No legal contract like SAFT available. Is token transferable? Is secondary market allowed? Any vesting? This remains unanswered.'
+    },
+    q12: {answer: false},
+    q13: {answer: false},
+    q14: {answer: false}
+  },
+  addedBy: 'Rudolfix',
+};
+
+const filecoin = {
+  information: {
+    aliasName: 'Filecoin ETH fundraiser',
+    logo: 'https://pbs.twimg.com/profile_images/489720503892856832/XZt8MkUk.png',
+    website: 'https://coinlist.co/',
+  },
+  events: {},
+  icoParameters: {
+    cap: async icoContract => 'not provided',
+    startDate: async icoContract => 'not provided',
+    endDate: async icoContract => 'not provided',
+    status: async icoContract => 'not provided',
+  },
+  matrix: {
+    q1: {
+      answer: false, comment: `Funds in ETH, BTC and USD are gathered by Coinlist's backend so Ether is processed no different form fiat. 
            HD wallets are created for participants (BIP32 we assume) which are probably monitored by backend that can derive private keys to control funds. 
           CoinList could provide public master key for ETH and BTC to let external auditors monitor ICO funds, but we cannot find those. 
-          SO WHY IT IS HERE? BECAUSE IT IS PRESENTED AS TOKEN SALE AND IT HAPPENS ON ETHEREUM (among others)`},
-        q2: { answer: false },
-        q3: { answer: false },
-        q4: { answer: null },
-        q5: { answer: null },
-        q6: { answer: false, comment: "There is no way to externally monitor ETH funds as master public key is not provided. You are as good as sending a signed transaction in envelope to Coinlist."  },
-        q7: { answer: false},
-        q8: { answer: false, comment: "Fiat is entirely handled by banks, no pegged token is used to represent it, that eliminates fiat from any external auditing." },
-        q9: { answer: false},
-        q10: { answer: null },
-        q11: { answer: true,
-          comment: `SAFT agreement is an advance in token holder rights protection. It goes beyond typical ICO terms in using existing legal system for holders protection. 
-          Still you need to personally trust Filecoin that tokens will be generated or refunded if deadline is not met - so it is NOT TRUSTLESS as in smart contract that will guarantee such things. 
-          See SAFT for more details.` },
-        q12: { answer: false, comment: 'No tokens are generated!' },
-        q13: { answer: false, comment: 'No tokens are generated!' },
-        q14: { answer: false, comment: 'No tokens are generated!' },
-      },
-      addedBy: 'Mostafa Balata',
+          SO WHY IT IS HERE? BECAUSE IT IS PRESENTED AS TOKEN SALE AND IT HAPPENS ON ETHEREUM (among others)`
     },
+    q2: {answer: false},
+    q3: {answer: false},
+    q4: {answer: null},
+    q5: {answer: null},
+    q6: {
+      answer: false,
+      comment: "There is no way to externally monitor ETH funds as master public key is not provided. You are as good as sending a signed transaction in envelope to Coinlist."
+    },
+    q7: {answer: false},
+    q8: {
+      answer: false,
+      comment: "Fiat is entirely handled by banks, no pegged token is used to represent it, that eliminates fiat from any external auditing."
+    },
+    q9: {answer: false},
+    q10: {answer: null},
+    q11: {
+      answer: true,
+      comment: `SAFT agreement is an advance in token holder rights protection. It goes beyond typical ICO terms in using existing legal system for holders protection. 
+          Still you need to personally trust Filecoin that tokens will be generated or refunded if deadline is not met - so it is NOT TRUSTLESS as in smart contract that will guarantee such things. 
+          See SAFT for more details.`
+    },
+    q12: {answer: false, comment: 'No tokens are generated!'},
+    q13: {answer: false, comment: 'No tokens are generated!'},
+    q14: {answer: false, comment: 'No tokens are generated!'},
+  },
+  addedBy: 'Mostafa Balata',
+};
+
+let config = {
+  ICOs: {
+    'kin-smart-contract-not-provided': kin,
+    '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9': zrx,
+    'filescoin-smart-contract-not-provided': filecoin,
     '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
@@ -145,44 +274,46 @@ let config = {
         },
       },
       icoParameters: {
-        cap: async (web3, icoContract) => {
+        cap: async(web3, icoContract) => {
           const softCapETH = await toPromise(icoContract.softCapAmount)();
           const hardCapETH = await toPromise(icoContract.hardCapAmount)();
           return [`Hard: ${convertWeb3Value(hardCapETH, 'ether')} ETH`, `Soft: ${convertWeb3Value(softCapETH, 'ether')} ETH`];
         },
-        startDate: async (web3, icoContract) => {
+        startDate: async(web3, icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
-        endDate: async (web3, icoContract) => {
+        endDate: async(web3, icoContract) => {
           const timestamp = await toPromise(icoContract.endTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
-        status: async (web3, icoContract) => {
+        status: async(web3, icoContract) => {
           const isRunning = await toPromise(icoContract.isContribPeriodRunning)();
           // when contribution is over then successful as there is not failure condition in smart contract
           return isRunning.valueOf() ? 'in progress' : 'successful';
         },
       },
       matrix: {
-        q1: { answer: true },
-        q2: { answer: true },
-        q3: { answer: true },
-        q4: { answer: true },
-        q5: { answer: true, comment: 'Tokens are not created in trustless way so this information is not available' },
-        q6: { answer: true },
-        q7: { answer: true },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: true },
-        q11: { answer: false,
+        q1: {answer: true},
+        q2: {answer: true},
+        q3: {answer: true},
+        q4: {answer: true},
+        q5: {answer: true, comment: 'Tokens are not created in trustless way so this information is not available'},
+        q6: {answer: true},
+        q7: {answer: true},
+        q8: {answer: null},
+        q9: {answer: null},
+        q10: {answer: true},
+        q11: {
+          answer: false,
           comment: 'Several issues: 1. no refund mechanism implemented so this is at good will of multisig owner ' +
-        '2. tokens are not generated in trustless way and they may be or may be not generated after ICO by the owner ' +
-        '3. ICO owner has access to all funds all the time, he may choose to not generate tokens and still gets all the money, smart contract could protect against that but does not. ' +
-        '4. several other minor issues' },
-        q12: { answer: true, comment: 'price depends on total contribution amount' },
-        q13: { answer: true },
-        q14: { answer: true },
+          '2. tokens are not generated in trustless way and they may be or may be not generated after ICO by the owner ' +
+          '3. ICO owner has access to all funds all the time, he may choose to not generate tokens and still gets all the money, smart contract could protect against that but does not. ' +
+          '4. several other minor issues'
+        },
+        q12: {answer: true, comment: 'price depends on total contribution amount'},
+        q13: {answer: true},
+        q14: {answer: true},
       },
       addedBy: 'Rudolfix',
     },
@@ -204,30 +335,36 @@ let config = {
         },
       },
       icoParameters: {
-        cap: async (web3, icoContract) => 'no max nor min cap',
-        startDate: async (web3, icoContract) => 'NOT AN ICO!',
-        endDate: async (web3, icoContract) => 'NOT AN ICO!',
-        status: async (web3, icoContract) => {
+        cap: async(web3, icoContract) => 'no max nor min cap',
+        startDate: async(web3, icoContract) => 'NOT AN ICO!',
+        endDate: async(web3, icoContract) => 'NOT AN ICO!',
+        status: async(web3, icoContract) => {
           const isRunning = await toPromise(icoContract.accept)();
           // tezos does what they want. may start at any moment in the future
           return isRunning.valueOf() ? 'in progress' : 'successful';
         },
       },
       matrix: {
-        q1: { answer: true },
-        q2: { answer: true },
-        q3: { answer: true, comment: "They didn't bother to attach code to actual fundraising smart contract but etherscan is solving this by bytecode search" },
-        q4: { answer: true },
-        q5: { answer: false, comment: 'They do not track senders of ETH, no refund mechanism' },
-        q6: { answer: true },
-        q7: { answer: true },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: true },
-        q11: { answer: false, comment: 'No investor rights are protected. You send money and Tezos takes it. Not any better than sending $$$ in envelope to Tezos office.' },
-        q12: { answer: false, comment: 'Not an ICO - no tokens created' },
-        q13: { answer: false, comment: 'May be started and re-started whenever Tezos wants' },
-        q14: { answer: false, comment: 'May be stopped and re-started whenever Tezos wants' },
+        q1: {answer: true},
+        q2: {answer: true},
+        q3: {
+          answer: true,
+          comment: "They didn't bother to attach code to actual fundraising smart contract but etherscan is solving this by bytecode search"
+        },
+        q4: {answer: true},
+        q5: {answer: false, comment: 'They do not track senders of ETH, no refund mechanism'},
+        q6: {answer: true},
+        q7: {answer: true},
+        q8: {answer: null},
+        q9: {answer: null},
+        q10: {answer: true},
+        q11: {
+          answer: false,
+          comment: 'No investor rights are protected. You send money and Tezos takes it. Not any better than sending $$$ in envelope to Tezos office.'
+        },
+        q12: {answer: false, comment: 'Not an ICO - no tokens created'},
+        q13: {answer: false, comment: 'May be started and re-started whenever Tezos wants'},
+        q14: {answer: false, comment: 'May be stopped and re-started whenever Tezos wants'},
       },
       addedBy: 'Rudolfix',
     },
@@ -264,23 +401,23 @@ let config = {
         },
       },
       icoParameters: {
-        cap: async (web3, icoContract) => {
+        cap: async(web3, icoContract) => {
           const totEOS = convertWeb3Value(await toPromise(icoContract.totalSupply)(), 'ether');
           const foundersEOS = convertWeb3Value(await toPromise(icoContract.foundersAllocation)().valueOf(), 'ether');
           return `Max ${formatNumber(totEOS - foundersEOS)} EOS, no ETH cap!`;
         },
-        startDate: async (web3, icoContract) => {
+        startDate: async(web3, icoContract) => {
           const timestamp = await toPromise(icoContract.openTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
-        endDate: async (web3, icoContract) => {
+        endDate: async(web3, icoContract) => {
           const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf());
           // (timestamp - startTime) / 23 hours + 1 -> EOS day has 23 hour days :P
           // enddate = (numberofdays - 1) * 23h + startdate
           const endTs = (await toPromise(icoContract.numberOfDays)().valueOf() - 1) * 23 * 60 * 60 + timestamp;
           return (new Date(endTs * 1000)).formatDate();
         },
-        status: async (web3, icoContract) => {
+        status: async(web3, icoContract) => {
           // mind EOS 23h days
           // assert(time() >= openTime && today() <= numberOfDays);
           const today = await toPromise(icoContract.today)().valueOf();
@@ -290,20 +427,29 @@ let config = {
         },
       },
       matrix: {
-        q1: { answer: true },
-        q2: { answer: true },
-        q3: { answer: true },
-        q4: { answer: true },
-        q5: { answer: true },
-        q6: { answer: true },
-        q7: { answer: true, comment: 'Mind that owners can take ETH whenever thay want - nothing is locked! In principle this allows to manipulate daily EOS price' },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: false, comment: 'Code is short but full of tricks: for example EOS day has 23 hours, claimAll method will soon throw out of gas (it is a gas eater!), one day after ICO ends claims are blocked etc.' },
-        q11: { answer: true, comment: 'Contract is designed to be an ETH sucking mechanism without any shame, but as it is done transparently and in a trustless way, we say Yes here. code is law ;>' },
-        q12: { answer: true, comment: 'Price set due to demand each day, mind to claim your tokens!' },
-        q13: { answer: true },
-        q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim' },
+        q1: {answer: true},
+        q2: {answer: true},
+        q3: {answer: true},
+        q4: {answer: true},
+        q5: {answer: true},
+        q6: {answer: true},
+        q7: {
+          answer: true,
+          comment: 'Mind that owners can take ETH whenever thay want - nothing is locked! In principle this allows to manipulate daily EOS price'
+        },
+        q8: {answer: null},
+        q9: {answer: null},
+        q10: {
+          answer: false,
+          comment: 'Code is short but full of tricks: for example EOS day has 23 hours, claimAll method will soon throw out of gas (it is a gas eater!), one day after ICO ends claims are blocked etc.'
+        },
+        q11: {
+          answer: true,
+          comment: 'Contract is designed to be an ETH sucking mechanism without any shame, but as it is done transparently and in a trustless way, we say Yes here. code is law ;>'
+        },
+        q12: {answer: true, comment: 'Price set due to demand each day, mind to claim your tokens!'},
+        q13: {answer: true},
+        q14: {answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim'},
       },
       alternativeLoadingMsg: 'EOS ICO is generating hundreds of thousands of events that we need to analyze. Loading will take more than one minute.',
       addedBy: 'Rudolfix',
@@ -328,35 +474,41 @@ let config = {
         },
       },
       icoParameters: {
-        cap: async (web3, icoContract) => {
+        cap: async(web3, icoContract) => {
           const hardCapETH = await toPromise(icoContract.hardCap)();
           return `Hard Cap: ${convertWeb3Value(hardCapETH, 'ether')} ETH + hidden cap`;
         },
-        startDate: async (web3, icoContract) => {
+        startDate: async(web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.initialBlock)();
           return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
         },
-        endDate: async (web3, icoContract) => {
+        endDate: async(web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.finalBlock)();
           return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
         },
         status: async icoContract => 'successful',
       },
       matrix: {
-        q1: { answer: true },
-        q2: { answer: true },
-        q3: { answer: true },
-        q4: { answer: true },
-        q5: { answer: true },
-        q6: { answer: true },
-        q7: { answer: true, comment: 'Significant effort to manage funds in trustlessway. Locked until ICO is finished and tokens are assigned.' },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: true, comment: 'Code has high quality' },
-        q11: { answer: true },
-        q12: { answer: true, comment: 'price goes from block to block' },
-        q13: { answer: true },
-        q14: { answer: true, comment: 'there is a hidden cap that is revealed during ICO. hard to say what was the intention of having two caps was' },
+        q1: {answer: true},
+        q2: {answer: true},
+        q3: {answer: true},
+        q4: {answer: true},
+        q5: {answer: true},
+        q6: {answer: true},
+        q7: {
+          answer: true,
+          comment: 'Significant effort to manage funds in trustlessway. Locked until ICO is finished and tokens are assigned.'
+        },
+        q8: {answer: null},
+        q9: {answer: null},
+        q10: {answer: true, comment: 'Code has high quality'},
+        q11: {answer: true},
+        q12: {answer: true, comment: 'price goes from block to block'},
+        q13: {answer: true},
+        q14: {
+          answer: true,
+          comment: 'there is a hidden cap that is revealed during ICO. hard to say what was the intention of having two caps was'
+        },
       },
       addedBy: 'Rudolfix',
     },
@@ -380,15 +532,15 @@ let config = {
         },
       },
       icoParameters: {
-        cap: async (web3, icoContract) => {
+        cap: async(web3, icoContract) => {
           const failSafeETH = await toPromise(icoContract.failSafeLimit)();
           return `${convertWeb3Value(failSafeETH, 'ether')} ETH`;
         },
-        startDate: async (web3, icoContract) => {
+        startDate: async(web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.startBlock)();
           return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
         },
-        endDate: async (web3, icoContract) => {
+        endDate: async(web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.endBlock)();
           return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
         },
@@ -397,20 +549,20 @@ let config = {
         status: async icoContract => 'successful',
       },
       matrix: {
-        q1: { answer: true },
-        q2: { answer: true },
-        q3: { answer: true },
-        q4: { answer: true },
-        q5: { answer: true },
-        q6: { answer: true },
-        q7: { answer: true },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: true, comment: 'Code has high quality' },
-        q11: { answer: true },
-        q12: { answer: true, comment: 'exchangeRate is constant' },
-        q13: { answer: true, comment: 'yes, with multiple rounds' },
-        q14: { answer: true, comment: 'owner can stop ICO before failSafe' },
+        q1: {answer: true},
+        q2: {answer: true},
+        q3: {answer: true},
+        q4: {answer: true},
+        q5: {answer: true},
+        q6: {answer: true},
+        q7: {answer: true},
+        q8: {answer: null},
+        q9: {answer: null},
+        q10: {answer: true, comment: 'Code has high quality'},
+        q11: {answer: true},
+        q12: {answer: true, comment: 'exchangeRate is constant'},
+        q13: {answer: true, comment: 'yes, with multiple rounds'},
+        q14: {answer: true, comment: 'owner can stop ICO before failSafe'},
       },
       addedBy: 'Rudolfix',
     },
@@ -435,36 +587,36 @@ let config = {
         },
       },
       icoParameters: {
-        cap: async (web3, icoContract) => {
+        cap: async(web3, icoContract) => {
           const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
           const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
           return [`Max: ${maxCap / 10 ** 18} GNT`, `Min: ${minCap / 10 ** 18} GNT`];
         },
-        startDate: async (web3, icoContract) => {
+        startDate: async(web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingStartBlock)();
           return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
         },
-        endDate: async (web3, icoContract) => {
+        endDate: async(web3, icoContract) => {
           const blockNumber = await toPromise(icoContract.fundingEndBlock)();
           return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
         },
         status: async icoContract => 'successful', // we know that because it is over, we could write some condition instead
       },
       matrix: {
-        q1: { answer: true },
-        q2: { answer: true },
-        q3: { answer: true },
-        q4: { answer: true },
-        q5: { answer: true },
-        q6: { answer: true },
-        q7: { answer: true },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: true },
-        q11: { answer: true },
-        q12: { answer: true },
-        q13: { answer: true },
-        q14: { answer: true },
+        q1: {answer: true},
+        q2: {answer: true},
+        q3: {answer: true},
+        q4: {answer: true},
+        q5: {answer: true},
+        q6: {answer: true},
+        q7: {answer: true},
+        q8: {answer: null},
+        q9: {answer: null},
+        q10: {answer: true},
+        q11: {answer: true},
+        q12: {answer: true},
+        q13: {answer: true},
+        q14: {answer: true},
       },
       decimals: 18, // golem does not provide decimals
       addedBy: 'Mostafa Balata',
@@ -488,16 +640,16 @@ let config = {
         },
       },
       icoParameters: {
-        cap: async (web3, icoContract) => {
+        cap: async(web3, icoContract) => {
           const ethCap = await toPromise(icoContract.ETHER_CAP)();
           // const preEthCap = await toPromise(icoContract.BTCS_ETHER_CAP)();
           return `${convertWeb3Value(ethCap, 'ether')} ETH`;
         },
-        startDate: async (web3, icoContract) => {
+        startDate: async(web3, icoContract) => {
           const timestamp = await toPromise(icoContract.startTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
-        endDate: async (web3, icoContract) => {
+        endDate: async(web3, icoContract) => {
           const timestamp = await toPromise(icoContract.endTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
@@ -505,20 +657,20 @@ let config = {
 
       },
       matrix: {
-        q1: { answer: true },
-        q2: { answer: true },
-        q3: { answer: true },
-        q4: { answer: true },
-        q5: { answer: true },
-        q6: { answer: true },
-        q7: { answer: true },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: true, comment: 'Simple, clean code' },
-        q11: { answer: true },
-        q12: { answer: true },
-        q13: { answer: true },
-        q14: { answer: true, comment: 'Halting function has no impact as there is no minimum cap' },
+        q1: {answer: true},
+        q2: {answer: true},
+        q3: {answer: true},
+        q4: {answer: true},
+        q5: {answer: true},
+        q6: {answer: true},
+        q7: {answer: true},
+        q8: {answer: null},
+        q9: {answer: null},
+        q10: {answer: true, comment: 'Simple, clean code'},
+        q11: {answer: true},
+        q12: {answer: true},
+        q13: {answer: true},
+        q14: {answer: true, comment: 'Halting function has no impact as there is no minimum cap'},
       },
       addedBy: 'Mostafa Balata',
     },
@@ -540,32 +692,35 @@ let config = {
         },
       },
       icoParameters: {
-        cap: async (web3, icoContract) => {
+        cap: async(web3, icoContract) => {
           const daoMinCap = await toPromise(icoContract.minTokensToCreate)();
           return [`Min: ${convertWeb3Value(daoMinCap, 'ether')} DAOs `, 'Max: unbounded'];
         },
         startDate: async icoContract => 'contract creation',
-        endDate: async (web3, icoContract) => {
+        endDate: async(web3, icoContract) => {
           const timestamp = await toPromise(icoContract.closingTime)();
           return convertWeb3Value(timestamp, 'timestamp').formatDate();
         },
         status: async icoContract => 'successful', // could return isFueled
       },
       matrix: {
-        q1: { answer: true },
-        q2: { answer: true },
-        q3: { answer: true },
-        q4: { answer: true },
-        q5: { answer: true },
-        q6: { answer: true },
-        q7: { answer: true },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: true },
-        q11: { answer: true, comment: 'Decision if to treat re-entrancy bug as breach of token holder rights is hard. We decided: NO, as TheDAO stated: code is law ;>' },
-        q12: { answer: true },
-        q13: { answer: true },
-        q14: { answer: true },
+        q1: {answer: true},
+        q2: {answer: true},
+        q3: {answer: true},
+        q4: {answer: true},
+        q5: {answer: true},
+        q6: {answer: true},
+        q7: {answer: true},
+        q8: {answer: null},
+        q9: {answer: null},
+        q10: {answer: true},
+        q11: {
+          answer: true,
+          comment: 'Decision if to treat re-entrancy bug as breach of token holder rights is hard. We decided: NO, as TheDAO stated: code is law ;>'
+        },
+        q12: {answer: true},
+        q13: {answer: true},
+        q14: {answer: true},
       },
       addedBy: 'Mostafa Balata',
 
@@ -597,20 +752,23 @@ let config = {
         status: async icoContract => 'not provided',
       },
       matrix: {
-        q1: { answer: true },
-        q2: { answer: false, comment: 'Source code provided is just this proxy over EToken2 contract with address 0x331d077518216c07c87f4f18ba64cd384c411f84, basically useless.' },
-        q3: { answer: false },
-        q4: { answer: null },
-        q5: { answer: null },
-        q6: { answer: false, comment: 'Ether is not sent to smart contract, probably handled on backend' },
-        q7: { answer: null },
-        q8: { answer: null },
-        q9: { answer: null },
-        q10: { answer: null },
-        q11: { answer: false },
-        q12: { answer: null },
-        q13: { answer: null },
-        q14: { answer: null },
+        q1: {answer: true},
+        q2: {
+          answer: false,
+          comment: 'Source code provided is just this proxy over EToken2 contract with address 0x331d077518216c07c87f4f18ba64cd384c411f84, basically useless.'
+        },
+        q3: {answer: false},
+        q4: {answer: null},
+        q5: {answer: null},
+        q6: {answer: false, comment: 'Ether is not sent to smart contract, probably handled on backend'},
+        q7: {answer: null},
+        q8: {answer: null},
+        q9: {answer: null},
+        q10: {answer: null},
+        q11: {answer: false},
+        q12: {answer: null},
+        q13: {answer: null},
+        q14: {answer: null},
       },
       addedBy: 'Mostafa Balata',
     }
@@ -618,9 +776,9 @@ let config = {
   rpcHost,
   defaultDecimal: 18,
   matrix: {
-    q1: { question: 'Is ICO controlled by a smart contract?', critical: true, notApplicable: false },
-    q2: { question: 'Is smart contract source code available?', critical: true, notApplicable: false },
-    q3: { question: 'Is smart contract source code provided in etherscan?', critical: false, notApplicable: false },
+    q1: {question: 'Is ICO controlled by a smart contract?', critical: true, notApplicable: false},
+    q2: {question: 'Is smart contract source code available?', critical: true, notApplicable: false},
+    q3: {question: 'Is smart contract source code provided in etherscan?', critical: false, notApplicable: false},
     q4: {
       question: 'Is instruction provided how to reproduce deployed bytecode?',
       critical: false,
@@ -636,7 +794,7 @@ let config = {
       critical: true,
       notApplicable: true,
     },
-    q7: { question: 'Does smart contract handle ETH in a trustless way?', critical: false, notApplicable: true },
+    q7: {question: 'Does smart contract handle ETH in a trustless way?', critical: false, notApplicable: true},
     q8: {
       question: 'If ICO is using other currencies is information on token price provided?',
       critical: true,
@@ -675,6 +833,8 @@ let config = {
   },
 };
 
-if (process.env.NODE_ENV === 'test') { config = testConfig; }
+if (process.env.NODE_ENV === 'test') {
+  config = testConfig;
+}
 
 export default config;

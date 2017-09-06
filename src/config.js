@@ -143,10 +143,12 @@ const zrx = {
     q9: {answer: null},
     q10: {answer: true},
     q11: {answer: true, comment: `Crowdsale happens via 0x Exchange. The maker of the order is a simple address so order could be cancelled any time. 
-      Otherwise ZRX is ERC20 token and its usage is laid out in Exchange contract. This goes beyond typical ICO which does not showcase future products.`},
+      Otherwise ZRX is ERC20 token and its usage is laid out in Exchange contract. This goes beyond typical ICO which does not showcase future product.`},
     q12: {answer: true},
     q13: {answer: true},
-    q14: {answer: false, comment: 'See Q11. Maker can cancel the order any time thus effectively ending ICO.'},
+    q14: {answer: true, comment: `There is elaborate structure that lets all registered users to participate easily before ICO is finished. 
+      There is also a flaw: See Q11. Maker can cancel the order any time thus effectively ending ICO. As there is no incentive for the maker to do so and 
+      otherwise smart contracts are nicely trustless we decided not to fail this project here.`},
   },
   decimals: 18,
   addedBy: 'Rudolfix',

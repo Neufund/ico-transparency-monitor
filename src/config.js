@@ -241,12 +241,73 @@ const filecoin = {
   addedBy: 'Mostafa Balata',
 };
 
+const viberate = {
+  tokenContract: '0x2c974b2d0ba1716e644c1fc59982a89ddd2ff724',
+  information: {
+    aliasName: 'Viberate',
+    website: 'https://www.viberate.com/',
+    logo: 'https://viberateassets.azureedge.net/favicon.ico',
+  },
+  events: {
+    
+  },
+  icoParameters: {
+    cap: async(web3, icoContract) => {
+      const maxCap = await toPromise(icoContract.maxCap)().valueOf();
+      const minCap = await toPromise(icoContract.minCap)().valueOf();
+      return `${maxCap / (10 ** 18)} VIB or ${minCap / (10 ** 18)} VIB`;
+    },
+    startDate: async(web3, icoContract) => {
+      const blockNumber = await toPromise(icoContract.crowdsaleStartBlock)();
+      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+    },
+    endDate: async(web3, icoContract) => {
+      /**
+       * The ICO using `4348935` block number as end date for the crowd sale, 
+       * and this number still is not reached yet, so it will raise an exception that there's 
+       * no timestamp for this block number 
+       */
+      try {
+        const blockNumber = await toPromise(icoContract.crowdsaleEndedBlock)();
+        return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+      } catch(e) {
+        return "not reached yet";
+      }
+    },
+    status: async icoContract => 'successful',
+  },
+  matrix: {
+    q1: {answer: true},
+    q2: {answer: true},
+    q3: {answer: true},
+    q4: {answer: true},
+    q5: {answer: true, comment: `Crowdsale contract provides no tracking data. Actual value of ZXR amount  per ETH amount for given investor is never logged. 
+      Thanks to fixed ZXR to ETH peg it can be easily inferred which we do here.`},
+    q6: {answer: true},
+    q7: {answer: true},
+    q8: {answer: null},
+    q9: {answer: null},
+    q10: {answer: true},
+    q11: {answer: true, comment: `Crowdsale happens via 0x Exchange. The maker of the order is a simple address so order could be cancelled any time. 
+      Otherwise ZRX is ERC20 token and its usage is laid out in Exchange contract. This goes beyond typical ICO which does not showcase future product.`},
+    q12: {answer: true},
+    q13: {answer: true},
+    q14: {answer: true, comment: `There is elaborate structure that lets all registered users to participate easily before ICO is finished. 
+      There is also a flaw: See Q11. Maker can cancel the order any time thus effectively ending ICO. As there is no incentive for the maker to do so and 
+      otherwise smart contracts are nicely trustless we decided not to fail this project here.`},
+  },
+  decimals: 18,
+  addedBy: 'Rudolfix',
+};
+
+
 let config = {
   ICOs: {
     'kin-smart-contract-not-provided': kin,
     '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9': zrx,
     'filescoin-smart-contract-not-provided': filecoin,
     '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,
+    '0x91c94bee75786fbbfdcfefba1102b68f48a002f4': viberate,
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
       information: {

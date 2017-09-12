@@ -241,12 +241,67 @@ const filecoin = {
   addedBy: 'Mostafa Balata',
 };
 
+const bat = {  
+  information: {
+    aliasName: 'bat',
+    website: 'https://basicattentiontoken.org/',
+    logo: 'https://basicattentiontoken.org/images/BAT_logo_color_sansBAT.png',
+  },
+  events: {
+    CreateBAT: {
+      args: {
+        tokens: '_value',
+        sender: '_to',        
+      },
+      countTransactions: true,      
+      firstTransactionBlockNumber: 3788558,
+      lastTransactionBlockNumber: 3798720,
+    },
+  },
+  icoParameters: {
+    cap: async(web3, icoContract) => {
+      const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
+      const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
+      return [`Max: ${maxCap / 10 ** 18} BAT`, `Min: ${(minCap / 10 ** 18).toFixed(2)} BAT`];
+    },
+    startDate: async(web3, icoContract) => {
+      const blockNumber = await toPromise(icoContract.fundingStartBlock)();
+      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();      
+    },
+    endDate: async(web3, icoContract) => 'not provided',
+    status: async icoContract => 'successful',
+  },
+  matrix: {
+    q1: {answer: true},
+    q2: {answer: true},
+    q3: {answer: true},
+    q4: {answer: true},
+    q5: {answer: true, comment: `Crowdsale contract provides no tracking data. Actual value of ZXR amount  per ETH amount for given investor is never logged. 
+      Thanks to fixed ZXR to ETH peg it can be easily inferred which we do here.`},
+    q6: {answer: true},
+    q7: {answer: true},
+    q8: {answer: null},
+    q9: {answer: null},
+    q10: {answer: true},
+    q11: {answer: true, comment: `Crowdsale happens via 0x Exchange. The maker of the order is a simple address so order could be cancelled any time. 
+      Otherwise ZRX is ERC20 token and its usage is laid out in Exchange contract. This goes beyond typical ICO which does not showcase future product.`},
+    q12: {answer: true},
+    q13: {answer: true},
+    q14: {answer: true, comment: `There is elaborate structure that lets all registered users to participate easily before ICO is finished. 
+      There is also a flaw: See Q11. Maker can cancel the order any time thus effectively ending ICO. As there is no incentive for the maker to do so and 
+      otherwise smart contracts are nicely trustless we decided not to fail this project here.`},
+  },
+  decimals: 18,
+  addedBy: 'Mostafa Balata',  
+}
+
 let config = {
   ICOs: {
     'kin-smart-contract-not-provided': kin,
     '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9': zrx,
     'filescoin-smart-contract-not-provided': filecoin,
     '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,
+    '0x0d8775f648430679a709e98d2b0cb6250d2887ef': bat,
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
       information: {

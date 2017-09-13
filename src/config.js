@@ -249,15 +249,25 @@ const viberate = {
     logo: 'https://viberateassets.azureedge.net/favicon.ico',
   },
   events: {
-    
+    Mint :{
+      args: {
+        tokens: '_value',
+        sender: '_to',
+      },
+      firstTransactionBlockNumber: 4240691,
+      lastTransactionBlockNumber:  4241086,
+      countTransactions: true,
+      address: '0x2c974b2d0ba1716e644c1fc59982a89ddd2ff724'
+    }
   },
   icoParameters: {
     cap: async(web3, icoContract) => {
+      
       const maxCap = await toPromise(icoContract.maxCap)().valueOf();
       const minCap = await toPromise(icoContract.minCap)().valueOf();
-      return `${maxCap / (10 ** 18)} VIB or ${minCap / (10 ** 18)} VIB`;
+      return [`Max ${maxCap / (10 ** 18)} VIB`,`Min ${minCap / (10 ** 18)} VIB`];
     },
-    startDate: async(web3, icoContract) => {
+    startDate: async(web3, icoContract) => {      
       const blockNumber = await toPromise(icoContract.crowdsaleStartBlock)();
       return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
     },

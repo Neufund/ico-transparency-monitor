@@ -290,23 +290,19 @@ const viberate = {
     q2: {answer: true},
     q3: {answer: true},
     q4: {answer: true},
-    q5: {answer: true, comment: `Crowdsale contract provides no tracking data. Actual value of ZXR amount  per ETH amount for given investor is never logged. 
-      Thanks to fixed ZXR to ETH peg it can be easily inferred which we do here.`},
+    q5: {answer: true, comment: `Crowdsale contract provides no log event, its provided in the token contract.`},
     q6: {answer: true},
     q7: {answer: true},
     q8: {answer: null},
     q9: {answer: null},
     q10: {answer: true},
-    q11: {answer: true, comment: `Crowdsale happens via 0x Exchange. The maker of the order is a simple address so order could be cancelled any time. 
-      Otherwise ZRX is ERC20 token and its usage is laid out in Exchange contract. This goes beyond typical ICO which does not showcase future product.`},
+    q11: {answer: true},
     q12: {answer: true},
     q13: {answer: true},
-    q14: {answer: true, comment: `There is elaborate structure that lets all registered users to participate easily before ICO is finished. 
-      There is also a flaw: See Q11. Maker can cancel the order any time thus effectively ending ICO. As there is no incentive for the maker to do so and 
-      otherwise smart contracts are nicely trustless we decided not to fail this project here.`},
+    q14: {answer: true},
   },
   decimals: 18,
-  addedBy: 'Rudolfix',
+  addedBy: 'Mostafa Balata',
 };
 
 

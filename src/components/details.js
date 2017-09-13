@@ -73,8 +73,8 @@ export const TokenIssued = ({ tokenIssued, tokensOverflow, totalInvestors, total
           <tr>
             <th>Number of tokens created during the ICO</th>
             <td>{formatNumber(tokenIssued)}</td>
-          </tr>          
-          {            
+          </tr>
+          {
             parseFloat(tokensOverflow.toFixed(2)) !== 0 &&
             <tr>
               <th>

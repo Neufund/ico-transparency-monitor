@@ -14,6 +14,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <Row className="statistics box-container">
     <Col md={12} className="scan-content">
       <TimeDetails {...props.stats.time} />
+      {console.log("DATE", props.totalSupply , props.stats.money.tokenIssued)}
       <TokenIssued
         totalSupply={props.totalSupply}
         tokenIssued={props.stats.money.tokenIssued}

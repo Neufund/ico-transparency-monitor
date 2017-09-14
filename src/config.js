@@ -276,11 +276,13 @@ const viberate = {
        * and this number still is not reached yet, so it will raise an exception that there's 
        * no timestamp for this block number 
        */
-      try {
-        const blockNumber = await toPromise(icoContract.crowdsaleEndedBlock)();
+      const blockNumber = await toPromise(icoContract.crowdsaleEndedBlock)();      
+      try {        
         return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
       } catch(e) {
-        return "not reached yet";
+        const blockNumberValue = blockNumber.valueOf();
+        console.log("Block number",blockNumberValue);
+        return `${blockNumberValue} block no.`;
       }
     },
     status: async icoContract => 'successful',

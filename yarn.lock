@@ -8349,7 +8349,7 @@ urijs@^1.16.1:
   version "1.18.10"
   resolved "https://registry.yarnpkg.com/urijs/-/urijs-1.18.10.tgz#b94463eaba59a1a796036a467bb633c667f221ab"
 
-url-loader@0.5.9:
+url-loader@0.5.9, url-loader@^0.5.9:
   version "0.5.9"
   resolved "https://registry.yarnpkg.com/url-loader/-/url-loader-0.5.9.tgz#cc8fea82c7b906e7777019250869e569e995c295"
   dependencies:

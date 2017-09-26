@@ -253,6 +253,7 @@ const bnt = {
       args: {
         tokens: '_return',
         sender: '_contributor',
+        ether: '_amount'
       },
       firstTransactionBlockNumber: 3851355,
       lastTransactionBlockNumber: 3861767,

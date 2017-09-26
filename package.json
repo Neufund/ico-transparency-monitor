@@ -21,7 +21,7 @@
     "moment": "^2.0.0",
     "node-sass": "^4.0.0",
     "prop-types": "^15.5.10",
-    "react": "^15.5.4",
+    "react": "^16.0.0",
     "react-addons-test-utils": "^15.6.0",
     "react-chartjs": "^0.8.0",
     "react-dom": "^15.5.4",

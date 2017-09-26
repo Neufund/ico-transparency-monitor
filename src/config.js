@@ -263,10 +263,10 @@ const bnt = {
     cap: async(web3, icoContract) => {
       const totalEtherCap = await toPromise(icoContract.totalEtherCap)();
       const btcsEtherCap = await toPromise(icoContract.BTCS_ETHER_CAP)();
-      
+
       return [`Ether Cap: ${convertWeb3Value(totalEtherCap, 'ether')} ETH`,
        `BTCs ETH Cap: ${convertWeb3Value(btcsEtherCap, 'ether')} ETH`];
-      
+
       const timestamp = await toPromise(icoContract.startTime)();
       return convertWeb3Value(timestamp, 'timestamp').formatDate();
     },
@@ -276,7 +276,7 @@ const bnt = {
     },
     endDate: async(web3, icoContract) => {
       const timestamp = await toPromise(icoContract.endTime)();
-      return convertWeb3Value(timestamp, 'timestamp').formatDate();      
+      return convertWeb3Value(timestamp, 'timestamp').formatDate();
     },
     status: async icoContract => 'successful',
   },
@@ -291,9 +291,9 @@ const bnt = {
     q8: {answer: null},
     q9: {answer: null},
     q10: {answer: true},
-    q11: {answer: true},
+    q11: {answer: true, comment: 'Mind that Bancor token destroys tokens send to its address. 3.5% of all tokens are already destroyed at the moment this entry is added.'},
     q12: {answer: true},
-    q13: {answer: true, comment : `The ICO said they will start at 2017-06-12, but the first transaction they had two days before.`},
+    q13: {answer: true},
     q14: {answer: true},
   },
   decimals: 18,

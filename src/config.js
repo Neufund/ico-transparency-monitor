@@ -251,7 +251,7 @@ const bnt = {
   events: {
     Contribution: {
       args: {
-        tokens: '_amount',
+        tokens: '_return',
         sender: '_contributor',
       },
       firstTransactionBlockNumber: 3851355,
@@ -305,8 +305,8 @@ let config = {
     'kin-smart-contract-not-provided': kin,
     '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9': zrx,
     'filescoin-smart-contract-not-provided': filecoin,
+    '0xBbc79794599b19274850492394004087cBf89710': bnt,    
     '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,
-    '0xBbc79794599b19274850492394004087cBf89710': bnt,
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
       information: {

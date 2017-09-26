@@ -261,23 +261,23 @@ const viberate = {
     }
   },
   icoParameters: {
-    cap: async(web3, icoContract) => {    
+    cap: async(web3, icoContract) => {
       const maxCap = await toPromise(icoContract.maxCap)().valueOf();
       const minCap = await toPromise(icoContract.minCap)().valueOf();
       return [`Max ${(maxCap / (10 ** 18)).toFixed(2)} VIB`,`Min ${(minCap / (10 ** 18)).toFixed(2)} VIB`];
     },
-    startDate: async(web3, icoContract) => {      
+    startDate: async(web3, icoContract) => {
       const blockNumber = await toPromise(icoContract.crowdsaleStartBlock)();
       return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
     },
     endDate: async(web3, icoContract) => {
       /**
-       * The ICO using `4348935` block number as end date for the crowd sale, 
-       * and this number still is not reached yet, so it will raise an exception that there's 
-       * no timestamp for this block number 
+       * The ICO using `4348935` block number as end date for the crowd sale,
+       * and this number still is not reached yet, so it will raise an exception that there's
+       * no timestamp for this block number
        */
-      const blockNumber = await toPromise(icoContract.crowdsaleEndedBlock)();      
-      try {        
+      const blockNumber = await toPromise(icoContract.crowdsaleEndedBlock)();
+      try {
         return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
       } catch(e) {
         const blockNumberValue = blockNumber.valueOf();
@@ -292,13 +292,13 @@ const viberate = {
     q2: {answer: true},
     q3: {answer: true},
     q4: {answer: true},
-    q5: {answer: true, comment: `Crowdsale contract provides no log event, its provided in the token contract.`},
-    q6: {answer: true},
-    q7: {answer: true},
+    q5: {answer: false, comment: 'Crowdsale contract provides no log event, we had to use Mint event from token contract.'},
+    q6: {answer: false, comment: 'Most of the tokens were generated via pushAngelInvestmentData and we do not see if depositAngelInvestmentEth was ever used to send matching amount.'},
+    q7: {answer: false, comment: 'Owner of the contract can generate any number of tokens without sending ETH via pushAngelInvestmentData function'},
     q8: {answer: null},
     q9: {answer: null},
-    q10: {answer: true},
-    q11: {answer: true},
+    q10: {answer: false, comment: 'Code looks dirty, public methods are not marked as public. Logically it is not hard to read.'},
+    q11: {answer: true, comment: 'Escrow and claim tokens are properly implemented.'},
     q12: {answer: true},
     q13: {answer: true},
     q14: {answer: true},

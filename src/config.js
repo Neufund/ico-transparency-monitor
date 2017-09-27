@@ -280,8 +280,7 @@ const viberate = {
       try {
         return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
       } catch(e) {
-        const blockNumberValue = blockNumber.valueOf();
-        console.log("Block number",blockNumberValue);
+        const blockNumberValue = blockNumber.valueOf();        
         return `${blockNumberValue} block no.`;
       }
     },

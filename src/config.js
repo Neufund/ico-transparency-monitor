@@ -264,7 +264,7 @@ const viberate = {
     cap: async(web3, icoContract) => {
       const maxCap = await toPromise(icoContract.maxCap)().valueOf();
       const minCap = await toPromise(icoContract.minCap)().valueOf();
-      return [`Max ${(maxCap / (10 ** 18)).toFixed(2)} VIB`,`Min ${(minCap / (10 ** 18)).toFixed(2)} VIB`];
+      return [`Max ${convertWeb3Value(maxCap, 'ether').toFixed(2)} ETH`,`Min ${convertWeb3Value(minCap,'ether').toFixed(2)} ETH`];
     },
     startDate: async(web3, icoContract) => {
       const blockNumber = await toPromise(icoContract.crowdsaleStartBlock)();

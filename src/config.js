@@ -121,7 +121,7 @@ const zrx = {
     cap: async(web3, icoContract) => {
       const maxCapZrx = await toPromise(icoContract.getOrderMakerTokenAmount)().valueOf();
       const maxCapEth = await toPromise(icoContract.getOrderTakerTokenAmount)().valueOf();
-      return `${maxCapZrx / (10 ** 18)} ZRX or ${maxCapEth / (10 ** 18)} ETH`;
+      return `${maxCapZrx / (10 ** 18)} ZRX or ${convertWeb3Value(maxCapEth, "ether")} ETH`;
     },
     startDate: async(web3, icoContract) => {
       const timestamp = await toPromise(icoContract.startTimeInSec)();

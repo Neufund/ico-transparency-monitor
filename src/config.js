@@ -809,7 +809,7 @@ let config = {
       information: {
         aliasName: 'MelonPort',
         website: 'https://melonport.com/',
-        logo: 'https://melonport.com/img/favicon.png',
+        logo: 'https://d33wubrfki0l68.cloudfront.net/bae9d6917783575baff8141cc9e2008f9b3cbc2f/25049/assets/melonport_logo.svg',
       },
       events: {
         TokensBought: {
@@ -911,7 +911,7 @@ let config = {
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {
       information: {
         aliasName: 'TAAS',
-        logo: 'https://taas.fund/img/fav_icon.png',
+        logo: 'https://www.taas.fund/favicon.ico',
         website: 'https://taas.fund/',
       },
       events: {

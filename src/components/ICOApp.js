@@ -9,7 +9,6 @@ export const ICOApp = (props) => {
   return (
     <Row className="ico-container">
       <Grid>
-
         <Row className="ico-box" onClick={() => window.location = `/#/${address}`}>
           <Col lg={3} md={12} sm={12} xs={12} className="name">
             <Row className="ico-box-container">
@@ -24,7 +23,7 @@ export const ICOApp = (props) => {
                       rel="noopener noreferrer"
                       target="_blank"
                       href={information.website}
-                    >{information.website}</a>
+                    >{information.website.replace(/(^\w+:|^)\/\//, '').replace(/^www\./,'')}</a>
                   </div>
                 </div>
               </Col>

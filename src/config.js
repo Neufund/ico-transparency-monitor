@@ -255,7 +255,7 @@ const viberate = {
         sender: '_to',
       },
       firstTransactionBlockNumber: 4240691,
-      lastTransactionBlockNumber:  4348935,
+      lastTransactionBlockNumber:  4240950,
       countTransactions: true,
       address: '0x2c974b2d0ba1716e644c1fc59982a89ddd2ff724'
     }
@@ -370,8 +370,8 @@ const bnt = {
 let config = {
   ICOs: {
     'kin-smart-contract-not-provided': kin,
+    '0x91c94bee75786fbbfdcfefba1102b68f48a002f4': viberate,
     '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9': zrx,
-    '0x91c94bee75786fbbfdcfefba1102b68f48a002f4': viberate,    
     'filescoin-smart-contract-not-provided': filecoin,
     '0xBbc79794599b19274850492394004087cBf89710': bnt,    
     '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,

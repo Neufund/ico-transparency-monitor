@@ -425,9 +425,12 @@ let config = {
     '0xBbc79794599b19274850492394004087cBf89710': bnt,    
     '0x0d8775f648430679a709e98d2b0cb6250d2887ef': bat,    
     'kin-smart-contract-not-provided': kin,
+    '0x91c94bee75786fbbfdcfefba1102b68f48a002f4': viberate,
     '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9': zrx,
     'filescoin-smart-contract-not-provided': filecoin,
+    '0xBbc79794599b19274850492394004087cBf89710': bnt,    
     '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,
+    '0x0d8775f648430679a709e98d2b0cb6250d2887ef': bat,
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
       information: {
@@ -954,7 +957,64 @@ let config = {
         q14: {answer: null},
       },
       addedBy: 'Mostafa Balata',
-    }
+    },
+    '0x71c2683152b632Fa1D515a3Df067825e2b240216': {
+      tokenContract: '0x0e9C4d8610Aa2cf0DaBDAbB19920A1C810B65720',
+      information: {
+        aliasName: 'KICKICO',
+        logo: 'https://www.kickico.com/favicon.png',
+        website: 'https://www.kickico.com/',
+      },
+      events: {
+        FundTransfer: {
+          args: {
+            tokens: null, // tokens not generated here, just ether gathered
+            sender: 'backer',
+          },
+          firstTransactionBlockNumber: 4084667,
+          lastTransactionBlockNumber: null, // follow last block
+          maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
+          countTransactions: true,
+        },
+        LogClaim: {
+          args: {
+            tokens: 'amount', // tokens are generated when claimed
+            sender: 'user',
+          },
+          firstTransactionBlockNumber: 3932884,
+          lastTransactionBlockNumber: null, // follow last block
+          countTransactions: true,
+        },
+      },
+      icoParameters: {
+        cap: async (web3, icoContract) => {
+          const FirstCap = await toPromise(icoContract.thresholdsByState)(0);
+          const SecondCap = await toPromise(icoContract.thresholdsByState)(1);
+          return `First Cap: ${convertWeb3Value(FirstCap,'ether')} ETH - Second Cap: ${convertWeb3Value(SecondCap, 'ether')} ETH`;
+        },
+        startDate: async icoContract => 'not provided',
+        endDate: async icoContract => 'not provided',
+        status: async icoContract => 'Successfull',
+      },
+      matrix: {
+        q1: { answer: true },
+        q2: { answer: true },
+        q3: { answer: true },
+        q4: { answer: false },
+        q5: { answer: false },
+        q6: { answer: false },
+        q7: { answer: true },
+        q8: { answer: false },
+        q9: { answer: false },
+        q10: { answer: false },
+        q11: { answer: true },
+        q12: { answer: true },
+        q13: { answer: false },
+        q14: { answer: false, comment: 'They claims that there was a "hidden cap" that could close the ICO early' },
+      },
+      addedBy: 'Fares Akel',
+      decimals: 8,
+    },
   },
   rpcHost,
   defaultDecimal: 18,

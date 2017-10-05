@@ -40,7 +40,7 @@ export const ICOScanHeader = (props) => {
                 >
                   <p>Transparency score</p>
                   <strong>{decision ? icoTransparencyMap[decision.toUpperCase()] : ''} </strong>
-                  <button>Open</button>
+                  <button>Read more</button>
                 </button>
               </Col>
             </Row>

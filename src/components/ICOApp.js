@@ -4,7 +4,7 @@ import { getValueOrDefault, icoTransparencyMap, trimString } from '../utils';
 import { connect } from 'react-redux';
 import { default as config } from '../config.js';
 
-const midifyUrl = (url) => {
+const extractHostnameFromUrl = (url) => {
   return url.replace(/(^\w+:|^)\/\//, '').replace(/^www\./,'').replace('/','')
 };
 
@@ -27,7 +27,7 @@ export const ICOApp = (props) => {
                       rel="noopener noreferrer"
                       target="_blank"
                       href={information.website}
-                    >{midifyUrl(information.website)}</a>
+                    >{extractHostnameFromUrl(information.website)}</a>
                   </div>
                 </div>
               </Col>

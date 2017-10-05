@@ -421,13 +421,13 @@ const bat = {
 
 let config = {
   ICOs: {
-    'kin-smart-contract-not-provided': kin,
     '0x91c94bee75786fbbfdcfefba1102b68f48a002f4': viberate,
+    '0xBbc79794599b19274850492394004087cBf89710': bnt,    
+    '0x0d8775f648430679a709e98d2b0cb6250d2887ef': bat,    
+    'kin-smart-contract-not-provided': kin,
     '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9': zrx,
     'filescoin-smart-contract-not-provided': filecoin,
-    '0xBbc79794599b19274850492394004087cBf89710': bnt,    
     '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,
-    '0x0d8775f648430679a709e98d2b0cb6250d2887ef': bat,
     '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff': {
       tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
       information: {
@@ -809,7 +809,7 @@ let config = {
       information: {
         aliasName: 'MelonPort',
         website: 'https://melonport.com/',
-        logo: 'https://melonport.com/img/favicon.png',
+        logo: 'https://d33wubrfki0l68.cloudfront.net/bae9d6917783575baff8141cc9e2008f9b3cbc2f/25049/assets/melonport_logo.svg',
       },
       events: {
         TokensBought: {
@@ -911,7 +911,7 @@ let config = {
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {
       information: {
         aliasName: 'TAAS',
-        logo: 'https://taas.fund/img/fav_icon.png',
+        logo: 'https://www.taas.fund/favicon.ico',
         website: 'https://taas.fund/',
       },
       events: {

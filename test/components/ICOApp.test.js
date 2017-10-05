@@ -38,7 +38,7 @@ describe('<ICOApp/>', () => {
           rel="noopener noreferrer"
           target="_blank"
           href="https://example.com/"
-        >https://example.com/</a>
+        >example.com</a>
       </div>
     ));
     expect(tid(rendered, 'ico-app-cap')).to.contain(<strong className="desc">123 ETH</strong>);

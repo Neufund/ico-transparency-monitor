@@ -1,7 +1,7 @@
 export default {
     information: {
         aliasName: 'TAAS',
-        logo: 'https://taas.fund/img/fav_icon.png',
+        logo: 'https://www.taas.fund/favicon.ico',
         website: 'https://taas.fund/',
     },
     events: {

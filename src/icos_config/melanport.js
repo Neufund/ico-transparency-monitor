@@ -6,7 +6,7 @@ export default {
     information: {
         aliasName: 'MelonPort',
         website: 'https://melonport.com/',
-        logo: 'https://melonport.com/img/favicon.png',
+        logo: 'https://d33wubrfki0l68.cloudfront.net/bae9d6917783575baff8141cc9e2008f9b3cbc2f/25049/assets/melonport_logo.svg',
     },
     events: {
         TokensBought: {

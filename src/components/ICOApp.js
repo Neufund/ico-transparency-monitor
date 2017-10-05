@@ -4,6 +4,10 @@ import { getValueOrDefault, icoTransparencyMap, trimString } from '../utils';
 import { connect } from 'react-redux';
 import { default as config } from '../config.js';
 
+const midifyUrl = (url) => {
+  return url.replace(/(^\w+:|^)\/\//, '').replace(/^www\./,'').replace('/','')
+};
+
 export const ICOApp = (props) => {
   const { address, information, name, cap, startDate, endDate, status, addedBy, decision, onModalShow } = props;
   return (
@@ -23,7 +27,7 @@ export const ICOApp = (props) => {
                       rel="noopener noreferrer"
                       target="_blank"
                       href={information.website}
-                    >{information.website.replace(/(^\w+:|^)\/\//, '').replace(/^www\./,'')}</a>
+                    >{midifyUrl(information.website)}</a>
                   </div>
                 </div>
               </Col>

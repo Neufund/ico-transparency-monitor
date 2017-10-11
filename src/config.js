@@ -965,31 +965,26 @@ let config = {
       events: {
         FundTransfer: {
           args: {
-            tokens: null, // tokens not generated here, just ether gathered
+            tokens: 'amount',
             sender: 'backer',
           },
           firstTransactionBlockNumber: 4084667,
           lastTransactionBlockNumber: null, // follow last block
-          maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
-          countTransactions: true,
-        },
-        LogClaim: {
-          args: {
-            tokens: 'amount', // tokens are generated when claimed
-            sender: 'user',
-          },
-          firstTransactionBlockNumber: 3932884,
-          lastTransactionBlockNumber: null, // follow last block
+          maxBlocksInChunk: 12960,
           countTransactions: true,
         },
       },
       icoParameters: {
         cap: async (web3, icoContract) => {
-          const FirstCap = await toPromise(icoContract.thresholdsByState)(0);
-          const SecondCap = await toPromise(icoContract.thresholdsByState)(1);
-          return `First Cap: ${convertWeb3Value(FirstCap,'ether')} ETH - Second Cap: ${convertWeb3Value(SecondCap, 'ether')} ETH`;
+          const firstCap = await toPromise(icoContract.thresholdsByState)(0);
+          const secondCap = await toPromise(icoContract.thresholdsByState)(1);
+          return `First Cap: ${convertWeb3Value(firstCap,'ether')} ETH - Second Cap: ${convertWeb3Value(secondCap, 'ether')} ETH`;
         },
-        startDate: async icoContract => 'not provided',
+        startDate: async(web3, icoContract) => {
+          console.log(icoContract)
+          const timestamp = await toPromise(icoContract.IcoStagePeriod)(1);
+          return convertWeb3Value(timestamp, 'timestamp').formatDate();
+        },
         endDate: async icoContract => 'not provided',
         status: async icoContract => 'Successfull',
       },
@@ -999,14 +994,14 @@ let config = {
         q3: { answer: true },
         q4: { answer: false },
         q5: { answer: false },
-        q6: { answer: false },
+        q6: { answer: true, comment:'Its variable, depends on the stage the ico was' },
         q7: { answer: true },
         q8: { answer: false },
         q9: { answer: false },
         q10: { answer: false },
         q11: { answer: true },
         q12: { answer: true },
-        q13: { answer: false },
+        q13: { answer: true },
         q14: { answer: false, comment: 'They claims that there was a "hidden cap" that could close the ICO early' },
       },
       addedBy: 'Fares Akel',

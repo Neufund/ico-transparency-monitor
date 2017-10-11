@@ -261,9 +261,9 @@ export const tokenHoldersPercentage = (total, sortedInvestors) => {
   let totalTokens = 0;
   let arrayIndex = 0;
   return percentages.map((singlePercent) => {
-    const iterationNumbers = parseInt(sortedInvestors.length * singlePercent);
+    const noInvestorsInRange = parseInt(sortedInvestors.length * singlePercent);
 
-    while (arrayIndex < iterationNumbers) {
+    while (arrayIndex < noInvestorsInRange) {
       totalTokens += sortedInvestors[arrayIndex].value;
       arrayIndex++;
     }
@@ -271,7 +271,7 @@ export const tokenHoldersPercentage = (total, sortedInvestors) => {
       name: `${singlePercent * 100}%`,
       amount: parseFloat(((totalTokens * 100) / total).toFixed(2)),
     };
-  });
+  }).filter(range => range.amount > 0);
 };
 
 

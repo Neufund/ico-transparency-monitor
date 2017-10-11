@@ -280,7 +280,7 @@ const viberate = {
       try {
         return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
       } catch(e) {
-        const blockNumberValue = blockNumber.valueOf();        
+        const blockNumberValue = blockNumber.valueOf();
         return `${blockNumberValue} block no.`;
       }
     },
@@ -366,7 +366,7 @@ const bnt = {
   addedBy: 'Mostafa Balata',
 };
 
-const bat = {  
+const bat = {
   information: {
     aliasName: 'bat',
     website: 'https://basicattentiontoken.org/',
@@ -376,9 +376,9 @@ const bat = {
     CreateBAT: {
       args: {
         tokens: '_value',
-        sender: '_to',        
+        sender: '_to',
       },
-      countTransactions: true,      
+      countTransactions: true,
       firstTransactionBlockNumber: 3798640,
       lastTransactionBlockNumber: 3798720,
     },
@@ -391,11 +391,11 @@ const bat = {
     },
     startDate: async(web3, icoContract) => {
       const blockNumber = await toPromise(icoContract.fundingStartBlock)();
-      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();      
+      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
     },
-    endDate: async(web3, icoContract) => {      
+    endDate: async(web3, icoContract) => {
       const blockNumber = await toPromise(icoContract.fundingEndBlock)();
-      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();      
+      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
     },
     status: async icoContract => 'successful',
   },
@@ -416,7 +416,7 @@ const bat = {
     q14: {answer: true},
   },
   decimals: 18,
-  addedBy: 'Mostafa Balata',  
+  addedBy: 'Mostafa Balata',
 }
 
 let chex = {
@@ -486,9 +486,9 @@ let chex = {
 let config = {
   ICOs: {
     '0x91c94bee75786fbbfdcfefba1102b68f48a002f4': viberate,
+    '0xD566Fa4a696EAc66f749f7fe999D6673fEe2026c': chex,
     '0xBbc79794599b19274850492394004087cBf89710': bnt,
     '0x0d8775f648430679a709e98d2b0cb6250d2887ef': bat,
-    '0xD566Fa4a696EAc66f749f7fe999D6673fEe2026c': chex,
     'kin-smart-contract-not-provided': kin,
     '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9': zrx,
     'filescoin-smart-contract-not-provided': filecoin,

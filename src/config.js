@@ -121,7 +121,7 @@ const zrx = {
     cap: async(web3, icoContract) => {
       const maxCapZrx = await toPromise(icoContract.getOrderMakerTokenAmount)().valueOf();
       const maxCapEth = await toPromise(icoContract.getOrderTakerTokenAmount)().valueOf();
-      return `${maxCapZrx / (10 ** 18)} ZRX or ${maxCapEth / (10 ** 18)} ETH`;
+      return `${maxCapZrx / (10 ** 18)} ZRX or ${convertWeb3Value(maxCapEth, "ether")} ETH`;
     },
     startDate: async(web3, icoContract) => {
       const timestamp = await toPromise(icoContract.startTimeInSec)();
@@ -241,6 +241,184 @@ const filecoin = {
   addedBy: 'Mostafa Balata',
 };
 
+const viberate = {
+  tokenContract: '0x2c974b2d0ba1716e644c1fc59982a89ddd2ff724',
+  information: {
+    aliasName: 'Viberate',
+    website: 'https://www.viberate.com/',
+    logo: 'https://viberateassets.azureedge.net/favicon.ico',
+  },
+  events: {
+    Mint :{
+      args: {
+        tokens: '_value',
+        sender: '_to',
+      },
+      firstTransactionBlockNumber: 4240691,
+      lastTransactionBlockNumber:  4240950,
+      countTransactions: true,
+      address: '0x2c974b2d0ba1716e644c1fc59982a89ddd2ff724'
+    }
+  },
+  icoParameters: {
+    cap: async(web3, icoContract) => {
+      const maxCap = await toPromise(icoContract.maxCap)().valueOf();
+      const minCap = await toPromise(icoContract.minCap)().valueOf();
+      return [`Max ${convertWeb3Value(maxCap, 'ether').toFixed(2)} ETH`,`Min ${convertWeb3Value(minCap,'ether').toFixed(2)} ETH`];
+    },
+    startDate: async(web3, icoContract) => {
+      const blockNumber = await toPromise(icoContract.crowdsaleStartBlock)();
+      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+    },
+    endDate: async(web3, icoContract) => {
+      /**
+       * The ICO using `4348935` block number as end date for the crowd sale,
+       * and this number still is not reached yet, so it will raise an exception that there's
+       * no timestamp for this block number
+       */
+      const blockNumber = await toPromise(icoContract.crowdsaleEndedBlock)();
+      try {
+        return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+      } catch(e) {
+        const blockNumberValue = blockNumber.valueOf();        
+        return `${blockNumberValue} block no.`;
+      }
+    },
+    status: async icoContract => 'successful',
+  },
+  matrix: {
+    q1: {answer: true},
+    q2: {answer: true},
+    q3: {answer: true},
+    q4: {answer: true},
+    q5: {answer: false, comment: 'Crowdsale contract provides no log event, we had to use Mint event from token contract.'},
+    q6: {answer: false, comment: 'Most of the tokens were generated via pushAngelInvestmentData and we do not see if depositAngelInvestmentEth was ever used to send matching amount.'},
+    q7: {answer: false, comment: 'Owner of the contract can generate any number of tokens without sending ETH via pushAngelInvestmentData function'},
+    q8: {answer: null},
+    q9: {answer: null},
+    q10: {answer: false, comment: 'Code looks dirty, public methods are not marked as public. Logically it is not hard to read.'},
+    q11: {answer: true, comment: 'Escrow and claim tokens are properly implemented.'},
+    q12: {answer: true},
+    q13: {answer: true},
+    q14: {answer: true},
+  },
+  decimals: 18,
+  addedBy: 'Mostafa Balata',
+};
+
+const bnt = {
+  tokenContract: '0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c',
+  information: {
+    aliasName: 'Bancor Network',
+    website: 'https://www.bancor.network/',
+    logo: 'https://www.bancor.network/static/images/favicon.ico',
+  },
+  events: {
+    Contribution: {
+      args: {
+        tokens: '_return',
+        sender: '_contributor',
+        ether: '_amount'
+      },
+      firstTransactionBlockNumber: 3851355,
+      lastTransactionBlockNumber: 3861767,
+      countTransactions: true,
+    },
+  },
+  icoParameters: {
+    cap: async(web3, icoContract) => {
+      const totalEtherCap = await toPromise(icoContract.totalEtherCap)();
+      const btcsEtherCap = await toPromise(icoContract.BTCS_ETHER_CAP)();
+
+      return [`Ether Cap: ${convertWeb3Value(totalEtherCap, 'ether')} ETH`,
+       `BTCs ETH Cap: ${convertWeb3Value(btcsEtherCap, 'ether')} ETH`];
+
+      const timestamp = await toPromise(icoContract.startTime)();
+      return convertWeb3Value(timestamp, 'timestamp').formatDate();
+    },
+    startDate: async(web3, icoContract) => {
+      const timestamp = await toPromise(icoContract.startTime)();
+      return convertWeb3Value(timestamp, 'timestamp').formatDate();
+    },
+    endDate: async(web3, icoContract) => {
+      const timestamp = await toPromise(icoContract.endTime)();
+      return convertWeb3Value(timestamp, 'timestamp').formatDate();
+    },
+    status: async icoContract => 'successful',
+  },
+  matrix: {
+    q1: {answer: true},
+    q2: {answer: true},
+    q3: {answer: true},
+    q4: {answer: true},
+    q5: {answer: true},
+    q6: {answer: true},
+    q7: {answer: true},
+    q8: {answer: null},
+    q9: {answer: null},
+    q10: {answer: true},
+    q11: {answer: true, comment: 'Mind that Bancor token destroys tokens send to its address. 3.5% of all tokens are already destroyed at the moment this entry is added.'},
+    q12: {answer: true},
+    q13: {answer: true},
+    q14: {answer: true},
+  },
+  decimals: 18,
+  addedBy: 'Mostafa Balata',
+};
+
+const bat = {  
+  information: {
+    aliasName: 'bat',
+    website: 'https://basicattentiontoken.org/',
+    logo: 'https://basicattentiontoken.org/images/BAT_logo_color_sansBAT.png',
+  },
+  events: {
+    CreateBAT: {
+      args: {
+        tokens: '_value',
+        sender: '_to',        
+      },
+      countTransactions: true,      
+      firstTransactionBlockNumber: 3798640,
+      lastTransactionBlockNumber: 3798720,
+    },
+  },
+  icoParameters: {
+    cap: async(web3, icoContract) => {
+      const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
+      const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
+      return [`Max: ${maxCap / 10 ** 18} BAT`, `Min: ${(minCap / 10 ** 18).toFixed(2)} BAT`];
+    },
+    startDate: async(web3, icoContract) => {
+      const blockNumber = await toPromise(icoContract.fundingStartBlock)();
+      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();      
+    },
+    endDate: async(web3, icoContract) => {      
+      const blockNumber = await toPromise(icoContract.fundingEndBlock)();
+      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();      
+    },
+    status: async icoContract => 'successful',
+  },
+  matrix: {
+    q1: {answer: true},
+    q2: {answer: true},
+    q3: {answer: true},
+    q4: {answer: true},
+    q5: {answer: true},
+    q6: {answer: true},
+    q7: {answer: true},
+    q8: {answer: null},
+    q9: {answer: null},
+    q10: {answer: true},
+    q11: {answer: true},
+    q12: {answer: true},
+    q13: {answer: true},
+    q14: {answer: true},
+  },
+  decimals: 18,
+  addedBy: 'Mostafa Balata',  
+}
+
 let chex = {
   information: {
     aliasName: 'CHEX',
@@ -304,10 +482,14 @@ let chex = {
   addedBy: 'Bravetarget',
 };
 
+
 let config = {
   ICOs: {
-    'kin-smart-contract-not-provided': kin,
+    '0x91c94bee75786fbbfdcfefba1102b68f48a002f4': viberate,
+    '0xBbc79794599b19274850492394004087cBf89710': bnt,
+    '0x0d8775f648430679a709e98d2b0cb6250d2887ef': bat,
     '0xD566Fa4a696EAc66f749f7fe999D6673fEe2026c': chex,
+    'kin-smart-contract-not-provided': kin,
     '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9': zrx,
     'filescoin-smart-contract-not-provided': filecoin,
     '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc': gnosis,
@@ -692,7 +874,7 @@ let config = {
       information: {
         aliasName: 'MelonPort',
         website: 'https://melonport.com/',
-        logo: 'https://melonport.com/img/favicon.png',
+        logo: 'https://d33wubrfki0l68.cloudfront.net/bae9d6917783575baff8141cc9e2008f9b3cbc2f/25049/assets/melonport_logo.svg',
       },
       events: {
         TokensBought: {
@@ -794,7 +976,7 @@ let config = {
     '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C': {
       information: {
         aliasName: 'TAAS',
-        logo: 'https://taas.fund/img/fav_icon.png',
+        logo: 'https://www.taas.fund/favicon.ico',
         website: 'https://taas.fund/',
       },
       events: {

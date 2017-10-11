@@ -130,13 +130,15 @@ rules set in [config.js](https://github.com/Neufund/ico-transparency-monitor/blo
 
 To add your own ICO you would have to:
 
-1. Include the ICO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder
+1. Fork the project - Github won't allow you to create pull request otherwise.
+
+2. Include the ICO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder
     this ABI is generated from the smart-contract source code and can be found in some cases in [etherscan](https://etherscan.io/)
 
-2. Configure [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
+3. Configure [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js)
   and add the required information from the smart contract manually. This will require some JavaScript modifications.
 
-3. Any official addition to the ICO-Monitor should be done in the form of a Pull Request. This PR will be checked for accuracy
+4. Create a Pull Request. This PR will be checked for accuracy
   and then merged to the ICO-Monitor which can be accessed through our running node.
 
 ### Config.js

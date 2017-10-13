@@ -71,6 +71,10 @@ class Scan extends Component {
               <ScanBoxLoadingMessage
                 alternativeLoadingMsg={this.props.ico.alternativeLoadingMsg}
               />}
+            {this.props.hasNoTransactions &&
+              <ScanBoxLoadingMessage
+                alternativeLoadingMsg="No transactions were found, please check later"
+              />}
             {!this.props.isLoading && this.props.isComponentReady &&
               <ScanBoxDetails address={this.props.address} /> }
           </Grid>
@@ -91,6 +95,7 @@ const mapStateToProps = (state, props) => {
     web3: state.modal.web3,
     blocks: state.blocks,
     isSmartContractLoaded: state.scan.isSmartContractLoaded,
+    hasNoTransactions: state.scan.hasNoTransactions
   };
 };
 

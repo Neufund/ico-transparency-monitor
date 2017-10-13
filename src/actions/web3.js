@@ -4,7 +4,7 @@ import { computeICOTransparency } from '../utils';
 import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
 import { setCurrency, setStatisticsByCurrency } from './CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
-  setSmartContractLoaded, setProperties, resetRpc } from './ScanAction';
+  setSmartContractLoaded, setProperties, resetRpc, showIcoNotStarted } from './ScanAction';
 import { showErrorMessage } from './ModalAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
@@ -125,24 +125,23 @@ export const getLogs = address => async (dispatch, getState) => {
 
   const allLogs = {};
   const finalProcessor = () => {
-    const statistics = getStatistics(icoConfig, allLogs, initStatistics());
-    // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
-    dispatch(drawStatistics(statistics[0]));
+    if (Object.keys(allLogs).length > 0) {
+      const statistics = getStatistics(icoConfig, allLogs, initStatistics());
+      // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
+      dispatch(drawStatistics(statistics[0]));
+      dispatch(allocateCSVFile(statistics[1]));
 
-    dispatch(allocateCSVFile(statistics[1]));
-
-
-    setCurrency('EUR', new Date(), (error, currencyResult) => {
-      if (error) {
-        dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
-        return;
-      }
-
-      const currencyRate = currencyResult.value;
-
-      dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
-      dispatch(showStatistics());
-    });
+      setCurrency('EUR', new Date(), (error, currencyResult) => {
+        if (error) {
+          dispatch({type: 'SET_CURRENCY_ERROR', message: error});
+          return;
+        }
+        dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time))
+        dispatch(showStatistics());
+      });
+    } else {
+      dispatch(showIcoNotStarted());
+    }
   };
   const logProcessor = () => {
     const range = logRequests.shift();
@@ -154,10 +153,12 @@ export const getLogs = address => async (dispatch, getState) => {
         dispatch({ type: error, message: logs });
       } else {
         // store logs, for each event separately
-        if (eventName in allLogs) {
-          allLogs[eventName].push(...logs);
-        } else {
-          allLogs[eventName] = logs;
+        if (logs.length > 0) {
+          if (eventName in allLogs) {
+            allLogs[eventName].push(...logs);
+          } else {
+            allLogs[eventName] = logs;
+          }
         }
         if (logRequests.length === 0) {
           dispatch(hideLoader());

@@ -4,6 +4,8 @@ export const allocateCSVFile = statistics => ({ type: 'CSV_FILE', csvContent: st
 
 export const showStatistics = () => ({ type: 'SHOW_STATS' });
 
+export const showIcoNotStarted = () => ({ type: 'SHOW_ICO_NOT_STARTED' });
+
 export const showLoader = () => ({ type: 'SHOW_LOADER' });
 
 export const hideLoader = () => ({ type: 'HIDE_LOADER' });

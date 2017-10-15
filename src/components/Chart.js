@@ -12,7 +12,6 @@ import { kFormatter } from '../utils';
 import { downloadChartImage } from '../utils/charts';
 
 export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, isNotVisibleMessage = '', hideTitle }) => (
-
   <div id={dataKey} className="chart-parent relative">
     <h3 className="title">{hideTitle ? '' : title}</h3>
     {isVisible &&
@@ -24,7 +23,7 @@ export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, isNotV
               <YAxis tickFormatter={value => kFormatter(value)} />
               <CartesianGrid strokeDasharray="1 3" />
               <Tooltip />
-              <Bar dataKey="amount" fill="#8884d8" />
+              <Bar dataKey="amount" fill="#8884d8" barSize={data && data.length > 250 ? 1 : undefined} />
             </BarChart>
           </ResponsiveContainer>
           <button

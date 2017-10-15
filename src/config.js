@@ -495,7 +495,7 @@ const polkadot = {
         ether: 'received',
         sender: 'who',
       },
-      firstTransactionBlockNumber: 4357051,
+      firstTransactionBlockNumber: 4357051, // 4357229
       lastTransactionBlockNumber: null, // follow last block
       maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
       countTransactions: true,
@@ -508,7 +508,7 @@ const polkadot = {
       firstTransactionBlockNumber: 4357051,
       lastTransactionBlockNumber: null, // follow last block
       maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
-      countTransactions: true,
+      countTransactions: false,
     },
   },
   icoParameters: {

@@ -115,7 +115,8 @@ export const getLogs = address => async (dispatch, getState) => {
       logRequests.push([firstTxBlockNumber, lastTxBlockNumber, eventName]);
     } else {
       let i = firstTxBlockNumber;
-      for (; i < lastTxBlockNumber; i += event.maxBlocksInChunk) {
+      const lastFullBlockNumber = lastTxBlockNumber - event.maxBlocksInChunk;
+      for (; i < lastFullBlockNumber; i += event.maxBlocksInChunk) {
         logRequests.push([i, i + event.maxBlocksInChunk - 1, eventName]);
       }
       // push last block which is variable

@@ -435,7 +435,7 @@ let chex = {
         _from: '0x0000000000000000000000000000000000000000',
       },
       firstTransactionBlockNumber: 4203059,
-      lastTransactionBlockNumber: "latest",
+      lastTransactionBlockNumber: null,
       countTransactions: true,
     }
   },
@@ -495,7 +495,7 @@ const polkadot = {
         ether: 'received',
         sender: 'who',
       },
-      firstTransactionBlockNumber: 4357051, // 4357229
+      firstTransactionBlockNumber: 4357050, // 4357229
       lastTransactionBlockNumber: null, // follow last block
       maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
       countTransactions: true,
@@ -505,7 +505,7 @@ const polkadot = {
         tokens: 'tokens',
         sender: 'who',
       },
-      firstTransactionBlockNumber: 4357051,
+      firstTransactionBlockNumber: 4357050,
       lastTransactionBlockNumber: null, // follow last block
       maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
       countTransactions: false,

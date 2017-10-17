@@ -32,7 +32,7 @@
     "react-modal-dialog": "^4.0.0",
     "react-redux": "^3.0.0",
     "react-router-dom": "^4.1.1",
-    "react-tap-event-plugin": "^2.0.1",
+    "react-tap-event-plugin": "^3.0.0",
     "react-tooltip": "^3.3.0",
     "recharts": "^0.20.0",
     "redux": "^3.7.2",

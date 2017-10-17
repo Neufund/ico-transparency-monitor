@@ -1099,6 +1099,55 @@ let config = {
       },
       addedBy: 'Mostafa Balata',
     },
+    '0xb110ec7b1dcb8fab8dedbf28f53bc63ea5bedd84': {      
+      information: {
+        aliasName: 'Sphre',
+        logo: 'http://www.sphre.co/img/airlogo.png',
+        website: 'http://www.sphre.co/',
+      },
+      events: {
+        Transfer: {
+          args: {
+            tokens: '_amount',
+            sender: '_to',            
+          },
+          customArgs: {
+            _from: '0x0000000000000000000000000000000000000000',
+          },
+          firstTransactionBlockNumber: 3972028,
+          lastTransactionBlockNumber: 4061401,
+
+          countTransactions: true,
+        },
+      }, 
+      icoParameters: {
+        cap:  async icoContract => 'not provided',
+        startDate: async (web3, icoContract) => {
+          const blockNumber = await toPromise(icoContract.creationBlock)();
+          return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
+        },
+        endDate:  async icoContract => 'not provided',
+        status: async icoContract => 'successful',
+      },
+      matrix: {
+        q1: { answer: true },
+        q2: { answer: true },
+        q3: { answer: true },
+        q4: { answer: true },
+        q5: { answer: true },
+        q6: { answer: false, comment:'Ether is not sent to smart contract'},
+        q7: { answer: true },
+        q8: { answer: null },
+        q9: { answer: null },
+        q10: { answer: true},
+        q11: { answer: false},
+        q12: { answer: null},
+        q13: { answer: true },
+        q14: { answer: false, comment:'There\'s no maximum cap or ICO end date provided in the smart contract'},
+      },
+      addedBy: 'Mostafa Balata',
+    },
+    
   },
   rpcHost,
   defaultDecimal: 18,

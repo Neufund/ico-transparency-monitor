@@ -26,7 +26,7 @@
     "react-chartjs": "^0.8.0",
     "react-dom": "^15.5.4",
     "react-facebook-pixel": "^0.1.0",
-    "react-flexbox-grid": "^1.1.3",
+    "react-flexbox-grid": "^2.0.0",
     "react-fontawesome": "^1.6.1",
     "react-ga": "^2.2.0",
     "react-modal-dialog": "^4.0.0",

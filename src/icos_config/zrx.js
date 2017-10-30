@@ -83,4 +83,5 @@ export default {
   },
   decimals: 18,
   addedBy: 'Rudolfix',
+  addingDate: '05-09-2017'
 };

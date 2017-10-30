@@ -59,4 +59,5 @@ export default {
     },
   },
   addedBy: 'Rudolfix',
+  addingDate: '17-07-2017'
 };

@@ -79,5 +79,6 @@ export default {
   },
   decimals: 18,
   addedBy: 'Rudolfix',
+  addingDate: '13-10-2017'
 };
 

@@ -56,4 +56,5 @@ export default {
   },
   decimals: 18, // golem does not provide decimals
   addedBy: 'Mostafa Balata',
+  addingDate: '14-07-2017'
 };

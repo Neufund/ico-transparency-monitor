@@ -65,4 +65,5 @@ export default {
   },
   decimals: 18,
   addedBy: 'Mostafa Balata',
+  addingDate: '04-10-2017'
 };

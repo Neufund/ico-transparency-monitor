@@ -51,4 +51,5 @@ export default {
     q14: { answer: false, comment: 'May be stopped and re-started whenever Tezos wants' },
   },
   addedBy: 'Rudolfix',
+  addingDate: '20-07-2017'
 };

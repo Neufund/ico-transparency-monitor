@@ -71,4 +71,5 @@ export default {
   },
   decimals: 18,
   addedBy: 'Krzysztof Kaczor',
+  addingDate: '09-08-2017'
 };

@@ -58,8 +58,9 @@ export const computeICOTransparency = (answers) => {
 };
 
 // eslint-disable-next-line
-Date.prototype.formatDate =  (fullFormat = false) => 
-  moment(this).format(fullFormat ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
+Date.prototype.formatDate = function (fullFormat = false) {
+  return moment(this).format(fullFormat ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
+};
 
 // eslint-disable-next-line
 String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function () {

@@ -32,6 +32,8 @@ class CurrencyButton extends Component {
       case 'NOW':
         rateDate = new Date();
         break;
+      default:
+        throw new Error('Unknow input');
     }
     currency = currency || this.props.currency;
     this.props.setCurrency(currency, rateDate);

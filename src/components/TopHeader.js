@@ -10,7 +10,7 @@ const TopHeader = () => (
         <a href="/" className="App-logo" > <img src={logo} alt="logo" /></a>
         <Col md={12} >
           <h4 className="App-name">ICO Transparency Monitor</h4>
-          <span className="powerd-by-neufund ">Powered by <a href="https://neufund.org" target="_blank">Neufund</a> </span>
+          <span className="powerd-by-neufund ">Powered by <a href="https://neufund.org" target="_blank" rel="noopener noreferrer">Neufund</a> </span>
         </Col>
       </Row>
     </Grid>

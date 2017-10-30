@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { getValueOrDefault, icoTransparencyMap, trimString } from '../utils';
+import { getValueOrDefault, icoTransparencyMap } from '../utils';
 import { connect } from 'react-redux';
 import { default as config } from '../config.js';
 

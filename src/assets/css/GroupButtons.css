@@ -1,71 +1,81 @@
-.group-buttons{
-    margin-top:20px;
-    margin-bottom:20px;
-    position: relative;
+.group-buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
 }
-.group-buttons p{
-    line-height: 33px;
-}
-.group-buttons p,.group-buttons ul{
-    float: left;
-    padding-left: 10px
-}
-.exchangeRate{
-    position: absolute;
-    right:0;
-}
-ul.currency-buttons{
-    display:block;
-    list-style:none;
-    overflow:hidden;
-    margin-left:5px;
-}
-ul.currency-buttons >li{
-    display:block;
-    float:left;
-}
-ul.currency-buttons >li> a{
-    cursor: pointer;
-    display:block;
-    text-decoration:none;
-    color:black;
-    /*text-shadow:0 1px #fff;*/
-    border:1px solid #d5d5d5;
-    border-bottom-color:#ddd;
-    padding:8px 12px 8px 16px;
-    font-weight:400;
-}
-li:first-child a{
 
-    border-right:0;
-    -webkit-border-radius:18px 0 0 18px;
-    -moz-border-radius:18px 0 0 18px;
-    border-radius:18px 0 0 18px;
+.group-buttons p {
+  line-height: 33px;
 }
-li:last-child a{
-    -webkit-border-radius:0 18px 18px 0;
-    -moz-border-radius:0 18px 18px 0;
-    border-radius:0 18px 18px 0;
+
+.group-buttons p, .group-buttons ul {
+  float: left;
+  padding-left: 10px
 }
-li a:hover{
-    background:#eee;
-    background:-webkit-gradient(linear,left top,left bottom,color-stop(.25, #fff),color-stop(1, #eee));
-    background: -webkit-linear-gradient(top,#fff 25%,#eee 100%);
-    background: -moz-linear-gradient(top,#fff 25%,#eee 100%);
-    background: -o-linear-gradient(top,#fff 25%,#eee 100%);
-    background: linear-gradient(top,#fff 25%,#eee 100%);
+
+.exchangeRate {
+  position: absolute;
+  right: 0;
 }
-li a:active,li a.active{
-    /*text-shadow:0 -1px #fff;*/
-    /*background:#ccc;*/
-    border-left: 0px !important;
-    background: silver !important;
-    color: #686E75 !important;
-    background:-webkit-gradient(linear,left top,left bottom,color-stop(.25, #eee),color-stop(1, #fff));
-    background: -webkit-linear-gradient(top,#eee 25%,#fff 100%);
-    background: -moz-linear-gradient(top,#eee 25%,#fff 100%);
-    background: -o-linear-gradient(top,#eee 25%,#fff 100%);
-    background: linear-gradient(top,#eee 25%,#fff 100%);
-    -webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.1);
-    -moz-box-shadow:inset 0 1px 2px rgba(0,0,0,0.1);
+
+ul.currency-buttons {
+  display: block;
+  list-style: none;
+  overflow: hidden;
+  margin-left: 5px;
+}
+
+ul.currency-buttons > li {
+  display: block;
+  float: left;
+}
+
+ul.currency-buttons > li > a {
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: black;
+  /*text-shadow:0 1px #fff;*/
+  border: 1px solid #d5d5d5;
+  border-bottom-color: #ddd;
+  padding: 8px 12px 8px 16px;
+  font-weight: 400;
+}
+
+li:first-child a {
+
+  border-right: 0;
+  -webkit-border-radius: 18px 0 0 18px;
+  -moz-border-radius: 18px 0 0 18px;
+  border-radius: 18px 0 0 18px;
+}
+
+li:last-child a {
+  -webkit-border-radius: 0 18px 18px 0;
+  -moz-border-radius: 0 18px 18px 0;
+  border-radius: 0 18px 18px 0;
+}
+
+li a:hover {
+  background: #eee;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(.25, #fff), color-stop(1, #eee));
+  background: -webkit-linear-gradient(top, #fff 25%, #eee 100%);
+  background: -moz-linear-gradient(top, #fff 25%, #eee 100%);
+  background: -o-linear-gradient(top, #fff 25%, #eee 100%);
+  background: linear-gradient(to top, #fff 25%, #eee 100%);
+}
+
+li a:active, li a.active {
+  /*text-shadow:0 -1px #fff;*/
+  /*background:#ccc;*/
+  border-left: 0px !important;
+  background: silver !important;
+  color: #686E75 !important;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(.25, #eee), color-stop(1, #fff));
+  background: -webkit-linear-gradient(top, #eee 25%, #fff 100%);
+  background: -moz-linear-gradient(top, #eee 25%, #fff 100%);
+  background: -o-linear-gradient(top, #eee 25%, #fff 100%);
+  background: linear-gradient(to top, #eee 25%, #fff 100%);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
-import { formatNumber, getValueOrDefault, trimString } from '../utils';
+import { formatNumber, getValueOrDefault } from '../utils';
 import { ICOScanHeader } from '../components/ICOScanHeader';
 import { connect } from 'react-redux';
 import { default as config } from '../config.js';

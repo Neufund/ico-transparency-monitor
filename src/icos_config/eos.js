@@ -45,7 +45,7 @@ export default {
       return convertWeb3Value(timestamp, 'timestamp').formatDate();
     },
     endDate: async (web3, icoContract) => {
-      const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf());
+      const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf(), 10);
       // (timestamp - startTime) / 23 hours + 1 -> EOS day has 23 hour days :P
       // enddate = (numberofdays - 1) * 23h + startdate
       const endTs = (await toPromise(icoContract.numberOfDays)().valueOf() - 1) * 23 * 60 * 60 + timestamp;

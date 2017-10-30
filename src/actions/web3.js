@@ -73,7 +73,7 @@ export const getLogs = address => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
   const blockNumber = getState().blocks.number;
 
-  const lastBlockNumber = typeof blockNumber === 'string' ? parseInt(blockNumber) : parseInt(`0x${blockNumber.toString('hex')}`);
+  const lastBlockNumber = typeof blockNumber === 'string' ? parseInt(blockNumber, 10) : parseInt(`0x${blockNumber.toString('hex')}`, 10);
 
   if (!web3) {
     dispatch(showErrorMessage('Web3 is not initialized'));

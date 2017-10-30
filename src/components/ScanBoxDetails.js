@@ -32,9 +32,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         dataKey="Tokens/Time"
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
-        isVisible={parseInt(props.stats.money.tokenIssued) > 0}
-        isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not
-        handling them in trustless way"
+        isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
+        isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not handling them in trustless way"
       />
     </Col>
     <Col md={6} sm={12} xs={12}>
@@ -43,9 +42,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         data={props.stats.charts.transactionsCount}
         dataKey={`Transactions/${props.stats.time.scale}`}
 
-        isVisible={parseInt(props.stats.general.transactionsCount) > 0}
-        isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or
-          is not handling them in trustless way"
+        isVisible={parseInt(props.stats.general.transactionsCount, 10) > 0}
+        isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
 
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Transactions"
@@ -62,8 +60,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           giniIndex={props.stats.general.giniIndex}
           tokenHolders={props.stats.charts.tokenHolders}
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or
-          is not handling them in trustless way"
+          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
       <Col md={6} sm={12} xs={12} >
@@ -75,8 +72,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           xLabel={'Share of investors by ownership'}
           yLabel="Share of Tokens Owned"
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution statistics: This ICO is not
-          generating tokens or is not handling them in trustless way"
+          isNotVisibleMessage="No Token distribution statistics: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
     </Row>

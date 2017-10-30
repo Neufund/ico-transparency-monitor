@@ -1,6 +1,5 @@
 import Web3 from 'web3';
 import config from '../config.js';
-import testConfig from '../config.test.js';
 import { toPromise } from '../utils';
 import { setBlock } from '../actions/ScanAction';
 
@@ -121,13 +120,14 @@ export const convertBlockNumberToDate = async (web3, blockNumber) => {
   // @todo: modify this
   if (!block) return new Date();
   const timestamp = block.timestamp;
-  return new Date(parseInt(timestamp) * 1000);
+  return new Date(parseInt(timestamp, 10) * 1000);
 };
 
 export const convertWeb3Value = (value, type) => {
   switch (type) {
     case 'string' :return value;
     case 'ether' :return parseFloat(value.div(10 ** 18).valueOf());
-    case 'timestamp' :return new Date(parseInt(value.valueOf()) * 1000);
+    case 'timestamp' :return new Date(parseInt(value.valueOf(), 10) * 1000);
+    default: throw new Error('Unexpected input');
   }
 };

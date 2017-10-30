@@ -44,7 +44,7 @@ export const computeICOTransparency = (answers) => {
       const answer = answers[key];
       const definition = config.matrix[key];
       // return lists of transparent-with-issues and non-transparent a answers
-      if (answer.answer === false || answer.answer === null && !definition.notApplicable) {
+      if ((answer.answer === false || answer.answer === null) && !definition.notApplicable) {
         foundIssues[key] = true;
         hasCritical = hasCritical || definition.critical;
       }
@@ -57,10 +57,11 @@ export const computeICOTransparency = (answers) => {
   return [icoTransparencyLevel.TRANSPARENT, foundIssues];
 };
 
-Date.prototype.formatDate = function (fullFormat = false) {
-  return moment(this).format(fullFormat ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
-};
+// eslint-disable-next-line
+Date.prototype.formatDate =  (fullFormat = false) => 
+  moment(this).format(fullFormat ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
 
+// eslint-disable-next-line
 String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -261,7 +262,7 @@ export const tokenHoldersPercentage = (total, sortedInvestors) => {
   let totalTokens = 0;
   let arrayIndex = 0;
   return percentages.map((singlePercent) => {
-    const noInvestorsInRange = parseInt(sortedInvestors.length * singlePercent);
+    const noInvestorsInRange = parseInt(sortedInvestors.length * singlePercent, 10);
 
     while (arrayIndex < noInvestorsInRange) {
       totalTokens += sortedInvestors[arrayIndex].value;

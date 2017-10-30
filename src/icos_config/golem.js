@@ -1,4 +1,4 @@
-import { toPromise, formatNumber } from '../utils';
+import { toPromise } from '../utils';
 import { convertBlockNumberToDate } from '../utils/web3';
 
 export default {

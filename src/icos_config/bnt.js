@@ -28,9 +28,6 @@ export default {
 
       return [`Ether Cap: ${convertWeb3Value(totalEtherCap, 'ether')} ETH`,
         `BTCs ETH Cap: ${convertWeb3Value(btcsEtherCap, 'ether')} ETH`];
-
-      const timestamp = await toPromise(icoContract.startTime)();
-      return convertWeb3Value(timestamp, 'timestamp').formatDate();
     },
     startDate: async (web3, icoContract) => {
       const timestamp = await toPromise(icoContract.startTime)();

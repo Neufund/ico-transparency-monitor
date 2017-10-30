@@ -26,14 +26,14 @@ export default {
       lastTransactionBlockNumber: 4165451,
       countTransactions: false,
       address: '0x12459C951127e0c374FF9105DdA097662A027093'
-    },*/
+    }, */
     Transfer: {
       args: {
         tokens: '_value',
         sender: '_to',
         // ZXR price taken directly from caps: getOrderMakerTokenAmount / getOrderTakerTokenAmount
         // our other choice was to not provide any ETH information as ICO smart contract is not auditable
-        ether: (tokens) => tokens / 5906.8750000012323217968752570931
+        ether: tokens => tokens / 5906.8750000012323217968752570931,
       },
       customArgs: {
         _from: '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9',
@@ -41,14 +41,14 @@ export default {
       firstTransactionBlockNumber: 4161301,
       lastTransactionBlockNumber: 4165451,
       countTransactions: true,
-      address: '0xE41d2489571d322189246DaFA5ebDe1F4699F498'
+      address: '0xE41d2489571d322189246DaFA5ebDe1F4699F498',
     },
   },
   icoParameters: {
     cap: async (web3, icoContract) => {
       const maxCapZrx = await toPromise(icoContract.getOrderMakerTokenAmount)().valueOf();
       const maxCapEth = await toPromise(icoContract.getOrderTakerTokenAmount)().valueOf();
-      return `${maxCapZrx / (10 ** 18)} ZRX or ${convertWeb3Value(maxCapEth, "ether")} ETH`;
+      return `${maxCapZrx / (10 ** 18)} ZRX or ${convertWeb3Value(maxCapEth, 'ether')} ETH`;
     },
     startDate: async (web3, icoContract) => {
       const timestamp = await toPromise(icoContract.startTimeInSec)();
@@ -64,7 +64,7 @@ export default {
     q4: { answer: true },
     q5: {
       answer: true, comment: `Crowdsale contract provides no tracking data. Actual value of ZXR amount  per ETH amount for given investor is never logged. 
-      Thanks to fixed ZXR to ETH peg it can be easily inferred which we do here.`},
+      Thanks to fixed ZXR to ETH peg it can be easily inferred which we do here.` },
     q6: { answer: true },
     q7: { answer: true },
     q8: { answer: null },
@@ -72,13 +72,13 @@ export default {
     q10: { answer: true },
     q11: {
       answer: true, comment: `Crowdsale happens via 0x Exchange. The maker of the order is a simple address so order could be cancelled any time. 
-      Otherwise ZRX is ERC20 token and its usage is laid out in Exchange contract. This goes beyond typical ICO which does not showcase future product.`},
+      Otherwise ZRX is ERC20 token and its usage is laid out in Exchange contract. This goes beyond typical ICO which does not showcase future product.` },
     q12: { answer: true },
     q13: { answer: true },
     q14: {
       answer: true, comment: `There is elaborate structure that lets all registered users to participate easily before ICO is finished. 
       There is also a flaw: See Q11. Maker can cancel the order any time thus effectively ending ICO. As there is no incentive for the maker to do so and 
-      otherwise smart contracts are nicely trustless we decided not to fail this project here.`},
+      otherwise smart contracts are nicely trustless we decided not to fail this project here.` },
   },
   decimals: 18,
   addedBy: 'Rudolfix',

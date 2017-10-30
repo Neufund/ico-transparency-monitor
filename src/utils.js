@@ -365,9 +365,9 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
 
       // removed operations on bigint which may decrease precision!
       const etherValue = parseFloat(
-        eventArgs.ether ? ( typeof eventArgs.ether === "function" ? eventArgs.ether(tokenValue*precision) : item.args[eventArgs.ether].valueOf() )
+        eventArgs.ether ? (typeof eventArgs.ether === 'function' ? eventArgs.ether(tokenValue * precision) : item.args[eventArgs.ether].valueOf())
           : parseInt(item.value, 16)
-        ) / 10 ** 18;
+      ) / 10 ** 18;
 
       const investor = item.args[eventArgs.sender];
       csvContentArray.push([investor, tokenValue, etherValue, item.timestamp, item.blockNumber]); // (new Date(item.timestamp * 1000)).formatDate(true)

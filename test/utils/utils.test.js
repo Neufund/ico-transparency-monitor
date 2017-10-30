@@ -67,7 +67,7 @@ describe('getICOLogs', () => {
   it('Should return array of logs', () => {
     const blockRange = [3932884, 3945843, 'LogBuy'];
     const icoContract = getSmartContract(web3, address);
-    getICOLogs(blockRange, icoConfig, {[address]: icoContract});
+    getICOLogs(blockRange, icoConfig, { [address]: icoContract });
   });
 });
 

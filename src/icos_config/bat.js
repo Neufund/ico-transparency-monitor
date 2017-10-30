@@ -22,7 +22,7 @@ export default {
     cap: async (web3, icoContract) => {
       const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
       const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-      return [`Max: ${convertWeb3Value(maxCap, "ether")} BAT`, `Min: ${convertWeb3Value(minCap, "ether")} BAT`];
+      return [`Max: ${convertWeb3Value(maxCap, 'ether')} BAT`, `Min: ${convertWeb3Value(minCap, 'ether')} BAT`];
     },
     startDate: async (web3, icoContract) => {
       const blockNumber = await toPromise(icoContract.fundingStartBlock)();
@@ -52,4 +52,4 @@ export default {
   },
   decimals: 18,
   addedBy: 'Mostafa Balata',
-}
+};

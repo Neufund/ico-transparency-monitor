@@ -17,8 +17,8 @@ export default {
       firstTransactionBlockNumber: 4240691,
       lastTransactionBlockNumber: 4240950,
       countTransactions: true,
-      address: '0x2c974b2d0ba1716e644c1fc59982a89ddd2ff724'
-    }
+      address: '0x2c974b2d0ba1716e644c1fc59982a89ddd2ff724',
+    },
   },
   icoParameters: {
     cap: async (web3, icoContract) => {

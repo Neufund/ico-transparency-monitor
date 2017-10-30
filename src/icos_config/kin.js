@@ -15,7 +15,7 @@ export default {
     q1: {
       answer: false, comment: `No source code and no information how actual fundraiser will proceed is disclosed. Is there crowdsale smart contract? Is it backend driven fundraiser 
       like Filecoin? Certainly less information is available to external observers than in Filecoin case. On the other hand it is announced that funds are raised only in ETH and kin is 
-      ERC20 token so we `
+      ERC20 token so we `,
     },
     q2: { answer: false },
     q3: { answer: false },
@@ -28,11 +28,11 @@ export default {
     q10: { answer: null },
     q11: {
       answer: false,
-      comment: 'No token smart contract available. No legal contract like SAFT available. Is token transferable? Is secondary market allowed? Any vesting? This remains unanswered.'
+      comment: 'No token smart contract available. No legal contract like SAFT available. Is token transferable? Is secondary market allowed? Any vesting? This remains unanswered.',
     },
     q12: { answer: false },
     q13: { answer: false },
-    q14: { answer: false }
+    q14: { answer: false },
   },
   addedBy: 'Rudolfix',
 };

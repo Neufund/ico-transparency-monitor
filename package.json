@@ -75,7 +75,7 @@
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^7.0.1",
     "react-hot-loader": "next",
-    "react-scripts": "1.0.9",
+    "react-scripts": "1.0.15",
     "sinon": "^2.4.0",
     "sinon-chai": "^2.12.0"
   },

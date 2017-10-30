@@ -36,5 +36,5 @@ export default {
     q14: { answer: false },
   },
   addedBy: 'Rudolfix',
-  addingDate: '05-09-2017'
+  addingDate: '05-09-2017',
 };

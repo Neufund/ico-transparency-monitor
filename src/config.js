@@ -1,10 +1,10 @@
 import { toPromise, formatNumber } from './utils';
 import { convertWeb3Value, convertBlockNumberToDate } from './utils/web3';
-import testConfig from './config.test';
 import { rpcHost } from './env.json';
-import icos from './icos_config';
 
-let config = {
+const icos = process.env.NODE_ENV === 'test' ? require('./config.test').default.ICOs : require('./icos_config').default;
+
+const config = {
   ICOs: icos,
   rpcHost,
   defaultDecimal: 18,
@@ -65,9 +65,5 @@ let config = {
     },
   },
 };
-
-if (process.env.NODE_ENV === 'test') {
-  config = testConfig;
-}
 
 export default config;

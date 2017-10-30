@@ -55,5 +55,5 @@ export default {
     q14: { answer: true, comment: 'owner can stop ICO before failSafe' },
   },
   addedBy: 'Rudolfix',
-  addingDate: '15-07-2017'
+  addingDate: '15-07-2017',
 };

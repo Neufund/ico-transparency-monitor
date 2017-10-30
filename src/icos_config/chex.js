@@ -63,5 +63,5 @@ export default {
     q14: { answer: true, comment: 'Will end either by supply limit reached, manual freeze, or end block reached' },
   },
   addedBy: 'Bravetarget',
-  addingDate: '11-10-2017'
+  addingDate: '11-10-2017',
 };

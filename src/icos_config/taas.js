@@ -45,5 +45,5 @@ export default {
     q14: { answer: null },
   },
   addedBy: 'Mostafa Balata',
-  addingDate: '14-07-2017'
+  addingDate: '14-07-2017',
 };

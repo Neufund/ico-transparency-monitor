@@ -54,5 +54,5 @@ export default {
     q14: { answer: true, comment: 'Halting function has no impact as there is no minimum cap' },
   },
   addedBy: 'Mostafa Balata',
-  addingDate: '14-07-2017'
+  addingDate: '14-07-2017',
 };

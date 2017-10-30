@@ -45,5 +45,5 @@ export default {
     q14: { answer: false, comment: 'No tokens are generated!' },
   },
   addedBy: 'Mostafa Balata',
-  addingDate: '10-08-2017'
+  addingDate: '10-08-2017',
 };

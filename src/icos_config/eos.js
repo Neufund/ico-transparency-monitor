@@ -87,5 +87,5 @@ export default {
   },
   alternativeLoadingMsg: 'EOS ICO is generating hundreds of thousands of events that we need to analyze. Loading will take more than one minute.',
   addedBy: 'Rudolfix',
-  addingDate: '14-07-2017'
+  addingDate: '14-07-2017',
 };

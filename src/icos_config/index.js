@@ -14,8 +14,12 @@ import golem from './golem';
 import melanport from './melanport';
 import theDao from './thedao';
 import taas from './taas';
+import polkadot from './polkadot';
+import chex from './chex';
 
 export default {
+  '0x54a2d42a40F51259DedD1978F6c118a0f0Eff078': polkadot,
+  '0xD566Fa4a696EAc66f749f7fe999D6673fEe2026c': chex,
   '0x91c94bee75786fbbfdcfefba1102b68f48a002f4': viberate,
   '0xBbc79794599b19274850492394004087cBf89710': bnt,
   '0x0d8775f648430679a709e98d2b0cb6250d2887ef': bat,

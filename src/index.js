@@ -13,6 +13,11 @@ import RPCProvider from './components/RPCProvider';
 import MessageBoxModal from './components/modals';
 import withTracker from './components/withTracker';
 import reducer from './reducers';
+import env from './env.json';
+import ReactPixel from 'react-facebook-pixel';
+
+ReactPixel.init(env.fbPixelId);
+ReactPixel.pageView();
 
 const root = document.getElementById('root');
 

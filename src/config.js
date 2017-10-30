@@ -34,7 +34,7 @@ let config = {
       notApplicable: true,
     },
     q9: {
-      question: 'Does smart contract handle other currencies in a trust less way? Does some smart contract store balance of those currencies?',
+      question: 'Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies?',
       critical: false,
       notApplicable: true,
     },

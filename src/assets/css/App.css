@@ -121,8 +121,7 @@ body{
 }
 
 .ico-information{
-  float:left;
-  width:75%;
+  margin-left: 65px;
 }
 
 .ico-logo{
@@ -359,6 +358,7 @@ a, .nav-buttons  .next-list  a ,.nav-buttons  .back-list  a {
   color : #FFB600 !important;
   font-style: normal!important;
 }
+
 .transparent-alert{
   color:#2BD822 !important;
   font-style: normal!important;
@@ -377,7 +377,9 @@ a, .nav-buttons  .next-list  a ,.nav-buttons  .back-list  a {
 .ico-information a{
   color:#0971aa;
   text-decoration: none;
+  font-size: 16px;
 }
+
 .successful{
   color:#2BD822 !important;
 }

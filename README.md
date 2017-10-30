@@ -114,15 +114,15 @@ The decision matrix is represented as (as specified in [config.js](https://githu
 |3|Is smart contract source code provided in etherscan?|false|false|
 |4|Is instruction provided how to reproduce deployed bytecode?|true| true|
 |5|Does smart contract provide all tracking data via events?|false|false|
-|6|Is information on token price in ETH provided?|true|true|
+|6|Is information on token price in ETH provided? (via event or in transaction?)|true|true|
 |7|Does smart contract handle ETH in a trustless way?|false|true|
 |8|If ICO is using other currencies is information on token price provided?|true|true|
-|9|Does smart contract handle other currencies in a trustless way?|false|true|
+|9|Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies?|false|true|
 |10|Was smart contract code easy to read and properly commented?|false|false|
-|11|Is the ICO doing exactly the same what they say on their website ?|true|false|
-|12|Is price of the token deterministic?|false| false |
-|13|Is ICO start condition specified in contract?| false| false |
-|14|Is ICO end condition specified in contract?| false | false |
+|11|Are token holder rights protected in trustless way?|true|false|
+|12|Is price of the token controlled by smart contract?|false| false |
+|13|Is ICO start condition controlled by smart contract?| false| false |
+|14|Is ICO end condition controlled by smart contract?| false | false |
 
 ## Adding custom ICOs to the Transparency-Monitor
 The ICO-monitor collects information from the blockchain public-ledger using a set of predefined

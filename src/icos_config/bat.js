@@ -2,6 +2,7 @@ import { toPromise, formatNumber } from '../utils';
 import { convertWeb3Value, convertBlockNumberToDate } from '../utils/web3';
 
 export default {
+  crawdSaleTokenContract: '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
   information: {
     aliasName: 'bat',
     website: 'https://basicattentiontoken.org/',

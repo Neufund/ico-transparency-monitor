@@ -1,4 +1,5 @@
 export default {
+  crawdSaleTokenContract: 'kin-smart-contract-not-provided',
   information: {
     aliasName: 'Kin',
     logo: 'https://kin.kik.com/favicon-32x32.png',

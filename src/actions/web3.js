@@ -134,10 +134,10 @@ export const getLogs = address => async (dispatch, getState) => {
 
       setCurrency('EUR', new Date(), (error, currencyResult) => {
         if (error) {
-          dispatch({type: 'SET_CURRENCY_ERROR', message: error});
+          dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
           return;
         }
-        dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time))
+        dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
         dispatch(showStatistics());
       });
     } else {

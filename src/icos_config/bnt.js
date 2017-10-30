@@ -2,6 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
+  crawdSaleTokenContract: '0xBbc79794599b19274850492394004087cBf89710',
   tokenContract: '0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c',
   information: {
     aliasName: 'Bancor Network',

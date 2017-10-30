@@ -1,6 +1,7 @@
 import { toPromise } from '../utils';
 
 export default {
+  crawdSaleTokenContract: '0xb56d622DDF60ec532B5f43B4Ff9B0e7b1FF92dB3',
   information: {
     aliasName: 'TEZOS Fundraiser',
     logo: 'https://www.tezos.com/static/favicon.ico',

@@ -1,4 +1,5 @@
 export default {
+  crawdSaleTokenContract: 'filescoin-smart-contract-not-provided',
   information: {
     aliasName: 'Filecoin ETH fundraiser',
     logo: 'https://pbs.twimg.com/profile_images/489720503892856832/XZt8MkUk.png',

@@ -95,7 +95,7 @@ const mapStateToProps = (state, props) => {
     web3: state.modal.web3,
     blocks: state.blocks,
     isSmartContractLoaded: state.scan.isSmartContractLoaded,
-    hasNoTransactions: state.scan.hasNoTransactions
+    hasNoTransactions: state.scan.hasNoTransactions,
   };
 };
 

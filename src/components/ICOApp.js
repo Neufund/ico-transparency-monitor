@@ -4,9 +4,7 @@ import { getValueOrDefault, icoTransparencyMap, trimString } from '../utils';
 import { connect } from 'react-redux';
 import { default as config } from '../config.js';
 
-const extractHostnameFromUrl = (url) => {
-  return url.replace(/(^\w+:|^)\/\//, '').replace(/^www\./,'').replace('/','')
-};
+const extractHostnameFromUrl = url => url.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '').replace('/', '');
 
 export const ICOApp = (props) => {
   const { address, information, name, cap, startDate, endDate, status, addedBy, decision, onModalShow } = props;

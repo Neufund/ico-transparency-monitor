@@ -2,6 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value, convertBlockNumberToDate } from '../utils/web3';
 
 export default {
+  crawdSaleTokenContract: '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc',
   tokenContract: '0x6810e776880C02933D47DB1b9fc05908e5386b96',
   information: {
     aliasName: 'Gnosis',

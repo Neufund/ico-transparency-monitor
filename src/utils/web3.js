@@ -117,7 +117,10 @@ export const getICOParameters = async (web3, address) => {
 };
 
 export const convertBlockNumberToDate = async (web3, blockNumber) => {
-  const timestamp = (await toPromise(web3.eth.getBlock)(blockNumber.valueOf())).timestamp;
+  const block = await toPromise(web3.eth.getBlock)(blockNumber.valueOf());
+  // @todo: modify this
+  if (!block) return new Date();
+  const timestamp = block.timestamp;
   return new Date(parseInt(timestamp) * 1000);
 };
 

@@ -2,6 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
+  crawdSaleTokenContract: '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff',
   tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
   information: {
     aliasName: 'district0x',

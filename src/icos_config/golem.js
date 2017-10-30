@@ -2,6 +2,7 @@ import { toPromise, formatNumber } from '../utils';
 import { convertBlockNumberToDate } from '../utils/web3';
 
 export default {
+  crawdSaleTokenContract: '0xa74476443119a942de498590fe1f2454d7d4ac0d',
   information: {
     aliasName: 'Golem',
     website: 'https://golem.network/',

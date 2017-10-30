@@ -2,6 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
+  crawdSaleTokenContract: '0x3BF541f87056D134E0109BE1Be92978b26Cb09e0',
   tokenContract: '0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',
   information: {
     aliasName: 'MelonPort',

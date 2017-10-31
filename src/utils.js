@@ -70,13 +70,6 @@ String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function () {
 // coinbase requires UTC string
 export const getEtherRate = async (currency, time) => axios.get(`https://api.coinbase.com/v2/prices/${currency}/spot?date=${time.toISOString()}`);
 
-export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
-  const ico = config.ICOs[icoKey];
-  ico.address = icoKey;
-  return ico;
-}
-);
-
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
 export const getValueOrDefault = value => value || 'Not Available';

@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { icoTransparencyMap, isCorrectTokenAddress } from '../utils';
 
-export const ICOScanHeader = (props) => {
-  const { address, information, name, addedBy, decision, onModalShow, tokenContract } = props;
+export default (props) => {
+  const { address, information, name, addedBy, decision, onModalShow, tokenContract, icoModalData } = props;
   return (
     <Row>
       <Grid className="ico-scan-header">
@@ -16,10 +16,10 @@ export const ICOScanHeader = (props) => {
                     <img src={information.logo} alt="" />
                   </div>
                   <div className="ico-information">
-                    <h4><a href={`/#/${props.address}`}> {name || information.aliasName}</a></h4>
+                    <h4><a href={`/#/${address}`}> {name || information.aliasName}</a></h4>
                     <a className="link" rel="noopener noreferrer" target="_blank" href={information.website} >{information.website}</a>
                     {isCorrectTokenAddress(address) && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View ICO contract on etherscan</a>}
-                    {props.tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/token/${tokenContract}`} >View token contract on etherscan</a>}
+                    {tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/token/${tokenContract}`} >View token contract on etherscan</a>}
                   </div>
                 </div>
 
@@ -31,11 +31,11 @@ export const ICOScanHeader = (props) => {
             <Row>
               <Col lg={4} md={1} sm={1} xs={1} />
               <Col lg={8} md={11} sm={11} xs={11} className="part transparency">
-                {props.addedBy && <p className="title added-by-person">Added by <b>{addedBy}</b></p>}
+                {addedBy && <p className="title added-by-person">Added by <b>{addedBy}</b></p>}
                 <button
                   className={`transparency-button ${decision ? decision.replace(/\s+/g, '-').toLowerCase() : ''}-status`}
                   onClick={() => {
-                    onModalShow(props);
+                    onModalShow(icoModalData);
                   }}
                 >
                   <p>Transparency score</p>

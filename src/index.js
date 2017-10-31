@@ -5,8 +5,8 @@ import { Route, Switch, HashRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import App from './containers/App';
-import Scan from './containers/Scan';
+import IcosList from './containers/IcosList';
+import SingleIcoPage from './containers/SingleIcoPage';
 import './assets/css/index.css';
 import Layout from './views/Layout';
 import RPCProvider from './components/RPCProvider';
@@ -28,8 +28,8 @@ const render = (store) => {
         <Layout>
           <HashRouter>
             <Switch>
-              <Route exact path="/" component={withTracker(App)} />
-              <Route exact path="/:name" component={withTracker(Scan)} />
+              <Route exact path="/" component={withTracker(IcosList)} />
+              <Route exact path="/:name" component={withTracker(SingleIcoPage)} />
             </Switch>
           </HashRouter>
           <MessageBoxModal />

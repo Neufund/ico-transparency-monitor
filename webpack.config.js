@@ -24,6 +24,7 @@ const config = {
       },
     }),
   ],
+  devtool: isProduction ? '(none)' : 'inline-source-map',
   node: {
     __filename: true,
   },

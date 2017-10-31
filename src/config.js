@@ -1,7 +1,7 @@
 import { rpcHost } from './env.json';
-
-const icos = process.env.NODE_ENV === 'test' ? require('./config.test').default.ICOs : require('./icos_config').default;
-
+import { getICOsAsDict } from './icos_config';
+// const icos = process.env.NODE_ENV === 'test' ? require('./config.test').default.ICOs : require('./icos_config').getICOsAsDict;
+const icos = getICOsAsDict();
 const config = {
   ICOs: icos,
   rpcHost,

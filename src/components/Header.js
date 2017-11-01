@@ -14,15 +14,15 @@ const Header = () => (
               The ICO Monitor serves as a transparency benchmark for the community to better evaluate offerings and make
               informed decisions based on objective metrics.
             </p>
-            <p>
+            <div>
               We evaluate all ICOs based on their smart contracts.
               <ul>
-                <li>Non-transparent: this rating means that one or more essential dimensions of trust and security receive an unfavorable rating.</li>
-                <li>Transparent with issues: this rating means that one or more non-essential dimensions of trust and security receive an unfavorable rating.</li>
-                <li>Transparent: this rating means that all dimension of trust and security receive a favorable rating.</li>
+                <li><p>Non-transparent: this rating means that one or more essential dimensions of trust and security receive an unfavorable rating.</p></li>
+                <li><p>Transparent with issues: this rating means that one or more non-essential dimensions of trust and security receive an unfavorable rating.</p></li>
+                <li><p>Transparent: this rating means that all dimension of trust and security receive a favorable rating.</p></li>
               </ul>
               Please read detailed explanation <a href="https://github.com/Neufund/ico-transparency-monitor#transparency-questionnaire" target="_blank" rel="noopener noreferrer">here</a>.
-            </p>
+            </div>
             <p>
                 ICO Monitor is an open platform. We take no responsibility for the information published or data provided.
                 We also do not assume any liability of their correctness.

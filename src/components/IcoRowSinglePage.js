@@ -1,21 +1,17 @@
 import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { formatNumber, getValueOrDefault } from '../utils';
-import { ICOScanHeader } from '../components/ICOScanHeader';
-import { connect } from 'react-redux';
-import { default as config } from '../config.js';
 
-export const ICOScan = (props) => {
-  const { isLoading, totalSupply, web3, showLoader, symbol, cap, startDate, endDate, status } = props;
+export default (props) => {
+  const { isLoading, totalSupply, symbol, cap, startDate, endDate, status } = props;
 
   return (<div>
-    <ICOScanHeader {...props} />
     <Row>
       <div id="loadingProgressG" className={isLoading === true ? 'show' : 'hide'}>
         <div id="loadingProgressG_1" className="loadingProgressG" />
       </div>
 
-      {!showLoader && web3 && <Col md={12}>
+      {!isLoading && <Col md={12}>
         <Row className="scanbox-details-parameters">
           <Col lg={3} md={12} sm={12} xs={12} className="part">
             <p className="title">Declared Cap</p>
@@ -55,14 +51,3 @@ export const ICOScan = (props) => {
   </div>
   );
 };
-
-const mapStateToProps = (state, props) => ({
-  ...state.ICO.icos[props.address],
-  ...config.ICOs[props.address],
-  isLoading: state.scan.showLoader,
-  web3: state.modal.web3,
-});
-export default connect(
-  mapStateToProps,
-  null
-)(ICOScan);

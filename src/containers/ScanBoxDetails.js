@@ -2,10 +2,13 @@ import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
-import GroupButtons from './GroupButtons';
 import '../assets/css/ScanBox.css';
-import { TimeDetails, RaisedAmount, TokenIssued, TokenDistribution } from './details';
-import Chart from './Chart';
+import GroupButtons from '../components/GroupButtons';
+import GeneralDates from '../components/GeneralDates';
+import RaisedAmount from '../components/RaisedAmount';
+import TokenIssued from '../components/TokenIssued';
+import TokenDistribution from '../components/TokenDistribution';
+import Chart from '../components/Chart';
 import { downloadCSV } from '../utils';
 import config from '../config';
 
@@ -13,7 +16,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <ReactTooltip multiline />
   <Row className="statistics box-container">
     <Col md={12} className="scan-content">
-      <TimeDetails {...props.stats.time} />
+      <GeneralDates {...props.stats.time} />
       <TokenIssued
         totalSupply={props.totalSupply}
         tokenIssued={props.stats.money.tokenIssued}

@@ -1,14 +1,13 @@
-import config from '../config.js';
-import { getICOParameters, isConnected, web3Connect, getSmartContract, getAbiAsDictionary, getTokenSmartContract } from '../utils/web3';
-import { computeICOTransparency } from '../utils';
-import { getICOLogs, getStatistics, initStatistics } from '../utils.js';
+import config from '../config';
+import { getICOParameters, isConnected, web3Connect,
+  getSmartContract, getAbiAsDictionary, getTokenSmartContract } from '../utils/web3';
+import { computeICOTransparency, getICOLogs, getStatistics, initStatistics } from '../utils';
 import { setCurrency, setStatisticsByCurrency } from './CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
   setSmartContractLoaded, setProperties, resetRpc, showIcoNotStarted } from './ScanAction';
 import { showErrorMessage } from './ModalAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
-  console.log('Start Web3 connection');
   if (isConnected() === false) {
     await dispatch(resetRpc());
     dispatch(showErrorMessage(`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`));
@@ -22,7 +21,6 @@ export const web3Connection = () => async (dispatch, getState) => {
 
 export const readSmartContract = address => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
-  console.log(`Reading Smart contract , RPC connection ${web3 ? 'Connected' : 'Disconnected'}`);
   if (!web3) { return; }
   const configFile = config.ICOs;
 
@@ -41,7 +39,8 @@ export const readSmartContract = address => async (dispatch, getState) => {
 
   const parameters = await getICOParameters(web3, address);
 
-  configFile[address].decimals = parameters.decimals || configFile[address].decimals; // set decimals in config from smart contract
+  // set decimals in config from smart contract
+  configFile[address].decimals = parameters.decimals || configFile[address].decimals;
   Object.keys(parameters).forEach((par) => {
     const parameter = parameters[par];
     if (parameter === null) return;
@@ -49,7 +48,8 @@ export const readSmartContract = address => async (dispatch, getState) => {
     if (abiAsDictionary[par] === 'bytes32') {
       const asciiValue = web3.toAscii(parameter);
       // check if it has value
-      tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ? asciiValue.replace(/\00+/g, '') : null;
+      tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ?
+        asciiValue.replace(/\00+/g, '') : null;
       dispatch(setProperties(address, tempResult));
     } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {
       parameter.then(async (value) => {
@@ -73,7 +73,8 @@ export const getLogs = address => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
   const blockNumber = getState().blocks.number;
 
-  const lastBlockNumber = typeof blockNumber === 'string' ? parseInt(blockNumber, 10) : parseInt(`0x${blockNumber.toString('hex')}`, 10);
+  const lastBlockNumber = typeof blockNumber === 'string' ? parseInt(blockNumber, 10) :
+    parseInt(`0x${blockNumber.toString('hex')}`, 10);
 
   if (!web3) {
     dispatch(showErrorMessage('Web3 is not initialized'));
@@ -117,7 +118,7 @@ export const getLogs = address => async (dispatch, getState) => {
       let i = firstTxBlockNumber;
       const lastFullBlockNumber = lastTxBlockNumber - event.maxBlocksInChunk;
       for (; i < lastFullBlockNumber; i += event.maxBlocksInChunk) {
-        logRequests.push([i, i + event.maxBlocksInChunk - 1, eventName]);
+        logRequests.push([i, (i + event.maxBlocksInChunk) - 1, eventName]);
       }
       // push last block which is variable
       logRequests.push([i, lastTxBlockNumber, eventName]);
@@ -128,7 +129,8 @@ export const getLogs = address => async (dispatch, getState) => {
   const finalProcessor = () => {
     if (Object.keys(allLogs).length > 0) {
       const statistics = getStatistics(icoConfig, allLogs, initStatistics());
-      // statistics array of two elements, index number 0 for statistcs, index number 1 for csv content
+      /* statistics array of two elements, index number 0 for statistcs, 
+      index number 1 for csv content */
       dispatch(drawStatistics(statistics[0]));
       dispatch(allocateCSVFile(statistics[1]));
 
@@ -137,7 +139,8 @@ export const getLogs = address => async (dispatch, getState) => {
           dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
           return;
         }
-        dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
+        dispatch(setStatisticsByCurrency(currencyResult.currency,
+          currencyResult.value, currencyResult.time));
         dispatch(showStatistics());
       });
     } else {

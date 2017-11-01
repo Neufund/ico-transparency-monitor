@@ -1,14 +1,14 @@
-import { expect } from 'chai';
-import { getSmartContract } from '../../src/utils/web3';
-import { getICODuration, formatDuration } from '../../src/utils';
-import getLogsDetails from '../helpers/LogsMock';
 import axios from 'axios';
 import AxiosMock from 'axios-mock-adapter';
+import { expect } from 'chai';
+import { getSmartContract } from '../../src/utils/web3';
+import getLogsDetails from '../helpers/LogsMock';
 
 import {
+  getICODuration,
+  formatDuration,
   computeICOTransparency,
   getEtherRate,
-  getICOs,
   getValueOrNotAvailable,
   getStatistics,
   initStatistics,
@@ -37,12 +37,6 @@ describe('getEtherRate', () => {
     const result = await getEtherRate('ETH-EUR', new Date('2016-11-03'));
 
     expect(result.data.data.amount).to.equal(9);
-  });
-});
-
-describe('getICOs', () => {
-  it('Should return the currency by time', () => {
-    expect(getICOs()).to.be.an('Array');
   });
 });
 
@@ -105,6 +99,7 @@ describe('getStatistics', () => {
     const stats = statistics[0];
     expect(Object.keys(stats.investors.senders).length).to.equal(3);
   });
+
   it('Should have sortedByTicket object', () => {
     const stats = statistics[0];
     const expectedObject = [

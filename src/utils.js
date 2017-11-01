@@ -1,7 +1,7 @@
-import jquery from './utils/jQuery';
 import axios from 'axios';
 import moment from 'moment';
 import gini from 'gini';
+import jquery from './utils/jQuery';
 import config from './config';
 
 
@@ -39,7 +39,7 @@ export const computeICOTransparency = (answers) => {
   const foundIssues = {};
   let hasCritical = false;
 
-  for (const key in config.matrix) {
+  Object.keys(config.matrix).forEach((key) => {
     if (config.matrix.hasOwnProperty(key)) {
       const answer = answers[key];
       const definition = config.matrix[key];
@@ -49,7 +49,7 @@ export const computeICOTransparency = (answers) => {
         hasCritical = hasCritical || definition.critical;
       }
     }
-  }
+  });
 
   if (Object.keys(foundIssues).length !== 0) {
     return [criticalToTransparencyLevel(hasCritical), foundIssues];
@@ -69,13 +69,6 @@ String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function () {
 
 // coinbase requires UTC string
 export const getEtherRate = async (currency, time) => axios.get(`https://api.coinbase.com/v2/prices/${currency}/spot?date=${time.toISOString()}`);
-
-export const getICOs = () => Object.keys(config.ICOs).map((icoKey) => {
-  const ico = config.ICOs[icoKey];
-  ico.address = icoKey;
-  return ico;
-}
-);
 
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 
@@ -119,7 +112,6 @@ export const getICOLogs = (blockRange, icoConfig, contracts, callback) => {
         const res = response.result;
         console.log(`formatting ${res.length} log entries`);
         const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
-        console.log('log entries formatted');
         callback(null, logsFormat);
       }
     },
@@ -180,7 +172,7 @@ export const kFormatter = (num) => {
     { divider: 1e3, suffix: 'k' },
   ];
 
-  for (let i = 0; i < ranges.length; i++) {
+  for (let i = 0; i < ranges.length; i += 1) {
     if (num >= ranges[i].divider) {
       return (num / ranges[i].divider).toString() + ranges[i].suffix;
     }
@@ -198,7 +190,7 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
   const ticks = calculateTicks(max);
   let previousTick = 0;
 
-  for (let i = 0; i < ticks.length; i++) {
+  for (let i = 0; i < ticks.length; i += 1) {
     const tick = ticks[i];
     const name = `${kFormatter(previousTick)} - ${kFormatter(tick)}`;
     investorsChartXAxis.push({ name: `${name}`, amount: 0 });
@@ -208,7 +200,7 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
 
   sortedInvestors.forEach((item) => {
     const money = item.value * currencyPerEther;
-    for (let i = 0; i < ticks.length; i++) {
+    for (let i = 0; i < ticks.length; i += 1) {
       if (money < ticks[i]) {
         investorsChartXAxis[i].amount += 1;
         investmentChartXAxis[i].amount += parseFloat(money.toFixed(2));
@@ -267,7 +259,7 @@ export const tokenHoldersPercentage = (total, sortedInvestors) => {
 
     while (arrayIndex < noInvestorsInRange) {
       totalTokens += sortedInvestors[arrayIndex].value;
-      arrayIndex++;
+      arrayIndex += 1;
     }
     return {
       name: `${singlePercent * 100}%`,
@@ -278,10 +270,10 @@ export const tokenHoldersPercentage = (total, sortedInvestors) => {
 
 
 export const downloadCSV = fileName => async (dispatch, getState) => {
-  console.log(getState());
   const csvContentArray = getState().scan.csvContent;
 
-  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value', 'Timestamp', 'Block Number', '\n'].join(',');
+  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value',
+    'Timestamp', 'Block Number', '\n'].join(',');
   csvContentArray.forEach((item, index) => {
     const dataString = item.join(',');
     csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
@@ -318,16 +310,18 @@ export const getNextICO = (address) => {
   window.location.reload();
 };
 
-export const getICODuration = (endTime, startTime) => moment.duration(moment(endTime).diff(moment(startTime)));
+export const getICODuration = (endTime, startTime) =>
+  moment.duration(moment(endTime).diff(moment(startTime)));
 
-// allLogs contains dictionary {event_name: logs_array} where each logs_array is sorted by timestamp (by ETH node)
+/* allLogs contains dictionary {event_name: logs_array} 
+where each logs_array is sorted by timestamp (by ETH node) */
 export const getStatistics = (icoConfig, allLogs, stats) => {
-  console.log('stats started');
   const csvContentArray = [];
 
-  // get event that defines investor transaction and extract timestamps that will scale the time charts
-  // console.log(allLogs);
-  const transactionLogs = allLogs[Object.keys(allLogs).filter(name => icoConfig.events[name].countTransactions)[0]];
+  /* get event that defines investor transaction and extract
+  timestamps that will scale the time charts */
+  const transactionLogs = allLogs[Object.keys(allLogs).filter(name =>
+    icoConfig.events[name].countTransactions)[0]];
   if (!transactionLogs) {
     throw new Error("You need to mark at least one event with 'countTransactions'");
   }
@@ -345,7 +339,8 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
 
   const chartTokensCountTemp = {};
   const chartTransactionsCountTemp = {};
-  const duration = moment.duration(moment(new Date(endTimestamp * 1000)).diff(moment(new Date(startTimestamp * 1000))));
+  const duration = moment.duration(moment(new Date(endTimestamp * 1000))
+    .diff(moment(new Date(startTimestamp * 1000))));
   const timeScale = getChartTimescale(duration.asHours(), startTimestamp);
   const toTimeBucket = timeScale[1];
   stats.time.scale = timeScale[0];
@@ -360,19 +355,22 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
     const events = allLogs[eventName];
     let prevTxHash = null;
 
-    for (let i = 0; i < events.length; i++) {
+    for (let i = 0; i < events.length; i += 1) {
       const item = events[i];
       // allow for ICOs that do not generate tokens: like district0x
-      const tokenValue = eventArgs.tokens ? parseFloat(item.args[eventArgs.tokens].valueOf()) / precision : 0;
+      const tokenValue = eventArgs.tokens ?
+        parseFloat(item.args[eventArgs.tokens].valueOf()) / precision : 0;
 
       // removed operations on bigint which may decrease precision!
       const etherValue = parseFloat(
-        eventArgs.ether ? (typeof eventArgs.ether === 'function' ? eventArgs.ether(tokenValue * precision) : item.args[eventArgs.ether].valueOf())
+        eventArgs.ether ? (typeof eventArgs.ether === 'function' ?
+          eventArgs.ether(tokenValue * precision) : item.args[eventArgs.ether].valueOf())
           : parseInt(item.value, 16)
       ) / 10 ** 18;
 
       const investor = item.args[eventArgs.sender];
-      csvContentArray.push([investor, tokenValue, etherValue, item.timestamp, item.blockNumber]); // (new Date(item.timestamp * 1000)).formatDate(true)
+      csvContentArray.push([investor, tokenValue, etherValue,
+        item.timestamp, item.blockNumber]); // (new Date(item.timestamp * 1000)).formatDate(true)
 
       // only if event is transaction event
       const timeBucket = toTimeBucket(item);
@@ -411,7 +409,6 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
     }
   });
 
-  console.log('stats dictionaries');
   stats.general.transactionsCount = tranCount;
   stats.charts.transactionsCount = [];
   stats.charts.tokensCount = [];
@@ -420,7 +417,8 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   const chartTokensKeys = Object.keys(chartTokensCountTemp);
   if (chartTokensKeys.length !== 0) {
     const timeIterator = stats.time.scale !== 'blocks' ?
-      Array.from(new Array(Math.max.apply(null, chartTokensKeys)), (x, i) => i + 1) : chartTokensKeys;
+      Array.from(new Array(Math.max.apply(null, chartTokensKeys)),
+        (x, i) => i + 1) : chartTokensKeys;
     timeIterator.forEach(key => stats.charts.tokensCount.push({
       name: key,
       amount: key in chartTokensCountTemp ? chartTokensCountTemp[key] : 0,
@@ -429,7 +427,8 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
   const chartTransactionsKeys = Object.keys(chartTransactionsCountTemp);
   if (chartTransactionsKeys !== 0) {
     const timeIterator = stats.time.scale !== 'blocks' ?
-      Array.from(new Array(Math.max.apply(null, chartTransactionsKeys)), (x, i) => i + 1) : chartTransactionsKeys;
+      Array.from(new Array(Math.max.apply(null, chartTransactionsKeys)),
+        (x, i) => i + 1) : chartTransactionsKeys;
     timeIterator.forEach(key => stats.charts.transactionsCount.push({
       name: key,
       amount: key in chartTransactionsCountTemp ? chartTransactionsCountTemp[key] : 0,
@@ -451,6 +450,5 @@ export const getStatistics = (icoConfig, allLogs, stats) => {
     stats.general.giniIndex = gini.ordered(tokens.reverse());
   }
 
-  console.log('dictionaries completed');
   return [stats, csvContentArray];
 };

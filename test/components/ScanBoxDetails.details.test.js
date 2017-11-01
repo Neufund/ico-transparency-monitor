@@ -1,11 +1,14 @@
-import { TimeDetails, RaisedAmount, TokenIssued, TokenDistribution } from '../../src/components/details';
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import GeneralDates from '../../src/components/GeneralDates';
+import RaisedAmount from '../../src/components/RaisedAmount';
+import TokenIssued from '../../src/components/TokenIssued';
+import TokenDistribution from '../../src/components/TokenDistribution';
 
 describe('<TimeDetails/>', () => {
   it('should render', () => {
-    const component = shallow(<TimeDetails
+    const component = shallow(<GeneralDates
       startDate={new Date(2017, 3, 3, 4, 3, 3)}
       endDate={new Date(2017, 3, 3, 4, 3, 3)}
       duration={0}

@@ -35,8 +35,8 @@ class InnerIcoPage extends Component {
       this.props.getLogs(this.props.address);
     }
 
-    const { totalSupply, symbol, cap, startDate, endDate, status, decision } = this.props.smartContractProps || {};
-    const { address, information, name, addedBy, tokenContract } = this.props.ico;
+    const { name, totalSupply, symbol, cap, startDate, endDate, status, decision } = this.props.smartContractProps || {};
+    const { address, information, addedBy, tokenContract } = this.props.ico;
     const showLoader = this.props.isLoading;
     const onModalShow = this.props.onModalShow;
 

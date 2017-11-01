@@ -7,7 +7,7 @@ import GoNextGoBackBar from '../components/GoNextGoBackBar';
 import IcoRowSinglePage from '../components/IcoRowSinglePage';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxDetails from './ScanBoxDetails';
-import IcoScanHeader from '../components/IcoScanHeader';
+import IcoScanHeader from '../components/ICOScanHeader';
 import config from '../config';
 import { getLogs, readSmartContract } from '../actions/web3';
 import { onModalShow, showErrorMessage } from '../actions/ModalAction';

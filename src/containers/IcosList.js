@@ -2,7 +2,7 @@ import React from 'react';
 import '../assets/css/App.css';
 import { Grid } from 'react-flexbox-grid';
 import Header from '../components/Header';
-import IcoRow from './IcoRow';
+import IcoDataRow from './IcoDataRow';
 import { getICOsAsList } from '../icos_config';
 
 export default (props) => {
@@ -16,7 +16,7 @@ export default (props) => {
 
           const { information, name, status, addedBy } = ico;
           const address = ico.crawdSaleTokenContract;
-          return (<IcoRow
+          return (<IcoDataRow
             key={address}
             address={address}
             information={information}

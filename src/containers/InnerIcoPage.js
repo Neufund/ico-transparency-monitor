@@ -6,7 +6,7 @@ import '../assets/css/App.css';
 import GoNextGoBackBar from '../components/GoNextGoBackBar';
 import IcoRowSinglePage from '../components/IcoRowSinglePage';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
-import ScanBoxDetails from '../components/ScanBoxDetails';
+import ScanBoxDetails from './ScanBoxDetails';
 import IcoScanHeader from '../components/IcoScanHeader';
 import config from '../config';
 import { getLogs, readSmartContract } from '../actions/web3';

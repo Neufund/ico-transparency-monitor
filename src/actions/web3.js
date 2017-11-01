@@ -8,7 +8,6 @@ import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile
 import { showErrorMessage } from './ModalAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
-  console.log('Start Web3 connection');
   if (isConnected() === false) {
     await dispatch(resetRpc());
     dispatch(showErrorMessage(`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`));
@@ -22,7 +21,6 @@ export const web3Connection = () => async (dispatch, getState) => {
 
 export const readSmartContract = address => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
-  console.log(`Reading Smart contract , RPC connection ${web3 ? 'Connected' : 'Disconnected'}`);
   if (!web3) { return; }
   const configFile = config.ICOs;
 

@@ -10,7 +10,7 @@ import { isConnected } from '../utils/web3';
 
 const extractHostnameFromUrl = url => url.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '').replace('/', '');
 
-export class IcoRow extends Component {
+export class IcoDataRow extends Component {
   constructor(props) {
     super(props);
     this.address = this.props.address;
@@ -117,4 +117,4 @@ const mapDispatchToProps = (dispatch, state) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(IcoRow);
+)(IcoDataRow);

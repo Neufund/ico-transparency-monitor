@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import IcosList from './containers/IcosList';
-import SingleIcoPage from './containers/SingleIcoPage';
+import InnerIcoPage from './containers/InnerIcoPage';
 import './assets/css/index.css';
 import Layout from './views/Layout';
 import RPCProvider from './components/RPCProvider';
@@ -29,7 +29,7 @@ const render = (store) => {
           <HashRouter>
             <Switch>
               <Route exact path="/" component={withTracker(IcosList)} />
-              <Route exact path="/:name" component={withTracker(SingleIcoPage)} />
+              <Route exact path="/:name" component={withTracker(InnerIcoPage)} />
             </Switch>
           </HashRouter>
           <MessageBoxModal />

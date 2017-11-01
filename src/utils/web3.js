@@ -66,7 +66,6 @@ export const getSmartContract = (web3, address) => {
     const abi = require(`../smart_contracts/${address}.json`);
     return web3.eth.contract(abi).at(address);
   } catch (err) {
-    console.log(`${address} doesn't have smart contract`);
     return null;
   }
 };

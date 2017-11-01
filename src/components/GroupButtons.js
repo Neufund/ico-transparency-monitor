@@ -94,9 +94,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, props) => ({
   setCurrency: ((currency, time) =>
-
     setCurrency(currency, time, (error, currencyResult) => {
-      console.log(`Selected currency is ${currencyResult.currency}, ${currencyResult.value}, ${currencyResult.time} `);
       dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
     })),
 });

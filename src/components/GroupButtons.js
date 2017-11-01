@@ -33,7 +33,7 @@ class CurrencyButton extends Component {
         rateDate = new Date();
         break;
       default:
-        throw new Error('Unknow input');
+        throw new Error('Unknown input');
     }
     currency = currency || this.props.currency;
     this.props.setCurrency(currency, rateDate);

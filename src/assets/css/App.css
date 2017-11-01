@@ -198,7 +198,7 @@ body{
   box-sizing: border-box;
   padding: .5em;
 }
-.transparency-button{
+.transparency-button {
   height: 65px;
   width: 100%;
   border-radius: 2px 0 0 2px;
@@ -207,21 +207,23 @@ body{
   background-color: #D9DBDC;
   text-align: left;
   position: relative;
+  cursor: pointer;
 }
-.transparency-button button{
+.transparency-button .read-more{
   background: #0971a1;
   color: white;
   border: 0;
   border-radius: 5px;
   width: 98px;
-  line-height: 31px;
+  line-height: 35px;
   font-size: 14px;
   position: absolute;
-  top: 8px;
+  top: 17px;
   right: 10px;
   box-shadow: 0 2px 4px 0 #BBC2C7;
+  text-align: center;
 }
-.transparency-button button:hover{
+.transparency-button .read-more:hover{
   background: #0971a1 !important;
   box-shadow: 0 0 0 0 #BBC2C7;
 }

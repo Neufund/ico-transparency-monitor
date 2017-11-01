@@ -1,4 +1,4 @@
-import { ICOScan } from '../../src/components/ICOScan';
+import ICOScan from '../../src/components/IcoRowSinglePage';
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';

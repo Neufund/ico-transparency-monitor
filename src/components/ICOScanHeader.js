@@ -40,8 +40,9 @@ export default (props) => {
                 >
                   <p>Transparency score</p>
                   <strong>{decision ? icoTransparencyMap[decision.toUpperCase()] : ''} </strong>
-                  <button>Read more</button>
+                  <span className="read-more">Read more</span>
                 </button>
+
               </Col>
             </Row>
 

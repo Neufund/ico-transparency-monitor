@@ -1,22 +1,18 @@
 import Web3 from 'web3';
-import config from '../config.js';
-import testConfig from '../config.test.js';
+import config from '../config';
 import { toPromise } from '../utils';
 import { setBlock } from '../actions/ScanAction';
 
-const ProviderEngine = require('web3-provider-engine');
-// const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
-const FixtureSubprovider = require('web3-provider-engine/subproviders/fixture.js');
-// const FilterSubprovider = require('web3-provider-engine/subproviders/filters.js');
-const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker.js');
-const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js');
+import ProviderEngine from 'web3-provider-engine';
+import FixtureSubprovider from 'web3-provider-engine/subproviders/fixture';
+import NonceSubprovider from 'web3-provider-engine/subproviders/nonce-tracker';
+import RpcSubprovider from 'web3-provider-engine/subproviders/rpc';
 
 const engineWithProviders = (providers) => {
   const engine = new ProviderEngine();
   providers.forEach(provider => (provider !== null ? engine.addProvider(provider) : engine));
   return engine;
 };
-
 
 // TODO: Find another solution
 export const isConnected = () => {
@@ -49,8 +45,6 @@ export const web3Connect = () => async (dispatch, getState) => {
   const web3 = new Web3(engine);
   const currentBlock = getState().blocks;
   engine.start();
-
-  console.log(`${config.rpcHost} new connection`);
   // start monitoring current block
   engine.on('block', (block) => {
     if (currentBlock === null) {
@@ -67,7 +61,6 @@ export const getSmartContract = (web3, address) => {
     const abi = require(`../smart_contracts/${address}.json`);
     return web3.eth.contract(abi).at(address);
   } catch (err) {
-    console.log(`${address} doesn't have smart contract`);
     return null;
   }
 };
@@ -76,9 +69,11 @@ export const getCurrentBlock = () => undefined;
 
 const getERC20Parameters = async (smartContract) => {
   const name = smartContract.name ? await toPromise(smartContract.name)() : null;
-  const totalSupply = smartContract.totalSupply ? await toPromise(smartContract.totalSupply)() : null;
+  const totalSupply = smartContract.totalSupply ?
+    await toPromise(smartContract.totalSupply)() : null;
   const symbol = smartContract.symbol ? await toPromise(smartContract.symbol)() : null;
-  const decimals = smartContract.decimals ? await toPromise(smartContract.decimals)() : config.defaultDecimal;
+  const decimals = smartContract.decimals ?
+    await toPromise(smartContract.decimals)() : config.defaultDecimal;
 
   return {
     name,
@@ -90,7 +85,8 @@ const getERC20Parameters = async (smartContract) => {
 
 export const getAbiAsDictionary = (abi) => {
   const result = {};
-  abi.forEach(item => result[item.name] = item.outputs && item.outputs.length > 0 ? item.outputs[0].type : null);
+  abi.forEach(item => result[item.name] = item.outputs &&
+    item.outputs.length > 0 ? item.outputs[0].type : null);
   return result;
 };
 
@@ -117,14 +113,18 @@ export const getICOParameters = async (web3, address) => {
 };
 
 export const convertBlockNumberToDate = async (web3, blockNumber) => {
-  const timestamp = (await toPromise(web3.eth.getBlock)(blockNumber.valueOf())).timestamp;
-  return new Date(parseInt(timestamp) * 1000);
+  const block = await toPromise(web3.eth.getBlock)(blockNumber.valueOf());
+  // @todo: modify this
+  if (!block) return new Date();
+  const timestamp = block.timestamp;
+  return new Date(parseInt(timestamp, 10) * 1000);
 };
 
 export const convertWeb3Value = (value, type) => {
   switch (type) {
     case 'string' :return value;
     case 'ether' :return parseFloat(value.div(10 ** 18).valueOf());
-    case 'timestamp' :return new Date(parseInt(value.valueOf()) * 1000);
+    case 'timestamp' :return new Date(parseInt(value.valueOf(), 10) * 1000);
+    default: throw new Error('Unexpected input');
   }
 };

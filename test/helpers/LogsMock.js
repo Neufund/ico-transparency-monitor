@@ -4,7 +4,7 @@ export default (address) => {
   const getLogTemplate = (eventName, index) => ({
     address: '0xd0a6e6c54dbc68db5db3a091b171a77407ff7ccf',
     args: {
-      amount: index * 10 ** 18,
+      amount: index * ( 10 ** 18 ),
       user: `0x000000000000000000000000000000${index}`,
     },
     blockHash: `0xe75c5b4dcb19d1d05b99704987ea4a5385c2e3093fec623646f8585e16a36963${index}`,
@@ -22,7 +22,8 @@ export default (address) => {
   const logs = {};
   const eventNames = Object.keys(icoConfig.events);
   eventNames.forEach((eventName) => {
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 3; i += 1) {
+      // eslint-disable-next-line no-prototype-builtins
       if (!logs.hasOwnProperty(eventName)) { logs[eventName] = []; }
       logs[eventName].push(getLogTemplate(eventName, i));
     }

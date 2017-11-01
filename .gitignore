@@ -22,3 +22,5 @@ yarn-error.log*
 *.xml
 .idea
 smartcontracts
+
+src/env.json

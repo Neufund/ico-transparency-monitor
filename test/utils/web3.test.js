@@ -1,4 +1,4 @@
-import { expect, should } from 'chai';
+import { expect } from 'chai';
 import { getSmartContract, getAbiAsDictionary, getICOParameters } from '../../src/utils/web3';
 import stateProvider from '../helpers/web3Mock';
 

@@ -2,10 +2,13 @@ import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
-import GroupButtons from './GroupButtons';
 import '../assets/css/ScanBox.css';
-import { TimeDetails, RaisedAmount, TokenIssued, TokenDistribution } from './details';
-import Chart from './Chart';
+import GroupButtons from '../components/GroupButtons';
+import GeneralDates from '../components/GeneralDates';
+import RaisedAmount from '../components/RaisedAmount';
+import TokenIssued from '../components/TokenIssued';
+import TokenDistribution from '../components/TokenDistribution';
+import Chart from '../components/Chart';
 import { downloadCSV } from '../utils';
 import config from '../config';
 
@@ -13,7 +16,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <ReactTooltip multiline />
   <Row className="statistics box-container">
     <Col md={12} className="scan-content">
-      <TimeDetails {...props.stats.time} />
+      <GeneralDates {...props.stats.time} />
       <TokenIssued
         totalSupply={props.totalSupply}
         tokenIssued={props.stats.money.tokenIssued}
@@ -32,9 +35,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         dataKey="Tokens/Time"
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
-        isVisible={parseInt(props.stats.money.tokenIssued) > 0}
-        isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not
-        handling them in trustless way"
+        isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
+        isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not handling them in trustless way"
       />
     </Col>
     <Col md={6} sm={12} xs={12}>
@@ -43,9 +45,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         data={props.stats.charts.transactionsCount}
         dataKey={`Transactions/${props.stats.time.scale}`}
 
-        isVisible={parseInt(props.stats.general.transactionsCount) > 0}
-        isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or
-          is not handling them in trustless way"
+        isVisible={parseInt(props.stats.general.transactionsCount, 10) > 0}
+        isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
 
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Transactions"
@@ -62,8 +63,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           giniIndex={props.stats.general.giniIndex}
           tokenHolders={props.stats.charts.tokenHolders}
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or
-          is not handling them in trustless way"
+          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
       <Col md={6} sm={12} xs={12} >
@@ -75,8 +75,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           xLabel={'Share of investors by ownership'}
           yLabel="Share of Tokens Owned"
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution statistics: This ICO is not
-          generating tokens or is not handling them in trustless way"
+          isNotVisibleMessage="No Token distribution statistics: This ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
     </Row>

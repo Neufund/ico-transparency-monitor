@@ -1,22 +1,27 @@
 /* eslint-env browser */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Grid } from 'react-flexbox-grid';
 import '../assets/css/App.css';
-import ICO from '../components/ICO';
+import GoNextGoBackBar from '../components/GoNextGoBackBar';
+import IcoRowSinglePage from '../components/IcoRowSinglePage';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
-import ScanBoxDetails from '../components/ScanBoxDetails';
+import ScanBoxDetails from './ScanBoxDetails';
+import IcoScanHeader from '../components/IcoScanHeader';
 import config from '../config';
 import { getLogs, readSmartContract } from '../actions/web3';
-import { getNextICO } from '../utils';
+import { onModalShow, showErrorMessage } from '../actions/ModalAction';
+import { resetRpc } from '../actions/ScanAction';
+import { isConnected } from '../utils/web3';
 
-class Scan extends Component {
+class InnerIcoPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isBlockMounted: false,
     };
   }
+
   componentDidMount() {
     if (this.props.web3) {
       this.props.readSmartContract(this.props.address);
@@ -29,44 +34,39 @@ class Scan extends Component {
       this.setState({ isBlockMounted: true });
       this.props.getLogs(this.props.address);
     }
+
+    const { name, totalSupply, symbol, cap, startDate, endDate, status, decision } = this.props.smartContractProps || {};
+    const { address, information, addedBy, tokenContract } = this.props.ico;
+    const showLoader = this.props.isLoading;
+    const onModalShow = this.props.onModalShow;
+
     return (
       <div className="App">
         {this.state.isBlockMounted && <div>
-          <Grid>
-            <Row className="nav-buttons">
-              <Col md={6} sm={6} xs={6}>
-                <div className="back-list">
-                  <button
-                    onClick={() => { window.location = '/'; }}
-                    className="arrow-btn arrow-btn-left"
-                  >
-                    <span className="arrow arrow-left">&#8592;</span>
-                  </button>
-                  <a className="hide-xs" href="/">Go back to the list </a>
-                </div>
-              </Col>
-              <Col md={6} sm={6} xs={6}>
-                <div className="next-list">
-                  <a
-                    className="pointer-cursor hide-xs"
-                    onClick={() => {
-                      getNextICO(this.props.address);
-                    }}
-                  > Go to the next</a>
-
-                  <button
-                    onClick={() => {
-                      getNextICO(this.props.address);
-                    }}
-                    className="arrow-btn arrow-btn-right"
-                  ><span className="arrow">&#8594;</span></button>
-                </div>
-              </Col>
-            </Row>
-          </Grid>
-
+          <GoNextGoBackBar address={this.props.address} />
           <Grid className="scanbox ico-box-scan">
-            {<ICO ico={this.props.ico} isInSingleICOView address={this.props.address} />}
+            <IcoScanHeader
+              address={address}
+              information={information}
+              name={name}
+              addedBy={addedBy}
+              decision={decision}
+              tokenContract={tokenContract}
+              onModalShow={onModalShow}
+              icoModalData={this.props.ico}
+            />
+
+            <IcoRowSinglePage
+              address={this.props.address}
+              totalSupply={totalSupply}
+              symbol={symbol}
+              cap={cap}
+              startDate={startDate}
+              endDate={endDate}
+              status={status}
+              isLoading={showLoader}
+            />
+
             {this.props.isLoading &&
               <ScanBoxLoadingMessage
                 alternativeLoadingMsg={this.props.ico.alternativeLoadingMsg}
@@ -89,13 +89,14 @@ const mapStateToProps = (state, props) => {
   return {
     address,
     ico: config.ICOs[address],
+    smartContractProps: state.ICO.icos[address],
     currencyValue: state.currency.value,
     isComponentReady: state.scan.showStats,
     isLoading: state.scan.showLoader,
     web3: state.modal.web3,
     blocks: state.blocks,
     isSmartContractLoaded: state.scan.isSmartContractLoaded,
-    hasNoTransactions: state.scan.hasNoTransactions
+    hasNoTransactions: state.scan.hasNoTransactions,
   };
 };
 
@@ -106,9 +107,17 @@ const mapDispatchToProps = dispatch => ({
   readSmartContract: (address) => {
     dispatch(readSmartContract(address));
   },
+  onModalShow: (currentICO) => {
+    if (isConnected()) {
+      dispatch(onModalShow(currentICO));
+    } else {
+      dispatch(resetRpc());
+      dispatch(showErrorMessage(`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`));
+    }
+  },
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Scan);
+)(InnerIcoPage);

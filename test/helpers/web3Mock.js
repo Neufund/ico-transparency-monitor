@@ -10,7 +10,7 @@ export default () => ({
           address,
           LogBuy: (customArgs, options) => ({
             stopWatching: () => {
-
+              abi;
             },
             options,
           }),

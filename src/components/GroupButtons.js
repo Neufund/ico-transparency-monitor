@@ -32,6 +32,8 @@ class CurrencyButton extends Component {
       case 'NOW':
         rateDate = new Date();
         break;
+      default:
+        throw new Error('Unknown input');
     }
     currency = currency || this.props.currency;
     this.props.setCurrency(currency, rateDate);
@@ -92,9 +94,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, props) => ({
   setCurrency: ((currency, time) =>
-
     setCurrency(currency, time, (error, currencyResult) => {
-      console.log(`Selected currency is ${currencyResult.currency}, ${currencyResult.value}, ${currencyResult.time} `);
       dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
     })),
 });

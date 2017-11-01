@@ -46,8 +46,8 @@ class ContentTable extends Component {
               <h3> {this.currentICO.name || this.currentICO.information.aliasName}</h3>
               <p className="ico-paragraph">
                 These criteria are chosen based on the concept of trustless-trust. You can read more about it &nbsp;
-                <a href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor" target="_blank">here</a>
-                &nbsp;If you want to submit new criteria please do it via github&nbsp;<a href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor" target="_black">here</a>.
+                <a href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor" target="_blank" rel="noopener noreferrer">here</a>
+                &nbsp;If you want to submit new criteria please do it via github&nbsp;<a href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor" target="_black" rel="noopener noreferrer">here</a>.
               </p>
             </div>
             <div className="modal-title-button">
@@ -105,24 +105,6 @@ ModalContent.propTypes = {
 ModalContent.defaultProps = {
   isError: false,
 };
-const ErrorModal = ({ title, message }) => (<div>
-  <div>
-    <h3>{title}</h3>
-    <p>{message}</p>
-    <a href="/" >Reload</a>
-  </div>
-</div>);
-
-const MessageModal = ({ type, message }) => (
-  <div>
-    <div>
-      <h3>{type}</h3>
-      <ul>
-        {message.map(item => <li key={Math.random()}>${item}</li>)}
-      </ul>
-    </div>
-  </div>
-);
 
 class MessageBoxModal extends Component {
   render() {
@@ -146,11 +128,6 @@ class MessageBoxModal extends Component {
             <ModalContent message={message} isError />
           </ModalDialog>
         </ModalContainer>);
-      return (showModal === true && <ModalContainer onClose={onModalClose}>
-        <ModalDialog onClose={onModalClose}>
-          <ErrorModal code={503} title="RPC connection fail" message={`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`} />
-        </ModalDialog>
-      </ModalContainer>);
     }
 
     if (Object.keys(currentICO).length > 0) {

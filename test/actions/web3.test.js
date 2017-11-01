@@ -7,22 +7,22 @@ import stateProvider from '../helpers/web3Mock';
 describe('web3Connection', () => {
   it('should not create an instance when there is already one', async () => {
     const dispatchMock = spy();
-    const stateProvider = () => ({
+    const embtyStateProvider = () => ({
       modal: {
         web3: {},
       },
     });
 
-    await web3Connection()(dispatchMock, stateProvider);
+    await web3Connection()(dispatchMock, embtyStateProvider);
 
     expect(dispatchMock.called).to.be.false;
   });
 
   it('should create new connection', async () => {
     const dispatchMock = spy();
-    const stateProvider = () => ({ modal: {} });
+    const embtyStateProvider = () => ({ modal: {} });
 
-    await web3Connection()(dispatchMock, stateProvider);
+    await web3Connection()(dispatchMock, embtyStateProvider);
 
     expect(dispatchMock).to.have.been.calledOnce; // it should be stricter expection
   });

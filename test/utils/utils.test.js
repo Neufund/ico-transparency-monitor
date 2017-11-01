@@ -1,14 +1,14 @@
-import { expect } from 'chai';
-import { getSmartContract } from '../../src/utils/web3';
-import { getICODuration, formatDuration } from '../../src/utils';
-import getLogsDetails from '../helpers/LogsMock';
 import axios from 'axios';
 import AxiosMock from 'axios-mock-adapter';
+import { expect } from 'chai';
+import { getSmartContract } from '../../src/utils/web3';
+import getLogsDetails from '../helpers/LogsMock';
 
 import {
+  getICODuration,
+  formatDuration,
   computeICOTransparency,
   getEtherRate,
-  getICOs,
   getValueOrNotAvailable,
   getStatistics,
   initStatistics,
@@ -40,12 +40,6 @@ describe('getEtherRate', () => {
   });
 });
 
-describe('getICOs', () => {
-  it('Should return the currency by time', () => {
-    expect(getICOs()).to.be.an('Array');
-  });
-});
-
 describe('getValueOrNotAvailable', () => {
   const testingObject = {
     name: 'Testing',
@@ -67,7 +61,7 @@ describe('getICOLogs', () => {
   it('Should return array of logs', () => {
     const blockRange = [3932884, 3945843, 'LogBuy'];
     const icoContract = getSmartContract(web3, address);
-    getICOLogs(blockRange, icoConfig, {[address]: icoContract});
+    getICOLogs(blockRange, icoConfig, { [address]: icoContract });
   });
 });
 
@@ -105,6 +99,7 @@ describe('getStatistics', () => {
     const stats = statistics[0];
     expect(Object.keys(stats.investors.senders).length).to.equal(3);
   });
+
   it('Should have sortedByTicket object', () => {
     const stats = statistics[0];
     const expectedObject = [

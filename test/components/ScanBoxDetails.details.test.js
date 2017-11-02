@@ -35,7 +35,12 @@ describe('<TimeDetails/>', () => {
 
 describe('<RaisedAmount/>', () => {
   it('should render', () => {
-    const component = shallow(<RaisedAmount total="10000" avgTicket="10000" avgPrice="10000" currenc="10000" />);
+    const component = shallow(<RaisedAmount
+      total="10000"
+      avgTicket="10000"
+      avgPrice="10000"
+      currenc="10000"
+    />);
     expect(component.find('.stats > table > tbody')).to.contain(
       (<td>
           10000
@@ -46,7 +51,13 @@ describe('<RaisedAmount/>', () => {
 
 describe('<TokenIssued/>', () => {
   it('should render', () => {
-    const component = shallow(<TokenIssued totalSupply={10000} tokenIssued={0} tokensOverflow={10000} totalInvestors={10000} totalTransactions={10000} />);
+    const component = shallow(<TokenIssued
+      totalSupply={10000}
+      tokenIssued={0}
+      tokensOverflow={10000}
+      totalInvestors={10000}
+      totalTransactions={10000}
+    />);
     expect(component.find('.stats > table > tbody')).to.contain(
       (<tr>
         <th>
@@ -60,13 +71,27 @@ describe('<TokenIssued/>', () => {
   });
 
   it('should render show part of token from out the ICO', () => {
-    const component = shallow(<TokenIssued totalSupply={10000} tokenIssued={10000} tokensOverflow={10000} totalInvestors={10000} totalTransactions={10000} />);
-    expect(component.find('.stats > table > tbody')).to.contain((<i>*those tokens are not part of results below*</i>));
+    const component = shallow(<TokenIssued
+      totalSupply={10000}
+      tokenIssued={10000}
+      tokensOverflow={10000}
+      totalInvestors={10000}
+      totalTransactions={10000}
+    />);
+    expect(component.find('.stats > table > tbody')).to.contain((<i>*those
+      tokens are not part of results below*</i>));
   });
 
   it('should not render show part of token from out the ICO', () => {
-    const component = shallow(<TokenIssued totalSupply={10000} tokenIssued={0} tokensOverflow={10000} totalInvestors={10000} totalTransactions={10000} />);
-    expect(component.find('.stats > table > tbody')).to.to.contain((<i>*those tokens are not part of results below*</i>));
+    const component = shallow(<TokenIssued
+      totalSupply={10000}
+      tokenIssued={0}
+      tokensOverflow={10000}
+      totalInvestors={10000}
+      totalTransactions={10000}
+    />);
+    expect(component.find('.stats > table > tbody')).to.to.contain((<i>*those
+      tokens are not part of results below*</i>));
   });
 });
 

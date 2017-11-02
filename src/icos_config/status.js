@@ -2,7 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value, convertBlockNumberToDate } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c',
+  crowdSaleTokenContract: '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c',
   tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
   information: {
     aliasName: 'StatusNetwork',
@@ -55,5 +55,5 @@ export default {
     q14: { answer: true, comment: 'owner can stop ICO before failSafe' },
   },
   addedBy: 'Rudolfix',
-  addingDate: '15-07-2017',
+  dateAdded: '15-07-2017',
 };

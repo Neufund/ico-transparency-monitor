@@ -2,7 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413',
+  crowdSaleTokenContract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413',
   information: {
     aliasName: 'TheDAO',
     website: 'https://daowiki.atlassian.net/wiki',
@@ -51,5 +51,5 @@ export default {
     q14: { answer: true },
   },
   addedBy: 'Mostafa Balata',
-  addingDate: '14-07-2017',
+  dateAdded: '14-07-2017',
 };

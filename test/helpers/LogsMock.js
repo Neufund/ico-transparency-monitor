@@ -4,7 +4,7 @@ export default (address) => {
   const getLogTemplate = (eventName, index) => ({
     address: '0xd0a6e6c54dbc68db5db3a091b171a77407ff7ccf',
     args: {
-      amount: index * ( 10 ** 18 ),
+      amount: index * (10 ** 18),
       user: `0x000000000000000000000000000000${index}`,
     },
     blockHash: `0xe75c5b4dcb19d1d05b99704987ea4a5385c2e3093fec623646f8585e16a36963${index}`,

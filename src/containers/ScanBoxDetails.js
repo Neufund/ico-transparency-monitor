@@ -36,7 +36,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Tokens"
         isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
-        isNotVisibleMessage="No Token statistics: This ICO is not generating tokens or is not handling them in trustless way"
+        isNotVisibleMessage="No Token statistics: This ICO
+        is not generating tokens or is not handling them in trustless way"
       />
     </Col>
     <Col md={6} sm={12} xs={12}>
@@ -46,7 +47,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         dataKey={`Transactions/${props.stats.time.scale}`}
 
         isVisible={parseInt(props.stats.general.transactionsCount, 10) > 0}
-        isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
+        isNotVisibleMessage="No Token distribution table: This
+        ICO is not generating tokens or is not handling them in trustless way"
 
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Transactions"
@@ -63,7 +65,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           giniIndex={props.stats.general.giniIndex}
           tokenHolders={props.stats.charts.tokenHolders}
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution table: This ICO is not generating tokens or is not handling them in trustless way"
+          isNotVisibleMessage="No Token distribution table: This ICO
+           is not generating tokens or is not handling them in trustless way"
         />
       </Col>
       <Col md={6} sm={12} xs={12} >
@@ -75,7 +78,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           xLabel={'Share of investors by ownership'}
           yLabel="Share of Tokens Owned"
           isVisible={props.stats.money.tokenIssued !== 0}
-          isNotVisibleMessage="No Token distribution statistics: This ICO is not generating tokens or is not handling them in trustless way"
+          isNotVisibleMessage="No Token distribution statistics: This
+           ICO is not generating tokens or is not handling them in trustless way"
         />
       </Col>
     </Row>
@@ -85,7 +89,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       <h3 className="title">Raised amount</h3>
       <RaisedAmount
         total={props.stats.money.totalETH}
-        currency="ETH"
+        currency={props.baseCurrency}
         avgTicket={props.stats.money.totalETH / Object.keys(props.stats.investors.senders).length}
         avgPrice={props.stats.money.totalETH / props.stats.money.tokenIssued}
       />
@@ -102,7 +106,16 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
 
     <div className="section-top">
       <h3 className="title">
-        <span className="tooltip" data-tip="This section shows how different types of investors (with different ticket size) impacted ICO results.<br/>First chart shows which ticket sizes were most popular among investors.<br/>Second chart shows which ticket size generated most funds. Were those few large 1M EUR tickets? Or rather many smaller 10k tickets?">Funds distribution</span>
+        <span
+          className="tooltip"
+          data-tip="This section shows how
+         different types of investors (with different ticket size)
+         impacted ICO results.<br/>First chart shows which ticket
+         sizes were most popular among investors.<br/>Second chart
+         shows which ticket size generated most funds. Were those
+         few large 1M EUR tickets? Or rather many smaller 10k
+         tickets?"
+        >Funds distribution</span>
       </h3>
       <Row className="box-container">
         <Col md={12} sm={12} xs={12} >
@@ -113,7 +126,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
             xLabel={`Ticket Size in [${props.currency}]`}
             yLabel="Number of Investors"
             isVisible={props.stats.money.totalETH !== 0}
-            isNotVisibleMessage="No ETH statistics: This ICO Is not handling funds in a trustless way"
+            isNotVisibleMessage="No ETH statistics: This ICO Is not
+            handling funds in a trustless way"
           />
         </Col>
       </Row>
@@ -127,7 +141,8 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           xLabel={`Ticket Size in [${props.currency}]`}
           yLabel="Total Amount Invested"
           isVisible={props.stats.money.totalETH !== 0}
-          isNotVisibleMessage="No ETH statistics: This ICO Is not handling funds in a trustless way"
+          isNotVisibleMessage="No ETH statistics: This ICO Is not
+          handling funds in a trustless way"
         />
       </Col>
     </Row>
@@ -147,9 +162,10 @@ const mapStateToProps = (state, props) =>
     stats: state.scan.stats,
     ...state.ICO.icos[props.address],
     matrix: config.ICOs[props.address].matrix,
+    baseCurrency: config.ICOs[props.address].baseCurrency,
   });
 
-const mapDispatchToProps = (dispatch, state) => ({
+const mapDispatchToProps = dispatch => ({
   downloadCSV: (fileName) => {
     dispatch(downloadCSV(fileName));
   },

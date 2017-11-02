@@ -4,7 +4,7 @@ const requireAll = r => r.keys().map(fileName => require(`./${fileName.replace('
 
 export const getICOsAsList = () => {
   const icosAsList = requireAll(require.context('./', true, /\.js$/));
-  icosAsList.sort((a, b) => moment(b.addingDate, 'DD-MM-YYYY').toDate() - moment(a.addingDate, 'DD-MM-YYYY').toDate());
+  icosAsList.sort((a, b) => moment(b.dateAdded, 'DD-MM-YYYY').toDate() - moment(a.dateAdded, 'DD-MM-YYYY').toDate());
   return icosAsList;
 };
 
@@ -13,7 +13,7 @@ export const getICOsAsDict = () => {
   const icosAsList = getICOsAsList();
   icosAsList.forEach((element) => {
     if (element) {
-      icosAsDict[element.crawdSaleTokenContract] = element;
+      icosAsDict[element.crowdSaleTokenContract] = element;
     }
   });
   return icosAsDict;

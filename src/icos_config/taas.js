@@ -1,5 +1,5 @@
 export default {
-  crawdSaleTokenContract: '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C',
+  crowdSaleTokenContract: '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C',
   information: {
     aliasName: 'TAAS',
     logo: 'https://www.taas.fund/favicon.ico',
@@ -20,10 +20,10 @@ export default {
     },
   },
   icoParameters: {
-    cap: async icoContract => 'not provided',
-    startDate: async icoContract => 'not provided',
-    endDate: async icoContract => 'not provided',
-    status: async icoContract => 'not provided',
+    cap: async () => 'not provided',
+    startDate: async () => 'not provided',
+    endDate: async () => 'not provided',
+    status: async () => 'not provided',
   },
   matrix: {
     q1: { answer: true },
@@ -45,5 +45,5 @@ export default {
     q14: { answer: null },
   },
   addedBy: 'Mostafa Balata',
-  addingDate: '14-07-2017',
+  dateAdded: '14-07-2017',
 };

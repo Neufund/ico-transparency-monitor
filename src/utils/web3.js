@@ -1,12 +1,11 @@
 import Web3 from 'web3';
-import config from '../config';
-import { toPromise } from '../utils';
-import { setBlock } from '../actions/ScanAction';
-
 import ProviderEngine from 'web3-provider-engine';
 import FixtureSubprovider from 'web3-provider-engine/subproviders/fixture';
 import NonceSubprovider from 'web3-provider-engine/subproviders/nonce-tracker';
 import RpcSubprovider from 'web3-provider-engine/subproviders/rpc';
+import config from '../config';
+import { toPromise } from '../utils';
+import { setBlock } from '../actions/ScanAction';
 
 const engineWithProviders = (providers) => {
   const engine = new ProviderEngine();
@@ -58,6 +57,7 @@ export const web3Connect = () => async (dispatch, getState) => {
 export const getSmartContract = (web3, address) => {
   if (!web3) { return null; }
   try {
+    // eslint-diable-next-line import/no-dynamic-require
     const abi = require(`../smart_contracts/${address}.json`);
     return web3.eth.contract(abi).at(address);
   } catch (err) {
@@ -77,7 +77,7 @@ const getERC20Parameters = async (smartContract) => {
 
   return {
     name,
-    totalSupply: totalSupply / 10 ** decimals,
+    totalSupply: totalSupply / (10 ** decimals),
     symbol,
     decimals,
   };
@@ -104,7 +104,8 @@ export const getICOParameters = async (web3, address) => {
   const result = await getERC20Parameters(tokenContract);
 
   const tokenContractAddress = configFile[address].tokenContract || address;
-  const icoContract = tokenContractAddress === address ? tokenContract : getSmartContract(web3, address);
+  const icoContract = tokenContractAddress === address ?
+    tokenContract : getSmartContract(web3, address);
   const icoParameters = configFile[address].icoParameters;
   Object.keys(icoParameters).forEach((prop) => {
     if (icoParameters[prop] !== null) { result[prop] = icoParameters[prop](web3, icoContract); }

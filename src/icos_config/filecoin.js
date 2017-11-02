@@ -1,5 +1,5 @@
 export default {
-  crawdSaleTokenContract: 'filescoin-smart-contract-not-provided',
+  crowdSaleTokenContract: 'filescoin-smart-contract-not-provided',
   information: {
     aliasName: 'Filecoin ETH fundraiser',
     logo: 'https://pbs.twimg.com/profile_images/489720503892856832/XZt8MkUk.png',
@@ -45,5 +45,5 @@ export default {
     q14: { answer: false, comment: 'No tokens are generated!' },
   },
   addedBy: 'Mostafa Balata',
-  addingDate: '10-08-2017',
+  dateAdded: '10-08-2017',
 };

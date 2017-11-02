@@ -1,8 +1,8 @@
-import ICOScan from '../../src/components/IcoRowSinglePage';
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { Col } from 'react-flexbox-grid';
+import ICOScan from '../../src/components/IcoRowSinglePage';
 
 describe('<ICOScan/>', () => {
   const initProps = {

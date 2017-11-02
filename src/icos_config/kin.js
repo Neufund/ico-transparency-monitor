@@ -1,5 +1,5 @@
 export default {
-  crawdSaleTokenContract: 'kin-smart-contract-not-provided',
+  crowdSaleTokenContract: 'kin-smart-contract-not-provided',
   information: {
     aliasName: 'Kin',
     logo: 'https://kin.kik.com/favicon-32x32.png',
@@ -36,5 +36,5 @@ export default {
     q14: { answer: false },
   },
   addedBy: 'Rudolfix',
-  addingDate: '05-09-2017',
+  dateAdded: '05-09-2017',
 };

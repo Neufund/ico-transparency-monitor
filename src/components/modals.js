@@ -26,7 +26,6 @@ class ContentTable extends Component {
       issuesArray: result[1],
       decision: result[0],
     });
-    console.log(this.currentICO);
   }
 
   getRowClassName(key) {
@@ -45,7 +44,8 @@ class ContentTable extends Component {
             <div className="modal-title">
               <h3> {this.currentICO.name || this.currentICO.information.aliasName}</h3>
               <p className="ico-paragraph">
-                These criteria are chosen based on the concept of trustless-trust. You can read more about it &nbsp;
+                These criteria are chosen based on the concept of
+                trustless-trust. You can read more about it &nbsp;
                 <a href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor" target="_blank" rel="noopener noreferrer">here</a>
                 &nbsp;If you want to submit new criteria please do it via github&nbsp;<a href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor" target="_black" rel="noopener noreferrer">here</a>.
               </p>
@@ -69,7 +69,7 @@ class ContentTable extends Component {
                   const currentQuestion = this.state.matrix[key];
                   const mappedQuestionMatrix = config.matrix[key];
 
-                  return (<tr key={index}>
+                  return (<tr key={`${key}_${index}`}>
                     <td className={this.getRowClassName(key)}>
                       {mappedQuestionMatrix.question}
                       <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>

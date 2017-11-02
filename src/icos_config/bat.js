@@ -2,7 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value, convertBlockNumberToDate } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
+  crowdSaleTokenContract: '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
   information: {
     aliasName: 'bat',
     website: 'https://basicattentiontoken.org/',
@@ -53,5 +53,5 @@ export default {
   },
   decimals: 18,
   addedBy: 'Mostafa Balata',
-  addingDate: '26-09-2017',
+  dateAdded: '26-09-2017',
 };

@@ -2,7 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value, convertBlockNumberToDate } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0x0cEB0D54A7e87Dfa16dDF7656858cF7e29851fD7',
+  crowdSaleTokenContract: '0x0cEB0D54A7e87Dfa16dDF7656858cF7e29851fD7',
   tokenContract: '0x960b236A07cf122663c4303350609A66A7B288C0',
   information: {
     aliasName: 'Aragon Network',
@@ -59,5 +59,5 @@ export default {
     },
   },
   addedBy: 'Rudolfix',
-  addingDate: '17-07-2017',
+  dateAdded: '16-07-2017',
 };

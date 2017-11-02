@@ -2,7 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value, convertBlockNumberToDate } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0x91c94bee75786fbbfdcfefba1102b68f48a002f4',
+  crowdSaleTokenContract: '0x91c94bee75786fbbfdcfefba1102b68f48a002f4',
   tokenContract: '0x2c974b2d0ba1716e644c1fc59982a89ddd2ff724',
   information: {
     aliasName: 'Viberate',
@@ -65,5 +65,5 @@ export default {
   },
   decimals: 18,
   addedBy: 'Mostafa Balata',
-  addingDate: '04-10-2017',
+  dateAdded: '04-10-2017',
 };

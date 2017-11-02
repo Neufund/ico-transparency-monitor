@@ -1,4 +1,4 @@
-import { initStatistics } from '../utils';
+import { initStatistics } from '../utils/stats';
 
 const scan = (state = {
   stats: initStatistics(),

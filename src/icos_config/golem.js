@@ -26,7 +26,7 @@ export default {
     cap: async (web3, icoContract) => {
       const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
       const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-      return [`Max: ${maxCap / 10 ** 18} GNT`, `Min: ${minCap / 10 ** 18} GNT`];
+      return [`Max: ${maxCap / (10 ** 18)} GNT`, `Min: ${minCap / (10 ** 18)} GNT`];
     },
     startDate: async (web3, icoContract) => {
       const blockNumber = await toPromise(icoContract.fundingStartBlock)();
@@ -36,7 +36,8 @@ export default {
       const blockNumber = await toPromise(icoContract.fundingEndBlock)();
       return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
     },
-    status: async icoContract => 'successful', // we know that because it is over, we could write some condition instead
+    // we know that because it is over, we could write some condition instead
+    status: async () => 'successful',
   },
   matrix: {
     q1: { answer: true },

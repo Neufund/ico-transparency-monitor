@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ICO = ({ transparency, icoName, ...props }) => (
+export default ({ transparency, icoName, ...props }) => (
   <button
     href={icoName}
     className={`transparency-button ${transparency}-status`}

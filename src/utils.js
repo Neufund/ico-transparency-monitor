@@ -3,7 +3,6 @@ import moment from 'moment';
 import jquery from './utils/jQuery';
 import config from './config';
 
-
 export const deepFreeze = (obj) => {
   if (obj !== null && typeof obj === 'object') {
     Object.getOwnPropertyNames(obj).forEach((prop) => {
@@ -18,12 +17,12 @@ export const toPromise = func => (...args) =>
     func(...args, (error, result) => (error ? reject(new Error(error.message)) : resolve(result)))
   );
 
+
 export const formatNumber = (number, precision = 2) => {
   if (isNaN(number) || typeof number === 'undefined') { return 'Not Available'; }
   if (number === undefined || !number || typeof number !== 'number') { return number; }
   return number.toFixed(precision).replace(/./g, (c, i, a) => i && c !== '.' && ((a.length - i) % 3 === 0) ? ` ${c}` : c);
 };
-
 
 export const isCorrectTokenAddress = address => address.match('0x[A-Za-z0-9]{40}');
 
@@ -121,7 +120,6 @@ export const getICOLogs = (blockRange, icoConfig, contracts, callback) => {
   });
 };
 
-
 const calculateTicks = (max) => {
   let tick = 0.1;
   const ticks = [];
@@ -184,7 +182,7 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
   return [investorsChartXAxis, investmentChartXAxis];
 };
 
-
+/* eslint-disable */
 export const downloadCSV = fileName => async (dispatch, getState) => {
   const csvContentArray = getState().scan.csvContent;
 
@@ -194,7 +192,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
     const dataString = item.join(',');
     csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
   });
-
+  
   const csvData = new Blob([csvContent], { type: 'application/csv;charset=utf-8;' });
   // FOR OTHER BROWSERS
   const link = document.createElement('a');
@@ -205,6 +203,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
   link.click();
   document.body.removeChild(link);
 };
+/* eslint-enable */
 
 export const getNextICO = (address) => {
   const icosKeys = Object.keys(config.ICOs);

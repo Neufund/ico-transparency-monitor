@@ -37,7 +37,9 @@ class CurrencyButton extends Component {
     }
     currency = currency || this.props.currency;
     this.props.setCurrency(currency, rateDate);
-    this.setState({ exchangeRateActiveClass: dayClass, exchangeRateDate: rateDate, currencyActiveClass: currency });
+    this.setState({ exchangeRateActiveClass: dayClass,
+      exchangeRateDate: rateDate,
+      currencyActiveClass: currency });
   }
 
   render() {
@@ -76,7 +78,8 @@ class CurrencyButton extends Component {
             <p>
               <strong>ETH 1 = {this.props.currency} {this.props.currencyValue}</strong>
               <br />
-              <small>https://api.coinbase.com/v2/prices/ on {this.state.exchangeRateDate.formatDate()}</small>
+              <small>https://api.coinbase.com/v2/prices/ on
+                {this.state.exchangeRateDate.formatDate()}</small>
             </p>
           </Col>
         </Row>
@@ -95,7 +98,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, props) => ({
   setCurrency: ((currency, time) =>
     setCurrency(currency, time, (error, currencyResult) => {
-      dispatch(setStatisticsByCurrency(currencyResult.currency, currencyResult.value, currencyResult.time));
+      dispatch(setStatisticsByCurrency(currencyResult.currency,
+        currencyResult.value, currencyResult.time));
     })),
 });
 

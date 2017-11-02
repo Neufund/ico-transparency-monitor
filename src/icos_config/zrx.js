@@ -55,8 +55,8 @@ export default {
       const timestamp = await toPromise(icoContract.startTimeInSec)();
       return convertWeb3Value(timestamp, 'timestamp').formatDate();
     },
-    endDate: async (web3, icoContract) => 'until ZRX cap reached',
-    status: async icoContract => 'successful',
+    endDate: async () => 'until ZRX cap reached',
+    status: async () => 'successful',
   },
   matrix: {
     q1: { answer: true },

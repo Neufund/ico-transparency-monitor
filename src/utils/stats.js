@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 import gini from 'gini';
 import config from '../config';
 
@@ -30,6 +30,16 @@ export const initStatistics = () => ({
   },
 });
 
+export const formatDuration = duration =>
+  `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
+  ${duration.get('months') > 0 ? `${duration.get('months')} Months` : ''}
+  ${duration.get('days') > 0 ? `${duration.get('days')} Days` : ''}
+
+  ${duration.get('hours') > 0 ? `${duration.get('hours')} Hours` : ''}
+  ${duration.get('minutes') > 0 ? `${duration.get('minutes')} Minutes` : ''}
+  ${duration.get('seconds') > 0 ? `${duration.get('seconds')} Seconds` : ''}`;
+
+
 const getChartTimescale = (durationHours, startTimestamp) => {
   if (durationHours < 12) {
     return ['blocks', event => event.blockNumber];
@@ -46,7 +56,8 @@ const getPercentagesDataSet = (limit = 100) => {
   let i = 1;
   while (i < limit) {
     percentages.push(i * 0.01);
-    i += i < 5 ? 4 : (i < 9 ? 5 : 10);
+    // i += i < 5 ? 4 : (i < 9 ? 5 : 10);
+    if (i < 5) { i += 4; } else if (i < 9) { i += 5; } else { i += 10; }
   }
   return percentages;
 };
@@ -93,13 +104,13 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
   let totalETH = 0;
   let totalCurrencyBase = 0;
   let tokenIssued = 0;
-  let senders = investors;
+  const senders = investors;
   let tranCount = 0;
-  let csvContentArray = [];
-  let chartTokensCountTemp = {};
-  let chartTransactionsCountTemp = {};
+  const csvContentArray = [];
+  const chartTokensCountTemp = {};
+  const chartTransactionsCountTemp = {};
 
-  const precision = 10 ** (parseFloat(icoConfig.decimals) || config.defaultDecimal);  
+  const precision = 10 ** (parseFloat(icoConfig.decimals) || config.defaultDecimal);
 
   Object.keys(allLogs).forEach((eventName) => {
     const eventArgs = icoConfig.events[eventName].args;
@@ -112,13 +123,24 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
       // allow for ICOs that do not generate tokens: like district0x
       const tokenValue = eventArgs.tokens ?
         parseFloat(item.args[eventArgs.tokens].valueOf()) / precision : 0;
-      
+
       // removed operations on bigint which may decrease precision!
-      const etherValue = parseFloat(
-        eventArgs.ether ? (typeof eventArgs.ether === 'function' ?
-          eventArgs.ether(tokenValue * precision) : item.args[eventArgs.ether].valueOf())
-          : parseInt(item.value, 16)
-      ) / 10 ** 18;
+      // const etherValue = parseFloat(
+      //   eventArgs.ether ? (typeof eventArgs.ether === 'function' ?
+      //     eventArgs.ether(tokenValue * precision) : item.args[eventArgs.ether].valueOf())
+      //     : parseInt(item.value, 16)
+      // ) / (10 ** 18);
+      let etherValue = null;
+      if (eventArgs.ether) {
+        if (typeof eventArgs.ether === 'function') {
+          etherValue = eventArgs.ether(tokenValue * precision);
+        } else {
+          etherValue = item.args[eventArgs.ether].valueOf();
+        }
+      } else {
+        etherValue = parseInt(item.value, 16);
+      }
+      etherValue = parseFloat(etherValue) / (10 ** 18);
 
       const investor = item.args[eventArgs.sender];
       csvContentArray.push([investor, tokenValue, etherValue,
@@ -149,7 +171,7 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
 
       if (tokenValue > 0 || etherValue > 0) {
         if (investor in senders) {
-          let sender = senders[investor];
+          const sender = senders[investor];
           sender.ETH += etherValue;
           sender.tokens += tokenValue;
         } else {
@@ -170,14 +192,14 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
     tranCount,
     csvContentArray,
     chartTokensCountTemp,
-    chartTransactionsCountTemp
-  }
-}
+    chartTransactionsCountTemp,
+  };
+};
 
 export const getDatesDuration = (endTime, startTime) =>
   moment.duration(moment(endTime).diff(moment(startTime)));
 
-  const getTimeFromLogs = (transactionLogs) => {
+const getTimeFromLogs = (transactionLogs) => {
   const startTimestamp = transactionLogs[0].timestamp;
   const endTimestamp = transactionLogs[transactionLogs.length - 1].timestamp;
 
@@ -185,8 +207,8 @@ export const getDatesDuration = (endTime, startTime) =>
   const endDate = new Date(endTimestamp * 1000);
 
   const icoDuration = getDatesDuration(endDate, startDate);
-  
-  const duration = formatDuration(icoDuration)
+
+  const duration = formatDuration(icoDuration);
   const durationDays = icoDuration.get('days');
 
   const timeScale = getChartTimescale(icoDuration.asHours(), startTimestamp);
@@ -197,40 +219,27 @@ export const getDatesDuration = (endTime, startTime) =>
     duration,
     durationDays,
     scale: timeScale[0],
-    toTimeBucket
-  }
+    toTimeBucket,
+  };
 };
 
 const getChartData = (timeScale, chartData) => {
   // when building charts fill empty days and hours with 0
   const keys = Object.keys(chartData);
   const timeIterator = timeScale !== 'blocks' ?
-    Array.from(new Array(Math.max.apply(null, keys)),(x, i) => i + 1) :
+    Array.from(new Array(Math.max.apply(null, keys)), (x, i) => i + 1) :
     keys;
-  
-  return timeIterator.map(key => {
-      return {
-      name: key,
-      amount: key in chartData ? chartData[key] : 0,
-    }});
-}
 
-export const formatDuration = duration => `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
-            ${duration.get('months') > 0 ? `${duration.get('months')} Months` : ''}
-            ${duration.get('days') > 0 ? `${duration.get('days')} Days` : ''}
+  return timeIterator.map(key => ({
+    name: key,
+    amount: key in chartData ? chartData[key] : 0,
+  }));
+};
 
-            ${duration.get('hours') > 0 ? `${duration.get('hours')} Hours` : ''}
-            ${duration.get('minutes') > 0 ? `${duration.get('minutes')} Minutes` : ''}
-            ${duration.get('seconds') > 0 ? `${duration.get('seconds')} Seconds` : ''}`;
-
-
-
-
-            /* allLogs contains dictionary {event_name: logs_array} 
+/* allLogs contains dictionary {event_name: logs_array} 
 where each logs_array is sorted by timestamp (by ETH node) */
 export const getStatistics = (icoConfig, allLogs) => {
-  
-  let statsResult = initStatistics();
+  const statsResult = initStatistics();
   /* get event that defines investor transaction and extract
   timestamps that will scale the time charts */
   const transactionLogs = allLogs[Object.keys(allLogs).filter(name =>
@@ -244,9 +253,10 @@ export const getStatistics = (icoConfig, allLogs) => {
   // Time statistcs
   statsResult.time = getTimeFromLogs(transactionLogs);
 
-  console.log("Block info", transactionLogs[0].blockNumber, transactionLogs[transactionLogs.length - 1].blockNumber);
+  console.log('Block info', transactionLogs[0].blockNumber,
+    transactionLogs[transactionLogs.length - 1].blockNumber);
 
-  const toTimeBucket = statsResult.time.toTimeBucket
+  const toTimeBucket = statsResult.time.toTimeBucket;
 
   const { senders,
     totalETH,
@@ -255,25 +265,27 @@ export const getStatistics = (icoConfig, allLogs) => {
     tranCount,
     csvContentArray,
     chartTokensCountTemp,
-    chartTransactionsCountTemp
+    chartTransactionsCountTemp,
   } = getMoneyFromEvents(icoConfig, allLogs, investors, toTimeBucket);
 
   // Money statistcs
   statsResult.money.totalETH = totalETH;
   statsResult.money.totalCurrencyBase = totalCurrencyBase;
   statsResult.money.tokenIssued = tokenIssued;
-  
+
   // General chart
-  statsResult.general.transactionsCount = tranCount;  
+  statsResult.general.transactionsCount = tranCount;
 
   // Tokens chart
-  statsResult.charts.tokensCount = getChartData(statsResult.time.scale, chartTokensCountTemp);
+  statsResult.charts.tokensCount = getChartData(statsResult.time.scale,
+    chartTokensCountTemp);
 
   // Transactions chart
-  statsResult.charts.transactionsCount = getChartData(statsResult.time.scale, chartTransactionsCountTemp);
+  statsResult.charts.transactionsCount = getChartData(statsResult.time.scale,
+    chartTransactionsCountTemp);
 
   const sortedSenders = sortInvestorsByTicket(senders);
-  
+
   // Investors statistcs
   statsResult.investors.sortedByTicket = sortedSenders[0];
   statsResult.investors.sortedByETH = sortedSenders[1];

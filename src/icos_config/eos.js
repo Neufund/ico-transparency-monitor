@@ -37,7 +37,8 @@ export default {
   icoParameters: {
     cap: async (web3, icoContract) => {
       const totEOS = convertWeb3Value(await toPromise(icoContract.totalSupply)(), 'ether');
-      const foundersEOS = convertWeb3Value(await toPromise(icoContract.foundersAllocation)().valueOf(), 'ether');
+      const foundersEOS =
+      convertWeb3Value(await toPromise(icoContract.foundersAllocation)().valueOf(), 'ether');
       return `Max ${formatNumber(totEOS - foundersEOS)} EOS, no ETH cap!`;
     },
     startDate: async (web3, icoContract) => {
@@ -69,23 +70,35 @@ export default {
     q6: { answer: true },
     q7: {
       answer: true,
-      comment: 'Mind that owners can take ETH whenever thay want - nothing is locked! In principle this allows to manipulate daily EOS price',
+      comment: `Mind that owners can take ETH whenever thay 
+      want - nothing is locked! In principle this allows 
+      to manipulate daily EOS price`,
     },
     q8: { answer: null },
     q9: { answer: null },
     q10: {
       answer: false,
-      comment: 'Code is short but full of tricks: for example EOS day has 23 hours, claimAll method will soon throw out of gas (it is a gas eater!), one day after ICO ends claims are blocked etc.',
+      comment: `Code is short but full of tricks: 
+      for example EOS day has 23 hours, claimAll method will 
+        soon throw out of gas (it is a gas eater!), one day 
+      after ICO ends claims are blocked etc.`,
     },
     q11: {
       answer: true,
-      comment: 'Contract is designed to be an ETH sucking mechanism without any shame, but as it is done transparently and in a trustless way, we say Yes here. code is law ;>',
+      comment: `Contract is designed to be an ETH sucking 
+      mechanism without any shame, but as it is done 
+      transparently and in a trustless way, we say 
+      Yes here. code is law ;>`,
     },
-    q12: { answer: true, comment: 'Price set due to demand each day, mind to claim your tokens!' },
+    q12: { answer: true, comment: `Price set due to demand 
+    each day, mind to claim your tokens!` },
     q13: { answer: true },
-    q14: { answer: false, comment: 'EOS day has 23 hours and after ICO is closed you lose your ability to claim' },
+    q14: { answer: false, comment: `EOS day has 23 hours 
+    and after ICO is closed you lose your ability to claim` },
   },
-  alternativeLoadingMsg: 'EOS ICO is generating hundreds of thousands of events that we need to analyze. Loading will take more than one minute.',
+  alternativeLoadingMsg: `EOS ICO is generating hundreds of 
+  thousands of events that we need to analyze. Loading 
+  will take more than one minute.`,
   addedBy: 'Rudolfix',
   addingDate: '14-07-2017',
 };

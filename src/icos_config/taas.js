@@ -20,10 +20,10 @@ export default {
     },
   },
   icoParameters: {
-    cap: async icoContract => 'not provided',
-    startDate: async icoContract => 'not provided',
-    endDate: async icoContract => 'not provided',
-    status: async icoContract => 'not provided',
+    cap: async () => 'not provided',
+    startDate: async () => 'not provided',
+    endDate: async () => 'not provided',
+    status: async () => 'not provided',
   },
   matrix: {
     q1: { answer: true },

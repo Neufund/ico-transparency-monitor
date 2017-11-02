@@ -6,13 +6,16 @@ import getLogsDetails from '../helpers/LogsMock';
 
 import {
   getICODuration,
-  formatDuration,
   computeICOTransparency,
   getEtherRate,
   getValueOrNotAvailable,
+  getICOLogs } from '../../src/utils';
+
+import {
+  formatDuration,
   getStatistics,
   initStatistics,
-  getICOLogs } from '../../src/utils';
+} from '../../src/utils/stats';
 
 import config from '../../src/config';
 import stateProvider from '../helpers/web3Mock';
@@ -92,7 +95,7 @@ describe('getStatistics', () => {
       durationDays: 21,
       duration: formatDuration(getICODuration(expectedEndDate, expectedStartDate)),
     };
-    expect(stats.time).to.deep.equal(expectedTimeObject);
+    expect(stats.time).to.deep.contain(expectedTimeObject);
   });
 
   it('Should return 3 investors', () => {
@@ -121,7 +124,7 @@ describe('getStatistics', () => {
 
   it('Should have money object as the data', () => {
     const stats = statistics[0];
-    expect(stats.money).to.deep.equal({ tokenIssued: 6, totalETH: 1.44 });
+    expect(stats.money).to.deep.contain({ tokenIssued: 6, totalETH: 1.44 });
   });
 
   it('Should have charts data filled', () => {

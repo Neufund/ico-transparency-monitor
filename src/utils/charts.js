@@ -6,7 +6,7 @@ const svgDataURL = (svg) => {
   return `data:image/svg+xml,${encodeURIComponent(svgAsXML)}`;
 };
 
-export const downloadChartImage = (chartId, title, xLabel, yLabel) => {
+export default (chartId, title, xLabel, yLabel) => {
   const div = document.getElementById(chartId);
   const rect = div.getBoundingClientRect();
 
@@ -32,7 +32,7 @@ export const downloadChartImage = (chartId, title, xLabel, yLabel) => {
   img.width = canvas.width;
   img.height = canvas.height;
 
-  img.onload = function () {
+  img.onload = function loadImage() {
     ctx.drawImage(img, 0, canvas.height / 5);
 
     ctx.fillStyle = 'black';

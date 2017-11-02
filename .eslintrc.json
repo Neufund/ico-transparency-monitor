@@ -8,6 +8,10 @@
     "mocha"
   ],
   "rules": {
+    "no-unused-expressions": "off",
+    "no-bitwise": "off",
+    "react/prop-types": "off",
+    "global-require": "off",
     "mocha/no-exclusive-tests": "error",
     "comma-dangle": ["error", {
       "arrays": "always-multiline",

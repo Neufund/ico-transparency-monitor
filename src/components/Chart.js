@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from 'recharts';
 import { kFormatter } from '../utils';
-import { downloadChartImage } from '../utils/charts';
+import downloadChartImage from '../utils/charts';
 
 export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, isNotVisibleMessage = '', hideTitle }) => (
   <div id={dataKey} className="chart-parent relative">

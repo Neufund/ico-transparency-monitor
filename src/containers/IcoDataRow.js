@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { getValueOrDefault, icoTransparencyMap } from '../utils';
-import { default as config } from '../config.js';
+import config from '../config';
 import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import { readSmartContract } from '../actions/web3';
 import { resetRpc } from '../actions/ScanAction';
@@ -23,7 +23,7 @@ export class IcoDataRow extends Component {
   render() {
     const { address, information, name, cap,
       startDate, endDate, status, addedBy,
-      decision, onModalShow } = this.props;
+      decision, onModalShowCallback } = this.props;
 
     return (
       <Row className="ico-container">
@@ -75,7 +75,7 @@ export class IcoDataRow extends Component {
                     className={`transparency-button ${getValueOrDefault(decision)}-status-bottom`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      onModalShow(this.props);
+                      onModalShowCallback(this.props);
                     }}
                   >
                     <p>See more on the score</p>

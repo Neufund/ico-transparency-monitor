@@ -55,6 +55,7 @@ TokenDistribution.propTypes = {
   tokenHolders: PropTypes.arrayOf(PropTypes.object).isRequired,
   isVisible: PropTypes.bool.isRequired,
   isNotVisibleMessage: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/require-default-props
   giniIndex: PropTypes.number,
 };
 

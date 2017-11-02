@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import IcoDataRow from './IcoDataRow';
 import { getICOsAsList } from '../icos_config';
 
-export default (props) => {
+export default () => {
   const icosList = getICOsAsList();
   return (<div className="App">
     <Header />

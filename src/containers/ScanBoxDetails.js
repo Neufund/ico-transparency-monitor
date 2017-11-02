@@ -85,7 +85,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       <h3 className="title">Raised amount</h3>
       <RaisedAmount
         total={props.stats.money.totalETH}
-        currency="ETH"
+        currency={props.baseCurrency}
         avgTicket={props.stats.money.totalETH / Object.keys(props.stats.investors.senders).length}
         avgPrice={props.stats.money.totalETH / props.stats.money.tokenIssued}
       />
@@ -147,6 +147,7 @@ const mapStateToProps = (state, props) =>
     stats: state.scan.stats,
     ...state.ICO.icos[props.address],
     matrix: config.ICOs[props.address].matrix,
+    baseCurrency: config.ICOs[props.address].baseCurrency
   });
 
 const mapDispatchToProps = (dispatch, state) => ({

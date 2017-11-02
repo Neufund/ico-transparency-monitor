@@ -1,6 +1,5 @@
 import axios from 'axios';
 import moment from 'moment';
-import gini from 'gini';
 import jquery from './utils/jQuery';
 import config from './config';
 
@@ -220,7 +219,7 @@ export const formatDuration = duration => `${duration.get('years') > 0 ? `${dura
             ${duration.get('minutes') > 0 ? `${duration.get('minutes')} Minutes` : ''}
             ${duration.get('seconds') > 0 ? `${duration.get('seconds')} Seconds` : ''}`;
 
-const sortInvestorsByTicket = (investors) => {
+export const sortInvestorsByTicket = (investors) => {
   const sortedByTokens = [];
   const sortedByETH = [];
   Object.keys(investors).forEach((key) => {
@@ -290,7 +289,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
   document.body.removeChild(link);
 };
 
-const getChartTimescale = (durationHours, startTimestamp) => {
+export const getChartTimescale = (durationHours, startTimestamp) => {
   if (durationHours < 12) {
     return ['blocks', event => event.blockNumber];
   } else if (durationHours > 12 && durationHours < 96) {
@@ -312,143 +311,3 @@ export const getNextICO = (address) => {
 
 export const getICODuration = (endTime, startTime) =>
   moment.duration(moment(endTime).diff(moment(startTime)));
-
-/* allLogs contains dictionary {event_name: logs_array} 
-where each logs_array is sorted by timestamp (by ETH node) */
-export const getStatistics = (icoConfig, allLogs, stats) => {
-  const csvContentArray = [];
-
-  /* get event that defines investor transaction and extract
-  timestamps that will scale the time charts */
-  const transactionLogs = allLogs[Object.keys(allLogs).filter(name =>
-    icoConfig.events[name].countTransactions)[0]];
-  if (!transactionLogs) {
-    throw new Error("You need to mark at least one event with 'countTransactions'");
-  }
-  const startTimestamp = transactionLogs[0].timestamp;
-  const endTimestamp = transactionLogs[transactionLogs.length - 1].timestamp;
-  const startTime = new Date(startTimestamp * 1000);
-  stats.time.startDate = startTime;
-  const endTime = new Date(endTimestamp * 1000);
-  stats.time.endDate = endTime;
-  const icoDuration = getICODuration(endTime, startTime);
-  stats.time.durationDays = icoDuration.get('days');
-  stats.time.duration = formatDuration(icoDuration);
-
-  const precision = 10 ** (parseFloat(icoConfig.decimals) || config.defaultDecimal);
-
-  const chartTokensCountTemp = {};
-  const chartTransactionsCountTemp = {};
-  const duration = moment.duration(moment(new Date(endTimestamp * 1000))
-    .diff(moment(new Date(startTimestamp * 1000))));
-  const timeScale = getChartTimescale(duration.asHours(), startTimestamp);
-  const toTimeBucket = timeScale[1];
-  stats.time.scale = timeScale[0];
-  console.log(transactionLogs[0].blockNumber, transactionLogs[transactionLogs.length - 1].blockNumber);
-
-  const senders = stats.investors.senders;
-  let tranCount = 0;
-
-  Object.keys(allLogs).forEach((eventName) => {
-    const eventArgs = icoConfig.events[eventName].args;
-    const countTransactions = icoConfig.events[eventName].countTransactions;
-    const events = allLogs[eventName];
-    let prevTxHash = null;
-
-    for (let i = 0; i < events.length; i += 1) {
-      const item = events[i];
-      // allow for ICOs that do not generate tokens: like district0x
-      const tokenValue = eventArgs.tokens ?
-        parseFloat(item.args[eventArgs.tokens].valueOf()) / precision : 0;
-
-      // removed operations on bigint which may decrease precision!
-      const etherValue = parseFloat(
-        eventArgs.ether ? (typeof eventArgs.ether === 'function' ?
-          eventArgs.ether(tokenValue * precision) : item.args[eventArgs.ether].valueOf())
-          : parseInt(item.value, 16)
-      ) / 10 ** 18;
-
-      const investor = item.args[eventArgs.sender];
-      csvContentArray.push([investor, tokenValue, etherValue,
-        item.timestamp, item.blockNumber]); // (new Date(item.timestamp * 1000)).formatDate(true)
-
-      // only if event is transaction event
-      const timeBucket = toTimeBucket(item);
-      if (countTransactions) {
-        if (item.transactionHash !== prevTxHash) {
-          if (timeBucket in chartTransactionsCountTemp) {
-            chartTransactionsCountTemp[timeBucket] += 1;
-          } else {
-            chartTransactionsCountTemp[timeBucket] = 1;
-          }
-          prevTxHash = item.transactionHash;
-          tranCount += 1;
-        }
-      }
-      // skip empty transactions
-      if (tokenValue > 0) {
-        if (timeBucket in chartTokensCountTemp) {
-          chartTokensCountTemp[timeBucket] += tokenValue;
-        } else {
-          chartTokensCountTemp[timeBucket] = tokenValue;
-        }
-      }
-
-      if (tokenValue > 0 || etherValue > 0) {
-        if (investor in senders) {
-          const s = senders[investor];
-          s.ETH += etherValue;
-          s.tokens += tokenValue;
-        } else {
-          senders[investor] = { tokens: tokenValue, ETH: etherValue };
-        }
-
-        stats.money.totalETH += etherValue;
-        stats.money.tokenIssued += tokenValue;
-      }
-    }
-  });
-
-  stats.general.transactionsCount = tranCount;
-  stats.charts.transactionsCount = [];
-  stats.charts.tokensCount = [];
-
-  // when building charts fill empty days and hours with 0
-  const chartTokensKeys = Object.keys(chartTokensCountTemp);
-  if (chartTokensKeys.length !== 0) {
-    const timeIterator = stats.time.scale !== 'blocks' ?
-      Array.from(new Array(Math.max.apply(null, chartTokensKeys)),
-        (x, i) => i + 1) : chartTokensKeys;
-    timeIterator.forEach(key => stats.charts.tokensCount.push({
-      name: key,
-      amount: key in chartTokensCountTemp ? chartTokensCountTemp[key] : 0,
-    }));
-  }
-  const chartTransactionsKeys = Object.keys(chartTransactionsCountTemp);
-  if (chartTransactionsKeys !== 0) {
-    const timeIterator = stats.time.scale !== 'blocks' ?
-      Array.from(new Array(Math.max.apply(null, chartTransactionsKeys)),
-        (x, i) => i + 1) : chartTransactionsKeys;
-    timeIterator.forEach(key => stats.charts.transactionsCount.push({
-      name: key,
-      amount: key in chartTransactionsCountTemp ? chartTransactionsCountTemp[key] : 0,
-    }));
-  }
-
-  const sortedSenders = sortInvestorsByTicket(senders);
-  stats.investors.sortedByTicket = sortedSenders[0];
-  stats.investors.sortedByETH = sortedSenders[1];
-
-  stats.charts.tokenHolders = tokenHoldersPercentage(
-    stats.money.tokenIssued,
-    stats.investors.sortedByTicket
-  );
-
-  if (stats.money.tokenIssued > 0) {
-    const tokens = sortedSenders[0].map(investor => investor.value);
-    // todo: should just rewrite gini.ordered to accept reverse ordered array
-    stats.general.giniIndex = gini.ordered(tokens.reverse());
-  }
-
-  return [stats, csvContentArray];
-};

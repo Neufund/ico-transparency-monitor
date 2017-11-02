@@ -1,7 +1,8 @@
 import config from '../config';
 import { getICOParameters, isConnected, web3Connect,
   getSmartContract, getAbiAsDictionary, getTokenSmartContract } from '../utils/web3';
-import { computeICOTransparency, getICOLogs, getStatistics, initStatistics } from '../utils';
+import { computeICOTransparency, getICOLogs, initStatistics } from '../utils';
+import { getStatistics } from '../utils/stats';
 import { setCurrency, setStatisticsByCurrency } from './CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
   setSmartContractLoaded, setProperties, resetRpc, showIcoNotStarted } from './ScanAction';
@@ -126,7 +127,7 @@ export const getLogs = address => async (dispatch, getState) => {
   const allLogs = {};
   const finalProcessor = () => {
     if (Object.keys(allLogs).length > 0) {
-      const statistics = getStatistics(icoConfig, allLogs, initStatistics());
+      const statistics = getStatistics(icoConfig, allLogs);
       /* statistics array of two elements, index number 0 for statistcs, 
       index number 1 for csv content */
       dispatch(drawStatistics(statistics[0]));

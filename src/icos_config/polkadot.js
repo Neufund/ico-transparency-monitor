@@ -3,6 +3,7 @@ import { convertWeb3Value } from '../utils/web3';
 
 export default {
   crawdSaleTokenContract: '0x54a2d42a40F51259DedD1978F6c118a0f0Eff078',
+  baseCurrency: 'EUR',
   tokenContract: '0xb59f67a8bff5d8cd03f6ac17265c550ed8f33907',
   information: {
     aliasName: 'DOT',

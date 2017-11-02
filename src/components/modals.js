@@ -26,7 +26,6 @@ class ContentTable extends Component {
       issuesArray: result[1],
       decision: result[0],
     });
-    console.log(this.currentICO);
   }
 
   getRowClassName(key) {

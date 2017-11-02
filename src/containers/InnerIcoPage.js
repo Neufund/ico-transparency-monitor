@@ -40,6 +40,11 @@ class InnerIcoPage extends Component {
     const { address, information, addedBy, tokenContract } = this.props.ico;
     const showLoader = this.props.isLoading;
     const onModalShowCallback = this.props.onModalShow;
+    const icoModalData = {
+      name: name,
+      matrix: this.props.ico.matrix,
+      information: this.props.ico.information,
+    }
 
     return (
       <div className="App">
@@ -54,7 +59,7 @@ class InnerIcoPage extends Component {
               decision={decision}
               tokenContract={tokenContract}
               onModalShow={onModalShowCallback}
-              icoModalData={this.props.ico}
+              icoModalData={icoModalData}
             />
 
             <IcoRowSinglePage

@@ -100,7 +100,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch, state) => ({
-  onModalShow: (currentICO) => {
+  onModalShowCallback: (currentICO) => {
     if (isConnected()) {
       dispatch(onModalShow(currentICO));
     } else {

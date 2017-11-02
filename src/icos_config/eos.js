@@ -100,5 +100,5 @@ export default {
   thousands of events that we need to analyze. Loading 
   will take more than one minute.`,
   addedBy: 'Rudolfix',
-  dateAdded: '14-07-2017',
+  dateAdded: '17-07-2017',
 };

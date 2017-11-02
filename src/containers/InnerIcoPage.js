@@ -9,6 +9,7 @@ import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxDetails from './ScanBoxDetails';
 import IcoScanHeader from '../components/ICOScanHeader';
 import config from '../config';
+import Error404 from '../components/Error404';
 import { getLogs, readSmartContract } from '../actions/web3';
 import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import { resetRpc } from '../actions/ScanAction';
@@ -23,13 +24,16 @@ class InnerIcoPage extends Component {
   }
 
   componentDidMount() {
-    if (this.props.web3) {
+    if (this.props.web3 && typeof config.ICOs[this.props.address] !== "undefined") {
       this.props.readSmartContract(this.props.address);
     }
   }
 
   render() {
-    if (this.props.isSmartContractLoaded
+    if (typeof config.ICOs[this.props.address] === "undefined")
+      return <Error404 message={`Address ${this.props.address}`} />;
+
+    if ( this.props.isSmartContractLoaded
       && this.props.blocks && this.state.isBlockMounted === false) {
       this.setState({ isBlockMounted: true });
       this.props.getLogs(this.props.address);

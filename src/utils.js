@@ -42,7 +42,7 @@ export const computeICOTransparency = (answers) => {
       const answer = answers[key];
       const definition = config.matrix[key];
       // return lists of transparent-with-issues and non-transparent a answers
-      if ((answer.answer === false || answer.answer === null) && !definition.notApplicable) {
+      if (answer.answer === false || answer.answer === null && !definition.notApplicable) {
         foundIssues[key] = true;
         hasCritical = hasCritical || definition.critical;
       }

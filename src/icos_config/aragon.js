@@ -59,5 +59,5 @@ export default {
     },
   },
   addedBy: 'Rudolfix',
-  dateAdded: '17-07-2017',
+  dateAdded: '16-07-2017',
 };

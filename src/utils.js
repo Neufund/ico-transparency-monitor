@@ -41,7 +41,7 @@ export const computeICOTransparency = (answers) => {
     if (config.matrix.hasOwnProperty(key)) {
       const answer = answers[key];
       const definition = config.matrix[key];
-      // return lists of transparent-with-issues and non-transparent a answers
+      // eslint-disable-next-line
       if (answer.answer === false || answer.answer === null && !definition.notApplicable) {
         foundIssues[key] = true;
         hasCritical = hasCritical || definition.critical;

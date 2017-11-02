@@ -2,7 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9',
+  crowdSaleTokenContract: '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9',
   tokenContract: '0xE41d2489571d322189246DaFA5ebDe1F4699F498',
   information: {
     aliasName: '0x project',
@@ -83,5 +83,5 @@ export default {
   },
   decimals: 18,
   addedBy: 'Rudolfix',
-  addingDate: '05-09-2017',
+  dateAdded: '05-09-2017',
 };

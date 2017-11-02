@@ -2,7 +2,7 @@ import { toPromise, formatNumber } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf',
+  crowdSaleTokenContract: '0xd0a6E6C54DbC68Db5db3A091B171A77407Ff7ccf',
   tokenContract: '0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0',
   information: {
     aliasName: 'EOS',
@@ -100,5 +100,5 @@ export default {
   thousands of events that we need to analyze. Loading 
   will take more than one minute.`,
   addedBy: 'Rudolfix',
-  addingDate: '14-07-2017',
+  dateAdded: '14-07-2017',
 };

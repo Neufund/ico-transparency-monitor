@@ -2,7 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff',
+  crowdSaleTokenContract: '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff',
   tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
   information: {
     aliasName: 'district0x',
@@ -73,5 +73,5 @@ export default {
     q14: { answer: true },
   },
   addedBy: 'Rudolfix',
-  addingDate: '26-07-2017',
+  dateAdded: '26-07-2017',
 };

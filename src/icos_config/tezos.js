@@ -1,7 +1,7 @@
 import { toPromise } from '../utils';
 
 export default {
-  crawdSaleTokenContract: '0xb56d622DDF60ec532B5f43B4Ff9B0e7b1FF92dB3',
+  crowdSaleTokenContract: '0xb56d622DDF60ec532B5f43B4Ff9B0e7b1FF92dB3',
   information: {
     aliasName: 'TEZOS Fundraiser',
     logo: 'https://www.tezos.com/static/favicon.ico',
@@ -51,5 +51,5 @@ export default {
     q14: { answer: false, comment: 'May be stopped and re-started whenever Tezos wants' },
   },
   addedBy: 'Rudolfix',
-  addingDate: '20-07-2017',
+  dateAdded: '20-07-2017',
 };

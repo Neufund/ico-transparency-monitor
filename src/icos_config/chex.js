@@ -2,7 +2,7 @@ import { toPromise, formatNumber } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0xD566Fa4a696EAc66f749f7fe999D6673fEe2026c',
+  crowdSaleTokenContract: '0xD566Fa4a696EAc66f749f7fe999D6673fEe2026c',
   information: {
     aliasName: 'CHEX',
     logo: 'https://tokensale.thechex.com/images/chex-token.jpg',
@@ -63,5 +63,5 @@ export default {
     q14: { answer: true, comment: 'Will end either by supply limit reached, manual freeze, or end block reached' },
   },
   addedBy: 'Bravetarget',
-  addingDate: '11-10-2017',
+  dateAdded: '11-10-2017',
 };

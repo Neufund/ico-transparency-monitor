@@ -2,7 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0x54a2d42a40F51259DedD1978F6c118a0f0Eff078',
+  crowdSaleTokenContract: '0x54a2d42a40F51259DedD1978F6c118a0f0Eff078',
   baseCurrency: 'ETH',
   tokenContract: '0xb59f67a8bff5d8cd03f6ac17265c550ed8f33907',
   information: {
@@ -97,6 +97,6 @@ export default {
   },
   decimals: 18,
   addedBy: 'Rudolfix',
-  addingDate: '13-10-2017',
+  dateAdded: '13-10-2017',
 };
 

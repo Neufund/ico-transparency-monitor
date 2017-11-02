@@ -1,5 +1,5 @@
 export default {
-  crawdSaleTokenContract: '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C',
+  crowdSaleTokenContract: '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C',
   information: {
     aliasName: 'TAAS',
     logo: 'https://www.taas.fund/favicon.ico',
@@ -45,5 +45,5 @@ export default {
     q14: { answer: null },
   },
   addedBy: 'Mostafa Balata',
-  addingDate: '14-07-2017',
+  dateAdded: '14-07-2017',
 };

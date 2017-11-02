@@ -15,7 +15,7 @@ export default () => {
           if (typeof ico === 'undefined') { return null; }
 
           const { information, name, status, addedBy } = ico;
-          const address = ico.crawdSaleTokenContract;
+          const address = ico.crowdSaleTokenContract;
           return (<IcoDataRow
             key={address}
             address={address}

@@ -2,7 +2,7 @@ import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
-  crawdSaleTokenContract: '0x3BF541f87056D134E0109BE1Be92978b26Cb09e0',
+  crowdSaleTokenContract: '0x3BF541f87056D134E0109BE1Be92978b26Cb09e0',
   tokenContract: '0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',
   information: {
     aliasName: 'MelonPort',
@@ -54,5 +54,5 @@ export default {
     q14: { answer: true, comment: 'Halting function has no impact as there is no minimum cap' },
   },
   addedBy: 'Mostafa Balata',
-  addingDate: '14-07-2017',
+  dateAdded: '14-07-2017',
 };

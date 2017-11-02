@@ -121,33 +121,6 @@ export const getICOLogs = (blockRange, icoConfig, contracts, callback) => {
   });
 };
 
-export const initStatistics = () => ({
-  general: {
-    transactionsCount: 0,
-    giniIndex: null,
-  },
-  time: {
-    startDate: null,
-    endDate: null,
-    scale: 'blocks',
-  },
-  investors: {
-    sortedByTicket: [],
-    sortedByETH: [],
-    senders: {},
-  },
-  money: {
-    tokenIssued: 0,
-    totalETH: 0,
-  },
-  charts: {
-    transactionsCount: [],
-    tokensCount: [],
-    investorsDistribution: [],
-    investmentDistribution: [],
-    tokenHolders: [],
-  },
-});
 
 const calculateTicks = (max) => {
   let tick = 0.1;
@@ -211,62 +184,6 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
   return [investorsChartXAxis, investmentChartXAxis];
 };
 
-export const formatDuration = duration => `${duration.get('years') > 0 ? `${duration.get('years')} Years` : ''}
-            ${duration.get('months') > 0 ? `${duration.get('months')} Months` : ''}
-            ${duration.get('days') > 0 ? `${duration.get('days')} Days` : ''}
-
-            ${duration.get('hours') > 0 ? `${duration.get('hours')} Hours` : ''}
-            ${duration.get('minutes') > 0 ? `${duration.get('minutes')} Minutes` : ''}
-            ${duration.get('seconds') > 0 ? `${duration.get('seconds')} Seconds` : ''}`;
-
-export const sortInvestorsByTicket = (investors) => {
-  const sortedByTokens = [];
-  const sortedByETH = [];
-  Object.keys(investors).forEach((key) => {
-    const s = investors[key];
-    sortedByTokens.push({
-      investor: key,
-      value: s.tokens,
-    });
-    sortedByETH.push({
-      investor: key,
-      value: s.ETH,
-    });
-  });
-  sortedByTokens.sort((first, last) => last.value - first.value);
-  sortedByETH.sort((first, last) => last.value - first.value);
-
-  return [sortedByTokens, sortedByETH];
-};
-
-export const getPercentagesDataSet = (limit = 100) => {
-  const percentages = [];
-  let i = 1;
-  while (i < limit) {
-    percentages.push(i * 0.01);
-    i += i < 5 ? 4 : (i < 9 ? 5 : 10);
-  }
-  return percentages;
-};
-
-export const tokenHoldersPercentage = (total, sortedInvestors) => {
-  const percentages = getPercentagesDataSet(100);
-  let totalTokens = 0;
-  let arrayIndex = 0;
-  return percentages.map((singlePercent) => {
-    const noInvestorsInRange = parseInt(sortedInvestors.length * singlePercent, 10);
-
-    while (arrayIndex < noInvestorsInRange) {
-      totalTokens += sortedInvestors[arrayIndex].value;
-      arrayIndex += 1;
-    }
-    return {
-      name: `${singlePercent * 100}%`,
-      amount: parseFloat(((totalTokens * 100) / total).toFixed(2)),
-    };
-  }).filter(range => range.amount > 0);
-};
-
 
 export const downloadCSV = fileName => async (dispatch, getState) => {
   const csvContentArray = getState().scan.csvContent;
@@ -287,17 +204,6 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-};
-
-export const getChartTimescale = (durationHours, startTimestamp) => {
-  if (durationHours < 12) {
-    return ['blocks', event => event.blockNumber];
-  } else if (durationHours > 12 && durationHours < 96) {
-    // difference in full hours
-    return ['hours', event => 1 + ((event.timestamp - startTimestamp) / 3600) >> 0];
-  }
-  // difference in full days
-  return ['days', event => 1 + ((event.timestamp - startTimestamp) / 86400) >> 0];
 };
 
 export const getNextICO = (address) => {

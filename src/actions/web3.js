@@ -1,8 +1,8 @@
 import config from '../config';
 import { getICOParameters, isConnected, web3Connect,
   getSmartContract, getAbiAsDictionary, getTokenSmartContract } from '../utils/web3';
-import { computeICOTransparency, getICOLogs, initStatistics } from '../utils';
-import { getStatistics } from '../utils/stats';
+import { computeICOTransparency, getICOLogs } from '../utils';
+import { initStatistics, getStatistics } from '../utils/stats';
 import { setCurrency, setStatisticsByCurrency } from './CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
   setSmartContractLoaded, setProperties, resetRpc, showIcoNotStarted } from './ScanAction';

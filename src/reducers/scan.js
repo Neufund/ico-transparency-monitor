@@ -1,4 +1,4 @@
-import { initStatistics } from '../utils';
+import { initStatistics } from '../utils/stats';
 
 const scan = (state = {
   stats: initStatistics(),
@@ -11,7 +11,6 @@ const scan = (state = {
 }, action) => {
   switch (action.type) {
     case 'DRAW_STATS':
-      console.log(action.stats)
       return {
         ...state,
         stats: { ...action.stats },

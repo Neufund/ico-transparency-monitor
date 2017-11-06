@@ -134,12 +134,11 @@ export const getLogs = address => async (dispatch, getState) => {
       dispatch(allocateCSVFile(statistics[1]));
       const baseCurrency = icoConfig.baseCurrency || 'ETH';
       const time = new Date();
-      const currencyValue = await getCurrency('EUR', baseCurrency , time);
+      const currencyValue = await getCurrency('EUR', baseCurrency, time);
       dispatch(setStatisticsByCurrency('EUR',
         currencyValue, time));
-        dispatch(showStatistics());
-
-      } else {
+      dispatch(showStatistics());
+    } else {
       dispatch(showIcoNotStarted());
     }
   };

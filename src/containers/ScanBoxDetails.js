@@ -94,12 +94,13 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         avgTicket={props.stats.money.totalBaseCurrency / Object.keys(props.stats.investors.senders).length}
         avgPrice={props.stats.money.totalBaseCurrency / props.stats.money.tokenIssued}
       />
-      <GroupButtons 
-      address={props.address}
-      smartContractCurrencyRate={props.currencyRate}
-      baseCurrency={props.baseCurrency} 
-      currencyValue={props.currencyValue} 
-      currency={props.currency} />
+      <GroupButtons
+        address={props.address}
+        smartContractCurrencyRate={props.currencyRate}
+        baseCurrency={props.baseCurrency}
+        currencyValue={props.currencyValue}
+        currency={props.currency}
+      />
 
       <RaisedAmount
         total={props.stats.money.totalBaseCurrency * props.currencyValue}

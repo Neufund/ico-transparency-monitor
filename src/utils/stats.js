@@ -40,8 +40,7 @@ export const formatDuration = duration =>
   ${duration.get('seconds') > 0 ? `${duration.get('seconds')} Seconds` : ''}`;
 
 
-
-  const getChartTimescale = (durationHours, startTimestamp) => {
+const getChartTimescale = (durationHours, startTimestamp) => {
   if (durationHours < 12) {
     return ['blocks', event => event.blockNumber];
   } else if (durationHours > 12 && durationHours < 96) {

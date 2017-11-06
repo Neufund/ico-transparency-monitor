@@ -10,7 +10,7 @@ import {
   getValueOrNotAvailable,
   getICOLogs } from '../../src/utils';
 
-import  { getExchangeRate } from '../../src/actions/CurrencyAction';
+import { getExchangeRate } from '../../src/actions/CurrencyAction';
 import {
   formatDuration,
   getStatistics,

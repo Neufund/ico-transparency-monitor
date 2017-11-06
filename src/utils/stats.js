@@ -125,12 +125,6 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
       const tokenValue = eventArgs.tokens ?
         parseFloat(item.args[eventArgs.tokens].valueOf()) / precision : 0;
 
-      // removed operations on bigint which may decrease precision!
-      // const etherValue = parseFloat(
-      //   eventArgs.ether ? (typeof eventArgs.ether === 'function' ?
-      //     eventArgs.ether(tokenValue * precision) : item.args[eventArgs.ether].valueOf())
-      //     : parseInt(item.value, 16)
-      // ) / (10 ** 18);
       let etherValue = null;
       if (eventArgs.ether) {
         if (typeof eventArgs.ether === 'function') {
@@ -145,7 +139,7 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
 
       const investor = item.args[eventArgs.sender];
       csvContentArray.push([investor, tokenValue, etherValue,
-        item.timestamp, item.blockNumber]); // (new Date(item.timestamp * 1000)).formatDate(true)
+        item.timestamp, item.blockNumber]);
 
       // only if event is transaction event
       const timeBucket = toTimeBucket(item);
@@ -271,7 +265,7 @@ export const getStatistics = (icoConfig, allLogs) => {
 
   // Money statistcs
   statsResult.money.totalETH = totalETH;
-  statsResult.money.totalCurrencyBase = totalCurrencyBase;
+  statsResult.money.totalBaseCurrency = totalCurrencyBase;
   statsResult.money.tokenIssued = tokenIssued;
 
   // General stats

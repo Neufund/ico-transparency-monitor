@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
 import { connect } from 'react-redux';
-import { setCurrency, setStatisticsByCurrency } from '../actions/CurrencyAction';
+import { setCurrency, setStatisticsByCurrency, 
+  getExchangeProvider, setExchangeProvider } from '../actions/CurrencyAction';
 
 class CurrencyButton extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       currencyActiveClass: 'EUR',
       exchangeRateDate: new Date(),
@@ -22,7 +23,7 @@ class CurrencyButton extends Component {
     return map[key];
   }
 
-  onCurrencyHandle(currency, dayClass) {
+  async onCurrencyHandle(currency, dayClass) {
     dayClass = dayClass || this.state.exchangeRateActiveClass || 'NOW';
     let rateDate = null;
     switch (dayClass) {
@@ -36,7 +37,7 @@ class CurrencyButton extends Component {
         throw new Error('Unknown input');
     }
     currency = currency || this.props.currency;
-    this.props.setCurrency(currency, rateDate);
+    await this.props.setCurrency(currency, this.props.baseCurrency || 'ETH', rateDate);
     this.setState({ exchangeRateActiveClass: dayClass,
       exchangeRateDate: rateDate,
       currencyActiveClass: currency });
@@ -52,8 +53,8 @@ class CurrencyButton extends Component {
               <ul className="currency-buttons">
                 {['EUR', 'USD', 'ETH'].map(item => (<li key={item}><a
                   className={this.state.currencyActiveClass === item ? 'active' : ''}
-                  onClick={() => {
-                    this.onCurrencyHandle(item, null);
+                  onClick={async () => {
+                    await this.onCurrencyHandle(item, null);
                   }}
                 >{item}</a></li>))}
               </ul>
@@ -76,10 +77,11 @@ class CurrencyButton extends Component {
           </Col>
           <Col md={6} className="exchangeRate">
             <p>
-              <strong>ETH 1 = {this.props.currency} {this.props.currencyValue}</strong>
+              <strong>{this.props.baseCurrency || 'ETH'} 1 = {this.props.currency} {this.props.currencyValue}</strong>
               <br />
-              <small>https://api.coinbase.com/v2/prices/ on
-                {this.state.exchangeRateDate.formatDate()}</small>
+              <small>{this.props.provider} on {this.state.exchangeRateDate.formatDate()}
+                
+              </small>
             </p>
           </Col>
         </Row>
@@ -93,14 +95,22 @@ const mapStateToProps = state => ({
   currencyValue: state.currency.value,
   currencyTime: state.currency.time,
   stats: state.scan.stats,
+  provider: state.currency.provider
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  setCurrency: ((currency, time) =>
-    setCurrency(currency, time, (error, currencyResult) => {
-      dispatch(setStatisticsByCurrency(currencyResult.currency,
-        currencyResult.value, currencyResult.time));
-    })),
+  setCurrency: async (currency, baseCurrency, time) => { 
+    const currencyValue = await setCurrency(currency, baseCurrency, time);
+    dispatch(setStatisticsByCurrency(currency, currencyValue, time));
+
+    const currencyKey = `${baseCurrency}-${currency}`.toUpperCase();
+    try {
+      const provider = getExchangeProvider(currencyKey);
+      dispatch(setExchangeProvider(provider['link']));
+    } catch (e){
+      dispatch(setExchangeProvider(''));
+    }
+  }
 });
 
 export default connect(

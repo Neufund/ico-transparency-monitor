@@ -125,24 +125,21 @@ export const getLogs = address => async (dispatch, getState) => {
   });
 
   const allLogs = {};
-  const finalProcessor = () => {
+  const finalProcessor = async () => {
     if (Object.keys(allLogs).length > 0) {
       const statistics = getStatistics(icoConfig, allLogs);
       /* statistics array of two elements, index number 0 for statistcs, 
       index number 1 for csv content */
       dispatch(drawStatistics(statistics[0]));
       dispatch(allocateCSVFile(statistics[1]));
-
-      setCurrency('EUR', new Date(), (error, currencyResult) => {
-        if (error) {
-          dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
-          return;
-        }
-        dispatch(setStatisticsByCurrency(currencyResult.currency,
-          currencyResult.value, currencyResult.time));
+      const baseCurrency = icoConfig.baseCurrency || 'ETH';
+      const time = new Date();
+      const currencyValue = await setCurrency('EUR', baseCurrency , time);
+      dispatch(setStatisticsByCurrency('EUR',
+        currencyValue, time));
         dispatch(showStatistics());
-      });
-    } else {
+
+      } else {
       dispatch(showIcoNotStarted());
     }
   };
@@ -165,7 +162,7 @@ export const getLogs = address => async (dispatch, getState) => {
         }
         if (logRequests.length === 0) {
           dispatch(hideLoader());
-          finalProcessor();
+          await finalProcessor();
         } else {
           logProcessor();
         }

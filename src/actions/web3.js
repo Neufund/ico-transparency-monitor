@@ -3,7 +3,8 @@ import { getICOParameters, isConnected, web3Connect,
   getSmartContract, getAbiAsDictionary, getTokenSmartContract } from '../utils/web3';
 import { computeICOTransparency, getICOLogs } from '../utils';
 import { initStatistics, getStatistics } from '../utils/stats';
-import { getCurrency, setStatisticsByCurrency } from './CurrencyAction';
+import { setStatisticsByCurrency, setConversionRate } from './CurrencyAction';
+
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
   setSmartContractLoaded, setProperties, resetRpc, showIcoNotStarted } from './ScanAction';
 import { showErrorMessage } from './ModalAction';
@@ -69,6 +70,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
   dispatch(setSmartContractLoaded(true));
 };
 
+
 export const getLogs = address => async (dispatch, getState) => {
   dispatch(showLoader());
   const web3 = getState().modal.web3;
@@ -97,6 +99,11 @@ export const getLogs = address => async (dispatch, getState) => {
     [icoConfig.tokenContract]: tokenContract,
   };
 
+  const baseCurrency = icoConfig.baseCurrency || 'ETH';
+  const initialCurrency = baseCurrency === 'EUR' ? 'ETH' : 'EUR';
+  await dispatch(readSmartContract(address));
+  const time = new Date();
+  const conversionRate = await dispatch(setConversionRate(address, initialCurrency, time));
   // load logs for all events
   const logRequests = [];
   Object.keys(icoConfig.events).forEach((eventName) => {
@@ -125,18 +132,15 @@ export const getLogs = address => async (dispatch, getState) => {
   });
 
   const allLogs = {};
-  const finalProcessor = async () => {
+  const finalProcessor = () => {
     if (Object.keys(allLogs).length > 0) {
       const statistics = getStatistics(icoConfig, allLogs);
       /* statistics array of two elements, index number 0 for statistcs, 
       index number 1 for csv content */
       dispatch(drawStatistics(statistics[0]));
       dispatch(allocateCSVFile(statistics[1]));
-      const baseCurrency = icoConfig.baseCurrency || 'ETH';
-      const time = new Date();
-      const currencyValue = await getCurrency('EUR', baseCurrency, time);
-      dispatch(setStatisticsByCurrency('EUR',
-        currencyValue, time));
+
+      dispatch(setStatisticsByCurrency(initialCurrency, conversionRate, time));
       dispatch(showStatistics());
     } else {
       dispatch(showIcoNotStarted());
@@ -161,7 +165,7 @@ export const getLogs = address => async (dispatch, getState) => {
         }
         if (logRequests.length === 0) {
           dispatch(hideLoader());
-          await finalProcessor();
+          finalProcessor();
         } else {
           logProcessor();
         }

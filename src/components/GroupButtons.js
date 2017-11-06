@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
 import { connect } from 'react-redux';
-import { getCurrency, setStatisticsByCurrency,
-  getExchangeProvider, setExchangeProvider } from '../actions/CurrencyAction';
+import { setStatisticsByCurrency, setConversionRate } from '../actions/CurrencyAction';
 
 class CurrencyButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currencyActiveClass: 'EUR',
+      currencyActiveClass: props.currency,
       exchangeRateDate: new Date(),
       exchangeRateActiveClass: 'NOW',
     };
@@ -101,25 +100,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, props) => ({
   setCurrency: async (currency, baseCurrency, time) => {
-    const currencyKey = `${baseCurrency}-${currency}`.toUpperCase();
-
-    let currencyValue = null;
-    let isSmartContract = false;
-    if (currencyKey === 'EUR-ETH' && props.smartContractCurrencyRate) {
-      currencyValue = props.smartContractCurrencyRate;
-      isSmartContract = true;
-    } else {
-      currencyValue = await getCurrency(currency, baseCurrency, time);
-    }
-
-    dispatch(setStatisticsByCurrency(currency, currencyValue, time));
-
-    try {
-      const provider = getExchangeProvider(currencyKey, isSmartContract);
-      dispatch(setExchangeProvider(provider.link));
-    } catch (e) {
-      dispatch(setExchangeProvider(''));
-    }
+    const conversionRate = await dispatch(setConversionRate(props.address, currency, time));
+    dispatch(setStatisticsByCurrency(currency, conversionRate, time));
   },
 });
 

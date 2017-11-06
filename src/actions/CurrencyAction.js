@@ -1,11 +1,12 @@
 import axios from 'axios';
 import moment from 'moment';
+import config from '../config';
 import { getEtherDistribution } from '../utils';
 
 export const setCurrencyAction = (currency, amount, time) =>
   ({ type: 'SET_CURRENCY', currency, value: amount, time });
 
-export const setExchangeProvider = provider => async (dispatch, getState) => {
+export const setExchangeProviderInfo = provider => async (dispatch, getState) => {
   dispatch({ type: 'SET_CURRENCY_PROVIDER', provider });
 };
 
@@ -27,14 +28,13 @@ export const getExchangeRate = async (base, to, provider, time) => {
   }
 };
 
-export const getExchangeProvider = (key, isSmartContract = false) => {
-  if (isSmartContract) {
-    return {
-      name: 'Smart Contract',
-      link: 'Smart Contract returns the currency rate',
-    };
-  }
+export const getExchangeProviderInfo = (key) => {
   switch (key) {
+    case 'ETH-EUR-SM':
+      return {
+        name: 'Smart Contract',
+        link: 'Conversion rate exists in the smart contract.',
+      };
     case 'ETH-EUR':
     case 'EUR-ETH':
     case 'ETH-USD':
@@ -52,20 +52,23 @@ export const getExchangeProvider = (key, isSmartContract = false) => {
     case 'ETH-ETH':
     case 'USD-USD':
     case 'EUR-EUR':
-      break;
+      return {
+        name: '',
+        link: '',
+      };
     default:
       throw new Error('Not supported exchange');
   }
 };
 
-export const getCurrency = async (currency, baseCurrency, time) => {
+export const getCurrencyConversionRate = async (currency, baseCurrency, time) => {
   if (currency === baseCurrency) return 1;
 
   const currencyKey = `${baseCurrency}-${currency}`.toUpperCase();
-  const provider = getExchangeProvider(currencyKey);
+  const providerInfo = getExchangeProviderInfo(currencyKey);
   const result = await getExchangeRate(baseCurrency,
     currency,
-    provider.name,
+    providerInfo.name,
     time
   );
   return result;
@@ -78,4 +81,26 @@ export const setStatisticsByCurrency = (currency, value, time) => async (dispatc
   currentStatistics.charts.investorsDistribution = distribution[0];
   currentStatistics.charts.investmentDistribution = distribution[1];
   dispatch({ type: 'DRAW_STATS', stats: currentStatistics });
+};
+
+export const setConversionRate = (address, currency, time) => async (dispatch, getState) => {
+  const icoConfig = config.ICOs[address];
+  const baseCurrency = icoConfig.baseCurrency || 'ETH';
+
+  const smartContractConversionRate = getState().ICO.icos[address].currencyRate;
+
+  let conversionRate = null;
+  let currencyProviderKey = `${baseCurrency}-${currency}`;
+
+  if (smartContractConversionRate && currencyProviderKey === 'EUR-ETH') {
+    conversionRate = smartContractConversionRate;
+    currencyProviderKey = 'ETH-EUR-SM';
+  } else {
+    conversionRate = await getCurrencyConversionRate(currency, baseCurrency, time);
+  }
+
+  const providerInfo = getExchangeProviderInfo(currencyProviderKey);
+  dispatch(setExchangeProviderInfo(providerInfo.link));
+
+  return conversionRate;
 };

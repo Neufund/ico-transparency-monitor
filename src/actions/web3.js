@@ -3,7 +3,7 @@ import { getICOParameters, isConnected, web3Connect,
   getSmartContract, getAbiAsDictionary, getTokenSmartContract } from '../utils/web3';
 import { computeICOTransparency, getICOLogs } from '../utils';
 import { initStatistics, getStatistics } from '../utils/stats';
-import { setCurrency, setStatisticsByCurrency } from './CurrencyAction';
+import { getCurrency, setStatisticsByCurrency } from './CurrencyAction';
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
   setSmartContractLoaded, setProperties, resetRpc, showIcoNotStarted } from './ScanAction';
 import { showErrorMessage } from './ModalAction';
@@ -134,7 +134,7 @@ export const getLogs = address => async (dispatch, getState) => {
       dispatch(allocateCSVFile(statistics[1]));
       const baseCurrency = icoConfig.baseCurrency || 'ETH';
       const time = new Date();
-      const currencyValue = await setCurrency('EUR', baseCurrency , time);
+      const currencyValue = await getCurrency('EUR', baseCurrency , time);
       dispatch(setStatisticsByCurrency('EUR',
         currencyValue, time));
         dispatch(showStatistics());

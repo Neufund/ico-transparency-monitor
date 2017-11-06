@@ -7,10 +7,10 @@ import getLogsDetails from '../helpers/LogsMock';
 import {
   getICODuration,
   computeICOTransparency,
-  getEtherRate,
   getValueOrNotAvailable,
   getICOLogs } from '../../src/utils';
 
+import  { getExchangeRate } from '../../src/actions/CurrencyAction';
 import {
   formatDuration,
   getStatistics,
@@ -28,7 +28,7 @@ describe('Decision Matrix', () => {
   });
 });
 
-describe('getEtherRate', () => {
+describe('getExchangeRate', () => {
   it('Should return the currency by time', async () => {
     const axiosMock = new AxiosMock(axios);
     axiosMock.onGet('https://api.coinbase.com/v2/prices/ETH-EUR/spot?date=2016-11-03T00:00:00.000Z').reply(200, {
@@ -37,9 +37,9 @@ describe('getEtherRate', () => {
       },
     });
 
-    const result = await getEtherRate('ETH-EUR', new Date('2016-11-03'));
+    const result = await getExchangeRate('ETH', 'EUR', 'coinbase', new Date('2016-11-03'));
 
-    expect(result.data.data.amount).to.equal(9);
+    expect(result).to.equal(9);
   });
 });
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
 import { connect } from 'react-redux';
-import { setCurrency, setStatisticsByCurrency, 
+import { getCurrency, setStatisticsByCurrency, 
   getExchangeProvider, setExchangeProvider } from '../actions/CurrencyAction';
 
 class CurrencyButton extends Component {
@@ -36,6 +36,7 @@ class CurrencyButton extends Component {
       default:
         throw new Error('Unknown input');
     }
+
     currency = currency || this.props.currency;
     await this.props.setCurrency(currency, this.props.baseCurrency || 'ETH', rateDate);
     this.setState({ exchangeRateActiveClass: dayClass,
@@ -90,22 +91,31 @@ class CurrencyButton extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   currency: state.currency.currency,
   currencyValue: state.currency.value,
   currencyTime: state.currency.time,
   stats: state.scan.stats,
-  provider: state.currency.provider
+  provider: state.currency.provider,
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  setCurrency: async (currency, baseCurrency, time) => { 
-    const currencyValue = await setCurrency(currency, baseCurrency, time);
+  setCurrency: async (currency, baseCurrency, time) => {
+    const currencyKey = `${baseCurrency}-${currency}`.toUpperCase();
+
+    let currencyValue = null;
+    let isSmartContract = false;
+    if(currencyKey === "EUR-ETH" && props.smartContractCurrencyRate) {
+      currencyValue = props.smartContractCurrencyRate;
+      isSmartContract = true;
+    } else {
+      currencyValue = await getCurrency(currency, baseCurrency, time);
+    }
+
     dispatch(setStatisticsByCurrency(currency, currencyValue, time));
 
-    const currencyKey = `${baseCurrency}-${currency}`.toUpperCase();
     try {
-      const provider = getExchangeProvider(currencyKey);
+      const provider = getExchangeProvider(currencyKey, isSmartContract);
       dispatch(setExchangeProvider(provider['link']));
     } catch (e){
       dispatch(setExchangeProvider(''));

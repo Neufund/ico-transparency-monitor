@@ -27,7 +27,13 @@ export const getExchangeRate = async (base, to, provider, time) => {
   }
 }
 
-export const getExchangeProvider = (key) => {
+export const getExchangeProvider = (key, isSmartContract = false) => {
+  if (isSmartContract) {
+    return {
+      name: 'Smart Contract',
+      link: 'Smart Contract returns the currency rate'
+    }
+  }
   switch(key) {
     case 'ETH-EUR':
     case 'EUR-ETH':
@@ -52,7 +58,7 @@ export const getExchangeProvider = (key) => {
   }
 };
 
-export const setCurrency = async (currency, baseCurrency, time, callback) => {
+export const getCurrency = async (currency, baseCurrency, time) => {
 
   if(currency === baseCurrency) return 1;
 

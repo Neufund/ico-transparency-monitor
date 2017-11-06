@@ -3,7 +3,8 @@ import { getICOParameters, isConnected, web3Connect,
   getSmartContract, getAbiAsDictionary, getTokenSmartContract } from '../utils/web3';
 import { computeICOTransparency, getICOLogs } from '../utils';
 import { initStatistics, getStatistics } from '../utils/stats';
-import { setCurrency, setStatisticsByCurrency } from './CurrencyAction';
+import { setStatisticsByCurrency, setConversionRate } from './CurrencyAction';
+
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
   setSmartContractLoaded, setProperties, resetRpc, showIcoNotStarted } from './ScanAction';
 import { showErrorMessage } from './ModalAction';
@@ -69,6 +70,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
   dispatch(setSmartContractLoaded(true));
 };
 
+
 export const getLogs = address => async (dispatch, getState) => {
   dispatch(showLoader());
   const web3 = getState().modal.web3;
@@ -97,6 +99,11 @@ export const getLogs = address => async (dispatch, getState) => {
     [icoConfig.tokenContract]: tokenContract,
   };
 
+  const baseCurrency = icoConfig.baseCurrency || 'ETH';
+  const initialCurrency = baseCurrency === 'EUR' ? 'ETH' : 'EUR';
+  await dispatch(readSmartContract(address));
+  const time = new Date();
+  const conversionRate = await dispatch(setConversionRate(address, initialCurrency, time));
   // load logs for all events
   const logRequests = [];
   Object.keys(icoConfig.events).forEach((eventName) => {
@@ -133,15 +140,8 @@ export const getLogs = address => async (dispatch, getState) => {
       dispatch(drawStatistics(statistics[0]));
       dispatch(allocateCSVFile(statistics[1]));
 
-      setCurrency('EUR', new Date(), (error, currencyResult) => {
-        if (error) {
-          dispatch({ type: 'SET_CURRENCY_ERROR', message: error });
-          return;
-        }
-        dispatch(setStatisticsByCurrency(currencyResult.currency,
-          currencyResult.value, currencyResult.time));
-        dispatch(showStatistics());
-      });
+      dispatch(setStatisticsByCurrency(initialCurrency, conversionRate, time));
+      dispatch(showStatistics());
     } else {
       dispatch(showIcoNotStarted());
     }

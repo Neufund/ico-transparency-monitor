@@ -1,11 +1,15 @@
 import React from 'react';
 import { formatNumber } from '../utils';
 
-export default ({ total, avgTicket, avgPrice, currency }) => (
+export default ({ total, avgTicket, avgPrice, currency, baseCurrency = null }) => (
   <div>
     <div className="stats">
       <table>
         <tbody>
+          {baseCurrency && <tr>
+            <th>ICO Base currency</th>
+            <td>{baseCurrency}</td>
+          </tr> }
           <tr>
             <th>Total amount raised in {currency}</th>
             <td>{formatNumber(total)}</td>

@@ -24,16 +24,15 @@ class InnerIcoPage extends Component {
   }
 
   componentDidMount() {
-    if (this.props.web3 && typeof config.ICOs[this.props.address] !== "undefined") {
+    if (this.props.web3 && typeof config.ICOs[this.props.address] !== 'undefined') {
       this.props.readSmartContract(this.props.address);
     }
   }
 
   render() {
-    if (typeof config.ICOs[this.props.address] === "undefined")
-      return <Error404 message={`Address ${this.props.address}`} />;
+    if (typeof config.ICOs[this.props.address] === 'undefined') { return <Error404 message={`Address ${this.props.address}`} />; }
 
-    if ( this.props.isSmartContractLoaded
+    if (this.props.isSmartContractLoaded
       && this.props.blocks && this.state.isBlockMounted === false) {
       this.setState({ isBlockMounted: true });
       this.props.getLogs(this.props.address);
@@ -45,10 +44,10 @@ class InnerIcoPage extends Component {
     const showLoader = this.props.isLoading;
     const onModalShowCallback = this.props.onModalShow;
     const icoModalData = {
-      name: name,
+      name,
       matrix: this.props.ico.matrix,
       information: this.props.ico.information,
-    }
+    };
 
     return (
       <div className="App">

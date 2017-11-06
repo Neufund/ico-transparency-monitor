@@ -1,4 +1,3 @@
-import axios from 'axios';
 import moment from 'moment';
 import jquery from './utils/jQuery';
 import config from './config';
@@ -65,8 +64,6 @@ String.prototype.capitalizeTxt = String.prototype.capitalizeTxt || function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-// coinbase requires UTC string
-export const getEtherRate = async (currency, time) => axios.get(`https://api.coinbase.com/v2/prices/${currency}/spot?date=${time.toISOString()}`);
 
 export const getValueOrNotAvailable = (props, input) => props && props[input] ? props[input] : 'Not Available';
 

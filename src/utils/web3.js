@@ -32,8 +32,6 @@ export const createEngine = rpcUrl =>
       eth_mining: false,
       eth_syncing: true,
     }),
-    // new CacheSubprovider(),
-    // new FilterSubprovider(),
     new NonceSubprovider(),
     new RpcSubprovider({ rpcUrl }),
   ]);

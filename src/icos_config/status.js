@@ -6,7 +6,7 @@ export default {
   tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
   information: {
     aliasName: 'StatusNetwork',
-    logo: 'http://status.im/img/new-site/apple-touch-icon-180.png?v=50fbb69',
+    logo: 'https://status.im/dist/img/new-site/logo-32.png?v=0001',
     website: 'https://status.im/',
   },
   events: {

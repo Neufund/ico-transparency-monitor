@@ -106,7 +106,7 @@ export const getICOParameters = async (web3, address) => {
     tokenContract : getSmartContract(web3, address);
   const icoParameters = configFile[address].icoParameters;
   Object.keys(icoParameters).forEach((prop) => {
-    if (icoParameters[prop] !== null) { result[prop] = icoParameters[prop](web3, icoContract); }
+    if (icoParameters[prop] !== null) { result[prop] = icoParameters[prop](web3, icoContract, tokenContract); }
   });
   return result;
 };
@@ -122,7 +122,7 @@ export const convertBlockNumberToDate = async (web3, blockNumber) => {
 export const convertWeb3Value = (value, type) => {
   switch (type) {
     case 'string' :return value;
-    case 'ether' :return parseFloat(value.div(10 ** 18).valueOf());
+    case 'ether' :return value.div(10 ** 18).toNumber();
     case 'timestamp' :return new Date(parseInt(value.valueOf(), 10) * 1000);
     default: throw new Error('Unexpected input');
   }

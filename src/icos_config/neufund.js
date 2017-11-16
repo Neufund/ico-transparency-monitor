@@ -62,14 +62,21 @@ export default {
     q4: { answer: true },
     q5: { answer: true },
     q6: { answer: true },
-    q7: { answer: true, comment: 'committed funds are under control of investors stored in LockedAccount contract' },
-    q8: { answer: true, comment: 'stable coin pegged 1:1 to Euro is implemented in EuroToken contract' },
-    q9: { answer: true, comment: 'withdrawal and deposit happen via bank account, this is not trustless but unavoidable' },
+    q7: { answer: true, comment: `committed funds are under control of 
+    investors stored in LockedAccount contract` },
+    q8: { answer: true, comment: `stable coin pegged 1:1 to Euro is implemented
+     in EuroToken contract` },
+    q9: { answer: true, comment: `withdrawal and deposit happen via bank account,
+     this is not trustless but unavoidable` },
     q10: { answer: true },
-    q11: { answer: true, comment: 'token holders are legally protected by combination of legal and smart contracts undeniably referencing each other' },
-    q12: { answer: true, comment: 'reward is controlled by exponential curve' },
+    q11: { answer: true, comment: `token holders are legally protected by combination 
+    of legal and smart contracts undeniably referencing each other` },
+    q12: { answer: true, comment: `reward is controlled by exponential curve` },
     q13: { answer: true },
-    q14: { answer: true, comment: 'ICO ends on specified date, there is no mechanism to stop it earlier or halt it. it should be however noted that admin may revoke ISSUER right to Commitment contract, there is however 0 incentive for platform operator to do that' },
+    q14: { answer: true, comment: `ICO ends on specified date, there is no mechanism 
+    to stop it earlier or halt it. it should be however noted that admin may revoke 
+    ISSUER right to Commitment contract, there is however 0 incentive for 
+    platform operator to do that` },
   },
   decimals: 18,
   addedBy: 'chfast',

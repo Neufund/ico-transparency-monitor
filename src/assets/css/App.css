@@ -151,8 +151,6 @@ body {
 .ico-box .name h4 {
   margin: 0;
   margin-bottom: 2px;
-
-  overflow: hidden !important;
   text-overflow: ellipsis;
 }
 
@@ -160,7 +158,6 @@ body {
   color: #000000;
   text-decoration: none;
   font-size: 22px;
-  /*line-height:39px;*/
 }
 
 .ico-box .ico-logo img {

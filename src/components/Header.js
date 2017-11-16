@@ -17,7 +17,7 @@ export default () => (
               informed decisions based on objective metrics.
             </p>
             <div>
-              We evaluate all ICOs based on their smart contracts.
+              <p>We evaluate all ICOs based on their smart contracts.</p>
               <ul>
                 <li><p>Non-transparent: this rating means that one or
                    more essential dimensions of trust and security
@@ -28,12 +28,13 @@ export default () => (
                 <li><p>Transparent: this rating means that all dimension
                   of trust and security receive a favorable rating.</p></li>
               </ul>
-              Please read detailed explanation
-              <a
-                href="https://github.com/Neufund/ico-transparency-monitor#transparency-questionnaire"
-                target="_blank"
-                rel="noopener noreferrer"
-              >here</a>.
+              <p>Please read detailed explanation
+                <a
+                  href="https://github.com/Neufund/ico-transparency-monitor#transparency-questionnaire"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                > here</a>.
+              </p>
             </div>
             <p>
                 ICO Monitor is an open platform. We take no responsibility

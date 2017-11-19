@@ -1,4 +1,4 @@
-import { toPromise } from '../utils';
+import { toPromise, formatNumber } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 import { BigNumber } from 'bignumber.js';
 
@@ -28,7 +28,7 @@ export default {
     cap: async (web3, icoContract, tokenContract) => {
       const maxCapEurBigNumber = await toPromise(icoContract.maxCapEur)();
       const neuCap = await toPromise(tokenContract.cumulative)(maxCapEurBigNumber);
-      return [`${Math.floor(convertWeb3Value(neuCap, 'ether'))} NEU`];
+      return [`${formatNumber(Math.floor(convertWeb3Value(neuCap, 'ether')))} NEU`];
     },
     startDate: async (web3, icoContract) => {
       const startDate = await toPromise(icoContract.startOf)(1);

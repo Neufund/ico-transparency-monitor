@@ -71,7 +71,7 @@ export default {
     q10: { answer: true },
     q11: { answer: true, comment: `token holders are legally protected by combination 
     of legal and smart contracts undeniably referencing each other` },
-    q12: { answer: true, comment: `reward is controlled by exponential curve` },
+    q12: { answer: true, comment: 'reward is controlled by exponential curve' },
     q13: { answer: true },
     q14: { answer: true, comment: `ICO ends on specified date, there is no mechanism 
     to stop it earlier or halt it. it should be however noted that admin may revoke 

@@ -84,14 +84,14 @@ const sortInvestorsByTicket = (investors) => {
   const sortedByTokens = [];
   const sortedByETH = [];
   Object.keys(investors).forEach((key) => {
-    const s = investors[key];
+    const investor = investors[key];
     sortedByTokens.push({
       investor: key,
-      value: s.tokens,
+      value: investor.tokens,
     });
     sortedByETH.push({
       investor: key,
-      value: s.ETH,
+      value: investor.ETH,
     });
   });
   sortedByTokens.sort((first, last) => last.value - first.value);

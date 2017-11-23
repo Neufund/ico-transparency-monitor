@@ -21,7 +21,7 @@ const config = {
     q6: {
       question: 'Is information on token price in ETH provided? (via event or in transaction?)',
       critical: true,
-      notApplicable: true,
+      notApplicable: false,
     },
     q7: { question: 'Does smart contract handle ETH in a trustless way?', critical: false, notApplicable: true },
     q8: {

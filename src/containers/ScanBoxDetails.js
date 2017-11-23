@@ -170,7 +170,7 @@ const mapStateToProps = (state, props) =>
     stats: state.scan.stats,
     ...state.ICO.icos[props.address],
     matrix: config.ICOs[props.address].matrix,
-    baseCurrency: config.ICOs[props.address].baseCurrency,
+    baseCurrency: config.ICOs[props.address].baseCurrency || 'ETH',
   });
 
 const mapDispatchToProps = dispatch => ({

@@ -415,10 +415,26 @@ a, .nav-buttons .next-list a, .nav-buttons .back-list a {
   background: #f9f8f8;
 }
 
-.ico-information a {
+.ico-information .link {
   color: #0971aa;
   text-decoration: none;
-  font-size: 16px;
+}
+
+.ico-information a {
+  font-size: 15px;
+}
+
+.ico-information a:hover {
+  text-decoration: underline;
+}
+
+.no-right-gutter {
+  padding-right: 0;
+}
+
+.ico-information .fa {
+  font-size: 10px;
+  margin-right: 3px;
 }
 
 .successful {

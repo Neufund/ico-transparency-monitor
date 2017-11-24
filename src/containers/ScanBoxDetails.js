@@ -12,6 +12,22 @@ import Chart from '../components/Chart';
 import { downloadCSV } from '../utils';
 import config from '../config';
 
+const getMedian = (moneyInEther, currencyPrice = 1) => {
+  const numbers = moneyInEther.map(number => number * currencyPrice);
+  let median = 0;
+  const numsLen = numbers.length;
+  numbers.sort();
+
+  if (numsLen % 2 === 0) { // is even
+    // average of two middle numbers
+    median = (numbers[numsLen / 2 - 1] + numbers[numsLen / 2]) / 2;
+  } else { // is odd
+    // middle number only
+    median = numbers[(numsLen - 1) / 2];
+  }
+  return median;
+};
+
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <ReactTooltip multiline />
   <Row className="statistics box-container">
@@ -85,32 +101,35 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     </Row>
 
     {props.stats.money.totalBaseCurrency !== 0 &&
-    <div>
-      <h3 className="title">Raised amount</h3>
-      <RaisedAmount
-        baseCurrency={props.baseCurrency}
-        total={props.stats.money.totalBaseCurrency}
-        currency={props.baseCurrency}
-        avgTicket={props.stats.money.totalBaseCurrency / Object.keys(props.stats.investors.senders).length}
-        avgPrice={props.stats.money.totalBaseCurrency / props.stats.money.tokenIssued}
-      />
-      <GroupButtons
-        address={props.address}
-        smartContractCurrencyRate={props.currencyRate}
-        baseCurrency={props.baseCurrency}
-        currencyValue={props.currencyValue}
-        currency={props.currency}
-      />
+      <div>
+        <h3 className="title">Raised amount</h3>
 
-      <RaisedAmount
-        total={props.stats.money.totalBaseCurrency * props.currencyValue}
-        avgTicket={(props.stats.money.totalBaseCurrency * props.currencyValue)
-        / Object.keys(props.stats.investors.senders).length}
-        avgPrice={(props.stats.money.totalBaseCurrency * props.currencyValue)
-        / props.stats.money.tokenIssued}
-        currency={props.currency}
-      />
-    </div>}
+        <RaisedAmount
+          baseCurrency={props.baseCurrency}
+          total={props.stats.money.totalBaseCurrency}
+          currency={props.baseCurrency}
+          avgTicket={props.stats.money.totalBaseCurrency / Object.keys(props.stats.investors.senders).length}
+          avgPrice={props.stats.money.totalBaseCurrency / props.stats.money.tokenIssued}
+          medianTicketSize={getMedian(props.investedMoney)}
+        />
+        <GroupButtons
+          address={props.address}
+          smartContractCurrencyRate={props.currencyRate}
+          baseCurrency={props.baseCurrency}
+          currencyValue={props.currencyValue}
+          currency={props.currency}
+        />
+
+        <RaisedAmount
+          total={props.stats.money.totalBaseCurrency * props.currencyValue}
+          avgTicket={(props.stats.money.totalBaseCurrency * props.currencyValue)
+            / Object.keys(props.stats.investors.senders).length}
+          avgPrice={(props.stats.money.totalBaseCurrency * props.currencyValue)
+            / props.stats.money.tokenIssued}
+          currency={props.currency}
+          medianTicketSize={getMedian(props.investedMoney, props.currencyValue)}
+        />
+      </div>}
 
     <div className="section-top">
       <h3 className="title">
@@ -167,10 +186,11 @@ const mapStateToProps = (state, props) =>
   ({
     currency: state.currency.currency,
     currencyValue: state.currency.value,
+    investedMoney: state.scan.stats.investors.sortedByETH.map(investor => investor.value),
     stats: state.scan.stats,
     ...state.ICO.icos[props.address],
     matrix: config.ICOs[props.address].matrix,
-    baseCurrency: config.ICOs[props.address].baseCurrency,
+    baseCurrency: config.ICOs[props.address].baseCurrency || 'ETH',
   });
 
 const mapDispatchToProps = dispatch => ({

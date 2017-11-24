@@ -18,7 +18,6 @@ export default {
       },
       firstTransactionBlockNumber: 4357050, // 4357229
       lastTransactionBlockNumber: null, // follow last block
-      // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
       maxBlocksInChunk: 12960,
       countTransactions: true,
     },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatNumber } from '../utils';
 
-export default ({ total, avgTicket, avgPrice, currency, baseCurrency = null }) => (
+export default ({ total, avgTicket, avgPrice, currency, medianTicketSize, baseCurrency = null }) => (
   <div>
     <div className="stats">
       <table>
@@ -17,6 +17,10 @@ export default ({ total, avgTicket, avgPrice, currency, baseCurrency = null }) =
           <tr>
             <th>Average ticket in {currency}</th>
             <td>{formatNumber(avgTicket)}</td>
+          </tr>
+          <tr>
+            <th>Median ticket size in {currency}</th>
+            <td>{formatNumber(medianTicketSize)}</td>
           </tr>
           <tr>
             <th>Average token price in {currency}</th>

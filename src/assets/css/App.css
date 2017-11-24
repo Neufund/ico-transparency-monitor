@@ -694,8 +694,17 @@ a.back-main {
 
 /* Mobile */
 @media only screen and (max-device-width: 767px) {
-  .container {
+  .container , .row {
     margin: 0;
+  }
+
+  .footer-text {
+    margin: 0;
+    padding: 20px;
+  }
+
+  .ico-box-container {
+    padding-top: 15px;
   }
 
   .hide-xs {

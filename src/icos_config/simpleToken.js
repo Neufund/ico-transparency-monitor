@@ -7,8 +7,8 @@ export default {
   baseCurrency: 'ETH',
   information: {
     aliasName: 'SimpleToken',
-    website: 'https://ico.relest.io/',
-    logo: 'https://ico.relest.io/assets/images/favicon.png',
+    website: 'https://simpletoken.org/',
+    logo: 'https://d36lai1ppm9dxu.cloudfront.net/assets/fav-icon/v2/64.png',
   },
   events: {
     TokensPurchased: {

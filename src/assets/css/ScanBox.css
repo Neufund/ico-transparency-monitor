@@ -1,9 +1,9 @@
-.scanbox{
+.scanbox {
   background-color: #F7F8F9;
   padding-top:0px;
 }
 
-.section-top{
+.section-top {
   margin-top: 20px;
 }
 
@@ -17,7 +17,7 @@
   line-height: 24px;
 }
 
-textarea.console{
+textarea.console {
   height: 50px;
   width: 100%;
   font-size: large;
@@ -38,14 +38,15 @@ textarea.console{
   font-size:large;
 }
 
-.scan-content .token-distribution-table{
+.scan-content .token-distribution-table {
   padding: 20px;
 }
-.box-container{
+
+.box-container {
   margin-bottom: 40px;
 }
 
-.scanbox-details .statistics .title , .scan-content .title{
+.scanbox-details .statistics .title , .scan-content .title {
   color: #000000;
   font-family: 'Montserrat';
   font-size: 22px;
@@ -62,7 +63,8 @@ textarea.console{
 .scanbox-details .stats {
   margin-bottom: 30px;
 }
-.scanbox-details .stats table{
+
+.scanbox-details .stats table {
   margin-left:39px;
 }
 
@@ -78,7 +80,7 @@ textarea.console{
   cursor: pointer;
 }
 
-.scanbox-details .tooltip::after{
+.scanbox-details .tooltip::after {
   content: "\f05a";
   font-family: FontAwesome;
   font-size: 20px;
@@ -89,7 +91,7 @@ textarea.console{
 .inner-table {
   margin-left:80px !important;
 }
-.inner-table  table th{
+.inner-table  table th {
   padding-left: 50px !important;;
 }
 
@@ -107,6 +109,7 @@ textarea.console{
 .table-responsive {
   -webkit-overflow-scrolling: touch;
 }
+
 .table-responsive table {
   width: 100%;
   min-width: 35.5em;
@@ -136,7 +139,7 @@ textarea.console{
   font-size: 0.875em;
 }
 
-.alarm{
+.alarm {
   margin-top: 5px;
   margin-bottom: 5px;
   background: #f9f9f9;
@@ -146,22 +149,22 @@ textarea.console{
   text-align: center;
 }
 
-.alarm-middle{
+.alarm-middle {
   vertical-align: middle;
   position: absolute;
   top: 40%;
   width:100%;
 }
 
-.relative{
+.relative {
   position: relative;
 }
 
-.full-height{
+.full-height {
   height: 100%;
 }
 
-.table{
+.table {
   width: 100%;
   border: solid thin;
   border-collapse: collapse;
@@ -181,44 +184,44 @@ textarea.console{
   text-align: center;
 
 }
-.table td , .table th{
+.table td , .table th {
   border: solid thin;
   padding: 0.5rem 2rem;
 }
 
-.ico-scan-header{
+.ico-scan-header {
   background: white;
   padding-top:20px;
   padding-left:20px;
 }
 
-.ico-scan-header .ico-logo{
+.ico-scan-header .ico-logo {
   text-align: center;
   line-height: 75px;
 }
 
-.ico-scan-header .ico-logo img, .ico-box  .name  .ico-logo img{
+.ico-scan-header .ico-logo img, .ico-box  .name  .ico-logo img {
   height: 36.8px;
   width: auto;
 }
 
-.ico-scan-header .name h4{
+.ico-scan-header .name h4 {
   margin: 0px;
   margin-bottom: 2px;
 }
 
-.ico-scan-header .name h4 a{
+.ico-scan-header .name h4 a {
   color: #000000;
   text-decoration: none;
   font-size: 22px;
   /*line-height:39px;*/
 }
 
-.ico-scan-header .ico-logo img{
+.ico-scan-header .ico-logo img {
   float: left;
 }
 
-.ico-scan-header .name{
+.ico-scan-header .name {
   height: 40px;
   color: #4A4A4A;
   font-size: 14px;
@@ -231,7 +234,7 @@ textarea.console{
   padding-right: 0px;
 }
 
-.scan-message-loading p{
+.scan-message-loading p {
   width: 80%;
   margin: auto;
   padding-top: 33px;
@@ -249,18 +252,18 @@ textarea.console{
   width: 100%;
 }
 
-.chart-parent .x-axis-label{
+.chart-parent .x-axis-label {
   position: absolute;
   right: 0;
   bottom: 0;
   font-size: 13px;
 }
 
-.chart-parent .title{
+.chart-parent .title {
   text-align: center;
 }
 
-.chart-parent .y-axis-label{
+.chart-parent .y-axis-label {
   position: absolute;
   top: 40px;
   left: 20px;
@@ -275,29 +278,32 @@ textarea.console{
   cursor: pointer;
 }
 
-.chart-btn .fa{
+.chart-btn .fa {
   margin-right: 10px;
 }
 
-.scanbox-details-parameters{
+.scanbox-details-parameters {
   padding-top: 20px;
   border-top: 1px solid #e5e7e9;
 }
 
-.font-light{
+.font-light {
   font-weight: 300;
 }
 
-.part-status{
+.part-status {
   padding-right: 20px !important;
 }
 
-.right .title-status{
+.right .title-status {
   text-align: right;
 }
 
+.section {
+  padding-top: 20px; 
+}
 
-@media(min-width:767px){
+@media(min-width:767px) {
   .scanbox-details .stats table td {
     padding-left:150px;
   }

@@ -2,7 +2,7 @@ import React from 'react';
 import { formatNumber } from '../utils';
 
 export default ({ tokenIssued, tokensOverflow, totalInvestors, totalTransactions }) => (
-  <div >
+  <div className="section">
     <h3 className="title">
       <span
         className="tooltip"

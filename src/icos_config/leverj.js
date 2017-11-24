@@ -23,7 +23,6 @@ export default {
   icoParameters: {
     cap: async (web3, icoContract) => 'not provided',
     startDate: async (web3, icoContract) => {
-      console.log(icoContract);
       const startBlock = await toPromise(icoContract.startBlock)();
       return (await convertBlockNumberToDate(web3, startBlock)).formatDate();
     },
@@ -39,7 +38,7 @@ export default {
 
       const endBlock = await toPromise(icoContract.endBlock)();
       const endDate = (await convertBlockNumberToDate(web3, endBlock)).getTime() / 1000;
-      console.log(startBlock.valueOf(),startDate, endBlock.valueOf(), endDate, now)
+
       if (now < startDate) {
         return 'not started';
       } else if (now >= startDate && now <= endDate) {

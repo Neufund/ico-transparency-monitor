@@ -19,6 +19,7 @@ export default {
       },
       firstTransactionBlockNumber: 4551199,
       lastTransactionBlockNumber: null,
+      maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
       countTransactions: true,
     },
   },
@@ -54,18 +55,18 @@ export default {
     q4: { answer: true },
     q5: { answer: true },
     q6: { answer: true },
-    q7: { answer: true },
+    q7: { answer: false, comment: `Several deals are added without sending ETH via addPresale method that allocated additional tokens.
+    No information was provided on deal size. We do not track those tokens.` },
     q8: { answer: true },
     q9: { answer: true },
     q10: { answer: true },
     q11: { answer: true },
-    q12: { answer: false, comment: `The smart contract could change TOKENS PER KETHER 
-    during the phase 1 and phase 2 of the ICO` },
+    q12: { answer: true },
     q13: { answer: true },
     q14: { answer: false, comment: `The sale end time is initially defined by 
     the END_TIME constant but it may get extended if the sale is paused by the admin or the owner.` },
   },
   decimals: 18,
-  addedBy: 'Mostafa balata',
+  addedBy: 'Mostafa Balata',
   dateAdded: '23-11-2017',
 };

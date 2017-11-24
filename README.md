@@ -75,11 +75,11 @@ To help assess ICO issues we answer following set of questions for ICOs we list 
 
 5. Does smart contract provide all tracking data via events? (if it is easy to read accounts, tokens, and token price from events)
 
-6. Is information on token price in ETH provided? (via event or in transaction?)
+6. Is information on token price in ETH provided on every transaction? (via event or in transaction?)
 
 7. Does smart contract handle ETH in a trustless way? Is ETH really sent to ICO smart contract in a transaction or we need to trust some backend on it?
 
-8. If ICO is using other currencies is information on token price provided? (future ICOs may use tokens or tokenized fiat currencies as base currency for the ICO)
+8. If ICO is using other currencies is information on token price provided on every transaction? (future ICOs may use tokens or tokenized fiat currencies as base currency for the ICO)
 
 9. Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies? (like Melonport's EURO Token)
 

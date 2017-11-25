@@ -5,7 +5,7 @@ import GeneralDates from '../../src/components/GeneralDates';
 import RaisedAmount from '../../src/components/RaisedAmount';
 import TokenIssued from '../../src/components/TokenIssued';
 import TokenDistribution from '../../src/components/TokenDistribution';
-import  { getMedian } from '../../src/containers/ScanBoxDetails';
+import { getMedian } from '../../src/containers/ScanBoxDetails';
 
 describe('<TimeDetails/>', () => {
   it('should render', () => {
@@ -115,24 +115,24 @@ describe('Median', () => {
   it('should return median with odd array length', () => {
     const numbers = [1, 2, 3, 4, 5, 6, 7];
     const result = getMedian(numbers);
-    expect(result).to.equal(4)
+    expect(result).to.equal(4);
   });
 
   it('should return median with even array length', () => {
     const numbers = [1, 2, 3, 4, 5, 6, 7, 8];
     const result = getMedian(numbers);
-    expect(result).to.equal(4.5)
+    expect(result).to.equal(4.5);
   });
 
   it('should return median with not sorted array that has even length', () => {
     const numbers = [8, 5, 3, 4, 2, 6, 7, 1];
     const result = getMedian(numbers);
-    expect(result).to.equal(4.5)
+    expect(result).to.equal(4.5);
   });
 
   it('should return median with not sorted array that has odd length', () => {
-    const numbers = [8, 5, 3, 4, 2, 6, 7, 8 , 9];
+    const numbers = [8, 5, 3, 4, 2, 6, 7, 8, 9];
     const result = getMedian(numbers);
-    expect(result).to.equal(6)
+    expect(result).to.equal(6);
   });
-})
+});

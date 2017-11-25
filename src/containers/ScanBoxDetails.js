@@ -12,17 +12,14 @@ import Chart from '../components/Chart';
 import { downloadCSV } from '../utils';
 import config from '../config';
 
-export const getMedian = (moneyInEther, currencyPrice = 1) => {
-  const numbers = moneyInEther.map(number => number * currencyPrice);
+export const getMedian = (numbers) => {
   let median = 0;
   const numsLen = numbers.length;
-  numbers.sort((a , b) => { 
-    return b - a 
-  });
+  numbers.sort((a, b) => b - a);
 
   if (numsLen % 2 === 0) { // is even
     // average of two middle numbers
-    median = (numbers[(numsLen / 2) - 1] + numbers[numsLen / 2]) / 2;
+    median = (numbers[numsLen / 2 - 1] + numbers[numsLen / 2]) / 2;
   } else { // is odd
     // middle number only
     median = numbers[(numsLen - 1) / 2];
@@ -129,7 +126,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           avgPrice={(props.stats.money.totalBaseCurrency * props.currencyValue)
             / props.stats.money.tokenIssued}
           currency={props.currency}
-          medianTicketSize={getMedian(props.investedMoney, props.currencyValue)}
+          medianTicketSize={getMedian(props.investedMoney) * props.currencyValue}
         />
       </div>}
 

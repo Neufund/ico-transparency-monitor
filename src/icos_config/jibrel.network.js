@@ -14,7 +14,7 @@ export default {
   },
   matrix: {
     q1: {
-      answer: true, comment: 'Assumed. There was audit on crowdsale smart contract code.'},
+      answer: true, comment: 'Assumed. There was audit on crowdsale smart contract code.' },
     q2: { answer: false, comment: `Smart contract code was removed from github (https://github.com/jibrelnetwork/jibrel-contracts),
       we also could not find the audited code mentioned in blog. Sale page returns cloudflare error invalid cert (https://sale.jibrel.network/).` },
     q3: { answer: false },

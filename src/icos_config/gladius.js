@@ -1,9 +1,16 @@
 import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
+/*
+  please note that GLA has another fundraiser with identical code where they've got 3500 ETH
+  you can swith with mods below
+  crowdSaleTokenContract: '0x57BFfFD48366F78e787e167419C8c05CDb849EdE',
+  tokenContract: '0x4632d1c31c5D9E28E84eAE0173B3aFc9acA81aC8',
+  _from: '0x4632d1c31c5D9E28E84eAE0173B3aFc9acA81aC8',
+  address: '0x4632d1c31c5D9E28E84eAE0173B3aFc9acA81aC8'
+*/
+
 export default {
-  // crowdSaleTokenContract: '0x57BFfFD48366F78e787e167419C8c05CDb849EdE',
-  // tokenContract: '0x4632d1c31c5D9E28E84eAE0173B3aFc9acA81aC8',
   crowdSaleTokenContract: '0xaaf4281fd8142dC3263b3303b0a6F62d00B2D07E',
   tokenContract: '0x71d01db8d6a2fbea7f8d434599c237980c234e4c',
   information: {
@@ -18,14 +25,12 @@ export default {
         sender: '_to',
       },
       customArgs: {
-        // _from: '0x4632d1c31c5D9E28E84eAE0173B3aFc9acA81aC8',
         _from: '0x71d01db8d6a2fbea7f8d434599c237980c234e4c'
       },
       firstTransactionBlockNumber: 4365348,
       lastTransactionBlockNumber: null,
       maxBlocksInChunk: 52960,
       countTransactions: true,
-      // address: '0x4632d1c31c5D9E28E84eAE0173B3aFc9acA81aC8'
       address: '0x71d01db8d6a2fbea7f8d434599c237980c234e4c'
     },
   },
@@ -53,7 +58,7 @@ export default {
         return 'in pre-sale';
       }
       const stage = await toPromise(icoContract.stage)();
-      if (stage == 3) {
+      if (stage === 3) {
         return 'successful';
       }
       const endTs = await toPromise(icoContract.crowdsaleEnd)();

@@ -14,9 +14,9 @@ export default {
   },
   matrix: {
     q1: {
-      answer: true, comment: 'Assumed. There was audit on crowdsale smart contract code.' },
+      answer: false, comment: 'There was audit on crowdsale smart contract code, however process on sale.jibrel.network indicated backend driven fundraiser.' },
     q2: { answer: false, comment: `Smart contract code was removed from github (https://github.com/jibrelnetwork/jibrel-contracts),
-      we also could not find the audited code mentioned in blog. Sale page returns cloudflare error invalid cert (https://sale.jibrel.network/).` },
+      we also could not find the audited code mentioned in blog. Sale page returned cloudflare error invalid cert (https://sale.jibrel.network/), as of 26.11.2017 it works again.` },
     q3: { answer: false },
     q4: { answer: null },
     q5: { answer: null },

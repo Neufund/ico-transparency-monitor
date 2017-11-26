@@ -50,7 +50,7 @@ export default {
       if (now < begTs) {
         return 'not started';
       } else if (now >= begTs && now <= presaleEndTs) {
-        return 'pre-sale in progress';
+        return 'in pre-sale';
       }
       const stage = await toPromise(icoContract.stage)();
       if (stage == 3) {
@@ -58,23 +58,25 @@ export default {
       }
       const endTs = await toPromise(icoContract.crowdsaleEnd)();
       if (now > presaleEndTs && now <= endTs) {
-       return 'crowdsale in progress';
+       return 'in crowdsale';
       }
-      return "failed due to min cap";
+      return "failed (min cap)";
     },
   },
   matrix: {
-    q1: { answer: true },
+    q1: { answer: true, comment: `Please note that there was another Gladius fundraiser at address 0x57BFfFD48366F78e787e167419C8c05CDb849EdE 
+    and another GL token at 0x4632d1c31c5D9E28E84eAE0173B3aFc9acA81aC8 where around 3500 ETH was raised.` },
     q2: { answer: true },
     q3: { answer: true },
     q4: { answer: true },
-    q5: { answer: true },
+    q5: { answer: true, comment: `Could be better! Crowdsale contract could provide all the info. Instead we must use Transfer event from token.
+    It can cause small problem if ETH is sent above maxAmount and part is returned.` },
     q6: { answer: true },
     q7: { answer: true },
     q8: { answer: null },
     q9: { answer: null },
     q10: { answer: true },
-    q11: { answer: true },
+    q11: { answer: true, comment: `Please note 1. refund does not apply to pre-sale. 2. there are pre-allocated tokens. However overall contract is nicely trustless.` },
     q12: { answer: true },
     q13: { answer: true },
     q14: { answer: true },

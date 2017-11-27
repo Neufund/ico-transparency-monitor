@@ -3,7 +3,7 @@ import { toPromise } from '../utils';
 export default {
   crowdSaleTokenContract: '0x80fB784B7eD66730e8b1DBd9820aFD29931aab03',
   information: {
-    aliasName: 'Ethlend',
+    name: 'Ethlend',
     website: 'https://ethlend.io/',
     logo: 'https://s3.ap-south-1.amazonaws.com/ethlend-assets/static/img/favicons/apple-touch-icon.png',
   },

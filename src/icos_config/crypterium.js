@@ -1,7 +1,7 @@
 export default {
   crowdSaleTokenContract: '0x246023fcBEf2465C8E562a2b3a046eBa492d39B1',
   information: {
-    aliasName: 'Crypterium',
+    name: 'Crypterium',
     website: 'https://crypterium.io',
     logo: 'https://crypterium.io/favicon.ico',
   },

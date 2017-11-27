@@ -1,7 +1,7 @@
 export default {
   crowdSaleTokenContract: 'jibrel-smart-contract-not-provided',
   information: {
-    aliasName: 'Jibrel Network',
+    name: 'Jibrel Network',
     logo: 'https://jibrel.network/assets/img/favicon.png',
     website: 'https://jibrel.network/',
   },

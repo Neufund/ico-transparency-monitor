@@ -3,7 +3,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import { icoTransparencyMap, isCorrectTokenAddress } from '../utils';
 
 export default (props) => {
-  const { address, information, name, addedBy, decision, onModalShow, tokenContract, icoModalData } = props;
+  const { address, information, addedBy, decision, onModalShow, tokenContract, icoModalData } = props;
   return (
     <Row>
       <Grid className="ico-scan-header">
@@ -16,7 +16,7 @@ export default (props) => {
                     <img src={information.logo} alt="" />
                   </div>
                   <div className="ico-information">
-                    <h4><a href={`/#/${address}`}> {name || information.aliasName}</a></h4>
+                    <h4><a href={`/#/${address}`}> { information.name }</a></h4>
                     <a
                       className="link"
                       rel="noopener noreferrer"

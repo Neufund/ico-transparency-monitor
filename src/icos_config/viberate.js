@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0x91c94bee75786fbbfdcfefba1102b68f48a002f4',
   tokenContract: '0x2c974b2d0ba1716e644c1fc59982a89ddd2ff724',
   information: {
-    aliasName: 'Vibe',
+    name: 'Viberate',
     website: 'https://www.viberate.com/',
     logo: 'https://viberateassets.azureedge.net/favicon.ico',
   },

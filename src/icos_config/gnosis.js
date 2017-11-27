@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0x1d0dcc8d8bcafa8e8502beaeef6cbd49d3affcdc',
   tokenContract: '0x6810e776880C02933D47DB1b9fc05908e5386b96',
   information: {
-    aliasName: 'Gnosis',
+    name: 'Gnosis',
     website: 'https://gnosis.pm/',
     logo: 'https://coindexter.s3.amazonaws.com/uploads/network/logo/59/gnosis.png',
   },

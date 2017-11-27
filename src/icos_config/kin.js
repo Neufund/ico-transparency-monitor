@@ -1,7 +1,7 @@
 export default {
   crowdSaleTokenContract: 'kin-smart-contract-not-provided',
   information: {
-    aliasName: 'Kin',
+    name: 'Kin',
     logo: 'https://kin.kik.com/favicon-32x32.png',
     website: 'https://kin.kik.com/',
   },

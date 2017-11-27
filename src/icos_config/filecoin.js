@@ -1,7 +1,7 @@
 export default {
   crowdSaleTokenContract: 'filescoin-smart-contract-not-provided',
   information: {
-    aliasName: 'Filecoin ETH fundraiser',
+    name: 'Coinlist',
     logo: 'https://pbs.twimg.com/profile_images/489720503892856832/XZt8MkUk.png',
     website: 'https://coinlist.co/',
   },

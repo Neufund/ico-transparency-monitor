@@ -4,7 +4,7 @@ import { convertBlockNumberToDate } from '../utils/web3';
 export default {
   crowdSaleTokenContract: '0xa74476443119a942de498590fe1f2454d7d4ac0d',
   information: {
-    aliasName: 'Golem Network Token',
+    name: 'Golem',
     website: 'https://golem.network/',
     logo: 'https://golem.network/icons/apple-touch-icon.png',
   },

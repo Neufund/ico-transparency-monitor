@@ -4,7 +4,7 @@ import { convertWeb3Value } from '../utils/web3';
 export default {
   crowdSaleTokenContract: '0xD566Fa4a696EAc66f749f7fe999D6673fEe2026c',
   information: {
-    aliasName: 'CHEX Token',
+    name: 'CHEX',
     logo: 'https://tokensale.thechex.com/images/chex-token.jpg',
     website: 'https://tokensale.thechex.com',
   },

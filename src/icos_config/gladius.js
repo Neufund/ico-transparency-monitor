@@ -14,7 +14,7 @@ export default {
   crowdSaleTokenContract: '0xaaf4281fd8142dC3263b3303b0a6F62d00B2D07E',
   tokenContract: '0x71d01db8d6a2fbea7f8d434599c237980c234e4c',
   information: {
-    aliasName: 'Gladius',
+    name: 'Gladius',
     website: 'https://gladius.io/',
     logo: 'https://gladius.io/favicon/android-icon-192x192.png',
   },

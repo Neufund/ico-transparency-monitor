@@ -8,8 +8,6 @@ import { readSmartContract } from '../actions/web3';
 import { resetRpc } from '../actions/ScanAction';
 import { isConnected } from '../utils/web3';
 
-const extractHostnameFromUrl = url => url.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '').replace('/', '');
-
 export class IcoDataRow extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +35,7 @@ export class IcoDataRow extends Component {
                       <img src={information.logo} alt="" />
                     </div>
                     <div className="ico-information">
-                      <h4><a href={`/#/${address}`}>{ name || information.aliasName }</a></h4>
+                      <h4><a href={`/#/${address}`}>{ information.name }</a></h4>
                       <div className="link">
                         <span><i className="fa fa-external-link" aria-hidden="true" /></span>
                         <a

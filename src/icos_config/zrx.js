@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0xd4FD252d7D2C9479a8d616F510eAC6243B5DDdf9',
   tokenContract: '0xE41d2489571d322189246DaFA5ebDe1F4699F498',
   information: {
-    aliasName: '0x Protocol Token',
+    name: '0x Protocol',
     website: 'https://0xproject.com/',
     logo: 'https://0xproject.com/images/favicon/favicon-2-32x32.png',
   },

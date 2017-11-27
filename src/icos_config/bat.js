@@ -4,7 +4,7 @@ import { convertWeb3Value, convertBlockNumberToDate } from '../utils/web3';
 export default {
   crowdSaleTokenContract: '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
   information: {
-    aliasName: 'Basic Attention Token',
+    name: 'Basic Attention Token',
     website: 'https://basicattentiontoken.org/',
     logo: 'https://basicattentiontoken.org/images/BAT_logo_color_sansBAT.png',
   },

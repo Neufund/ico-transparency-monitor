@@ -11,6 +11,14 @@ const TopHeader = () => (
         <Col md={12} >
           <h4 className="App-name">ICO Transparency Monitor</h4>
           <span className="powerd-by-neufund ">Powered by <a href="https://neufund.org" target="_blank" rel="noopener noreferrer">Neufund</a> </span>
+          <a
+            href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor"
+            target="_blank"
+            className="btn-blue pull-right"
+            rel="noopener noreferrer"
+          >
+            Submit an ICO
+          </a>
         </Col>
       </Row>
     </Grid>

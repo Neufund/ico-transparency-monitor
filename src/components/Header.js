@@ -41,13 +41,6 @@ export default () => (
                  for the information published or data provided.
                 We also do not assume any liability of their correctness.
             </p>
-            <a
-              href="https://github.com/Neufund/ico-transparency-monitor#adding-custom-icos-to-the-transparency-monitor"
-              target="_blank"
-              className="add-new-ico"
-              rel="noopener noreferrer"
-            >
-              <i className="fa fa-plus" aria-hidden="true" />Submit New ICO or Update HERE! for free</a>
           </Col>
         </Row>
       </Grid>

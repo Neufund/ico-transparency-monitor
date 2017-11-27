@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0x96a0599930a67f72c713e6566687960882c5f7f9',
   tokenContract: '0x9e88613418cf03dca54d6a2cf6ad934a78c7a17a',
   information: {
-    name: 'Swarm',
+    name: 'Swarm Fund',
     logo: 'https://tokenmarket.net/blockchain/ethereum/assets/swarm-fund/logo_big.png',
     website: 'https://www.swarm.fund/',
   },
@@ -42,7 +42,7 @@ export default {
     q4: { answer: true, comment: 'Code verifies. Solidity 0.4.14 was used, contrary to documentation' },
     q5: { answer: true },
     q6: { answer: true },
-    q7: { answer: false, comment: 'Tokens can be generated in presaleMint without sending ETH.' },
+    q7: { answer: true, comment: 'Tokens can be generated in presaleMint without sending ETH, however its done before ICO starts so we treat is a token pre-allocation' },
     q8: { answer: null, comment: 'Does not seem any other currency besides ETH was accepted, except pre-sale which was not public (probably)' },
     q9: { answer: null },
     q10: { answer: true },

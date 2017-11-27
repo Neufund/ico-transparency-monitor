@@ -865,3 +865,20 @@ a.back-main {
     height: auto !important;
   }
 }
+
+.btn-blue {
+  background: #0971a1;
+  color: #fff;
+  border: 0;
+  border-radius: 5px;
+  width: 98px;
+  line-height: 35px;
+  font-size: 14px;
+  position: absolute;
+  top: 17px;
+  right: 10px;
+  box-shadow: 0 2px 4px 0 #bbc2c7;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}

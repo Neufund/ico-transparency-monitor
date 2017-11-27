@@ -45,7 +45,7 @@ export class IcoDataRow extends Component {
                           target="_blank"
                           href={information.website}
                           onClick={e => e.stopPropagation()}
-                        >{extractHostnameFromUrl(information.website)}</a>
+                        >ICO Page</a>
                       </div>
                     </div>
                   </div>

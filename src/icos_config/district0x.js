@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0xF8094e15c897518B5Ac5287d7070cA5850eFc6ff',
   tokenContract: '0x0abdace70d3790235af448c88547603b945604ea',
   information: {
-    aliasName: 'district0x',
+    aliasName: 'district0x Network Token',
     logo: 'https://district0x.io/images/favicon.png',
     website: 'https://district0x.io/',
   },

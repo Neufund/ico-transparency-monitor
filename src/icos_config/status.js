@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0x55d34b686aa8C04921397c5807DB9ECEdba00a4c',
   tokenContract: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
   information: {
-    aliasName: 'StatusNetwork',
+    aliasName: 'Status Network Token',
     logo: 'https://status.im/dist/img/new-site/logo-32.png?v=0001',
     website: 'https://status.im/',
   },

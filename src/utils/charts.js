@@ -39,16 +39,17 @@ export default (chartId, title, xLabel, yLabel) => {
     ctx.fill();
     ctx.font = '10px Montserrat';
     ctx.fillText(yLabel, 20, 70);
-    ctx.fillText(xLabel, canvas.width / 2, canvas.height - 10);
+    ctx.fillText(xLabel, canvas.width / 2, canvas.height - 30);
 
     ctx.font = '20px Montserrat';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     ctx.fillText(title, canvas.width / 2, 30);
 
-    ctx.font = '30px Montserrat';
+    ctx.font = '15px Montserrat';
     ctx.fillStyle = gradient;
-    ctx.fillText('Powered by Neufund', canvas.width / 2, (canvas.height / 2) - 40);
+    ctx.textAlign = 'left';
+    ctx.fillText('Powered by neufund.org', 15, canvas.height - 15);
 
     canvas.toBlob((blob) => {
       saveAs(blob, `${chartId}.png`);

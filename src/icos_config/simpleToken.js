@@ -6,7 +6,7 @@ export default {
   tokenContract: '0x2c4e8f2d746113d0696ce89b35f0d8bf88e0aeca',
   baseCurrency: 'ETH',
   information: {
-    aliasName: 'SimpleToken',
+    aliasName: 'Simple Token',
     website: 'https://simpletoken.org/',
     logo: 'https://d36lai1ppm9dxu.cloudfront.net/assets/fav-icon/v2/64.png',
   },

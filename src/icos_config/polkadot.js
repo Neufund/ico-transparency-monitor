@@ -6,7 +6,7 @@ export default {
   baseCurrency: 'ETH',
   tokenContract: '0xb59f67a8bff5d8cd03f6ac17265c550ed8f33907',
   information: {
-    aliasName: 'DOT',
+    aliasName: 'DOT Allocation Indicator',
     website: 'https://polkadot.io/',
     logo: 'https://polkadot.io/apple-touch-icon.png',
   },

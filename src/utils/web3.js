@@ -13,6 +13,10 @@ const engineWithProviders = (providers) => {
   return engine;
 };
 
+export function isNeufundAddress(address) {
+  return address === '0xf432cec23b2a0d6062b969467f65669de81f4653';
+}
+
 // TODO: Find another solution
 export const isConnected = () => {
   if (process.env.NODE_ENV === 'test') {

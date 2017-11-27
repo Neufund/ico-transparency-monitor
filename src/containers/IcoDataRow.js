@@ -6,7 +6,7 @@ import config from '../config';
 import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import { readSmartContract } from '../actions/web3';
 import { resetRpc } from '../actions/ScanAction';
-import { isConnected } from '../utils/web3';
+import { isConnected, isNeufundAddress } from '../utils/web3';
 
 const extractHostnameFromUrl = url => url.replace(/(^\w+:|^)\/\//, '').replace(/^www\./, '').replace('/', '');
 
@@ -24,6 +24,8 @@ export class IcoDataRow extends Component {
     const { address, information, name, cap,
       startDate, endDate, status, addedBy,
       decision, onModalShowCallback } = this.props;
+
+    const eventName = isNeufundAddress(address) ? 'ICBM' : 'ICO';
 
     return (
       <Row className="ico-container">
@@ -45,7 +47,7 @@ export class IcoDataRow extends Component {
                           target="_blank"
                           href={information.website}
                           onClick={e => e.stopPropagation()}
-                        >ICO Page</a>
+                        >{eventName} Page</a>
                       </div>
                     </div>
                   </div>

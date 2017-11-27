@@ -18,6 +18,7 @@ export default (props) => {
                   <div className="ico-information">
                     <h4><a href={`/#/${address}`}> {name || information.aliasName}</a></h4>
                     <a
+                      className="link"
                       rel="noopener noreferrer"
                       target="_blank"
                       href={information.website}

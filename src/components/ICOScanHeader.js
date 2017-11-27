@@ -17,7 +17,12 @@ export default (props) => {
                   </div>
                   <div className="ico-information">
                     <h4><a href={`/#/${address}`}> {name || information.aliasName}</a></h4>
-                    <a className="link" rel="noopener noreferrer" target="_blank" href={information.website} >{information.website}</a>
+                    <a
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      href={information.website}
+                      onClick={e => e.stopPropagation()}
+                    >ICO Page</a>
                     {isCorrectTokenAddress(address) && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View ICO contract on etherscan</a>}
                     {tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/token/${tokenContract}`} >View token contract on etherscan</a>}
                   </div>

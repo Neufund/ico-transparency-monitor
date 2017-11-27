@@ -76,16 +76,19 @@ export class IcoDataRow extends Component {
                   <p className="title added-by-person">Added by <b>{addedBy || 'Person'}</b></p>
                   <button
                     href={name}
-                    className={`transparency-button ${getValueOrDefault(decision)}-status-bottom`}
+                    className={`btn-gray btn-see-score ${getValueOrDefault(decision)}-status-bottom`}
                     onClick={(e) => {
                       e.stopPropagation();
                       onModalShowCallback(this.props);
                     }}
                   >
-                    <p>See more on the score</p>
-                    <strong> {icoTransparencyMap[getValueOrDefault(decision).toUpperCase()]}
-                    </strong>
-                    <span className="arrow">&#8594;</span>
+                    <p>see <strong>SCORE</strong></p>
+                  </button>
+                  <button
+                    href={name}
+                    className="btn-blue btn-see-stats"
+                  >
+                    <p>see <strong>STATS</strong></p>
                   </button>
                 </Col>
               </Row>

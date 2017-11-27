@@ -217,9 +217,9 @@ body {
   height: 65px;
   width: 100%;
   border-radius: 2px 0 0 2px;
+  background-color: #D9DBDC;
   border: 0;
   float: right;
-  background-color: #D9DBDC;
   text-align: left;
   position: relative;
   cursor: pointer;
@@ -589,7 +589,7 @@ div.transparency.part button:hover {
   overflow-x: hidden;
   width: 341px;
   line-height: 26px;
-  margin: auto;  
+  margin: auto;
 }
 
 .was-not-found {
@@ -880,6 +880,40 @@ a.back-main {
   padding: 10px;
 }
 
+.btn-blue:hover {
+  background: #055a7e !important;
+}
+
 .center {
   text-align: center;
+}
+
+.btn-gray {
+  border-radius: 2px 0 0 2px;
+  background-color: #D9DBDC;
+  padding: 10px;
+}
+
+.btn-gray strong {
+  letter-spacing: initial !important;
+}
+
+.btn-see-score {
+  margin-right: 10px;
+  height: 60px;
+  float: left;
+  width:110px;
+}
+
+.btn-see-stats {
+  height: 60px;
+  width:110px;
+  padding-bottom: 20px;
+}
+
+.btn-see-stats p {
+  color: white !important;
+}
+.btn-see-stats strong {
+  letter-spacing: initial !important;
 }

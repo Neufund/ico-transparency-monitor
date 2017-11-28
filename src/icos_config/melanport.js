@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0x3BF541f87056D134E0109BE1Be92978b26Cb09e0',
   tokenContract: '0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',
   information: {
-    aliasName: 'MelonPort',
+    name: 'Melonport',
     website: 'https://melonport.com/',
     logo: 'https://d33wubrfki0l68.cloudfront.net/bae9d6917783575baff8141cc9e2008f9b3cbc2f/25049/assets/melonport_logo.svg',
   },

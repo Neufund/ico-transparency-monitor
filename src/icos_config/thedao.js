@@ -4,7 +4,7 @@ import { convertWeb3Value } from '../utils/web3';
 export default {
   crowdSaleTokenContract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413',
   information: {
-    aliasName: 'TheDAO',
+    name: 'TheDAO',
     website: 'https://daowiki.atlassian.net/wiki',
     logo: 'https://daowiki.atlassian.net/wiki/download/attachments/655365/DAO?version=2&modificationDate=1462133209864&cacheVersion=1&api=v2',
   },

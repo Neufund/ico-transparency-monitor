@@ -4,7 +4,7 @@ import { icoTransparencyMap, isCorrectTokenAddress } from '../utils';
 import { isNeufundAddress } from '../utils/web3.js'
 
 export default (props) => {
-  const { address, information, name, addedBy, decision, onModalShow, tokenContract, icoModalData } = props;
+  const { address, information, addedBy, decision, onModalShow, tokenContract, icoModalData } = props;
   const eventName = isNeufundAddress(address) ? 'ICBM' : 'ICO';
 
   return (
@@ -19,7 +19,7 @@ export default (props) => {
                     <img src={information.logo} alt="" />
                   </div>
                   <div className="ico-information">
-                    <h4><a href={`/#/${address}`}> {name || information.aliasName}</a></h4>
+                    <h4><a href={`/#/${address}`}> { information.name }</a></h4>
                     <a
                       className="link"
                       rel="noopener noreferrer"

@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0xBbc79794599b19274850492394004087cBf89710',
   tokenContract: '0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c',
   information: {
-    aliasName: 'Bancor Network',
+    name: 'Bancor',
     website: 'https://www.bancor.network/',
     logo: 'https://www.bancor.network/static/images/favicon.ico',
   },

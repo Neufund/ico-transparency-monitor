@@ -1,7 +1,7 @@
 export default {
   crowdSaleTokenContract: '0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C',
   information: {
-    aliasName: 'TAAS',
+    name: 'TOKEN-AS-A-SERVICE',
     logo: 'https://www.taas.fund/favicon.ico',
     website: 'https://taas.fund/',
   },

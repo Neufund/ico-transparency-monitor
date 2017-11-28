@@ -14,7 +14,7 @@ export default {
   crowdSaleTokenContract: '0xaaf4281fd8142dC3263b3303b0a6F62d00B2D07E',
   tokenContract: '0x71d01db8d6a2fbea7f8d434599c237980c234e4c',
   information: {
-    aliasName: 'Gladius',
+    name: 'Gladius',
     website: 'https://gladius.io/',
     logo: 'https://gladius.io/favicon/android-icon-192x192.png',
   },
@@ -25,13 +25,13 @@ export default {
         sender: '_to',
       },
       customArgs: {
-        _from: '0x71d01db8d6a2fbea7f8d434599c237980c234e4c'
+        _from: '0x71d01db8d6a2fbea7f8d434599c237980c234e4c',
       },
       firstTransactionBlockNumber: 4365348,
       lastTransactionBlockNumber: null,
       maxBlocksInChunk: 52960,
       countTransactions: true,
-      address: '0x71d01db8d6a2fbea7f8d434599c237980c234e4c'
+      address: '0x71d01db8d6a2fbea7f8d434599c237980c234e4c',
     },
   },
   icoParameters: {
@@ -63,9 +63,9 @@ export default {
       }
       const endTs = await toPromise(icoContract.crowdsaleEnd)();
       if (now > presaleEndTs && now <= endTs) {
-       return 'in crowdsale';
+        return 'in crowdsale';
       }
-      return "failed (min cap)";
+      return 'failed (min cap)';
     },
   },
   matrix: {
@@ -81,7 +81,7 @@ export default {
     q8: { answer: null },
     q9: { answer: null },
     q10: { answer: true },
-    q11: { answer: true, comment: `Please note 1. refund does not apply to pre-sale. 2. there are pre-allocated tokens. However overall contract is nicely trustless.` },
+    q11: { answer: true, comment: 'Please note 1. refund does not apply to pre-sale. 2. there are pre-allocated tokens. However overall contract is nicely trustless.' },
     q12: { answer: true },
     q13: { answer: true },
     q14: { answer: true },

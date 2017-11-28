@@ -7,7 +7,7 @@ export default {
   tokenContract: '0xa823e6722006afe99e91c30ff5295052fe6b8e32',
   baseCurrency: 'EUR',
   information: {
-    aliasName: 'Neumark',
+    name: 'Neufund',
     website: 'https://commit.neufund.org/',
     logo: 'https://neufund.org/img/neufund/favicon_neufund.ico',
   },

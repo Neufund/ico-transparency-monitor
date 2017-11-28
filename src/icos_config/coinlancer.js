@@ -1,7 +1,7 @@
 export default {
   crowdSaleTokenContract: '0xe81d72d14b1516e68ac3190a46c93302cc8ed60f',
   information: {
-    aliasName: 'Coinlancer',
+    name: 'Coinlancer',
     website: 'https://www.coinlancer.io/',
     logo: 'https://www.coinlancer.io/images/Logo-noC-Color32.png',
   },

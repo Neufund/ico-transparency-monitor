@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0x0cEB0D54A7e87Dfa16dDF7656858cF7e29851fD7',
   tokenContract: '0x960b236A07cf122663c4303350609A66A7B288C0',
   information: {
-    aliasName: 'Aragon Network',
+    name: 'Aragon',
     logo: 'https://aragon.one/favicon.png',
     website: 'https://aragon.network/',
   },

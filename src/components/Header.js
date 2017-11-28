@@ -41,6 +41,16 @@ export default () => (
                  for the information published or data provided.
                 We also do not assume any liability of their correctness.
             </p>
+            <p className="center">
+              <a
+                href="https://t.me/neufund"
+                target="_blank"
+                className="btn-blue"
+                rel="noopener noreferrer"
+              >
+                Join the discussion
+              </a>
+            </p>
           </Col>
         </Row>
       </Grid>

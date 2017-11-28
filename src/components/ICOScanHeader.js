@@ -1,9 +1,12 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { icoTransparencyMap, isCorrectTokenAddress } from '../utils';
+import { isNeufundAddress } from '../utils/web3.js'
 
 export default (props) => {
   const { address, information, name, addedBy, decision, onModalShow, tokenContract, icoModalData } = props;
+  const eventName = isNeufundAddress(address) ? 'ICBM' : 'ICO';
+
   return (
     <Row>
       <Grid className="ico-scan-header">
@@ -23,8 +26,8 @@ export default (props) => {
                       target="_blank"
                       href={information.website}
                       onClick={e => e.stopPropagation()}
-                    >ICO Page</a>
-                    {isCorrectTokenAddress(address) && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View ICO contract on etherscan</a>}
+                    >{eventName} Page</a>
+                    {isCorrectTokenAddress(address) && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View {eventName} contract on etherscan</a>}
                     {tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/token/${tokenContract}`} >View token contract on etherscan</a>}
                   </div>
                 </div>

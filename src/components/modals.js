@@ -54,7 +54,6 @@ class ContentTable extends Component {
               <button className={`transparency-button ${this.state.decision}-status`}>
                 <p>Transparency score</p>
                 <strong>{icoTransparencyMap[this.state.decision.toUpperCase()]} </strong>
-                <span className="arrow">&#8594;</span>
               </button>
             </div>
           </div>

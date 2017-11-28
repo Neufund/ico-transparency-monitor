@@ -1,9 +1,9 @@
 export default {
   crowdSaleTokenContract: 'filescoin-smart-contract-not-provided',
   information: {
-    name: 'Coinlist',
-    logo: 'https://pbs.twimg.com/profile_images/489720503892856832/XZt8MkUk.png',
-    website: 'https://coinlist.co/',
+    name: 'Filecoin',
+    logo: 'https://filecoin.io/images/icon-coin-128.png',
+    website: 'https://filecoin.io/',
   },
   events: {},
   icoParameters: {

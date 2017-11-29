@@ -5,7 +5,7 @@ export default {
   crowdSaleTokenContract: '0x568251d813e4c639cea5fd637bc59790dd4d5958',
   tokenContract: '0x6ec8a24cabdc339a06a172f8223ea557055adaa5',
   information: {
-    aliasName: 'Genaro',
+    name: 'Genaro',
     website: 'https://genaro.network',
     logo: 'https://static.genaro.network/images/favicon.ico',
   },
@@ -23,7 +23,6 @@ export default {
   },
   icoParameters: {
     cap: async (web3, icoContract) => {
-      console.log(icoContract);
       const hardCap = await toPromise(icoContract.hardCap)().valueOf();
       return [`Hard Cap: ${formatNumber(hardCap / (10 ** 18))} ETH`];
     },
@@ -33,7 +32,6 @@ export default {
     },
     endDate: async (web3, icoContract) => {
       const blockNumber = await toPromise(icoContract.finalBlock)();
-      console.log(blockNumber.valueOf());
       return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
     },
     status: async (web3, icoContract) => {
@@ -52,18 +50,19 @@ export default {
   },
   matrix: {
     q1: { answer: true },
-    q2: { answer: true },
-    q3: { answer: false ,comment: 'Source code on etherscan is an old version.' },
-    q4: { answer: true },
+    q2: { answer: false, comment: `Source code of GenaroTokenSale in github https://github.com/GenaroSanada/Genaro does not correspond to deployed bytecode, as confirmed by Genaro.
+    All analytics below are based on unverified source code which has similar/identical ABI to deployed code.` },
+    q3: { answer: false },
+    q4: { answer: false },
     q5: { answer: true },
-    q6: { answer: true },
+    q6: { answer: true, comment: `Some tokens are pre-allocated due to presale, however it does not decrease the tokens for sale, no more allocations are accepted afterwards.` },
     q7: { answer: true },
     q8: { answer: null },
     q9: { answer: null },
     q10: { answer: true },
-    q11: { answer: true },
+    q11: { answer: true, comment: `This is a nice trustless contract, the problem is that bytecode does not verify...` },
     q12: { answer: true },
-    q13: { answer: true ,comment: 'ICO starts when activateSale function is called by someone.' },
+    q13: { answer: true, comment: 'Sale may be ended earlier by emergencyStop, but no later than end date. There is no incentive for Genaro to do it so we do not fail this question' },
     q14: { answer: true },
   },
   addedBy: 'Mostafa Balata',

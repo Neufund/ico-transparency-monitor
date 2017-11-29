@@ -88,5 +88,5 @@ export default {
   },
   decimals: 18,
   addedBy: 'Marcin Rudolf',
-  dateAdded: '26-11-2017',
+  dateAdded: '28-11-2017',
 };

@@ -52,5 +52,5 @@ export default {
     q14: { answer: true },
   },
   addedBy: 'Marcin Rudolf',
-  dateAdded: '25-11-2017',
+  dateAdded: '26-11-2017',
 };

@@ -6,7 +6,7 @@ export default {
   tokenContract: '0x960b236A07cf122663c4303350609A66A7B288C0',
   information: {
     name: 'Aragon',
-    logo: 'https://aragon.one/favicon.png',
+    logo: 'https://aragon.one/favicon-228.png',
     website: 'https://aragon.network/',
   },
   events: {

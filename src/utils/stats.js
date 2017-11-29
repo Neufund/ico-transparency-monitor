@@ -218,8 +218,11 @@ const getTimeFromLogs = (transactionLogs) => {
 };
 
 const getChartData = (timeScale, chartData) => {
-  // when building charts fill empty days and hours with 0
   const keys = Object.keys(chartData);
+  // skip on empty charts
+  if (keys.length === 0)
+    return {};
+  // when building charts fill empty days and hours with 0
   const timeIterator = timeScale !== 'blocks' ?
     Array.from(new Array(Math.max.apply(null, keys)), (x, i) => i + 1) :
     keys;
@@ -230,7 +233,7 @@ const getChartData = (timeScale, chartData) => {
   }));
 };
 
-/* allLogs contains dictionary {event_name: logs_array} 
+/* allLogs contains dictionary {event_name: logs_array}
 where each logs_array is sorted by timestamp (by ETH node) */
 export const getStatistics = (icoConfig, allLogs) => {
   const statsResult = initStatistics();

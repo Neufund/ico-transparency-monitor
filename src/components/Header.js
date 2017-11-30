@@ -43,12 +43,12 @@ export default () => (
             </p>
             <p className="center">
               <a
-                href="https://t.me/neufund"
+                href="https://bitcointalk.org/index.php?topic=2488683.0"
                 target="_blank"
                 className="btn-blue"
                 rel="noopener noreferrer"
               >
-                Join the discussion
+                Join the discussion on BitcoinTalk
               </a>
             </p>
           </Col>

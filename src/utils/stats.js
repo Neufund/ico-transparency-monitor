@@ -220,8 +220,7 @@ const getTimeFromLogs = (transactionLogs) => {
 const getChartData = (timeScale, chartData) => {
   const keys = Object.keys(chartData);
   // skip on empty charts
-  if (keys.length === 0)
-    return {};
+  if (keys.length === 0) { return {}; }
   // when building charts fill empty days and hours with 0
   const timeIterator = timeScale !== 'blocks' ?
     Array.from(new Array(Math.max.apply(null, keys)), (x, i) => i + 1) :

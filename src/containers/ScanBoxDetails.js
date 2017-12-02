@@ -131,6 +131,25 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       </div>}
 
     <div className="section-top">
+      <Row className="box-container">
+        <Col md={12} sm={12} xs={12} >
+          <Chart
+            title="Raised funds over time"
+            data={props.stats.charts.etherCount}
+            dataKey="Date"
+            xLabel={props.stats.time.scale.capitalizeTxt()}
+            yLabel={props.currency}
+            isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
+            isNotVisibleMessage={`No Token statistics: This ICO
+            is not generating tokens or is not handling them in trustless way`}
+          />
+        </Col>
+      </Row>
+    </div>
+
+
+
+    <div className="section-top">
       <h3 className="title">
         <span
           className="tooltip"

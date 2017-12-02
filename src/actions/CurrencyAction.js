@@ -2,6 +2,7 @@ import axios from 'axios';
 import moment from 'moment';
 import config from '../config';
 import { getEtherDistribution } from '../utils';
+import { generateMoneyChartDataset } from '../utils/stats';
 
 export const setCurrencyAction = (currency, amount, time) =>
   ({ type: 'SET_CURRENCY', currency, value: amount, time });
@@ -80,6 +81,10 @@ export const setStatisticsByCurrency = (currency, value, time) => async (dispatc
   const distribution = getEtherDistribution(currentStatistics.investors.sortedByETH, value);
   currentStatistics.charts.investorsDistribution = distribution[0];
   currentStatistics.charts.investmentDistribution = distribution[1];
+
+  currentStatistics.charts.etherCount = 
+  generateMoneyChartDataset(currentStatistics.charts.baseCurrencyCount, value)
+  console.log(currentStatistics);
   dispatch({ type: 'DRAW_STATS', stats: currentStatistics });
 };
 

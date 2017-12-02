@@ -147,38 +147,6 @@ export const kFormatter = (num) => {
   return num.toString();
 };
 
-export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
-  const max = sortedInvestors[0].value * currencyPerEther;
-  // investors
-  const investorsChartXAxis = [];
-  // investment
-  const investmentChartXAxis = [];
-
-  const ticks = calculateTicks(max);
-  let previousTick = 0;
-
-  for (let i = 0; i < ticks.length; i += 1) {
-    const tick = ticks[i];
-    const name = `${kFormatter(previousTick)} - ${kFormatter(tick)}`;
-    investorsChartXAxis.push({ name: `${name}`, amount: 0 });
-    investmentChartXAxis.push({ name: `${name}`, amount: 0 });
-    previousTick = tick;
-  }
-
-  sortedInvestors.forEach((item) => {
-    const money = item.value * currencyPerEther;
-    for (let i = 0; i < ticks.length; i += 1) {
-      if (money < ticks[i]) {
-        investorsChartXAxis[i].amount += 1;
-        investmentChartXAxis[i].amount += parseFloat(money.toFixed(2));
-        break;
-      }
-    }
-  });
-
-  return [investorsChartXAxis, investmentChartXAxis];
-};
-
 /* eslint-disable */
 export const downloadCSV = fileName => async (dispatch, getState) => {
   const csvContentArray = getState().scan.csvContent;
@@ -213,3 +181,37 @@ export const getNextICO = (address) => {
 
 export const getICODuration = (endTime, startTime) =>
   moment.duration(moment(endTime).diff(moment(startTime)));
+
+
+export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
+  const max = sortedInvestors[0].value * currencyPerEther;
+  // investors
+  const investorsChartXAxis = [];
+  // investment
+  const investmentChartXAxis = [];
+
+  const ticks = calculateTicks(max);
+  let previousTick = 0;
+
+  for (let i = 0; i < ticks.length; i += 1) {
+    const tick = ticks[i];
+    const name = `${kFormatter(previousTick)} - ${kFormatter(tick)}`;
+    investorsChartXAxis.push({ name: `${name}`, amount: 0 });
+    investmentChartXAxis.push({ name: `${name}`, amount: 0 });
+    previousTick = tick;
+  }
+
+  sortedInvestors.forEach((item) => {
+    const money = item.value * currencyPerEther;
+    for (let i = 0; i < ticks.length; i += 1) {
+      if (money < ticks[i]) {
+        investorsChartXAxis[i].amount += 1;
+        investmentChartXAxis[i].amount += parseFloat(money.toFixed(2));
+        break;
+      }
+    }
+  });
+
+  return [investorsChartXAxis, investmentChartXAxis];
+};
+

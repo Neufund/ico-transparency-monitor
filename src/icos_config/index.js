@@ -15,7 +15,6 @@ export const getICOsAsList = (limit) => {
 export const getICOsAsDict = () => {
   const icosAsDict = {};
   const icosAsList = getICOsAsList();
-  console.log(icosAsList);
   icosAsList.icos.forEach((element) => {
     if (element && element.crowdSaleTokenContract) {
       icosAsDict[element.crowdSaleTokenContract] = element;
@@ -24,20 +23,14 @@ export const getICOsAsDict = () => {
   return icosAsDict;
 };
 
-
 export const getICOByAddress = (address) => {
   const icosAsList = getICOsAsList();
-  for (let i = 0; i < icosAsList.icos.length; i += 1) {
-    if (icosAsList.icos[i] && icosAsList.icos[i].crowdSaleTokenContract === address) { return icosAsList.icos[i]; }
-  }
-  return null;
+  return icosAsList.icos.find((ico, index) => ico && ico.crowdSaleTokenContract === address);
 };
-
 
 export const getNextICOAddressByPreviousAddress = (previousAddress) => {
   const icosAsList = getICOsAsList();
   for (let i = 0; i < icosAsList.icos.length; i += 1) {
-    console.warn(i, icosAsList.icos.length - 1);
     const ico = icosAsList.icos[i];
     if (ico && ico.crowdSaleTokenContract === previousAddress && i !== icosAsList.icos.length - 2) { return icosAsList.icos[i + 1].crowdSaleTokenContract; }
   }

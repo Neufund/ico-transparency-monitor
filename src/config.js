@@ -1,9 +1,7 @@
 import { rpcHost } from './env.json';
 
-const icos = process.env.NODE_ENV === 'test' ? require('./config.test').default.ICOs : require('./icos_config').getICOsAsDict();
-
 const config = {
-  ICOs: icos,
+  ICOs: process.env.NODE_ENV === 'test' ? require('./config.test').default.ICOs : {},
   rpcHost,
   defaultDecimal: 18,
   matrix: {
@@ -62,6 +60,10 @@ const config = {
       notApplicable: false,
     },
   },
+};
+
+export const appendICO = (address, ico) => {
+  if (ico) { config.ICOs[address] = ico; }
 };
 
 export default config;

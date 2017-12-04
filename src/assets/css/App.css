@@ -917,3 +917,7 @@ a.back-main {
 .btn-see-stats strong {
   letter-spacing: initial !important;
 }
+
+.loader {
+  text-align: center;
+}

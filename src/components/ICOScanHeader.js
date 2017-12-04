@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { icoTransparencyMap, isCorrectTokenAddress } from '../utils';
-import { isNeufundAddress } from '../utils/web3.js'
+import { isNeufundAddress } from '../utils/web3.js';
 
 export default (props) => {
   const { address, information, addedBy, decision, onModalShow, tokenContract, icoModalData } = props;
@@ -27,7 +27,7 @@ export default (props) => {
                       href={information.website}
                       onClick={e => e.stopPropagation()}
                     >{eventName} Page</a>
-                    {isCorrectTokenAddress(address) && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View {eventName} contract on etherscan</a>}
+                    {address && isCorrectTokenAddress(address) && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View {eventName} contract on etherscan</a>}
                     {tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/token/${tokenContract}`} >View token contract on etherscan</a>}
                   </div>
                 </div>

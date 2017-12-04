@@ -42,7 +42,7 @@ class ContentTable extends Component {
         <Row>
           <div className="modal-title-container">
             <div className="modal-title">
-              <h3> {this.currentICO.name || this.currentICO.information.aliasName}</h3>
+              <h3> {this.currentICO.information.name}</h3>
               <p className="ico-paragraph">
                 These criteria are chosen based on the concept of
                 trustless-trust. You can read more about it &nbsp;

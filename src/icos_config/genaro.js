@@ -38,15 +38,15 @@ export default {
       const saleStopped = await toPromise(icoContract.saleStopped)().valueOf();
       const saleFinalized = await toPromise(icoContract.saleFinalized)().valueOf();
       let status = null;
-      if(saleFinalized) {
-        status = "Successful"
+      if (saleFinalized) {
+        status = 'Successful';
       } else if (!saleStopped) {
-        status = "In process"
+        status = 'In process';
       } else {
-        status = "Stopped"
+        status = 'Stopped';
       }
       return status;
-    }
+    },
   },
   matrix: {
     q1: { answer: true },
@@ -55,12 +55,12 @@ export default {
     q3: { answer: false },
     q4: { answer: false },
     q5: { answer: true },
-    q6: { answer: true, comment: `Some tokens are pre-allocated due to presale, however it does not decrease the tokens for sale, no more allocations are accepted afterwards.` },
+    q6: { answer: true, comment: 'Some tokens are pre-allocated due to presale, however it does not decrease the tokens for sale, no more allocations are accepted afterwards.' },
     q7: { answer: true },
     q8: { answer: null },
     q9: { answer: null },
     q10: { answer: true },
-    q11: { answer: true, comment: `This is a nice trustless contract, the problem is that bytecode does not verify...` },
+    q11: { answer: true, comment: 'This is a nice trustless contract, the problem is that bytecode does not verify...' },
     q12: { answer: true },
     q13: { answer: true, comment: 'Sale may be ended earlier by emergencyStop, but no later than end date. There is no incentive for Genaro to do it so we do not fail this question' },
     q14: { answer: true },

@@ -202,14 +202,5 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
 };
 /* eslint-enable */
 
-export const getNextICO = (address) => {
-  const icosKeys = Object.keys(config.ICOs);
-  const currentICOIndex = icosKeys.indexOf(address) % (icosKeys.length - 1);
-  const nextICOIndex = currentICOIndex + 1;
-  const nextICO = icosKeys[nextICOIndex];
-  window.location = `/#/${nextICO}`;
-  window.location.reload();
-};
-
 export const getICODuration = (endTime, startTime) =>
   moment.duration(moment(endTime).diff(moment(startTime)));

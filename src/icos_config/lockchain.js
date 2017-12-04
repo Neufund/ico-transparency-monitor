@@ -14,7 +14,7 @@ export default {
         sender: '_to',
       },
       firstTransactionBlockNumber: 4307927,
-      lastTransactionBlockNumber: 4650881,
+      lastTransactionBlockNumber: 4650879,
       countTransactions: true,
     },
   },
@@ -23,7 +23,7 @@ export default {
       const tokenSaleCap = await toPromise(icoContract.tokenSaleCap)();
       const tokenPreSaleCap = await toPromise(icoContract.tokenPreSaleCap)();
       return [`Max: ${tokenSaleCap / (10 ** 18)} LOC`,
-      `Pre-sale: ${tokenPreSaleCap / (10 ** 18)} LOC`];
+        `Pre-sale: ${tokenPreSaleCap / (10 ** 18)} LOC`];
     },
     startDate: async (web3, icoContract) => 'Not provided',
     endDate: async (web3, icoContract) => 'Not provided',
@@ -31,16 +31,15 @@ export default {
       const isPreSale = await toPromise(icoContract.isPreSale)();
       const isFinalized = await toPromise(icoContract.isFinalized)();
       const isMainSale = await toPromise(icoContract.isMainSale)();
-      
-      if(isFinalized) {
-        return 'Successful'
-      } else if(isMainSale) {
-        return 'In Main-Sale'
-      } else if(isPreSale) {
+
+      if (isFinalized) {
+        return 'Successful';
+      } else if (isMainSale) {
+        return 'In Main-Sale';
+      } else if (isPreSale) {
         return 'In Pre-sale';
-      } else {
-        return 'In Progress'
       }
+      return 'In Progress';
     },
 
   },
@@ -54,11 +53,11 @@ export default {
     q7: { answer: true },
     q8: { answer: null },
     q9: { answer: null },
-    q10: { answer: false, comment: 'Not commented properly' },
+    q10: { answer: false, comment: 'Unused public fields in state, could use some linter.' },
     q11: { answer: true },
     q12: { answer: true },
-    q13: { answer: false },
-    q14: { answer: false, comment: 'They call an external function called finalize to end the sale.' },
+    q13: { answer: false, comment: 'Owner can start pre-sale and main-sale via external function' },
+    q14: { answer: false, comment: 'Owner calls an external function called finalize to end the sale.' },
   },
   addedBy: 'Mostafa Balata',
   dateAdded: '02-12-2017',

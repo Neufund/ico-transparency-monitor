@@ -88,6 +88,7 @@
     "build": "NODE_ENV=production babel-node node_modules/.bin/webpack",
     "test": "(cp -n src/env.example.json src/env.json || true) && NODE_ENV=test babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require ignore-styles --require test/mochaConfig.js ./test/**/*.test.js",
     "eslint": "eslint --ignore-path .gitignore .",
-    "lint": "yarn eslint"
+    "lint": "yarn eslint",
+    "lint:fix" :"yarn eslint --fix"
   }
 }

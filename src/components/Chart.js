@@ -22,7 +22,9 @@ const CustomTooltip = (e) => {
 
   return (
     <div className="custom-tooltip">
-      <strong>{e.yLabel}:</strong><span> {formatNumber(value, 2)} {e.ySymbol}</span>
+      <strong>{e.yLabel}:</strong><span> {
+        formatNumber(value, value % 1 === 0 ? 0 : 2)
+      } {e.ySymbol}</span>
       <br />
       <strong>{e.xLabel}:</strong><span> {key} {e.xSymbol}</span>
     </div>);

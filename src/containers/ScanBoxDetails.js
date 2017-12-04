@@ -160,7 +160,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
             tooltip={
               {
                 xTitle: 'On',
-                yTitle: `${props.currency} Rasied`,
+                yTitle: `${props.currency} Raised`,
                 ySymbol: props.currency,
               }
             }

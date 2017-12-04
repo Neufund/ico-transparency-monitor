@@ -1,9 +1,4 @@
-const initialState = {
-  icos: {
-  },
-};
-
-const ICO = (state = initialState, action) => {
+const ICO = (state, action) => {
   switch (action.type) {
     case 'SET_ICO_PROPERTY':
       const key = Object.keys(action.prop)[0];

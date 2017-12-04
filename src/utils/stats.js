@@ -24,6 +24,7 @@ export const initStatistics = () => ({
   charts: {
     transactionsCount: [],
     tokensCount: [],
+    etherCount: [],
     investorsDistribution: [],
     investmentDistribution: [],
     tokenHolders: [],
@@ -100,7 +101,8 @@ const sortInvestorsByTicket = (investors) => {
   return [sortedByTokens, sortedByETH];
 };
 
-const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
+const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket,
+  timeScale, currencyPrice = 1) => {
   let totalETH = 0;
   let totalCurrencyBase = 0;
   let tokenIssued = 0;
@@ -109,6 +111,7 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
   const csvContentArray = [];
   const chartTokensCountTemp = {};
   const chartTransactionsCountTemp = {};
+  const chartEtherCountTemp = {};
 
   const precision = 10 ** (parseFloat(icoConfig.decimals) || config.defaultDecimal);
 
@@ -163,6 +166,17 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
         }
       }
 
+      if (etherValue) {
+        const timeKey = timeScale === 'days' ?
+          moment.unix(item.timestamp).format('DD/MM/YYYY') : timeBucket;
+
+        if (timeKey in chartEtherCountTemp) {
+          chartEtherCountTemp[timeKey] += (etherValue * currencyPrice);
+        } else {
+          chartEtherCountTemp[timeKey] = (etherValue * currencyPrice);
+        }
+      }
+
       if (tokenValue > 0 || etherValue > 0) {
         if (investor in senders) {
           const sender = senders[investor];
@@ -187,11 +201,13 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket) => {
     csvContentArray,
     chartTokensCountTemp,
     chartTransactionsCountTemp,
+    chartEtherCountTemp,
   };
 };
 
 export const getDatesDuration = (endTime, startTime) =>
   moment.duration(moment(endTime).diff(moment(startTime)));
+
 
 const getTimeFromLogs = (transactionLogs) => {
   const startTimestamp = transactionLogs[0].timestamp;
@@ -217,19 +233,34 @@ const getTimeFromLogs = (transactionLogs) => {
   };
 };
 
-const getChartData = (timeScale, chartData) => {
+const getChartData = (timeScale, chartData, format = 'numbers') => {
   const keys = Object.keys(chartData);
   // skip on empty charts
   if (keys.length === 0) { return {}; }
-  // when building charts fill empty days and hours with 0
-  const timeIterator = timeScale !== 'blocks' ?
-    Array.from(new Array(Math.max.apply(null, keys)), (x, i) => i + 1) :
-    keys;
+  if (format === 'numbers' || timeScale === 'blocks' || timeScale === 'hours') {
+    console.log(format, timeScale);
+    // when building charts fill empty days and hours with 0
+    const timeIterator = timeScale !== 'blocks' ?
+      Array.from(new Array(Math.max.apply(null, keys)), (x, i) => i + 1) :
+      keys;
 
-  return timeIterator.map(key => ({
-    name: key,
-    amount: key in chartData ? chartData[key] : 0,
-  }));
+    return timeIterator.map(key => ({
+      name: key,
+      amount: key in chartData ? chartData[key] : 0,
+    }));
+  } else if (format === 'dates') {
+    return keys.map((key) => {
+      const timeArray = key.split('/');
+      const keyWithoutYear = Array.isArray(timeArray) ? `${timeArray[0]}/${timeArray[1]}` : null;
+
+      return {
+        key,
+        name: keyWithoutYear,
+        amount: key in chartData ? chartData[key] : 0,
+      };
+    });
+  }
+  return null;
 };
 
 /* allLogs contains dictionary {event_name: logs_array}
@@ -237,7 +268,7 @@ where each logs_array is sorted by timestamp (by ETH node) */
 export const getStatistics = (icoConfig, allLogs) => {
   const statsResult = initStatistics();
   /* get event that defines investor transaction and extract
-  timestamps that will scale the time charts */
+  timestamp that will scale the time charts */
   const transactionLogs = allLogs[Object.keys(allLogs).filter(name =>
     icoConfig.events[name].countTransactions)[0]];
   if (!transactionLogs) {
@@ -246,13 +277,14 @@ export const getStatistics = (icoConfig, allLogs) => {
 
   const investors = statsResult.investors.senders;
 
-  // Time statistcs
+  // Time statistics
   statsResult.time = getTimeFromLogs(transactionLogs);
 
   console.log('Block info', transactionLogs[0].blockNumber,
     transactionLogs[transactionLogs.length - 1].blockNumber);
 
   const toTimeBucket = statsResult.time.toTimeBucket;
+  const timeScale = statsResult.time.scale;
 
   const { senders,
     totalETH,
@@ -262,9 +294,10 @@ export const getStatistics = (icoConfig, allLogs) => {
     csvContentArray,
     chartTokensCountTemp,
     chartTransactionsCountTemp,
-  } = getMoneyFromEvents(icoConfig, allLogs, investors, toTimeBucket);
+    chartEtherCountTemp,
+  } = getMoneyFromEvents(icoConfig, allLogs, investors, toTimeBucket, timeScale);
 
-  // Money statistcs
+  // Money statistics
   statsResult.money.totalETH = totalETH;
   statsResult.money.totalBaseCurrency = totalCurrencyBase;
   statsResult.money.tokenIssued = tokenIssued;
@@ -280,13 +313,17 @@ export const getStatistics = (icoConfig, allLogs) => {
   statsResult.charts.transactionsCount = getChartData(statsResult.time.scale,
     chartTransactionsCountTemp);
 
+  // Ether Count chart
+  statsResult.charts.baseCurrencyCount = getChartData(statsResult.time.scale,
+    chartEtherCountTemp, 'dates');
+
   const sortedSenders = sortInvestorsByTicket(senders);
 
-  // Investors statistcs
+  // Investors statistics
   statsResult.investors.sortedByTicket = sortedSenders[0];
   statsResult.investors.sortedByETH = sortedSenders[1];
 
-  // Charts statistcs
+  // Charts statistics
   statsResult.charts.tokenHolders = tokenHoldersPercentage(
     statsResult.money.tokenIssued,
     statsResult.investors.sortedByTicket
@@ -299,4 +336,16 @@ export const getStatistics = (icoConfig, allLogs) => {
   }
 
   return [statsResult, csvContentArray];
+};
+
+export const generateMoneyChartDataset = (chartData, currencyPrice) => {
+  const result = [];
+  chartData.forEach((item) => {
+    result.push({
+      name: item.name,
+      amount: item.amount * currencyPrice,
+      tooltipName: item.key,
+    });
+  });
+  return result;
 };

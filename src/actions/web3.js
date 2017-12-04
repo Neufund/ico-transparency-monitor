@@ -35,7 +35,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 
   if (tokenContract === null) { // Doesn't have smart contract
     dispatch(setSmartContractLoaded(true));
-    return null;
+    return;
   }
   const abiAsDictionary = getAbiAsDictionary(tokenContract.abi);
 
@@ -91,7 +91,7 @@ export const getLogs = address => async (dispatch, getState) => {
     dispatch(drawStatistics(initStatistics()));
     dispatch(allocateCSVFile([]));
     dispatch(showStatistics());
-    return null;
+    return;
   }
   const tokenContract = icoConfig.tokenContract ? getTokenSmartContract(web3, address) : null;
   const contracts = {

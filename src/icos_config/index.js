@@ -1,5 +1,5 @@
 import moment from 'moment';
-
+// eslint-disable-next-line import/no-dynamic-require
 const requireAll = r => r.keys().map(fileName => require(`./${fileName.replace('./', '')}`).default);
 
 export const getICOsAsList = (limit) => {
@@ -32,7 +32,8 @@ export const getNextICOAddressByPreviousAddress = (previousAddress) => {
   const icosAsList = getICOsAsList();
   for (let i = 0; i < icosAsList.icos.length; i += 1) {
     const ico = icosAsList.icos[i];
-    if (ico && ico.crowdSaleTokenContract === previousAddress && i !== icosAsList.icos.length - 2) { return icosAsList.icos[i + 1].crowdSaleTokenContract; }
+    if (ico && ico.crowdSaleTokenContract === previousAddress &&
+      i !== icosAsList.icos.length - 2) { return icosAsList.icos[i + 1].crowdSaleTokenContract; }
   }
   return icosAsList.icos[0].crowdSaleTokenContract;
 };

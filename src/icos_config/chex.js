@@ -33,8 +33,13 @@ export default {
       const frozen = await toPromise(icoContract.frozen)().valueOf();
       const maxCap = convertWeb3Value(await toPromise(icoContract.tokenCap)(), 'ether');
       const supply = convertWeb3Value(await toPromise(icoContract.totalSupply)(), 'ether');
-      return maxCap === supply ? 'successful' :
-        frozen ? 'paused' : 'in progress';
+
+      if (maxCap === supply) {
+        return 'Successful';
+      } else if (frozen) {
+        return 'Paused';
+      }
+      return 'In progress';
     },
   },
   matrix: {

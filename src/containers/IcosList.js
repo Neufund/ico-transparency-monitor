@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import '../assets/css/App.css';
 import { Grid } from 'react-flexbox-grid';
+import '../assets/css/App.css';
 import Header from '../components/Header';
+// eslint-disable-next-line import/no-named-as-default
 import IcoDataRow from './IcoDataRow';
 import { getICOsAsList } from '../icos_config';
 import { appendICO } from '../config';
@@ -50,6 +51,7 @@ export default class extends Component {
         <Grid fluid>
           <InfiniteScroll
             pageStart={0}
+            // eslint-disable-next-line react/jsx-no-bind
             loadMore={this.loadIcos.bind(this)}
             hasMore={this.state.hasMoreItems}
             loader={loader}

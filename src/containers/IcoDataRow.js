@@ -13,7 +13,7 @@ export class IcoDataRow extends Component {
     switch (decision) {
       case 'transparent': return 'Transparent';
       case 'nontransparent': return 'Non Transparent';
-      case 'withissue': return 'With issues';
+      case 'withissues': return 'With issues';
       default: return null;
     }
   }

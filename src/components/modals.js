@@ -68,13 +68,15 @@ class ContentTable extends Component {
                   const currentQuestion = this.state.matrix[key];
                   const mappedQuestionMatrix = config.matrix[key];
 
-                  return (<tr key={`${key}_${index}`}>
+                  return (<tr key={`${key}`}>
                     <td className={this.getRowClassName(key)}>
                       {mappedQuestionMatrix.question}
                       <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>
                     </td>
                     <th>
+                      {/* eslint-disable */}
                       <p>{currentQuestion.answer === null ? 'N/A' : (currentQuestion.answer ? 'Yes' : 'No')}</p>
+                      {/* eslint-enable */}
                     </th>
                   </tr>);
                 })}
@@ -105,42 +107,42 @@ ModalContent.defaultProps = {
   isError: false,
 };
 
-class MessageBoxModal extends Component {
-  render() {
-    const { showModal, onModalClose, messageType, currentICO, message } = this.props;
 
-    if (!showModal) {
-      return null;
-    }
+const MessageBoxModal = (props) => {
+  const { showModal, onModalCloseCallback, messageType, currentICO, message } = props;
 
-    if (messageType === 'SHOW_MODAL_MESSAGE') {
-      return (
-        <ModalContainer onClose={onModalClose}>
-          <ModalDialog onClose={onModalClose}>
-            <ModalContent message={message} />
-          </ModalDialog>
-        </ModalContainer>);
-    } else if (messageType === 'SHOW_MODAL_ERROR') {
-      return (
-        <ModalContainer>
-          <ModalDialog>
-            <ModalContent message={message} isError />
-          </ModalDialog>
-        </ModalContainer>);
-    }
-
-    if (Object.keys(currentICO).length > 0) {
-      return (
-        <ModalContainer onClose={onModalClose}>
-          <ModalDialog onClose={onModalClose}>
-            <ContentTable currentICO={currentICO} />
-          </ModalDialog>
-        </ModalContainer>);
-    }
-
+  if (!showModal) {
     return null;
   }
-}
+
+  if (messageType === 'SHOW_MODAL_MESSAGE') {
+    return (
+      <ModalContainer onClose={onModalCloseCallback}>
+        <ModalDialog onClose={onModalCloseCallback}>
+          <ModalContent message={message} />
+        </ModalDialog>
+      </ModalContainer>);
+  } else if (messageType === 'SHOW_MODAL_ERROR') {
+    return (
+      <ModalContainer>
+        <ModalDialog>
+          <ModalContent message={message} isError />
+        </ModalDialog>
+      </ModalContainer>);
+  }
+
+  if (Object.keys(currentICO).length > 0) {
+    return (
+      <ModalContainer onClose={onModalCloseCallback}>
+        <ModalDialog onClose={onModalCloseCallback}>
+          <ContentTable currentICO={currentICO} />
+        </ModalDialog>
+      </ModalContainer>);
+  }
+
+  return null;
+};
+
 
 const mapStateToProps = state => ({
   showModal: state.modal.showModal,
@@ -150,7 +152,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onModalClose: () => dispatch(onModalClose()),
+  onModalCloseCallback: () => dispatch(onModalClose()),
 });
 
 export default connect(

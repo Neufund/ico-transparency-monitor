@@ -1,7 +1,8 @@
 import React from 'react';
-import '../assets/css/App.css';
 import { Grid } from 'react-flexbox-grid';
+import '../assets/css/App.css';
 import Header from '../components/Header';
+// eslint-disable-next-line import/no-named-as-default
 import IcoDataRow from './IcoDataRow';
 import { getICOsAsList } from '../icos_config';
 

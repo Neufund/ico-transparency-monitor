@@ -37,6 +37,7 @@ export const computeICOTransparency = (answers) => {
   let hasCritical = false;
 
   Object.keys(config.matrix).forEach((key) => {
+    // eslint-disable-next-line no-prototype-builtins
     if (config.matrix.hasOwnProperty(key)) {
       const answer = answers[key];
       const definition = config.matrix[key];

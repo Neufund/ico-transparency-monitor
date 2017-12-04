@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
-import { connect } from 'react-redux';
 import { setStatisticsByCurrency, setConversionRate } from '../actions/CurrencyAction';
 
 class CurrencyButton extends Component {
+  static mapButtonKeysToText(key) {
+    const map = {
+      NOW: 'Now',
+      END: 'Day of ICO end',
+    };
+    return map[key];
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -12,14 +20,6 @@ class CurrencyButton extends Component {
       exchangeRateDate: new Date(),
       exchangeRateActiveClass: 'NOW',
     };
-  }
-
-  static mapButtonKeysToText(key) {
-    const map = {
-      NOW: 'Now',
-      END: 'Day of ICO end',
-    };
-    return map[key];
   }
 
   async onCurrencyHandle(currency, dayClass) {

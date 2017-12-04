@@ -19,7 +19,9 @@ export default {
       },
       firstTransactionBlockNumber: 3932884,
       lastTransactionBlockNumber: null, // follow last block
-      maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
+      maxBlocksInChunk: 12960, /* scan in 3 
+      const eventArgs = selectedICO.event.args;
+      days blocks, last one is open */
       countTransactions: true,
     },
     // in this transaction people come and claim their tokens
@@ -49,7 +51,8 @@ export default {
       const timestamp = parseInt(await toPromise(icoContract.startTime)().valueOf(), 10);
       // (timestamp - startTime) / 23 hours + 1 -> EOS day has 23 hour days :P
       // enddate = (numberofdays - 1) * 23h + startdate
-      const endTs = (await toPromise(icoContract.numberOfDays)().valueOf() - 1) * 23 * 60 * 60 + timestamp;
+      const endTs =
+      (await toPromise(icoContract.numberOfDays)().valueOf() - 1) * 23 * 60 * 60 + timestamp;
       return (new Date(endTs * 1000)).formatDate();
     },
     status: async (web3, icoContract) => {

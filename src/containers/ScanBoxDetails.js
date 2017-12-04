@@ -120,7 +120,9 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           baseCurrency={props.baseCurrency}
           total={props.stats.money.totalBaseCurrency}
           currency={props.baseCurrency}
-          avgTicket={props.stats.money.totalBaseCurrency / Object.keys(props.stats.investors.senders).length}
+          avgTicket={
+            props.stats.money.totalBaseCurrency / Object.keys(props.stats.investors.senders).length
+          }
           avgPrice={props.stats.money.totalBaseCurrency / props.stats.money.tokenIssued}
           medianTicketSize={getMedian(props.investedMoney)}
         />

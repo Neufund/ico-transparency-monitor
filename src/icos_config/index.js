@@ -1,5 +1,5 @@
 import moment from 'moment';
-
+// eslint-disable-next-line import/no-dynamic-require
 const requireAll = r => r.keys().map(fileName => require(`./${fileName.replace('./', '')}`).default);
 
 export const getICOsAsList = () => {

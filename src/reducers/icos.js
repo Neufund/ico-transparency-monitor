@@ -1,6 +1,11 @@
-const ICO = (state, action) => {
+const initialState = {
+  icos: {
+  },
+};
+
+const ICO = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_ICO_PROPERTY':
+    case 'SET_ICO_PROPERTY': {
       const key = Object.keys(action.prop)[0];
       if (typeof state.icos[action.address] === 'undefined') { state.icos[action.address] = {}; }
       state.icos[action.address][key] = action.prop[key];
@@ -9,8 +14,9 @@ const ICO = (state, action) => {
         ...state,
         icos: state.icos,
       };
-    default:
+    } default: {
       return state;
+    }
   }
 };
 

@@ -1,6 +1,14 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { getNextICO } from '../utils';
+import { getNextICOAddressByPreviousAddress, getICOByAddress } from '../icos_config';
+import { appendICO } from '../config';
+
+const getNextICO = (address) => {
+  const nextICOAddress = getNextICOAddressByPreviousAddress(address);
+  window.location = `/#/${nextICOAddress}`;
+  appendICO(nextICOAddress, getICOByAddress(nextICOAddress));
+  window.location.reload();
+};
 
 export default ({ address }) =>
   (<Grid>

@@ -42,7 +42,7 @@ class ContentTable extends Component {
         <Row>
           <div className="modal-title-container">
             <div className="modal-title">
-              <h3> {this.currentICO.name || this.currentICO.information.aliasName}</h3>
+              <h3> {this.currentICO.information.name}</h3>
               <p className="ico-paragraph">
                 These criteria are chosen based on the concept of
                 trustless-trust. You can read more about it &nbsp;
@@ -107,42 +107,43 @@ ModalContent.defaultProps = {
   isError: false,
 };
 
+// eslint-disable-next-line
+class MessageBoxModal extends Component {
+  render() {
+    const { showModal, onModalCloseCallback, messageType, currentICO, message } = this.props;
 
-const MessageBoxModal = (props) => {
-  const { showModal, onModalCloseCallback, messageType, currentICO, message } = props;
+    if (!showModal) {
+      return null;
+    }
 
-  if (!showModal) {
+    if (messageType === 'SHOW_MODAL_MESSAGE') {
+      return (
+        <ModalContainer onClose={onModalCloseCallback}>
+          <ModalDialog onClose={onModalCloseCallback}>
+            <ModalContent message={message} />
+          </ModalDialog>
+        </ModalContainer>);
+    } else if (messageType === 'SHOW_MODAL_ERROR') {
+      return (
+        <ModalContainer>
+          <ModalDialog>
+            <ModalContent message={message} isError />
+          </ModalDialog>
+        </ModalContainer>);
+    }
+
+    if (Object.keys(currentICO).length > 0) {
+      return (
+        <ModalContainer onClose={onModalCloseCallback}>
+          <ModalDialog onClose={onModalCloseCallback}>
+            <ContentTable currentICO={currentICO} />
+          </ModalDialog>
+        </ModalContainer>);
+    }
+
     return null;
   }
-
-  if (messageType === 'SHOW_MODAL_MESSAGE') {
-    return (
-      <ModalContainer onClose={onModalCloseCallback}>
-        <ModalDialog onClose={onModalCloseCallback}>
-          <ModalContent message={message} />
-        </ModalDialog>
-      </ModalContainer>);
-  } else if (messageType === 'SHOW_MODAL_ERROR') {
-    return (
-      <ModalContainer>
-        <ModalDialog>
-          <ModalContent message={message} isError />
-        </ModalDialog>
-      </ModalContainer>);
-  }
-
-  if (Object.keys(currentICO).length > 0) {
-    return (
-      <ModalContainer onClose={onModalCloseCallback}>
-        <ModalDialog onClose={onModalCloseCallback}>
-          <ContentTable currentICO={currentICO} />
-        </ModalDialog>
-      </ModalContainer>);
-  }
-
-  return null;
-};
-
+}
 
 const mapStateToProps = state => ({
   showModal: state.modal.showModal,

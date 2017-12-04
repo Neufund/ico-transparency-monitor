@@ -111,13 +111,16 @@ body {
   cursor: pointer;
 }
 
-.ico-box, .scanbox {
+.scanbox {
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 0 #BBC2C7;
 }
-
+.ico-box {
+  background-color: #FFFFFF;
+  box-shadow: 0 0px 1px 0 #BBC2C7;
+}
 .ico-box:hover {
-  box-shadow: 0 2px 4px 0 #505050;
+  box-shadow: 0 0px 1px 0 #505050;
 }
 
 .ico-box .clearfix {
@@ -262,15 +265,15 @@ body {
 }
 
 .nontransparent-status-bottom {
-  border-bottom: 10px #FF0000 solid;
+  border-bottom: 4px #FF0000 solid;
 }
 
 .withissues-status-bottom {
-  border-bottom: 10px #FFB600 solid;
+  border-bottom: 4px #FFB600 solid;
 }
 
 .transparent-status-bottom {
-  border-bottom: 10px #2BD822 solid;
+  border-bottom: 4px #2BD822 solid;
 }
 
 .nontransparent-row {
@@ -900,15 +903,29 @@ a.back-main {
 
 .btn-see-score {
   margin-right: 10px;
-  height: 60px;
-  float: left;
-  width: 46%;
+  padding: 5px;
+  width: 100%;
+  box-shadow: 0 0px 0.2px 0 #BBC2C7 !important;
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
+  max-height: 30px;
+}
+
+.btn-see-score strong, .btn-see-stats strong {
+  line-height: inherit !important;
+  font-size: 14px !important;
 }
 
 .btn-see-stats {
-  height: 60px;
-  width: 46%;
-  padding-bottom: 20px;
+  line-height: inherit;
+  max-height: 30px;
+  padding: 5px;
+  width: 100%;
+  box-shadow: 0 0px 0.2px 0 #BBC2C7 !important;
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
 }
 
 .btn-see-stats p {

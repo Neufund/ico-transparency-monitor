@@ -142,6 +142,13 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
             isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
             isNotVisibleMessage={`No Token statistics: This ICO
             is not generating tokens or is not handling them in trustless way`}
+            scale="time"
+            tooltip={
+              {
+                xTitle: `On`,
+                yTitle: `${props.currency} Rasied`
+              }
+            }
           />
         </Col>
       </Row>

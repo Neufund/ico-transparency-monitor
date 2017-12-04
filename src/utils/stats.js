@@ -53,10 +53,6 @@ const getChartTimescale = (durationHours, startTimestamp) => {
   return ['days', event => 1 + ((event.timestamp - startTimestamp) / 86400) >> 0];
 };
 
-const getChartTimeScaleByDates = () =>
-['days', event => moment.unix(event.timestamp).format('DD/MM')];
-
-
 const getPercentagesDataSet = (limit = 100) => {
   const percentages = [];
   let i = 1;
@@ -171,7 +167,7 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket, currenc
       }
 
       if (etherValue) {
-        const timeKey = moment.unix(item.timestamp).format('DD/MM');
+        const timeKey = moment.unix(item.timestamp).format('DD/MM/YYYY');
         if (timeKey in chartEtherCountTemp) {
           chartEtherCountTemp[timeKey] += (etherValue * currencyPrice);
         } else {
@@ -211,7 +207,7 @@ export const getDatesDuration = (endTime, startTime) =>
   moment.duration(moment(endTime).diff(moment(startTime)));
 
 
-  const getTimeFromLogs = (transactionLogs) => {
+const getTimeFromLogs = (transactionLogs) => {
   const startTimestamp = transactionLogs[0].timestamp;
   const endTimestamp = transactionLogs[transactionLogs.length - 1].timestamp;
 
@@ -236,13 +232,12 @@ export const getDatesDuration = (endTime, startTime) =>
 };
 
 const getChartData = (timeScale, chartData, format = "numbers") => {
-  console.log(chartData);
   const keys = Object.keys(chartData);
   // skip on empty charts
   if (keys.length === 0)
     return {};
 
-  if(format == "numbers") {
+  if (format === "numbers") {
     // when building charts fill empty days and hours with 0
     const timeIterator = timeScale !== 'blocks' ?
       Array.from(new Array(Math.max.apply(null, keys)), (x, i) => i + 1) :
@@ -252,13 +247,18 @@ const getChartData = (timeScale, chartData, format = "numbers") => {
       name: key,
       amount: key in chartData ? chartData[key] : 0,
     }));
+  } else if( format === "dates") {
+    return keys.map(key => {
+      const timeArray = key.split("/");
+      const keyWithoutYear = Array.isArray(timeArray) ? `${timeArray[0]}/${timeArray[1]}` : null;
+      
+      return {
+        key: key,
+        name: keyWithoutYear,
+        amount: key in chartData ? chartData[key] : 0,
+      }
+    });
   }
-
-  return keys.map(key => ({
-    name: key,
-    amount: key in chartData ? chartData[key] : 0,
-  }));
-
 };
 
 /* allLogs contains dictionary {event_name: logs_array}
@@ -335,12 +335,13 @@ export const getStatistics = (icoConfig, allLogs) => {
   return [statsResult, csvContentArray];
 };
 
-export const generateMoneyChartDataset = (chartData , currencyPrice) => {
+export const generateMoneyChartDataset = (chartData, currencyPrice) => {
   let result = [];
   chartData.forEach(item => {
     result.push({
       name: item.name,
       amount: item.amount * currencyPrice,
+      tooltipName: item.key
     })
   });
   return result;

@@ -85,7 +85,6 @@ export const setStatisticsByCurrency = (currency, value, time) => async (dispatc
 
   currentStatistics.charts.etherCount =
   generateMoneyChartDataset(currentStatistics.charts.baseCurrencyCount, value);
-  console.log(currentStatistics);
   dispatch({ type: 'DRAW_STATS', stats: currentStatistics });
 };
 

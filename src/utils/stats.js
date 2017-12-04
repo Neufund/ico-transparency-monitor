@@ -101,7 +101,8 @@ const sortInvestorsByTicket = (investors) => {
   return [sortedByTokens, sortedByETH];
 };
 
-const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket, currencyPrice = 1) => {
+const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket,
+  timeScale, currencyPrice = 1) => {
   let totalETH = 0;
   let totalCurrencyBase = 0;
   let tokenIssued = 0;
@@ -166,7 +167,9 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket, currenc
       }
 
       if (etherValue) {
-        const timeKey = moment.unix(item.timestamp).format('DD/MM/YYYY');
+        const timeKey = timeScale === 'days' ?
+          moment.unix(item.timestamp).format('DD/MM/YYYY') : timeBucket;
+
         if (timeKey in chartEtherCountTemp) {
           chartEtherCountTemp[timeKey] += (etherValue * currencyPrice);
         } else {
@@ -234,8 +237,8 @@ const getChartData = (timeScale, chartData, format = 'numbers') => {
   const keys = Object.keys(chartData);
   // skip on empty charts
   if (keys.length === 0) { return {}; }
-
-  if (format === 'numbers') {
+  if (format === 'numbers' || timeScale === 'blocks' || timeScale === 'hours') {
+    console.log(format, timeScale);
     // when building charts fill empty days and hours with 0
     const timeIterator = timeScale !== 'blocks' ?
       Array.from(new Array(Math.max.apply(null, keys)), (x, i) => i + 1) :
@@ -281,6 +284,7 @@ export const getStatistics = (icoConfig, allLogs) => {
     transactionLogs[transactionLogs.length - 1].blockNumber);
 
   const toTimeBucket = statsResult.time.toTimeBucket;
+  const timeScale = statsResult.time.scale;
 
   const { senders,
     totalETH,
@@ -291,7 +295,7 @@ export const getStatistics = (icoConfig, allLogs) => {
     chartTokensCountTemp,
     chartTransactionsCountTemp,
     chartEtherCountTemp,
-  } = getMoneyFromEvents(icoConfig, allLogs, investors, toTimeBucket);
+  } = getMoneyFromEvents(icoConfig, allLogs, investors, toTimeBucket, timeScale);
 
   // Money statistics
   statsResult.money.totalETH = totalETH;

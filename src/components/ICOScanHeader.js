@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { icoTransparencyMap, isCorrectTokenAddress } from '../utils';
-import { isNeufundAddress } from '../utils/web3.js'
+import { isNeufundAddress } from '../utils/web3.js';
 
 export default (props) => {
   const { address, information, addedBy, decision, onModalShow, tokenContract, icoModalData } = props;

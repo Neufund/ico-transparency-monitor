@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStore as initialCreateStore, compose } from 'redux';
 
-export let createStore = initialCreateStore;
+export const createStore = initialCreateStore;
 
 if (__DEV__) {
   createStore = compose(

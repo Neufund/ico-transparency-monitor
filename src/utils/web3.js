@@ -59,7 +59,7 @@ export const web3Connect = () => async (dispatch, getState) => {
 export const getSmartContract = (web3, address) => {
   if (!web3) { return null; }
   try {
-    // eslint-diable-next-line import/no-dynamic-require
+    // eslint-disable-next-line import/no-dynamic-require
     const abi = require(`../smart_contracts/${address}.json`);
     return web3.eth.contract(abi).at(address);
   } catch (err) {
@@ -87,8 +87,10 @@ const getERC20Parameters = async (smartContract) => {
 
 export const getAbiAsDictionary = (abi) => {
   const result = {};
-  abi.forEach(item => result[item.name] = item.outputs &&
-    item.outputs.length > 0 ? item.outputs[0].type : null);
+  abi.forEach((item) => {
+    result[item.name] = item.outputs &&
+    item.outputs.length > 0 ? item.outputs[0].type : null;
+  });
   return result;
 };
 
@@ -110,7 +112,9 @@ export const getICOParameters = async (web3, address) => {
     tokenContract : getSmartContract(web3, address);
   const icoParameters = configFile[address].icoParameters;
   Object.keys(icoParameters).forEach((prop) => {
-    if (icoParameters[prop] !== null) { result[prop] = icoParameters[prop](web3, icoContract, tokenContract); }
+    if (icoParameters[prop] !== null) {
+      result[prop] = icoParameters[prop](web3, icoContract, tokenContract);
+    }
   });
   return result;
 };
@@ -125,9 +129,9 @@ export const convertBlockNumberToDate = async (web3, blockNumber) => {
 
 export const convertWeb3Value = (value, type) => {
   switch (type) {
-    case 'string' :return value;
-    case 'ether' :return value.div(10 ** 18).toNumber();
-    case 'timestamp' :return new Date(parseInt(value.valueOf(), 10) * 1000);
+    case 'string': return value;
+    case 'ether': return value.div(10 ** 18).toNumber();
+    case 'timestamp': return new Date(parseInt(value.valueOf(), 10) * 1000);
     default: throw new Error('Unexpected input');
   }
 };

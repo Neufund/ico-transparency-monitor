@@ -53,6 +53,12 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
         isNotVisibleMessage={`No Token statistics: This ICO
         is not generating tokens or is not handling them in trustless way`}
+        tooltip={
+          {
+            yTitle: 'Token raised',
+            ySymbol: props.symbol,
+          }
+        }
       />
     </Col>
     <Col md={6} sm={12} xs={12}>
@@ -95,6 +101,13 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           isVisible={props.stats.money.tokenIssued !== 0}
           isNotVisibleMessage={`No Token distribution statistics: This
            ICO is not generating tokens or is not handling them in trustless way`}
+          tooltip={
+            {
+              xTitle: 'All Tokens distributed',
+              yTitle: 'Tokens distributed',
+              ySymbol: `${props.symbol}`,
+            }
+          }
         />
       </Col>
     </Row>
@@ -142,18 +155,17 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
             isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
             isNotVisibleMessage={`No Token statistics: This ICO
             is not generating tokens or is not handling them in trustless way`}
-            scale="time"
             tooltip={
               {
-                xTitle: `On`,
-                yTitle: `${props.currency} Rasied`
+                xTitle: 'On',
+                yTitle: `${props.currency} Rasied`,
+                ySymbol: props.currency,
               }
             }
           />
         </Col>
       </Row>
     </div>
-
 
 
     <div className="section-top">
@@ -180,6 +192,14 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
             isVisible={props.stats.money.totalETH !== 0}
             isNotVisibleMessage={`No ETH statistics: This ICO Is not
             handling funds in a trustless way`}
+            tooltip={
+              {
+                xTitle: 'Ticket size',
+                xSymbol: props.currency,
+                yTitle: 'Total ticket amount',
+                ySymbol: 'investors',
+              }
+            }
           />
         </Col>
       </Row>
@@ -195,6 +215,13 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           isVisible={props.stats.money.totalETH !== 0}
           isNotVisibleMessage={`No ETH statistics: This ICO Is not
           handling funds in a trustless way`}
+          tooltip={
+            {
+              xTitle: 'Ticket size',
+              xSymbol: props.currency,
+              ySymbol: props.currency,
+            }
+          }
         />
       </Col>
     </Row>

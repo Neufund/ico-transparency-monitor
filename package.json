@@ -46,7 +46,8 @@
     "url-loader": "^0.5.9",
     "web3": "^0.20.1",
     "web3-provider-engine": "^13.0.0",
-    "webpack": "^3.3.0"
+    "webpack": "^3.3.0",
+    "redux-devtools": "^3.4.1"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.9.0",
@@ -77,7 +78,6 @@
     "eslint-plugin-react": "^7.0.1",
     "react-hot-loader": "next",
     "react-scripts": "1.0.9",
-    "redux-devtools": "^3.4.0",
     "sinon": "^2.4.0",
     "sinon-chai": "^2.12.0"
   },

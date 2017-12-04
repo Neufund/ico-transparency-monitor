@@ -41,7 +41,6 @@ export const formatDuration = duration =>
   ${duration.get('seconds') > 0 ? `${duration.get('seconds')} Seconds` : ''}`;
 
 
-
 const getChartTimescale = (durationHours, startTimestamp) => {
   if (durationHours < 12) {
     return ['blocks', event => event.blockNumber];
@@ -199,7 +198,7 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket, currenc
     csvContentArray,
     chartTokensCountTemp,
     chartTransactionsCountTemp,
-    chartEtherCountTemp
+    chartEtherCountTemp,
   };
 };
 
@@ -231,13 +230,12 @@ const getTimeFromLogs = (transactionLogs) => {
   };
 };
 
-const getChartData = (timeScale, chartData, format = "numbers") => {
+const getChartData = (timeScale, chartData, format = 'numbers') => {
   const keys = Object.keys(chartData);
   // skip on empty charts
-  if (keys.length === 0)
-    return {};
+  if (keys.length === 0) { return {}; }
 
-  if (format === "numbers") {
+  if (format === 'numbers') {
     // when building charts fill empty days and hours with 0
     const timeIterator = timeScale !== 'blocks' ?
       Array.from(new Array(Math.max.apply(null, keys)), (x, i) => i + 1) :
@@ -247,18 +245,19 @@ const getChartData = (timeScale, chartData, format = "numbers") => {
       name: key,
       amount: key in chartData ? chartData[key] : 0,
     }));
-  } else if( format === "dates") {
-    return keys.map(key => {
-      const timeArray = key.split("/");
+  } else if (format === 'dates') {
+    return keys.map((key) => {
+      const timeArray = key.split('/');
       const keyWithoutYear = Array.isArray(timeArray) ? `${timeArray[0]}/${timeArray[1]}` : null;
-      
+
       return {
-        key: key,
+        key,
         name: keyWithoutYear,
         amount: key in chartData ? chartData[key] : 0,
-      }
+      };
     });
   }
+  return null;
 };
 
 /* allLogs contains dictionary {event_name: logs_array}
@@ -291,7 +290,7 @@ export const getStatistics = (icoConfig, allLogs) => {
     csvContentArray,
     chartTokensCountTemp,
     chartTransactionsCountTemp,
-    chartEtherCountTemp
+    chartEtherCountTemp,
   } = getMoneyFromEvents(icoConfig, allLogs, investors, toTimeBucket);
 
   // Money statistics
@@ -312,7 +311,7 @@ export const getStatistics = (icoConfig, allLogs) => {
 
   // Ether Count chart
   statsResult.charts.baseCurrencyCount = getChartData(statsResult.time.scale,
-    chartEtherCountTemp, "dates");
+    chartEtherCountTemp, 'dates');
 
   const sortedSenders = sortInvestorsByTicket(senders);
 
@@ -336,13 +335,13 @@ export const getStatistics = (icoConfig, allLogs) => {
 };
 
 export const generateMoneyChartDataset = (chartData, currencyPrice) => {
-  let result = [];
-  chartData.forEach(item => {
+  const result = [];
+  chartData.forEach((item) => {
     result.push({
       name: item.name,
       amount: item.amount * currencyPrice,
-      tooltipName: item.key
-    })
+      tooltipName: item.key,
+    });
   });
   return result;
-}
+};

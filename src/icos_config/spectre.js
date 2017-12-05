@@ -19,6 +19,7 @@ export default {
         from: '0x0000000000000000000000000000000000000000',
       },
       firstTransactionBlockNumber: 4439146,
+      maxBlocksInChunk: 42960,
       lastTransactionBlockNumber: null,
       countTransactions: true,
     },

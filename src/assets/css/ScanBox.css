@@ -315,3 +315,18 @@ textarea.console {
   border-radius: 5px;
   border: 1px solid whitesmoke;
 }
+
+.social-share {
+  height: 23px;
+}
+
+.social-share li {
+  float: left;
+  list-style: none;
+  margin-right: 10px;
+}
+
+.social-share .SocialMediaShareButton{
+  vertical-align: middle;
+  cursor: pointer;
+} 

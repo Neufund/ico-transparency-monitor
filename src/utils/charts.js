@@ -41,12 +41,12 @@ export default (chartId, title, xLabel, yLabel, projectName) => {
     ctx.fillText(yLabel, 20, 70);
     ctx.fillText(xLabel, canvas.width / 2, canvas.height - 30);
 
-    ctx.font = '20px Montserrat';
+    ctx.font = '15px Montserrat';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    ctx.fillText(title, canvas.width / 2, 30);
-
-    ctx.fillText(`For ${projectName} ICO`, canvas.width / 2, 55);
+    ctx.fillText(`${projectName.toUpperCase()} ICO`, canvas.width / 2, 30);
+    ctx.font = '20px Montserrat';
+    ctx.fillText(title, canvas.width / 2, 55);
 
     ctx.font = '15px Montserrat';
     ctx.fillStyle = gradient;

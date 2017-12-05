@@ -19,14 +19,14 @@ export default {
       },
       firstTransactionBlockNumber: 4551199,
       lastTransactionBlockNumber: null,
-      maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
+      maxBlocksInChunk: 12960,
       countTransactions: true,
     },
   },
   icoParameters: {
     cap: async (web3, icoContract) => {
-      const tokens_max = await toPromise(icoContract.TOKENS_SALE)();
-      return [`Hard ${formatNumber(Math.floor(convertWeb3Value(tokens_max, 'ether')))} ST`];
+      const tokensMax = await toPromise(icoContract.TOKENS_SALE)();
+      return [`Hard ${formatNumber(Math.floor(convertWeb3Value(tokensMax, 'ether')))} ST`];
     },
     startDate: async (web3, icoContract) => {
       const startDate = await toPromise(icoContract.PHASE1_START_TIME)();

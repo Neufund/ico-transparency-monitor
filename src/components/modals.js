@@ -42,7 +42,7 @@ class ContentTable extends Component {
         <Row>
           <div className="modal-title-container">
             <div className="modal-title">
-              <h3> {this.currentICO.name || this.currentICO.information.aliasName}</h3>
+              <h3> {this.currentICO.information.name}</h3>
               <p className="ico-paragraph">
                 These criteria are chosen based on the concept of
                 trustless-trust. You can read more about it &nbsp;
@@ -68,13 +68,15 @@ class ContentTable extends Component {
                   const currentQuestion = this.state.matrix[key];
                   const mappedQuestionMatrix = config.matrix[key];
 
-                  return (<tr key={`${key}_${index}`}>
+                  return (<tr key={`${key}`}>
                     <td className={this.getRowClassName(key)}>
                       {mappedQuestionMatrix.question}
                       <p className={`alert-error ${this.getAlertClassName(key)}`}>{currentQuestion.comment}</p>
                     </td>
                     <th>
+                      {/* eslint-disable */}
                       <p>{currentQuestion.answer === null ? 'N/A' : (currentQuestion.answer ? 'Yes' : 'No')}</p>
+                      {/* eslint-enable */}
                     </th>
                   </tr>);
                 })}
@@ -105,9 +107,10 @@ ModalContent.defaultProps = {
   isError: false,
 };
 
+// eslint-disable-next-line
 class MessageBoxModal extends Component {
   render() {
-    const { showModal, onModalClose, messageType, currentICO, message } = this.props;
+    const { showModal, onModalCloseCallback, messageType, currentICO, message } = this.props;
 
     if (!showModal) {
       return null;
@@ -115,8 +118,8 @@ class MessageBoxModal extends Component {
 
     if (messageType === 'SHOW_MODAL_MESSAGE') {
       return (
-        <ModalContainer onClose={onModalClose}>
-          <ModalDialog onClose={onModalClose}>
+        <ModalContainer onClose={onModalCloseCallback}>
+          <ModalDialog onClose={onModalCloseCallback}>
             <ModalContent message={message} />
           </ModalDialog>
         </ModalContainer>);
@@ -131,8 +134,8 @@ class MessageBoxModal extends Component {
 
     if (Object.keys(currentICO).length > 0) {
       return (
-        <ModalContainer onClose={onModalClose}>
-          <ModalDialog onClose={onModalClose}>
+        <ModalContainer onClose={onModalCloseCallback}>
+          <ModalDialog onClose={onModalCloseCallback}>
             <ContentTable currentICO={currentICO} />
           </ModalDialog>
         </ModalContainer>);
@@ -150,7 +153,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onModalClose: () => dispatch(onModalClose()),
+  onModalCloseCallback: () => dispatch(onModalClose()),
 });
 
 export default connect(

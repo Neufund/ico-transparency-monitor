@@ -26,7 +26,8 @@ export default {
   icoParameters: {
     cap: async (web3, icoContract, tokenContract) => {
       const minCap = await toPromise(icoContract.MIN_CAP)();
-      return [`Min cap: ${formatNumber(minCap / 10 ** 18)} SXS`];
+      const maxCap = await toPromise(icoContract.TOKENS_AVAILABLE)();
+      return [`Min: ${formatNumber(minCap / 10 ** 18)} SXS`, `Max: ${formatNumber(maxCap / 10 ** 18)} SXS`];
     },
     startDate: async (web3, icoContract) => {
       const startDate = await toPromise(icoContract.saleStart)();
@@ -46,7 +47,7 @@ export default {
         return 'in progress';
       }
       return 'successful';
-    }
+    },
   },
   matrix: {
     q1: { answer: true },
@@ -58,11 +59,13 @@ export default {
     q7: { answer: true },
     q8: { answer: true },
     q9: { answer: true },
-    q10: { answer: true },
-    q11: { answer: true },
+    q10: { answer: false, comment: `Contract code is messy. 50% of the code could be removed. Standard transfer functions are overridden 
+      and never used. Why TokenControlled is implemented when no one controls anything and internal interface is not used etc.?` },
+    q11: { answer: false, comment: `Refund procedure is not trustless. withdrawEther may be called at any time and then owner needs to send funds back to the contract with fundContract.
+       A simple condition on withdrawEther that rejects if MIN_CAP is not met would solve the problem.` },
     q12: { answer: true },
     q13: { answer: true },
-    q14: { answer: true },
+    q14: { answer: true, comment: 'There is a pause function but it does not change end date.' },
   },
   decimals: 18,
   addedBy: 'Mostafa Balata',

@@ -30,6 +30,7 @@
     "react-flexbox-grid": "^1.1.3",
     "react-fontawesome": "^1.6.1",
     "react-ga": "^2.2.0",
+    "react-infinite-scroller": "^1.1.1",
     "react-modal-dialog": "^4.0.0",
     "react-redux": "^3.0.0",
     "react-router-dom": "^4.1.1",
@@ -46,7 +47,8 @@
     "url-loader": "^0.5.9",
     "web3": "^0.20.1",
     "web3-provider-engine": "^13.0.0",
-    "webpack": "^3.3.0"
+    "webpack": "^3.3.0",
+    "redux-devtools": "^3.4.1"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.9.0",
@@ -77,7 +79,6 @@
     "eslint-plugin-react": "^7.0.1",
     "react-hot-loader": "next",
     "react-scripts": "1.0.9",
-    "redux-devtools": "^3.4.0",
     "sinon": "^2.4.0",
     "sinon-chai": "^2.12.0"
   },
@@ -86,7 +87,8 @@
     "serve": "NODE_ENV=development babel-node node_modules/.bin/webpack-dev-server --https --colors --progress --history-api-fallback",
     "build": "NODE_ENV=production babel-node node_modules/.bin/webpack",
     "test": "(cp -n src/env.example.json src/env.json || true) && NODE_ENV=test babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require ignore-styles --require test/mochaConfig.js ./test/**/*.test.js",
-    "eslint": "eslint --ignore-path .gitignore .",
-    "lint": "yarn eslint"
+    "eslint": "(cp -n src/env.example.json src/env.json || true) && eslint --ignore-path .gitignore .",
+    "lint": "yarn eslint",
+    "lint:fix" :"yarn eslint --fix"
   }
 }

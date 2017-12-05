@@ -1,6 +1,6 @@
+import { BigNumber } from 'bignumber.js';
 import { toPromise, formatNumber } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
-import { BigNumber } from 'bignumber.js';
 
 export default {
   crowdSaleTokenContract: '0xf432cec23b2a0d6062b969467f65669de81f4653',
@@ -20,7 +20,9 @@ export default {
       },
       firstTransactionBlockNumber: 4514628,
       lastTransactionBlockNumber: null, // follow last block
-      maxBlocksInChunk: 12960, // scan in 3 const eventArgs = selectedICO.event.args;days blocks, last one is open
+      maxBlocksInChunk: 12960, /* scan in 3 
+      const eventArgs = selectedICO.event.args;
+      days blocks, last one is open */
       countTransactions: true,
     },
   },

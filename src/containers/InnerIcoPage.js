@@ -8,12 +8,13 @@ import IcoRowSinglePage from '../components/IcoRowSinglePage';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxDetails from './ScanBoxDetails';
 import IcoScanHeader from '../components/ICOScanHeader';
-import config from '../config';
+import config, { appendICO } from '../config';
 import Error404 from '../components/Error404';
 import { getLogs, readSmartContract } from '../actions/web3';
 import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import { resetRpc } from '../actions/ScanAction';
 import { isConnected } from '../utils/web3';
+import { getICOByAddress } from '../icos_config';
 
 class InnerIcoPage extends Component {
   constructor(props) {
@@ -24,6 +25,8 @@ class InnerIcoPage extends Component {
   }
 
   componentDidMount() {
+    appendICO(this.props.address, getICOByAddress(this.props.address));
+
     if (this.props.web3 && typeof config.ICOs[this.props.address] !== 'undefined') {
       this.props.readSmartContract(this.props.address);
     }

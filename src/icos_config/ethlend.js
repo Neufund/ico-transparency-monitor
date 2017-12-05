@@ -24,15 +24,15 @@ export default {
       const maxCap = await toPromise(icoContract.TOTAL_SOLD_TOKEN_SUPPLY_LIMIT)().valueOf();
       return `Max: ${maxCap / (10 ** 18)} LEND`;
     },
-    startDate: async () => "by admin",
-    endDate: async () => "by admin",
+    startDate: async () => 'by admin',
+    endDate: async () => 'by admin',
     status: async (web3, icoContract) => {
       const state = await toPromise(icoContract.currentState)().valueOf();
       if (state === 5) {
-        return "successful";
+        return 'successful';
       }
-      return "in progress";
-    }
+      return 'in progress';
+    },
   },
   matrix: {
     q1: { answer: true },
@@ -49,10 +49,10 @@ export default {
     1. token transfers are enabled when ICO is finalized so it is subject to admin good will and is not controlled by the contract,
     2. funds are not held in escrow until finalization and can be withdrawn at any moment,
     One small change: adding onlyInState(State.ICOFinished) to setTokenManager function would make this contract fully trustless. Adding a simple state machine to
-    setState function would also help.`},
+    setState function would also help.` },
     q12: { answer: true },
-    q13: { answer: false, comment: "admin triggers ICO stages, he can even go back from sale to pre-sale etc." },
-    q14: { answer: false, comment: "admin triggers ICO stages, he can even go back from sale to pre-sale etc." },
+    q13: { answer: false, comment: 'admin triggers ICO stages, he can even go back from sale to pre-sale etc.' },
+    q14: { answer: false, comment: 'admin triggers ICO stages, he can even go back from sale to pre-sale etc.' },
   },
   addedBy: 'Marcin Rudolf',
   dateAdded: '27-11-2017',

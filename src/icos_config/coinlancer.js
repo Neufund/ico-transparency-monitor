@@ -39,7 +39,7 @@ export default {
     q8: { answer: false, comment: 'All other currencies are handled by a backend.' },
     q9: { answer: false },
     q10: { answer: false },
-    q11: { answer: true, comment: `Simple transferable token, no ICO contract available` },
+    q11: { answer: true, comment: 'Simple transferable token, no ICO contract available' },
     q12: { answer: null },
     q13: { answer: null },
     q14: { answer: null },

@@ -17,7 +17,7 @@ import {
   initStatistics,
 } from '../../src/utils/stats';
 
-import config from '../../src/config';
+import config from '../../src/config.test';
 import stateProvider from '../helpers/web3Mock';
 
 describe('Decision Matrix', () => {

@@ -12,6 +12,12 @@
     "no-bitwise": "off",
     "react/prop-types": "off",
     "global-require": "off",
+    "no-unused-vars": "off",
+    "no-console": "off",
+    "no-undef": "off",
+    "no-mixed-operators": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "no-param-reassign":"off",
     "mocha/no-exclusive-tests": "error",
     "comma-dangle": ["error", {
       "arrays": "always-multiline",

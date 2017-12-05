@@ -37,6 +37,7 @@ export const computeICOTransparency = (answers) => {
   let hasCritical = false;
 
   Object.keys(config.matrix).forEach((key) => {
+    // eslint-disable-next-line no-prototype-builtins
     if (config.matrix.hasOwnProperty(key)) {
       const answer = answers[key];
       const definition = config.matrix[key];
@@ -147,6 +148,33 @@ export const kFormatter = (num) => {
   return num.toString();
 };
 
+/* eslint-disable */
+export const downloadCSV = fileName => async (dispatch, getState) => {
+  const csvContentArray = getState().scan.csvContent;
+
+  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value',
+    'Timestamp', 'Block Number', '\n'].join(',');
+  csvContentArray.forEach((item, index) => {
+    const dataString = item.join(',');
+    csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
+  });
+  
+  const csvData = new Blob([csvContent], { type: 'application/csv;charset=utf-8;' });
+  // FOR OTHER BROWSERS
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(csvData);
+  link.style = 'visibility:hidden';
+  link.download = `${fileName}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+/* eslint-enable */
+
+export const getICODuration = (endTime, startTime) =>
+  moment.duration(moment(endTime).diff(moment(startTime)));
+
+
 export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
   const max = sortedInvestors[0].value * currencyPerEther;
   // investors
@@ -179,37 +207,3 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
   return [investorsChartXAxis, investmentChartXAxis];
 };
 
-/* eslint-disable */
-export const downloadCSV = fileName => async (dispatch, getState) => {
-  const csvContentArray = getState().scan.csvContent;
-
-  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value',
-    'Timestamp', 'Block Number', '\n'].join(',');
-  csvContentArray.forEach((item, index) => {
-    const dataString = item.join(',');
-    csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
-  });
-  
-  const csvData = new Blob([csvContent], { type: 'application/csv;charset=utf-8;' });
-  // FOR OTHER BROWSERS
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(csvData);
-  link.style = 'visibility:hidden';
-  link.download = `${fileName}.csv`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
-/* eslint-enable */
-
-export const getNextICO = (address) => {
-  const icosKeys = Object.keys(config.ICOs);
-  const currentICOIndex = icosKeys.indexOf(address) % (icosKeys.length - 1);
-  const nextICOIndex = currentICOIndex + 1;
-  const nextICO = icosKeys[nextICOIndex];
-  window.location = `/#/${nextICO}`;
-  window.location.reload();
-};
-
-export const getICODuration = (endTime, startTime) =>
-  moment.duration(moment(endTime).diff(moment(startTime)));

@@ -308,3 +308,10 @@ textarea.console {
     padding-left:150px;
   }
 }
+
+.custom-tooltip {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid whitesmoke;
+}

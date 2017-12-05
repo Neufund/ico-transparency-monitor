@@ -9,6 +9,15 @@ import { resetRpc } from '../actions/ScanAction';
 import { isConnected, isNeufundAddress } from '../utils/web3';
 
 export class IcoDataRow extends Component {
+  static getDecisionValue(decision) {
+    switch (decision) {
+      case 'transparent': return 'Transparent';
+      case 'nontransparent': return 'Non Transparent';
+      case 'withissues': return 'With issues';
+      default: return null;
+    }
+  }
+
   constructor(props) {
     super(props);
     this.address = this.props.address;
@@ -82,13 +91,14 @@ export class IcoDataRow extends Component {
                       onModalShowCallback(this.props);
                     }}
                   >
-                    <p>see <strong>SCORE</strong></p>
+                    <p><strong>{IcoDataRow.getDecisionValue(decision)}</strong> see more</p>
                   </button>
+
                   <button
                     href={name}
                     className="btn-blue btn-see-stats"
                   >
-                    <p>see <strong>STATS</strong></p>
+                    <p><strong>ICO Statistics</strong> see more</p>
                   </button>
                 </Col>
               </Row>

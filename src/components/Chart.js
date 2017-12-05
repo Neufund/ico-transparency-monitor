@@ -29,7 +29,8 @@ const CustomTooltip = (e) => {
       <strong>{e.xLabel}:</strong><span> {key} {e.xSymbol}</span>
     </div>);
 };
-export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, isNotVisibleMessage = '', hideTitle, tooltip = {} }) => {
+
+export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, projectName = null, isNotVisibleMessage = '', hideTitle, tooltip = {} }) => {
   const { xTitle, yTitle, ySymbol, xSymbol } = tooltip;
   return (
     <div id={dataKey} className="chart-parent relative">
@@ -59,7 +60,7 @@ export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, isNotV
             </ResponsiveContainer>
             <button
               className="chart-btn"
-              onClick={() => { downloadChartImage(dataKey, title, xLabel, yLabel); }}
+              onClick={() => { downloadChartImage(dataKey, title, xLabel, yLabel, projectName); }}
             >
               <i className="fa fa-download" /> Download as image
             </button>

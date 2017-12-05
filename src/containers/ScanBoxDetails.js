@@ -28,6 +28,7 @@ export const getMedian = (numbers) => {
 };
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
+  {console.log(props)}
   <ReactTooltip multiline />
   <Row className="statistics box-container">
     <Col md={12} className="scan-content">
@@ -45,6 +46,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <Row className="statistics box-container">
     <Col md={6} sm={12} xs={12} className="relative">
       <Chart
+        projectName={props.name}
         title={`${props.symbol} Tokens raised over time`}
         data={props.stats.charts.tokensCount}
         dataKey="Tokens/Time"
@@ -64,6 +66,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     </Col>
     <Col md={6} sm={12} xs={12}>
       <Chart
+        projectName={props.name}
         title="Transactions over time"
         data={props.stats.charts.transactionsCount}
         dataKey={`Transactions/${props.stats.time.scale}`}
@@ -152,6 +155,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       <Row className="box-container">
         <Col md={12} sm={12} xs={12} >
           <Chart
+            projectName={props.name}
             title="Raised funds over time"
             data={props.stats.charts.etherCount}
             dataKey="Date"
@@ -189,6 +193,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
       <Row className="box-container">
         <Col md={12} sm={12} xs={12} >
           <Chart
+            projectName={props.name}
             data={props.stats.charts.investorsDistribution}
             dataKey="Investors"
             title="Number of investors according to the ticket size"
@@ -212,6 +217,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
     <Row className="box-container">
       <Col md={12} sm={12} xs={12} >
         <Chart
+          projectName={props.name}
           data={props.stats.charts.investmentDistribution}
           dataKey="Investments"
           title="Total amount invested with the given ticket size"
@@ -246,6 +252,7 @@ const mapStateToProps = (state, props) =>
     investedMoney: state.scan.stats.investors.sortedByETH.map(investor => investor.value),
     stats: state.scan.stats,
     ...state.ICO.icos[props.address],
+    name: config.ICOs[props.address].information.name,
     matrix: config.ICOs[props.address].matrix,
     baseCurrency: config.ICOs[props.address].baseCurrency || 'ETH',
   });

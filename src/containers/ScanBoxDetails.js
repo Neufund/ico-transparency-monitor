@@ -157,9 +157,9 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
             dataKey="Date"
             xLabel={props.stats.time.scale.capitalizeTxt()}
             yLabel={props.currency}
-            isVisible={parseInt(props.stats.money.tokenIssued, 10) > 0}
-            isNotVisibleMessage={`No Token statistics: This ICO
-            is not generating tokens or is not handling them in trustless way`}
+            isVisible={props.stats.money.totalETH !== 0}
+            isNotVisibleMessage={`No ETH statistics: This ICO Is not
+            handling funds in a trustless way`}
             tooltip={
               {
                 xTitle: 'On',

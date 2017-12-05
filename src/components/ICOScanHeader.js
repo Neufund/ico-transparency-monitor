@@ -31,6 +31,7 @@ export default (props) => {
                     >{eventName} Page</a>
                     {address && isCorrectTokenAddress(address) && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/address/${address}`} >View {eventName} contract on etherscan</a>}
                     {tokenContract && <a className="link" rel="noopener noreferrer" target="_blank" href={`https://etherscan.io/token/${tokenContract}`} >View token contract on etherscan</a>}
+                    <ShareButtons />
                   </div>
                 </div>
               </Col>
@@ -55,9 +56,6 @@ export default (props) => {
               </Col>
             </Row>
 
-          </Col>
-          <Col sm={12}>
-            <ShareButtons />
           </Col>
         </Row>
       </Grid>

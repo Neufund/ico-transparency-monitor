@@ -214,7 +214,6 @@ textarea.console {
   color: #000000;
   text-decoration: none;
   font-size: 22px;
-  /*line-height:39px;*/
 }
 
 .ico-scan-header .ico-logo img {
@@ -222,7 +221,7 @@ textarea.console {
 }
 
 .ico-scan-header .name {
-  height: 40px;
+  height: auto;
   color: #4A4A4A;
   font-size: 14px;
   font-weight: 300;
@@ -318,6 +317,7 @@ textarea.console {
 
 .social-share {
   height: 23px;
+  padding: 0;
 }
 
 .social-share li {

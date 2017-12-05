@@ -56,6 +56,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         tooltip={
           {
             yTitle: 'Token raised',
+            xTitle: props.stats.time.scale.slice(0, -1),
             ySymbol: props.symbol,
           }
         }
@@ -70,9 +71,11 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         isVisible={parseInt(props.stats.general.transactionsCount, 10) > 0}
         isNotVisibleMessage={`No Token distribution table: This
         ICO is not generating tokens or is not handling them in trustless way`}
-
         xLabel={props.stats.time.scale.capitalizeTxt()}
         yLabel="Transactions"
+        tooltip={
+          { xTitle: props.stats.time.scale.slice(0, -1), yTitle: 'Transaction' }
+        }
       />
     </Col>
   </Row>
@@ -103,7 +106,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
            ICO is not generating tokens or is not handling them in trustless way`}
           tooltip={
             {
-              xTitle: 'All Tokens distributed',
+              xTitle: 'All tokens distributed',
               yTitle: 'Tokens distributed',
               ySymbol: `${props.symbol}`,
             }
@@ -160,7 +163,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
             tooltip={
               {
                 xTitle: 'On',
-                yTitle: `${props.currency} Raised`,
+                yTitle: `${props.currency} raised`,
                 ySymbol: props.currency,
               }
             }
@@ -199,7 +202,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
                 xTitle: 'Ticket size',
                 xSymbol: props.currency,
                 yTitle: 'Total ticket amount',
-                ySymbol: 'investors',
+                ySymbol: 'tickets',
               }
             }
           />
@@ -213,7 +216,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
           dataKey="Investments"
           title="Total amount invested with the given ticket size"
           xLabel={`Ticket Size in [${props.currency}]`}
-          yLabel="Total Amount Invested"
+          yLabel="Total amount invested"
           isVisible={props.stats.money.totalETH !== 0}
           isNotVisibleMessage={`No ETH statistics: This ICO Is not
           handling funds in a trustless way`}

@@ -28,6 +28,17 @@ export const getICOByAddress = (address) => {
   return icosAsList.icos.find((ico, index) => ico && ico.crowdSaleTokenContract === address);
 };
 
+const isLiked = (text, keyword) => text.indexOf(keyword) > -1;
+
+export const search = (key, limit) => {
+  const icosAsList = getICOsAsList();
+  const icosLength = icosAsList.length;
+  return [icosAsList.icos.filter((ico, index) =>
+    ico && isLiked(ico.information.name.toLowerCase(), key.toLowerCase())
+  ).slice(0, limit), icosLength];
+};
+
+
 export const getNextICOAddressByPreviousAddress = (previousAddress) => {
   const icosAsList = getICOsAsList();
   for (let i = 0; i < icosAsList.icos.length; i += 1) {

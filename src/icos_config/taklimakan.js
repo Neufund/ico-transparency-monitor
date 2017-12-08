@@ -3,13 +3,13 @@ import { convertWeb3Value } from '../utils/web3';
 import { BigNumber } from 'bignumber.js';
 
 export default {
-  crowdSaleTokenContract: '', // TBD
-  tokenContract: '', // TBD
+  crowdSaleTokenContract: '0x3be69852d5cd9c0323c96248846472f9c55d86d3',
+  tokenContract: '0x0675DAa94725A528b05A3A88635C03EA964BFA7E',
   baseCurrency: 'ETH',
   information: {
     aliasName: 'Taklimakan',
     website: 'https://taklimakan.io/',
-    logo: '', // TBD
+    logo: 'https://taklimakan.io/static/img/general/logo.png',
   },
   events: {
     TokenSale: {
@@ -21,7 +21,7 @@ export default {
       customArgs: {
         tokenPrice: 'tokensPerEther' // Information on token price
       },
-      firstTransactionBlockNumber: , // TBD
+      firstTransactionBlockNumber: 4695700,
       lastTransactionBlockNumber: null, // follow last block
       countTransactions: true,
     },

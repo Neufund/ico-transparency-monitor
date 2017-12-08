@@ -1,6 +1,6 @@
+import { BigNumber } from 'bignumber.js';
 import { toPromise, formatNumber } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
-import { BigNumber } from 'bignumber.js';
 
 export default {
   crowdSaleTokenContract: '0x3be69852d5cd9c0323c96248846472f9c55d86d3',
@@ -19,7 +19,7 @@ export default {
         sender: 'tokenReceiver',
       },
       customArgs: {
-        tokenPrice: 'tokensPerEther' // Information on token price
+        tokenPrice: 'tokensPerEther', // Information on token price
       },
       firstTransactionBlockNumber: 4695700,
       lastTransactionBlockNumber: null, // follow last block
@@ -49,32 +49,30 @@ export default {
       } else if (now >= startDateICO && now < endDateICO) {
         if (goalReached) {
           return 'successful';
-        } else {
-          return 'in progress';
         }
-      } else {
-        if (goalReached) {
-          return 'successful';
-        }
+        return 'in progress';
+      }
+      if (goalReached) {
+        return 'successful';
       }
       return 'failed';
     },
   },
   matrix: {
-    q1: { answer: true, comment: `Yes, the contract name is TaklimakanCrowdsale` },
-    q2: { answer: true, comment: `Source code is available` },
-    q3: { answer: true, comment: `` },
-    q4: { answer: true, comment: `` },
-    q5: { answer: true, comment: `` },
-    q6: { answer: true, comment: `Token rate is provided via TokenSale Event as custom argument: tokensPerEther` },
-    q7: { answer: true, comment: `ETH is sent to smart contract and cannot be withdrawn by owner until the ICO ends (either by reaching maximum cap or by reaching ICO close date)` },
-    q8: { answer: true, comment: `n/a: Taklimakan is only using ETH` },
-    q9: { answer: true, comment: `n/a: Taklimakan is only using ETH` },
-    q10: { answer: true, comment: `` },
-    q11: { answer: true, comment: `` },
-    q12: { answer: true, comment: `Both price and bonus are controlled by smart contract, see processPayment function in source code.` },
-    q13: { answer: true, comment: `Check in the source code how processPayment function uses SaleStartTimestamp variable that stores ICO start date. SaleStartTimestamp cannot change after contract is deployed.` },
-    q14: { answer: true, comment: `Check in the source code how processPayment function uses SaleStopTimestamp variable that stores ICO end date. SaleStopTimestamp cannot change after contract is deployed. Also, general sale ends when the maximum cap is reached, which is also controlled by this smart contract.` },
+    q1: { answer: true, comment: 'Yes, the contract name is TaklimakanCrowdsale' },
+    q2: { answer: true, comment: 'Source code is available' },
+    q3: { answer: true, comment: '' },
+    q4: { answer: true, comment: '' },
+    q5: { answer: true, comment: '' },
+    q6: { answer: true, comment: 'Token rate is provided via TokenSale Event as custom argument: tokensPerEther' },
+    q7: { answer: true, comment: 'ETH is sent to smart contract and cannot be withdrawn by owner until the ICO ends (either by reaching maximum cap or by reaching ICO close date)' },
+    q8: { answer: true, comment: 'n/a: Taklimakan is only using ETH' },
+    q9: { answer: true, comment: 'n/a: Taklimakan is only using ETH' },
+    q10: { answer: true, comment: '' },
+    q11: { answer: true, comment: '' },
+    q12: { answer: true, comment: 'Both price and bonus are controlled by smart contract, see processPayment function in source code.' },
+    q13: { answer: true, comment: 'Check in the source code how processPayment function uses SaleStartTimestamp variable that stores ICO start date. SaleStartTimestamp cannot change after contract is deployed.' },
+    q14: { answer: true, comment: 'Check in the source code how processPayment function uses SaleStopTimestamp variable that stores ICO end date. SaleStopTimestamp cannot change after contract is deployed. Also, general sale ends when the maximum cap is reached, which is also controlled by this smart contract.' },
   },
   decimals: 18,
   addedBy: 'gzaytsev',

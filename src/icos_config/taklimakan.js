@@ -29,7 +29,7 @@ export default {
   icoParameters: {
     cap: async (web3, icoContract, tokenContract) => {
       const tklnCap = await toPromise(icoContract.saleGoal)();
-      return [`${formatNumber(convertWeb3Value(tklnCap))} TKLN`];
+      return [`${formatNumber(tklnCap)} TKLN`];
     },
     startDate: async (web3, icoContract) => {
       const startDate = await toPromise(icoContract.saleStartTimestamp)();

@@ -1,5 +1,5 @@
-import { toPromise } from '../utils';
-import { convertWeb3Value, convertBlockNumberToDate } from '../utils/web3';
+import { toPromise, formatNumber } from '../utils';
+import { convertWeb3Value } from '../utils/web3';
 
 export default {
   crowdSaleTokenContract: '0x8ac03a3304519879e2ddb114c2eb2163043ab4b0',
@@ -22,7 +22,11 @@ export default {
     },
   },
   icoParameters: {
-    cap: async (web3, icoContract) => 'Not available',
+    cap: async (web3, icoContract) => {
+      const tokensSold = await toPromise(icoContract.tokensSold)();
+      const tokensLeft = await toPromise(icoContract.getTokensLeft)();
+      return `${formatNumber(convertWeb3Value(tokensLeft.add(tokensSold), 'ether'))} AMLT`;
+    },
     startDate: async (web3, icoContract) => {
       const startsAt = await toPromise(icoContract.startsAt)();
       return convertWeb3Value(startsAt.valueOf(), 'timestamp').formatDate();
@@ -57,15 +61,15 @@ export default {
     q3: { answer: true },
     q4: { answer: true },
     q5: { answer: true },
-    q6: { answer: true, comment: 'Its provided in Wei' },
+    q6: { answer: true },
     q7: { answer: true },
     q8: { answer: null },
     q9: { answer: null },
     q10: { answer: true },
-    q11: { answer: true },
-    q12: { answer: true },
+    q11: { answer: true, comment: 'Refund procedure in smart contract is not used so it is not included in scoring (note that procedure itself is flawed)' },
+    q12: { answer: false, comment: 'Owner can change pricing scheme any time by calling setPricingStrategy' },
     q13: { answer: true },
-    q14: { answer: true, comment: 'The crowd-sale owner can close the sale early or extend it.' },
+    q14: { answer: false, comment: 'The crowd-sale owner can close the sale early or extend it by calling setEndsAt' },
   },
   addedBy: 'Mostafa Balata',
   dateAdded: '11-12-2017',

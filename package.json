@@ -34,10 +34,12 @@
     "react-modal-dialog": "^4.0.0",
     "react-redux": "^3.0.0",
     "react-router-dom": "^4.1.1",
+    "react-share": "^1.18.0",
     "react-tap-event-plugin": "^2.0.1",
     "react-tooltip": "^3.3.0",
     "recharts": "^0.20.0",
     "redux": "^3.7.2",
+    "redux-devtools": "^3.4.1",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "4.2.1",
@@ -47,8 +49,7 @@
     "url-loader": "^0.5.9",
     "web3": "^0.20.1",
     "web3-provider-engine": "^13.0.0",
-    "webpack": "^3.3.0",
-    "redux-devtools": "^3.4.1"
+    "webpack": "^3.3.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.9.0",
@@ -89,6 +90,6 @@
     "test": "(cp -n src/env.example.json src/env.json || true) && NODE_ENV=test babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require ignore-styles --require test/mochaConfig.js ./test/**/*.test.js",
     "eslint": "(cp -n src/env.example.json src/env.json || true) && eslint --ignore-path .gitignore .",
     "lint": "yarn eslint",
-    "lint:fix" :"yarn eslint --fix"
+    "lint:fix": "yarn eslint --fix"
   }
 }

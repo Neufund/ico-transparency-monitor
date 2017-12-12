@@ -6,7 +6,7 @@ const svgDataURL = (svg) => {
   return `data:image/svg+xml,${encodeURIComponent(svgAsXML)}`;
 };
 
-export default (chartId, title, xLabel, yLabel) => {
+export default (chartId, title, xLabel, yLabel, projectName) => {
   const div = document.getElementById(chartId);
   const rect = div.getBoundingClientRect();
 
@@ -41,10 +41,12 @@ export default (chartId, title, xLabel, yLabel) => {
     ctx.fillText(yLabel, 20, 70);
     ctx.fillText(xLabel, canvas.width / 2, canvas.height - 30);
 
-    ctx.font = '20px Montserrat';
+    ctx.font = '15px Montserrat';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    ctx.fillText(title, canvas.width / 2, 30);
+    ctx.fillText(`${projectName.toUpperCase()} ICO`, canvas.width / 2, 30);
+    ctx.font = '20px Montserrat';
+    ctx.fillText(title, canvas.width / 2, 55);
 
     ctx.font = '15px Montserrat';
     ctx.fillStyle = gradient;
@@ -52,7 +54,7 @@ export default (chartId, title, xLabel, yLabel) => {
     ctx.fillText('Powered by neufund.org', 15, canvas.height - 15);
 
     canvas.toBlob((blob) => {
-      saveAs(blob, `${chartId}.png`);
+      saveAs(blob, `${projectName}-${title}.png`);
     });
   };
   img.src = url;

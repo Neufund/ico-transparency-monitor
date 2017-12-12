@@ -28,7 +28,6 @@ export const getMedian = (numbers) => {
 };
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
-  {console.log(props)}
   <ReactTooltip multiline />
   <Row className="statistics box-container">
     <Col md={12} className="scan-content">

@@ -18,6 +18,7 @@ export default class extends Component {
       hasMoreItems: true,
       lockLoadMore: false,
       page: 0,
+      searchTerm: '',
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -31,6 +32,7 @@ export default class extends Component {
     this.setState({
       icosList: icos,
       lockLoadMore: true,
+      searchTerm: e.target.value,
     });
   }
 
@@ -85,6 +87,17 @@ export default class extends Component {
 
             <div className="tracks">
               {items}
+
+              {items.length <= 0 &&
+                <div className="icos-not-found">
+                  <Row className="ico-container">
+                    <Grid className="alarm">
+                      <h3>Not Found: </h3>
+                      <p>No ICO has matched the keyword <i>{this.state.searchTerm}</i></p>
+                    </Grid>
+                  </Row>
+                </div>
+              }
             </div>
           </InfiniteScroll>
         </Grid>

@@ -990,3 +990,14 @@ a.back-main {
   width: 100%;
   display: inline-block;
 }
+.icos-not-found {
+  text-align: center;
+}
+.icos-not-found p {
+  font-weight: 300;
+  font-size: 18px;
+}Ï
+
+.icos-not-found i {
+  border-bottom: 1px solid gray; 
+}

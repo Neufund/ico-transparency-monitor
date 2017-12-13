@@ -7,7 +7,7 @@ export default {
   tokenContract: '0x0675DAa94725A528b05A3A88635C03EA964BFA7E',
   baseCurrency: 'ETH',
   information: {
-    aliasName: 'Taklimakan',
+    name: 'Taklimakan',
     website: 'https://taklimakan.io/',
     logo: 'https://taklimakan.io/static/img/general/logo.png',
   },
@@ -76,5 +76,5 @@ export default {
   },
   decimals: 18,
   addedBy: 'gzaytsev',
-  dateAdded: '12-11-2017',
+  dateAdded: '12-12-2017',
 };

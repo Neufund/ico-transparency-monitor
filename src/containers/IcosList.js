@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Grid } from 'react-flexbox-grid';
+import { Grid, Row } from 'react-flexbox-grid';
 import '../assets/css/App.css';
 import Header from '../components/Header';
 // eslint-disable-next-line import/no-named-as-default
 import IcoDataRow from './IcoDataRow';
-import { getICOsAsList } from '../icos_config';
+import { getICOsAsList, search } from '../icos_config';
 import { appendICO } from '../config';
+import SearchBox from '../components/SearchBox';
 
 export default class extends Component {
   constructor(props) {
@@ -15,14 +16,34 @@ export default class extends Component {
     this.state = {
       icosList: [],
       hasMoreItems: true,
+      lockLoadMore: false,
+      page: 0,
+      searchTerm: '',
     };
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(e) {
+    if (e.target.value.length <= 0) {
+      this.setState({ lockLoadMore: false, hasMoreItems: true });
+      return;
+    }
+    const icos = search(e.target.value, 3)[0];
+    this.setState({
+      icosList: icos,
+      lockLoadMore: true,
+      searchTerm: e.target.value,
+    });
   }
 
   loadIcos(page) {
     const icosList = getICOsAsList(page);
     this.setState(
-      { icosList: icosList.icos,
-        hasMoreItems: !(icosList.icos.length >= icosList.length) }
+      {
+        icosList: icosList.icos,
+        hasMoreItems: !(icosList.icos.length >= icosList.length) && !this.state.lockLoadMore,
+        page,
+      }
     );
   }
 
@@ -49,6 +70,13 @@ export default class extends Component {
       <div className="App">
         <Header />
         <Grid fluid>
+          <Row>
+            <Grid>
+              <Row>
+                <SearchBox onChange={this.onChange} />
+              </Row>
+            </Grid>
+          </Row>
           <InfiniteScroll
             pageStart={0}
             // eslint-disable-next-line react/jsx-no-bind
@@ -59,6 +87,17 @@ export default class extends Component {
 
             <div className="tracks">
               {items}
+
+              {items.length <= 0 &&
+                <div className="icos-not-found">
+                  <Row className="ico-container">
+                    <Grid className="alarm">
+                      <h3>Not Found: </h3>
+                      <p>No ICO has matched the keyword <i>{this.state.searchTerm}</i></p>
+                    </Grid>
+                  </Row>
+                </div>
+              }
             </div>
           </InfiniteScroll>
         </Grid>

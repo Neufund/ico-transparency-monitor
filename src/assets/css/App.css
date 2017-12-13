@@ -938,3 +938,66 @@ a.back-main {
 .loader {
   text-align: center;
 }
+
+.search {
+  width: 100%;
+  position: relative
+}
+
+.searchTerm {
+  float: left;
+  width: stretch;
+  border: 1px solid #edeff0; 
+  box-shadow: 0 0px 1px 0 #BBC2C7;
+  padding: 5px;
+  height: 20px;
+   border-radius: 3px; 
+  outline: none;
+  color: #9DBFAF;
+  font-size: 15px;
+}
+
+.searchTerm::-webkit-input-placeholder {
+  color: #BBC2C7;
+}
+.searchTerm:-moz-placeholder {
+  color: #BBC2C7;
+}
+.searchTerm::-moz-placeholder {
+  color: #BBC2C7;
+}
+
+.searchTerm:focus {
+  color: black;
+}
+
+.searchButton {
+  position: absolute;  
+  right: 0;
+  width: 40px;
+  height: 33px;
+  border: 1px solid #edeff0;
+  background: #edeff0;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.search-wrap {
+  width: 100%;
+  display: inline-block;
+}
+.icos-not-found {
+  text-align: center;
+}
+.icos-not-found p {
+  font-weight: 300;
+  font-size: 18px;
+}Ï
+
+.icos-not-found i {
+  border-bottom: 1px solid gray; 
+}

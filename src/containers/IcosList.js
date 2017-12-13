@@ -24,11 +24,11 @@ export default class extends Component {
   }
 
   onChange(e) {
-    if (e.target.value.length <= 0) {
+    if (e.target.value.length === 0) {
       this.setState({ lockLoadMore: false, hasMoreItems: true });
       return;
     }
-    const icos = search(e.target.value, 3)[0];
+    const icos = search(e.target.value);
     this.setState({
       icosList: icos,
       lockLoadMore: true,
@@ -37,19 +37,18 @@ export default class extends Component {
   }
 
   loadIcos(page) {
+    if (this.state.lockLoadMore) { return; }
     const icosList = getICOsAsList(page);
     this.setState(
       {
         icosList: icosList.icos,
-        hasMoreItems: !(icosList.icos.length >= icosList.length) && !this.state.lockLoadMore,
+        hasMoreItems: icosList.icos.length < icosList.length,
         page,
       }
     );
   }
 
   render() {
-    const loader = <div className="loader">Loading ...</div>;
-
     const items = this.state.icosList.map((ico) => {
       if (typeof ico === 'undefined') { return null; }
       const { information, name, status, addedBy } = ico;
@@ -82,7 +81,6 @@ export default class extends Component {
             // eslint-disable-next-line react/jsx-no-bind
             loadMore={this.loadIcos.bind(this)}
             hasMore={this.state.hasMoreItems}
-            loader={loader}
           >
 
             <div className="tracks">

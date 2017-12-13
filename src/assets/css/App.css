@@ -946,7 +946,9 @@ a.back-main {
 
 .searchTerm {
   float: left;
-  width: stretch;
+  width: 100%;
+  width: -moz-available;          /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
   border: 1px solid #edeff0; 
   box-shadow: 0 0px 1px 0 #BBC2C7;
   padding: 5px;

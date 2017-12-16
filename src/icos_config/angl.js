@@ -35,7 +35,7 @@ export default {
     status: async (web3, icoContract) => {
       const icoLaunchTimestamp = await toPromise(icoContract.icoLaunchTimestamp)();
       const icoFinishTimestamp = await toPromise(icoContract.icoFinishTimestamp)();
-      const secondRefundFinish = 
+      const secondRefundFinish =
         await toPromise(icoContract.secondRefundRoundFinishTimestamp)();
       const now = Math.floor(new Date().getTime() / 1000);
 

@@ -23,9 +23,7 @@ export default {
     },
   },
   icoParameters: {
-    cap: async (web3, icoContract) => {
-      return '100 000 000 ANGL';
-    },
+    cap: async (web3, icoContract) => '100 000 000 ANGL',
     startDate: async (web3, icoContract) => {
       const timestamp = await toPromise(icoContract.icoLaunchTimestamp)();
       return convertWeb3Value(timestamp, 'timestamp').formatDate();
@@ -37,19 +35,18 @@ export default {
     status: async (web3, icoContract) => {
       const icoLaunchTimestamp = await toPromise(icoContract.icoLaunchTimestamp)();
       const icoFinishTimestamp = await toPromise(icoContract.icoFinishTimestamp)();
-      const firstRefundRoundFinishTimestamp = await toPromise(icoContract.firstRefundRoundFinishTimestamp)();
-      const secondRefundRoundFinishTimestamp = await toPromise(icoContract.secondRefundRoundFinishTimestamp)();
+      const secondRefundFinish = 
+        await toPromise(icoContract.secondRefundRoundFinishTimestamp)();
       const now = Math.floor(new Date().getTime() / 1000);
-      
+
       if (now < icoLaunchTimestamp) {
         return 'Not started';
       } else if (now < icoFinishTimestamp) {
         return 'In progress';
-      } else if (now < secondRefundRoundFinishTimestamp) {
+      } else if (now < secondRefundFinish) {
         return 'Refund period';
-      } else {
-        return 'Finished';
       }
+      return 'Finished';
     },
   },
   matrix: {

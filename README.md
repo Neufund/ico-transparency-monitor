@@ -132,10 +132,10 @@ To add your own ICO you would have to:
 
 1. Fork the project - Github won't allow you to create pull request otherwise.
 
-2. Include the ICO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder, name the files with the contract address,
-    this ABI is generated from the smart-contract source code and can be found in some cases in [etherscan](https://etherscan.io/), sometimes you have to add two ABIs files, crowd-sale ABI and token contract ABI. 
+2. Include the ICO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder, the name of ABI file should be exactly like the contract address,
+    this ABI is generated from the smart-contract source code and can be found in some cases in [etherscan](https://etherscan.io/), In some cases, you will need to add two ABI files, crowd-sale ABI and token contract ABI. 
 
-3. Add new file with ICO configuration with required information from the smart contract manually into [icos_config](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/icos_config) directory and it will be add automatically, This will require some JavaScript modifications.
+3. Create a new file for your ICO configurations and add it to [icos_config](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/icos_config) directory this file should include all the configuration and will be added automatically. This will require some JavaScript modifications
 
 4. Create a Pull Request. This PR will be checked for accuracy
   and then merged to the ICO-Monitor which can be accessed through our running node.
@@ -297,7 +297,7 @@ export default {
       },
       firstTransactionBlockNumber: 3932884,
       lastTransactionBlockNumber: null, // follow last block
-      maxBlocksInChunk: 12960, // scan in 3 days blocks, last one is open
+      maxBlocksInChunk: 12960, // scan in 3 days blocks, last one is 
       countTransactions: false,
     },
   },

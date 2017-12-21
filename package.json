@@ -37,7 +37,7 @@
     "react-share": "^1.18.0",
     "react-tap-event-plugin": "^2.0.1",
     "react-tooltip": "^3.3.0",
-    "recharts": "^0.20.0",
+    "recharts": "^1.0.0-beta.7",
     "redux": "^3.7.2",
     "redux-devtools": "^3.4.1",
     "redux-devtools-extension": "^2.13.2",

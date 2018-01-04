@@ -1,4 +1,3 @@
-import { BigNumber } from 'bignumber.js';
 import { toPromise, formatNumber } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 

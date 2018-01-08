@@ -15,6 +15,7 @@ import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import { resetRpc } from '../actions/ScanAction';
 import { isConnected } from '../utils/web3';
 import { getICOByAddress } from '../icos_config';
+import TransparencyTable from '../components/TransparencyTable';
 
 class InnerIcoPage extends Component {
   constructor(props) {
@@ -88,8 +89,19 @@ class InnerIcoPage extends Component {
                 alternativeLoadingMsg="No transactions were found, please check later"
               />}
             {!this.props.isLoading && this.props.isComponentReady &&
-              <ScanBoxDetails address={this.props.address} /> }
+              <ScanBoxDetails address={this.props.address} />
+            }
           </Grid>
+          {!this.props.isLoading &&
+            <Grid className="transparency-table" id="decision">
+              <TransparencyTable
+                decision={decision}
+                name={name}
+                matrix={icoModalData.matrix}
+                pagePointer={this.props.pagePointer}
+              />
+            </Grid>
+          }
         </div>}
       </div>
     );
@@ -97,10 +109,14 @@ class InnerIcoPage extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const address = props.match.params.name;
+  const hash = props.match.params.name.split('&');
+  const address = hash[0];
+  const pagePointer = hash.length > 0 ? hash[1] : null;
+
   return {
     address,
     ico: config.ICOs[address],
+    currentICO: state.modal.currentICO,
     smartContractProps: state.ICO.icos[address],
     currencyValue: state.currency.value,
     isComponentReady: state.scan.showStats,
@@ -109,6 +125,7 @@ const mapStateToProps = (state, props) => {
     blocks: state.blocks,
     isSmartContractLoaded: state.scan.isSmartContractLoaded,
     hasNoTransactions: state.scan.hasNoTransactions,
+    pagePointer,
   };
 };
 

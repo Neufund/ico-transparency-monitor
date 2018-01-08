@@ -330,4 +330,9 @@ textarea.console {
 .social-share .SocialMediaShareButton{
   vertical-align: middle;
   cursor: pointer;
-} 
+}
+
+.transparency-table {
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px 0 #BBC2C7;
+}

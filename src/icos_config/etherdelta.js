@@ -1,6 +1,12 @@
 import { toPromise } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
+const icoStatus = {
+  0: 'Before sale',
+  1: 'In sale',
+  2: 'Finished',
+};
+
 export default {
   crowdSaleTokenContract: '0xCe53a179047ebed80261689367c093C90A94cC08',
   information: {
@@ -23,7 +29,7 @@ export default {
   },
   icoParameters: {
     cap: async (web3, icoContract) =>
-      ['Hard Cap: 750M EDT'], // from website    
+      ['Hard Cap: 750M EDT'],
     startDate: async (web3, icoContract) => {
       const openTime = await toPromise(icoContract.openTime)();
       return convertWeb3Value(openTime.valueOf(), 'timestamp').formatDate();
@@ -33,19 +39,8 @@ export default {
       return convertWeb3Value(closeTime.valueOf(), 'timestamp').formatDate();
     },
     status: async (web3, icoContract) => {
-      const now = Math.floor(new Date().getTime() / 1000);
-      const startDateICO = await toPromise(icoContract.openTime)();
-      const endDateICO = await toPromise(icoContract.closeTime)();
-      const saleStopped = await toPromise(icoContract.saleStopped)();
-      if (saleStopped) {
-        return 'finished';
-      }
-      if (now < startDateICO) {
-        return 'not started';
-      } else if (now >= startDateICO && now < endDateICO) {
-        return 'in progress';
-      }
-      return 'successful';
+      const status = await toPromise(icoContract.getPeriod)();
+      return icoStatus[status.valueOf()];
     },
   },
   matrix: {
@@ -58,11 +53,12 @@ export default {
     q7: { answer: true },
     q8: { answer: null },
     q9: { answer: null },
-    q10: { answer: true, comment: 'Commented in chinese language' },
+    q10: { answer: true },
     q11: { answer: true },
     q12: { answer: true },
     q13: { answer: true },
-    q14: { answer: true },
+    q14: { answer: true, comment: `The owner can finish the ICO earlier 
+    via stopSale method` },
   },
   addedBy: 'Mostafa Balata',
   dateAdded: '04-01-2018',

@@ -6,7 +6,7 @@ import ShareButtons from './ShareButtons';
 
 export default (props) => {
   const { address, information, addedBy, decision,
-    onModalShow, tokenContract, icoModalData } = props;
+    tokenContract, toggleTable, readMoreButton } = props;
   const eventName = isNeufundAddress(address) ? 'ICBM' : 'ICO';
 
   return (
@@ -45,12 +45,12 @@ export default (props) => {
                 <button
                   className={`transparency-button ${decision ? decision.replace(/\s+/g, '-').toLowerCase() : ''}-status`}
                   onClick={() => {
-                    onModalShow(icoModalData);
+                    toggleTable();
                   }}
                 >
                   <p>Transparency score</p>
                   <strong>{decision ? icoTransparencyMap[decision.toUpperCase()] : ''} </strong>
-                  <span className="read-more">Read more</span>
+                  <span className="read-more">{readMoreButton}</span>
                 </button>
 
               </Col>

@@ -55,6 +55,13 @@ export const computeICOTransparency = (answers) => {
   return [icoTransparencyLevel.TRANSPARENT, foundIssues];
 };
 
+export const scrollPage = (id) => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView(true);
+  }
+};
+
 // eslint-disable-next-line
 Date.prototype.formatDate = function (fullFormat = false) {
   return moment(this).format(fullFormat ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
@@ -83,7 +90,7 @@ export const getICOLogs = (blockRange, icoConfig, contracts, callback) => {
     fromBlock: blockRange[0],
     toBlock: blockRange[1],
   });
-  filter.stopWatching(() => {});
+  filter.stopWatching(() => { });
 
   return jquery.ajax({
     type: 'POST',
@@ -158,7 +165,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
     const dataString = item.join(',');
     csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
   });
-  
+
   const csvData = new Blob([csvContent], { type: 'application/csv;charset=utf-8;' });
   // FOR OTHER BROWSERS
   const link = document.createElement('a');

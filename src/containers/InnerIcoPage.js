@@ -16,21 +16,34 @@ import { resetRpc } from '../actions/ScanAction';
 import { isConnected } from '../utils/web3';
 import { getICOByAddress } from '../icos_config';
 import TransparencyTable from '../components/TransparencyTable';
+import { scrollPage } from '../utils';
+
+const ACTIVE = 'active';
+const INACTIVE = 'inactive';
+const READMORE = 'See more';
+const READLESS = 'See less';
 
 class InnerIcoPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isBlockMounted: false,
+      decisionTableStatus: this.props.pagePointer ? ACTIVE : INACTIVE,
+      readMoreButton: this.props.pagePointer === ACTIVE ? READLESS : READMORE,
     };
+    this.toggleTable = this.toggleTable.bind(this);
   }
 
   componentDidMount() {
     appendICO(this.props.address, getICOByAddress(this.props.address));
-
     if (this.props.web3 && typeof config.ICOs[this.props.address] !== 'undefined') {
       this.props.readSmartContract(this.props.address);
     }
+    scrollPage('root');
+  }
+
+  toggleTable() {
+    if (this.state.decisionTableStatus === 'inactive') { this.setState({ decisionTableStatus: 'active', readMoreButton: READLESS }); } else { this.setState({ decisionTableStatus: 'inactive', readMoreButton: READMORE }); }
   }
 
   render() {
@@ -46,7 +59,6 @@ class InnerIcoPage extends Component {
       endDate, status, decision } = this.props.smartContractProps || {};
     const { address, information, addedBy, tokenContract } = this.props.ico;
     const showLoader = this.props.isLoading;
-    const onModalShowCallback = this.props.onModalShow;
     const icoModalData = {
       name,
       matrix: this.props.ico.matrix,
@@ -65,10 +77,16 @@ class InnerIcoPage extends Component {
               addedBy={addedBy}
               decision={decision}
               tokenContract={tokenContract}
-              onModalShow={onModalShowCallback}
-              icoModalData={icoModalData}
+              toggleTable={this.toggleTable}
+              readMoreButton={this.state.readMoreButton}
             />
-
+            <TransparencyTable
+              decision={decision}
+              name={information.name}
+              matrix={icoModalData.matrix}
+              pagePointer={this.props.pagePointer}
+              tableStatus={this.state.decisionTableStatus}
+            />
             <IcoRowSinglePage
               address={this.props.address}
               totalSupply={totalSupply}
@@ -79,7 +97,6 @@ class InnerIcoPage extends Component {
               status={status}
               isLoading={showLoader}
             />
-
             {this.props.isLoading &&
               <ScanBoxLoadingMessage
                 alternativeLoadingMsg={this.props.ico.alternativeLoadingMsg}
@@ -92,16 +109,7 @@ class InnerIcoPage extends Component {
               <ScanBoxDetails address={this.props.address} />
             }
           </Grid>
-          {!this.props.isLoading &&
-            <Grid className="transparency-table" id="decision">
-              <TransparencyTable
-                decision={decision}
-                name={name}
-                matrix={icoModalData.matrix}
-                pagePointer={this.props.pagePointer}
-              />
-            </Grid>
-          }
+
         </div>}
       </div>
     );

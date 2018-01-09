@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { getValueOrDefault } from '../utils';
 import config from '../config';
-import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import { readSmartContract } from '../actions/web3';
-import { resetRpc } from '../actions/ScanAction';
-import { isConnected, isNeufundAddress } from '../utils/web3';
+import { isNeufundAddress } from '../utils/web3';
 
 export class IcoDataRow extends Component {
   static getDecisionValue(decision) {
@@ -30,7 +28,7 @@ export class IcoDataRow extends Component {
   render() {
     const { address, information, name, cap,
       startDate, endDate, status, addedBy,
-      decision, onModalShowCallback } = this.props;
+      decision } = this.props;
 
     const eventName = isNeufundAddress(address) ? 'ICBM' : 'ICO';
 
@@ -84,12 +82,11 @@ export class IcoDataRow extends Component {
                 <Col lg={4} sm={6} md={6} xs={12} className="part transparency">
                   <p className="title added-by-person">Added by <b>{addedBy || 'Person'}</b></p>
                   <button
-                    href={name}
-                    className={`btn-gray btn-see-score ${getValueOrDefault(decision)}-status-bottom`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      onModalShowCallback(this.props);
+                      window.location = `#${address}&table`;
                     }}
+                    className={`btn-gray btn-see-score ${getValueOrDefault(decision)}-status-bottom`}
                   >
                     <p><strong>{IcoDataRow.getDecisionValue(decision)}</strong> see more</p>
                   </button>
@@ -117,14 +114,6 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch, state) => ({
-  onModalShowCallback: (currentICO) => {
-    if (isConnected()) {
-      dispatch(onModalShow(currentICO));
-    } else {
-      dispatch(resetRpc());
-      dispatch(showErrorMessage(`Trying to connect to rpc node ${config.rpcHost} received an invalid response.`));
-    }
-  },
   readSmartContract: (address) => {
     dispatch(readSmartContract(address));
   },

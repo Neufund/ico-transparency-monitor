@@ -5,7 +5,7 @@ import { formatNumber, getValueOrDefault } from '../utils';
 export default (props) => {
   const { isLoading, totalSupply, symbol, cap, startDate, endDate, status } = props;
 
-  return (<div>
+  return (<div id="statistics">
     <Row>
       <div id="loadingProgressG" className={isLoading === true ? 'show' : 'hide'}>
         <div id="loadingProgressG_1" className="loadingProgressG" />

@@ -228,22 +228,39 @@ body {
   cursor: pointer;
 }
 
-.transparency-button .read-more {
+.transparency-button .read-more, .show-stats {
   background: #0971a1;
   color: white;
   border: 0;
   border-radius: 5px;
-  width: 98px;
   line-height: 35px;
   font-size: 14px;
-  position: absolute;
-  top: 17px;
-  right: 10px;
   box-shadow: 0 2px 4px 0 #BBC2C7;
   text-align: center;
 }
 
-.transparency-button .read-more:hover {
+.show-stats {
+  float: right;
+}
+
+.title-container {
+  clear: both;
+  float: right;
+  width: 100%;
+}
+
+.title-container h3 {
+  float: left;
+}
+
+.transparency-button .read-more{
+  position: absolute;
+  width: 98px;
+  top: 17px;
+  right: 10px;
+}
+
+.transparency-button .read-more:hover, .show-stats:hover {
   background: #0971a1 !important;
   box-shadow: 0 0 0 0 #BBC2C7;
 }
@@ -292,9 +309,13 @@ body {
   padding-right: 18px;
 }
 
-.part.transparency button {
+.part.transparency button, .part.transparency a {
   box-shadow: 0 2px 4px 0 #BBC2C7;
   border-radius: 3px;
+}
+
+.part.transparency a {
+  display: block;
 }
 
 .part.transparency p {
@@ -468,6 +489,7 @@ div[class^="narcissus_"] {
 
 .modal-container {
   padding: 50px;
+  padding-top: 10px;
 }
 
 .modal-title-container {
@@ -494,17 +516,13 @@ div[class^="narcissus_"] {
   font-size: 14px;
   font-weight: 300;
   margin: 0;
+  text-align: center;
 }
 
 .modal-title-button .transparency-button strong {
   font-size: 16px;
   line-height: 24px;
-}
-
-.modal-title-button .transparency-button {
-  position: absolute;
-  width: 35%;
-  right: 0;
+  text-align: center
 }
 
 .pure-table {

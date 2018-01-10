@@ -82,5 +82,5 @@ export default {
   },
   decimals: 18,
   addedBy: 'chfast',
-  dateAdded: '17-12-2017',
+  dateAdded: '14-12-2017',
 };

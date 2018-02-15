@@ -6,7 +6,7 @@ export default {
   tokenContract: '0x315cE59FAFd3A8d562b7Ec1C8542382d2710b06c',
   information: {
     name: 'Cacao Shares preVIP',
-    logo: 'https://cacaoshares.com/wp-content/uploads/2018/01/logo-cherry-2018-1-e1517104089812.png',
+    logo: 'https://cacaoshares.com/wp-content/uploads/2017/12/cropped-logo-cherry-2018-1-e1513046302595-180x180.png',
     website: 'https://cacaoshares.com/',
   },
   events: {

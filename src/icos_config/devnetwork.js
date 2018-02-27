@@ -1,8 +1,8 @@
 export default {
   crowdSaleTokenContract:'devnetwork-smart-contract-not-provided',
   information: {
-    name: "Devnetwork",
-    website: "https://dev.wi.th/ico",
+    name: 'Devnetwork',
+    website: 'https://dev.wi.th/ico',
     logo: 'https://dev.wi.th/ico/wp-content/uploads/2018/01/utility-token.png'
   },
   events: {},

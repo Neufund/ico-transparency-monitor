@@ -65,6 +65,19 @@ export default class extends Component {
       />);
     });
 
+    if (window.location.pathname === '/recent') {
+      return (<div className="App">
+        <InfiniteScroll
+          pageStart={0}
+          // eslint-disable-next-line react/jsx-no-bind
+          loadMore={this.loadIcos.bind(this)}
+          hasMore={this.state.hasMoreItems}
+        >
+          {items.slice(0, 3)}
+        </InfiniteScroll>
+      </div>);
+    }
+
     return (
       <div className="App">
         <Header />
@@ -87,14 +100,14 @@ export default class extends Component {
               {items}
 
               {items.length <= 0 &&
-                <div className="icos-not-found">
-                  <Row className="ico-container">
-                    <Grid className="alarm">
-                      <h3>Not Found: </h3>
-                      <p>No ICO has matched the keyword <i>{this.state.searchTerm}</i></p>
-                    </Grid>
-                  </Row>
-                </div>
+              <div className="icos-not-found">
+                <Row className="ico-container">
+                  <Grid className="alarm">
+                    <h3>Not Found: </h3>
+                    <p>No ICO has matched the keyword <i>{this.state.searchTerm}</i></p>
+                  </Grid>
+                </Row>
+              </div>
               }
             </div>
           </InfiniteScroll>

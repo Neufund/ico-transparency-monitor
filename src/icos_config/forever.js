@@ -7,8 +7,8 @@ export default {
   baseCurrency: 'ETH',
   information: {
     name: 'Forever Has Fallen',
-    website: '',  // TODO
-    logo: '',     // TODO
+    website: 'https://foreverhasfallen.com/',
+    logo: 'https://foreverhasfallen.com/logo/fhf-icon-only.png',
   },
   events: {
     TokenSale: {
@@ -20,7 +20,7 @@ export default {
       customArgs: {
         tokenPrice: 'tokensPerEther', // Information on token price
       },
-      firstTransactionBlockNumber: 5287891, // TODO contract creation ?
+      firstTransactionBlockNumber: 5287891,
       lastTransactionBlockNumber: null, // follow last block
       countTransactions: true,
     },
@@ -63,9 +63,9 @@ export default {
   },
   matrix: {
     q1: { answer: true, comment: 'Yes, the contract name is FHFTokenCrowdsale' },
-    q2: { answer: true, comment: 'Source code is available' },  // TODO в etherscan нет source code !!!
-    q3: { answer: true, comment: '' },  // TODO в etherscan нет source code !!!
-    q4: { answer: true, comment: '' },  // TODO в etherscan нет source code !!!
+    q2: { answer: true, comment: 'Source code is available' },
+    q3: { answer: true, comment: '' },
+    q4: { answer: true, comment: '' },
     q5: { answer: true, comment: '' },
     q6: { answer: true, comment: 'Token rate is provided via TokenSale Event as custom argument: tokensPerEther' },
     q7: { answer: true, comment: 'ETH is sent to smart contract and cannot be withdrawn by owner until the ICO ends (either by reaching maximum cap or by reaching ICO close date)' },

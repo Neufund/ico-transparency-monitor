@@ -40,21 +40,18 @@ export default {
     },
     status: async (web3, icoContract) => {
       const isActive = await toPromise(icoContract.isICOActive)();
-      if(isActive){
+      if (isActive) {
         return 'in progress';
-      }
-      else {
+      } else {
         const goalReached = await toPromise(icoContract.goalReached)();
         if (goalReached) {
           return 'successful';
-        }
-        else {
+        } else {
           const now = Math.floor(new Date().getTime() / 1000);
           const startDateICO = await toPromise(icoContract.generalSaleStartDate)();
           if (now < startDateICO) {
             return 'not started';
-          } 
-          else {
+          } else {
             return 'failed';
           }
         }

@@ -2,8 +2,8 @@ import { toPromise, formatNumber } from '../utils';
 import { convertWeb3Value } from '../utils/web3';
 
 export default {
-  crowdSaleTokenContract: '0xFB072e58741738fC26E86D2c49db3179Ea8d5D55',
-  tokenContract: '0xFDb1D263112b0A668dCe5748d961B4851Cfca8Ee',
+  crowdSaleTokenContract: '0xfb072e58741738fc26e86d2c49db3179ea8d5d55',
+  tokenContract: '0xfdb1d263112b0a668dce5748d961b4851cfca8ee',
   baseCurrency: 'ETH',
   information: {
     name: 'Forever Has Fallen',
@@ -17,16 +17,13 @@ export default {
         ether: 'etherAmount',
         sender: 'tokenReceiver',
       },
-      customArgs: {
-        tokenPrice: 'tokensPerEther', // Information on token price
-      },
       firstTransactionBlockNumber: 5287891,
       lastTransactionBlockNumber: null, // follow last block
       countTransactions: true,
     },
   },
   icoParameters: {
-    cap: async (web3, icoContract, tokenContract) => {
+    cap: async (web3, icoContract) => {
       const cap = await toPromise(icoContract.saleGoal)();
       return [`${formatNumber(cap)} FC`];
     },

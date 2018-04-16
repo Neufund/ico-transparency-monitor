@@ -9,7 +9,7 @@ export default {
   information: {
     name: 'Neufund',
     website: 'https://commit.neufund.org/',
-    logo: 'https://neufund.org/img/neufund/favicon_neufund.ico',
+    logo: 'https://neufund.org/img/favicon_neufund.ico',
   },
   events: {
     LogFundsCommitted: {

@@ -1,7 +1,3 @@
-import { toPromise } from '../utils';
-import { convertWeb3Value, convertBlockNumberToDate } from '../utils/web3';
-
-
 export default {
   crowdSaleTokenContract:'0x123ab195dd38b1b40510d467a6a359b201af056f',
   information: {
@@ -23,40 +19,30 @@ export default {
     ...
   },
   icoParameters: {
-    cap: async (web3, icoContract) => {
-      const maxCap = await toPromise(icoContract.tokenCreationCap)().valueOf();
-      const minCap = await toPromise(icoContract.tokenCreationMin)().valueOf();
-      // check the caps for LGO
-      // return [`Max: ${maxCap / (10 ** 18)} GNT`, `Min: ${minCap / (10 ** 18)} GNT`];
-    },
-    startDate: async (web3, icoContract) => {
-      const blockNumber = await toPromise(icoContract.fundingStartBlock)();
-      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
-    },
-    endDate: async (web3, icoContract) => {
-      const blockNumber = await toPromise(icoContract.fundingEndBlock)();
-      return (await convertBlockNumberToDate(web3, blockNumber)).formatDate();
-    },
+    // should be written manually using JavaScript code that connects with the smart contract
+    cap: async icoContract => 'not provided',
+    startDate: async icoContract => '2018-02-01',
+    endDate: async icoContract => '2018-02-15',
     // known because the ico is over, so there is no need to write a condition to determine status
     status: async () => 'successful',
   },
   matrix: {
     q1: { answer: true, comment: '' },
     q2: { answer: true, comment: '' },
-    q3: { answer: false, comment: '' },
-    q4: { answer: true, comment: '' },
+    q3: { answer: true, comment: 'Contract Source Code Verified (Exact Match) according to etherscan ' },
+    q4: { answer: false, comment: '' },
     q5: { answer: true, comment: '' },
     q6: { answer: true, comment: '' },
-    q7: { answer: null, comment: '' },
-    q8: { answer: true, comment: '' },
-    q9: { answer: false, comment: '' },
+    q7: { answer: false, comment: '' },
+    q8: { answer: null, comment: '' },
+    q9: { answer: null, comment: '' },
     q10: { answer: true, comment: '' },
-    q11: { answer: true, comment: '' },
+    q11: { answer: false, comment: '' },
     q12: { answer: true, comment: '' },
     q13: { answer: true, comment: '' },
     q14: { answer: true, comment: '' },
   }
   alternativeLoadingMsg:
-  addedBy:"YOUR-NAME",
-  dateAdded: 'DD-MM-YYYY',
+  addedBy:"Kabbykabs",
+  dateAdded: '2018-11-29',
 }

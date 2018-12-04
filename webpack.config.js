@@ -28,6 +28,17 @@ const config = {
   node: {
     __filename: true,
   },
+  devServer: {
+    contentBase: "./",
+    port: 3000,
+    proxy: {
+        '/node': {
+            target: 'https://ndfull.neufund.org/',
+            secure: false,
+            changeOrigin: true
+        }
+    },
+  },
   module: {
     rules: [
       {

@@ -113,7 +113,8 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket,
   const chartTransactionsCountTemp = {};
   const chartEtherCountTemp = {};
 
-  const precision = 10 ** (parseFloat(icoConfig.decimals) || config.defaultDecimal);
+  const decimals = icoConfig.decimals === undefined ? config.defaultDecimal : parseFloat(icoConfig.decimals);
+  const precision = 10 ** decimals;
 
   Object.keys(allLogs).forEach((eventName) => {
     const eventArgs = icoConfig.events[eventName].args;

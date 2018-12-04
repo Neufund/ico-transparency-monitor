@@ -28,7 +28,7 @@ export default {
       // we should take it from token terms, but that would need importing several ABIs
       // which is not suppored now
       // https://etherscan.io/address/0xd7e433a4c11e57fb03795c815ee758534ed5232e#readContract
-      return [`Max: ${formatNumber(46000000)} FTH`, `${formatNumber(10000000)} FTH`];
+      return [`Max: ${formatNumber(46000000)} FTH`, `Min: ${formatNumber(10000000)} FTH`];
     },
     startDate: async (web3, icoContract) => {
       const startDate = await toPromise(icoContract.startOf)(1);
@@ -49,7 +49,7 @@ export default {
         6: 'eto refund',
       };
       const state = await toPromise(icoContract.timedState);
-      return commitmentState[parseInt(state)];
+      return commitmentState[state.toNumber()];
     },
   },
   matrix: {
@@ -75,7 +75,7 @@ export default {
     ISSUER right to Commitment contract, there is however 0 incentive for
     platform operator to do that` },
   },
-  decimals: 1,
+  decimals: 0,
   addedBy: 'rudolfix',
   dateAdded: '04-12-2018',
 };

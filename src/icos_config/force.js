@@ -48,7 +48,7 @@ export default {
         5: 'proceeds payout',
         6: 'eto refund',
       };
-      const state = await toPromise(icoContract.timedState);
+      const state = await toPromise(icoContract.timedState)();
       return commitmentState[state.valueOf()];
     },
   },

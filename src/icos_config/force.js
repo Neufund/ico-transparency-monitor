@@ -49,7 +49,7 @@ export default {
         6: 'eto refund',
       };
       const state = await toPromise(icoContract.timedState);
-      return commitmentState[state.toNumber()];
+      return commitmentState[state.valueOf()];
     },
   },
   matrix: {

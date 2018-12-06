@@ -5,7 +5,7 @@ const config = {
   rpcHost,
   defaultDecimal: 18,
   matrix: {
-    q1: { question: 'Is ICO controlled by a smart contract?', critical: true, notApplicable: false },
+    q1: { question: 'Is ICO/STO controlled by a smart contract?', critical: true, notApplicable: false },
     q2: { question: 'Is smart contract source code available?', critical: true, notApplicable: false },
     q3: { question: 'Is smart contract source code provided in etherscan?', critical: false, notApplicable: false },
     q4: {
@@ -25,7 +25,7 @@ const config = {
     },
     q7: { question: 'Does smart contract handle ETH in a trustless way?', critical: false, notApplicable: true },
     q8: {
-      question: 'If ICO is using other currencies is information on token price provided?',
+      question: 'If ICO/STO is using other currencies is information on token price provided?',
       critical: true,
       notApplicable: true,
     },
@@ -50,12 +50,12 @@ const config = {
       notApplicable: false,
     },
     q13: {
-      question: 'Is ICO start condition controlled by smart contract?',
+      question: 'Is ICO/STO start condition controlled by smart contract?',
       critical: false,
       notApplicable: false,
     },
     q14: {
-      question: 'Is ICO end condition controlled by smart contract?',
+      question: 'Is ICO/STO end condition controlled by smart contract?',
       critical: false,
       notApplicable: false,
     },

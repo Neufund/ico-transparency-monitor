@@ -8,25 +8,16 @@ export default () => (
         <Row >
           <Col md={12} className="relative">
             <div className="title">
-              <h6 >ICO Transparency Monitor</h6>
+              <h6 >Transparency Monitor</h6>
             </div>
-            <p>A go to place for investors and journalists to learn
-              whether a given ICO is transparent and can be trusted.
-              The ICO Monitor serves as a transparency benchmark for
-              the community to better evaluate offerings and make
-              informed decisions based on objective metrics.
+            <p>Transparency Monitor has long been the go-to place for investors and journalists to learn whether a given ICO is transparent and can be trusted. The market changed, and with the transition from ICO to STO, we decided to continue monitoring blockchain fundraising.
             </p>
             <div>
-              <p>We evaluate all ICOs based on their smart contracts.</p>
+              <p>We evaluate all STOs (and previously ICOs) based on their smart contracts, and assign each a status as follows:</p>
               <ul>
-                <li><p>Non-transparent: this rating means that one or
-                   more essential dimensions of trust and security
-                   receive an unfavorable rating.</p></li>
-                <li><p>Transparent with issues: this rating means that
-                  one or more non-essential dimensions of trust and
-                  security receive an unfavorable rating.</p></li>
-                <li><p>Transparent: this rating means that all dimension
-                  of trust and security receive a favorable rating.</p></li>
+                <li><p>Non-transparent: One or more essential dimensions of trust and security receive an unfavorable rating.</p></li>
+                <li><p>Transparent with issues: One or more non-essential dimensions of trust and security receive an unfavorable rating.</p></li>
+                <li><p>Transparent: All dimension of trust and security receive a favorable rating.</p></li>
               </ul>
               <p>Please read detailed explanation
                 <a
@@ -37,9 +28,8 @@ export default () => (
               </p>
             </div>
             <p>
-                ICO Monitor is an open platform. We take no responsibility
-                 for the information published or data provided.
-                We also do not assume any liability of their correctness.
+               The Transparency Monitor is an open platform. We take no responsibility for the information published or data provided, nor assume any liability of their accuracy.
+
             </p>
             <p className="center">
               <a

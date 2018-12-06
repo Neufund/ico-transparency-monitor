@@ -1,8 +1,8 @@
-# ICO-Transparency-Monitor
+# Transparency-Monitor
 
 [![Build Status](https://travis-ci.org/Neufund/ico-transparency-monitor.svg)](https://travis-ci.org/Neufund/ico-transparency-monitor) [![Greenkeeper badge](https://badges.greenkeeper.io/Neufund/generic-ico.svg)](https://greenkeeper.io/)
 
-Transparency-Monitor is a powerful tool that tracks ICOs for different features in order to evaluate how transparent these ICOs are. This is done by answering a number of questions, for example the availability of source code and quality of the ICOs/STOs smart-contract. <br/>
+Transparency Monitor is a powerful tool that tracks ICOs/STOs for different features in order to evaluate how transparent these ICOs/STOs are. This is done by answering a number of questions, for example the availability of source code and quality of the ICOs/STOs smart-contract. <br/>
 
 In addition a number of generated graphs from these ICOs/STOs can help users assess statistically these ICOs/STOs. These graphs can be directly used for publication and articles related to analysis if ICOs/STOs.
 
@@ -12,9 +12,9 @@ Currently a number of ICOs/STOs are already available and more can be manually a
 ### Data Collection
 All [transactions](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#index-8) executed in the ethereum network are logged and stored as [blocks](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#blocks) in the public ethereum blockchain. These transactions can either be a transfer or execution of code in the form of a [Smart Contract](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contract).<br/>
 
- When a Smart Contract is executed, it generates  [log](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#logs) events based on how it is programmed and what function is  executed at the time. In most cases ICOs are token generating smart contracts, where every token generation by the ICO's smart contract is permanently logged in the blockchain.
+ When a Smart Contract is executed, it generates  [log](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#logs) events based on how it is programmed and what function is  executed at the time. In most cases ICOs/STOs are token generating smart contracts, where every token generation by the ICO's/STO's smart contract is permanently logged in the blockchain.
 
- Using [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#watch-callback-return-value) The ICO-Monitor takes the address of an ICO Smart Contract and scans through the whole blockchain and collects all token generation events logged by the ICO smart contract.
+ Using [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#watch-callback-return-value) The Transparency Monitor takes the address of an ICO/STO Smart Contract and scans through the whole blockchain and collects all token generation events logged by the ICO/STO smart contract.
 
 
  ### Parity Node
@@ -55,7 +55,7 @@ The response is exactly the same like `eth_getLogs` but with `timestamp` and the
 ```
 
 ### Transparency Questionnaire
-ICO smart contracts are assigned a transparency class via a [decision function](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/utils.js#L34) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:
+ICO/STO smart contracts are assigned a transparency class via a [decision function](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/utils.js#L34) which takes a set of answers as an input. In principle all questions are answered by analysis of the Solidity code of smart contracts. We are not looking at teams, token models or their ecosystem impact. We also are not doing a typical code review that looks for bugs. We are looking for the following:
 
 * Breaches in trustless trust, where essential terms are controlled by a person, not a smart contract. A serious breach is for example a contracts that issues tokens from previously pledged ETH by action of an owner (and not in typical 'claim' pattern), less serious are token prices, caps and end dates that can be changed by the owner and not by some market mechanism or smart contract code.
 * ETH/money flow is not going through smart contract but is handled by some backend service (serious breach) or ETH goes directly to some wallet where it is out of control of smart contract even before ICO/STO ends and tokens are issued.
@@ -65,7 +65,7 @@ Please note again note that we are not evaluation products or business model. A 
 
 To help assess ICO/STO issues we answer following set of questions for ICOs/STOs we list here:
 
-1. Is ICO/STO controlled by a smart contract? (some ICOs are entirely performed on the backend or smart contract and filled by data post factum.)
+1. Is ICO/STO controlled by a smart contract? (some ICOs/STOs are entirely performed on the backend or smart contract and filled by data post factum.)
 
 2. Is smart contract source code available? (even if there is a smart contract we need its source code, pretty obvious)
 
@@ -103,26 +103,26 @@ Each question has two properties `critical` and `notApplicable`, based on the ty
 
 An ICO/STO is immediately considered *Non-Transparent* if any question that was answered false `answer: false` and was considered critical `critical: true`. However, if the question was considered non critical `critical: false` and had `answer: false` the ICO/STO is considered *Transparent with issues* instead.
 
-In some cases a question is considered `notApplicable` for some ICO's where answering this question does not effect the transparency, if a `notApplicable: true` question was given `answer: null` the Transparency monitor will discard this question and not count it in the transparency processes.
+In some cases a question is considered `notApplicable` for some ICOs/STOs where answering this question does not effect the transparency, if a `notApplicable: true` question was given `answer: null` the Transparency monitor will discard this question and not count it in the transparency processes.
 
 The decision matrix is represented as (as specified in [config.js](https://github.com/Neufund/ico-transparency-monitor/blob/master/src/config.js#L506)):
 
 | |Question | Critical |Not Applicable|
 |-|----------|-----------------|-----------------------|
-|1|Is ICO controlled by a smart contract?|false|false|
+|1|Is ICO/STO controlled by a smart contract?|false|false|
 |2|Is smart contract source code available?|true|false|
 |3|Is smart contract source code provided in etherscan?|false|false|
 |4|Is instruction provided how to reproduce deployed bytecode?|true| true|
 |5|Does smart contract provide all tracking data via events?|false|false|
 |6|Is information on token price in ETH provided? (via event or in transaction?)|true|true|
 |7|Does smart contract handle ETH in a trustless way?|false|true|
-|8|If ICO is using other currencies is information on token price provided?|true|true|
+|8|If ICO/STO is using other currencies is information on token price provided?|true|true|
 |9|Does smart contract handle other currencies in a trustless way? Does some smart contract store balance of those currencies?|false|true|
 |10|Was smart contract code easy to read and properly commented?|false|false|
 |11|Are token holder rights protected in trustless way?|true|false|
 |12|Is price of the token controlled by smart contract?|false| false |
-|13|Is ICO start condition controlled by smart contract?| false| false |
-|14|Is ICO end condition controlled by smart contract?| false | false |
+|13|Is ICO/STO start condition controlled by smart contract?| false| false |
+|14|Is ICO/STO end condition controlled by smart contract?| false | false |
 
 ## Adding custom ICOs/STOs to the Transparency Monitor
 The Transparency Monitor collects information from the blockchain public-ledger using a set of predefined
@@ -141,7 +141,7 @@ To add your own ICO/STO you would have to:
   and then merged to the Transparency Monitor which can be accessed through our running node.
 
 ### ico_name.js
-ico_name.js holds the configuration data for ICOs currently available. Every ICO/STO should have a set of parameters in order for the Transparency Monitor to processes the data correctly.
+ico_name.js holds the configuration data for ICOs/STOs currently available. Every ICO/STO should have a set of parameters in order for the Transparency Monitor to processes the data correctly.
 
 A general form of an ICO/STO configuration can be presented as:
 
@@ -231,9 +231,9 @@ export default {
 
   `customArgs`: Additional filter for the events as passed to eth_getLogs. Typical use case is `Transfer` event of ERC20 Token where token generation is marked by having '_from' set to 0x0. See `Golem` ICO for a reference.
 
-  `firstTransactionBlockNumber`(Optional): Starting block number of the ICO/STO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified ICO-Monitor will scan for events from genesis block. (when submitting ICO/STO please use as close range as possible)
+  `firstTransactionBlockNumber`(Optional): Starting block number of the ICO/STO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified Transparency Monitor will scan for events from genesis block. (when submitting ICO/STO please use as close range as possible)
 
-  `lastTransactionBlockNumber`(Optional): Final Block of the ICO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified Transparency Monitor will scan until current block. `latest` is a valid value here. (when submitting IICO/STO please use as close range as possible))
+  `lastTransactionBlockNumber`(Optional): Final Block of the ICO/STO in the public eth blockchain can be taken from [etherscan](https://etherscan.io/). If not specified Transparency Monitor will scan until current block. `latest` is a valid value here. (when submitting IICO/STO please use as close range as possible))
 
   `maxBlocksInChunk` (Optional): Used in case of large or ongoing ICO/STO. We will download data from Parity in chunks with specified size. This is required for caching as Parity is currently serializing all request and wait times under heavy load will be long.
 
@@ -263,7 +263,7 @@ export default {
 
   `addedBy` Name of the person that added this ICO/STO. This will be displayed on the Transparency monitor next to this ICO/STO
 
-  `dateAdded`: ICO date added formatted as following DD-MM-YYY
+  `dateAdded`: ICO/STO date added formatted as following DD-MM-YYY
 
 ### Examples
 Best way to learn how to add new ICO/STO is to look at existing examples. Let's take EOS ICO

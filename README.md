@@ -453,7 +453,7 @@ Testing
 ```
 yarn test
 ```
-Check that every thing is ok 
+Check that everything is ok 
 ```
 yarn lint:fix
 ```

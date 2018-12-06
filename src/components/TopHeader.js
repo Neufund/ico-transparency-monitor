@@ -9,7 +9,7 @@ const TopHeader = () => (
       <Row className="App-header">
         <a href="/" className="App-logo" > <img src={logo} alt="logo" /></a>
         <Col md={12} >
-          <h4 className="App-name">ICO Transparency Monitor</h4>
+          <h4 className="App-name">Transparency Monitor</h4>
           <span className="powerd-by-neufund ">Powered by <a href="https://neufund.org" target="_blank" rel="noopener noreferrer">Neufund</a> </span>
           <div className="pull-right">
             <a
@@ -18,7 +18,7 @@ const TopHeader = () => (
               className="btn-blue"
               rel="noopener noreferrer"
             >
-              Submit an ICO
+              Submit an STO
             </a>
           </div>
         </Col>

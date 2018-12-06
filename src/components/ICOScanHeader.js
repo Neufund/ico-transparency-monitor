@@ -7,7 +7,7 @@ import ShareButtons from './ShareButtons';
 export default (props) => {
   const { address, information, addedBy, decision,
     onModalShow, tokenContract, icoModalData } = props;
-  const eventName = isNeufundAddress(address) ? 'ICBM' : 'ICO';
+  const eventName = isNeufundAddress(address) ? 'ICBM' : 'ICO/STO';
 
   return (
     <Row>

@@ -98,7 +98,7 @@ export class IcoDataRow extends Component {
                     href={name}
                     className="btn-blue btn-see-stats"
                   >
-                    <p><strong>ICO Statistics</strong> see more</p>
+                    <p><strong>View Statistics</strong> see more</p>
                   </button>
                 </Col>
               </Row>

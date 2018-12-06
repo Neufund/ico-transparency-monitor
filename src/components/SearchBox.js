@@ -6,7 +6,7 @@ export default ({ onChange }) => (
       <input
         type="text"
         className="searchTerm"
-        placeholder="Search for ICO ..."
+        placeholder="Search for ICO/STO ..."
         onChange={onChange}
       />
       <button type="submit" className="searchButton">

@@ -6,7 +6,6 @@ import thunk from 'redux-thunk';
 import { Route, Switch, HashRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import Layout from './views/Layout';
 import RPCProvider from './components/RPCProvider';
 import MessageBoxModal from './components/modals';
 import withTracker from './components/withTracker';

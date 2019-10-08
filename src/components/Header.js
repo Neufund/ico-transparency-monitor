@@ -1,10 +1,14 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import TopHeader from '../components/TopHeader';
 
 export default () => (
-  <Grid fluid className="header-paragraph">
+  <Grid>
     <Row>
-      <Grid>
+      <TopHeader />
+    </Row>
+    <Row>
+      <Grid fluid className="header-paragraph">
         <Row >
           <Col md={12} className="relative">
             <div className="title">

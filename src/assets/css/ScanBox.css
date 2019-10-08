@@ -1,5 +1,5 @@
 .scanbox {
-  background-color: #F7F8F9;
+  background-color: #FFFFFF;
   padding-top:0px;
 }
 
@@ -24,7 +24,6 @@ textarea.console {
   border:0px;
   border-radius: 3px;
   background-color: #FFFFFF;
-  box-shadow: inset 0 1px 3px 0 #D9DBDC;
 }
 
 .scan-button {
@@ -34,7 +33,6 @@ textarea.console {
   width:100%;
   border-radius: 4px;
   background-color: #09719B;
-  box-shadow: 0 2px 4px 0 #A3C0CC;
   font-size:large;
 }
 
@@ -142,9 +140,7 @@ textarea.console {
 .alarm {
   margin-top: 5px;
   margin-bottom: 5px;
-  background: #f9f9f9;
-  color: #09719b;
-  border: 1px solid #d9d9d9;
+  color: #000000;
   border-radius: 7px;
   text-align: center;
 }
@@ -300,7 +296,7 @@ textarea.console {
 }
 
 .section {
-  padding-top: 20px; 
+  padding-top: 20px;
 }
 
 @media(min-width:767px) {
@@ -330,4 +326,4 @@ textarea.console {
 .social-share .SocialMediaShareButton{
   vertical-align: middle;
   cursor: pointer;
-} 
+}

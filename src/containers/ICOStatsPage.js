@@ -3,11 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid } from 'react-flexbox-grid';
 import '../assets/css/App.css';
-import GoNextGoBackBar from '../components/GoNextGoBackBar';
-import IcoRowSinglePage from '../components/IcoRowSinglePage';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxDetails from './ScanBoxDetails';
-import IcoScanHeader from '../components/ICOScanHeader';
 import config, { appendICO } from '../config';
 import Error404 from '../components/Error404';
 import { getLogs, readSmartContract } from '../actions/web3';
@@ -16,7 +13,7 @@ import { resetRpc } from '../actions/ScanAction';
 import { isConnected } from '../utils/web3';
 import { getICOByAddress } from '../icos_config';
 
-class InnerIcoPage extends Component {
+class ICOStatsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,44 +38,12 @@ class InnerIcoPage extends Component {
       this.props.getLogs(this.props.address);
     }
 
-    const { name, totalSupply, symbol, cap, startDate,
-      endDate, status, decision } = this.props.smartContractProps || {};
-    const { address, information, addedBy, tokenContract } = this.props.ico;
-    const showLoader = this.props.isLoading;
-    const onModalShowCallback = this.props.onModalShow;
-    const icoModalData = {
-      name,
-      matrix: this.props.ico.matrix,
-      information: this.props.ico.information,
-    };
+    const { information } = this.props.ico;
 
     return (
       <div className="App">
         {this.state.isBlockMounted && <div>
-          <GoNextGoBackBar address={this.props.address} />
           <Grid className="scanbox ico-box-scan">
-            <IcoScanHeader
-              address={address}
-              information={information}
-              name={name}
-              addedBy={addedBy}
-              decision={decision}
-              tokenContract={tokenContract}
-              onModalShow={onModalShowCallback}
-              icoModalData={icoModalData}
-            />
-
-            <IcoRowSinglePage
-              address={this.props.address}
-              totalSupply={totalSupply}
-              symbol={symbol}
-              cap={cap}
-              startDate={startDate}
-              endDate={endDate}
-              status={status}
-              isLoading={showLoader}
-            />
-
             {this.props.isLoading &&
               <ScanBoxLoadingMessage
                 alternativeLoadingMsg={this.props.ico.alternativeLoadingMsg}
@@ -133,4 +98,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(InnerIcoPage);
+)(ICOStatsPage);

@@ -4,9 +4,8 @@ body {
 
 .App {
   text-align: left;
-  border-top: 1px solid #D9DBDC;
+  border-top: 1px solid #FFFFFF;
   position: relative;
-  min-height: 700px;
 }
 
 .App-logo {
@@ -113,11 +112,9 @@ body {
 
 .scanbox {
   background-color: #FFFFFF;
-  box-shadow: 0 2px 4px 0 #BBC2C7;
 }
 .ico-box {
   background-color: #FFFFFF;
-  box-shadow: 0 0px 1px 0 #BBC2C7;
 }
 .ico-box:hover {
   box-shadow: 0 0px 1px 0 #505050;
@@ -657,7 +654,7 @@ a.back-main {
 @media (min-width: 1200px) {
 
   .scanbox-details, .scanbox-details-parameters {
-    padding: 20px;
+    padding: 0px;
   }
 
   .add-new-ico {
@@ -949,11 +946,11 @@ a.back-main {
   width: 100%;
   width: -moz-available;          /* WebKit-based browsers will ignore this. */
   width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-  border: 1px solid #edeff0; 
+  border: 1px solid #edeff0;
   box-shadow: 0 0px 1px 0 #BBC2C7;
   padding: 5px;
   height: 20px;
-   border-radius: 3px; 
+   border-radius: 3px;
   outline: none;
   color: #9DBFAF;
   font-size: 15px;
@@ -974,7 +971,7 @@ a.back-main {
 }
 
 .searchButton {
-  position: absolute;  
+  position: absolute;
   right: 0;
   width: 40px;
   height: 33px;
@@ -1001,5 +998,5 @@ a.back-main {
 }Ï
 
 .icos-not-found i {
-  border-bottom: 1px solid gray; 
+  border-bottom: 1px solid gray;
 }

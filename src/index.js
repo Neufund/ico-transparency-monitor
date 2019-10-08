@@ -6,7 +6,6 @@ import thunk from 'redux-thunk';
 import { Route, Switch, HashRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import Layout from './views/Layout';
 import RPCProvider from './components/RPCProvider';
 import MessageBoxModal from './components/modals';
 import withTracker from './components/withTracker';
@@ -14,6 +13,7 @@ import reducer from './reducers';
 import env from './env.json';
 import IcosList from './containers/IcosList';
 import InnerIcoPage from './containers/InnerIcoPage';
+import ICOStatsPage from './containers/ICOStatsPage';
 import './assets/css/index.css';
 
 ReactPixel.init(env.fbPixelId);
@@ -25,15 +25,14 @@ const render = (store) => {
   ReactDOM.render(
     <Provider store={store}>
       <RPCProvider>
-        <Layout>
-          <HashRouter>
-            <Switch>
-              <Route exact path="/" component={withTracker(IcosList)} />
-              <Route exact path="/:name" component={withTracker(InnerIcoPage)} />
-            </Switch>
-          </HashRouter>
-          <MessageBoxModal />
-        </Layout>
+        <HashRouter>
+          <Switch>
+            <Route exact path="/" component={withTracker(IcosList)} />
+            <Route exact path="/:name" component={withTracker(InnerIcoPage)} />
+            <Route exact path="/stats/:name" component={withTracker(ICOStatsPage)} />
+          </Switch>
+        </HashRouter>
+        <MessageBoxModal />
       </RPCProvider>
     </Provider>, root);
 };

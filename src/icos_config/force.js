@@ -10,6 +10,7 @@ export default {
     name: 'FORCE',
     website: 'https://platform.neufund.org/eto/view/efbfc858-0f29-4351-8d07-850b1e0461b8',
     logo: 'https://documents.neufund.org/0x304206eb582705Ea82195B7D12A21A8d98F212f7/c8c4ee72-ca7b-4504-b0f2-93dead0bb3bf.png',
+    offeringType: 'ETO',
   },
   events: {
     LogFundsCommitted: {
@@ -18,18 +19,17 @@ export default {
         ether: 'baseCurrencyEquivalent',
         sender: 'investor',
       },
-      firstTransactionBlockNumber: 	6781631,
-      lastTransactionBlockNumber: null,
+      firstTransactionBlockNumber: 6781631,
+      lastTransactionBlockNumber: 7162779,
       countTransactions: true,
     },
   },
   icoParameters: {
-    cap: async (web3, icoContract, tokenContract) => {
+    cap: async (web3, icoContract, tokenContract) =>
       // we should take it from token terms, but that would need importing several ABIs
       // which is not suppored now
       // https://etherscan.io/address/0xd7e433a4c11e57fb03795c815ee758534ed5232e#readContract
-      return [`Max: ${formatNumber(46000000)} FTH`, `Min: ${formatNumber(10000000)} FTH`];
-    },
+      [`Max: ${formatNumber(46000000)} FTH`, `Min: ${formatNumber(10000000)} FTH`],
     startDate: async (web3, icoContract) => {
       const startDate = await toPromise(icoContract.startOf)(1);
       return convertWeb3Value(startDate.valueOf(), 'timestamp').formatDate();

@@ -7,7 +7,7 @@ const ScanBoxLoadingMessage = ({ alternativeLoadingMsg }) => {
   const caption = alternativeLoadingMsg !== null ?
     alternativeLoadingMsg
     :
-    'ICO Scanning in process, please wait ...';
+    'Scanning transactions, please wait ...';
   return (<Row>
     <Col xs={12} className="scan-message-loading">
       <div className="alarm">

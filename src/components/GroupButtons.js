@@ -8,7 +8,7 @@ class CurrencyButton extends Component {
   static mapButtonKeysToText(key) {
     const map = {
       NOW: 'Now',
-      END: 'Day of ICO end',
+      END: 'Offering end date',
     };
     return map[key];
   }

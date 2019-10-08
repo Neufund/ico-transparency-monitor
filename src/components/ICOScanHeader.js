@@ -1,13 +1,12 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { icoTransparencyMap, isCorrectTokenAddress } from '../utils';
-import { isNeufundAddress } from '../utils/web3';
 import ShareButtons from './ShareButtons';
 
 export default (props) => {
   const { address, information, addedBy, decision,
     onModalShow, tokenContract, icoModalData } = props;
-  const eventName = isNeufundAddress(address) ? 'ICBM' : 'ICO/STO';
+  const eventName = information.offeringType || 'ICO';
 
   return (
     <Row>

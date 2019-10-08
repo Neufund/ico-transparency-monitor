@@ -29,14 +29,14 @@ const config = {
     __filename: true,
   },
   devServer: {
-    contentBase: "./",
+    contentBase: './',
     port: 3000,
     proxy: {
-        '/node': {
-            target: 'https://ndfull.neufund.org/',
-            secure: false,
-            changeOrigin: true
-        }
+      '/node': {
+        target: 'https://ndfull.neufund.org/',
+        secure: false,
+        changeOrigin: true,
+      },
     },
   },
   module: {

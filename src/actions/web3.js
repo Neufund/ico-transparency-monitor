@@ -31,7 +31,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 
   dispatch(setProperties(address, { decision: transparencyDecision }));
 
-  const tokenContract = getTokenSmartContract(web3, address);
+  const tokenContract = await getTokenSmartContract(web3, address);
 
   if (tokenContract === null) { // Doesn't have smart contract
     dispatch(setSmartContractLoaded(true));
@@ -135,7 +135,7 @@ export const getLogs = address => async (dispatch, getState) => {
   const finalProcessor = () => {
     if (Object.keys(allLogs).length > 0) {
       const statistics = getStatistics(icoConfig, allLogs);
-      /* statistics array of two elements, index number 0 for statistcs, 
+      /* statistics array of two elements, index number 0 for statistcs,
       index number 1 for csv content */
       dispatch(drawStatistics(statistics[0]));
       dispatch(allocateCSVFile(statistics[1]));

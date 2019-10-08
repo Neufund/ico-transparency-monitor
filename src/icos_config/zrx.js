@@ -10,7 +10,7 @@ export default {
     logo: 'https://0xproject.com/images/favicon/favicon-2-32x32.png',
   },
   events: {
-    /* unfortunately LogFill does not allow us to connect 
+    /* unfortunately LogFill does not allow us to connect
     ETH with particular investor. taker is ICO contract
     */
     // no information on tx.origin
@@ -34,9 +34,9 @@ export default {
       args: {
         tokens: '_value',
         sender: '_to',
-        /* ZXR price taken directly from 
+        /* ZXR price taken directly from
         caps: getOrderMakerTokenAmount / getOrderTakerTokenAmount
-         our other choice was to not provide any ETH information 
+         our other choice was to not provide any ETH information
          as ICO smart contract is not auditable
          */
         ether: tokens => tokens / 5906.8750000012323217968752570931,

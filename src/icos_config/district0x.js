@@ -46,8 +46,8 @@ export default {
     },
     status: async (web3, icoContract) => {
       const isRunning = await toPromise(icoContract.isContribPeriodRunning)();
-      /* when contribution is over then successful as 
-      there is not failure condition in smart contract 
+      /* when contribution is over then successful as
+      there is not failure condition in smart contract
       */
       return isRunning.valueOf() ? 'in progress' : 'successful';
     },

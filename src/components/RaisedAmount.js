@@ -3,14 +3,14 @@ import { formatNumber } from '../utils';
 
 const RaisedAmount = ({
   total, avgTicket, avgPrice, currency,
-  medianTicketSize, baseCurrency = null,
+  medianTicketSize, offeringType, baseCurrency = null,
 }) =>
   (<div>
     <div className="stats">
       <table>
         <tbody>
           {baseCurrency && <tr>
-            <th>ICO Base currency</th>
+            <th>{offeringType} Base currency</th>
             <td>{baseCurrency}</td>
           </tr>}
           <tr>

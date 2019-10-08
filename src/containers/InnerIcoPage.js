@@ -88,7 +88,7 @@ class InnerIcoPage extends Component {
                 alternativeLoadingMsg="No transactions were found, please check later"
               />}
             {!this.props.isLoading && this.props.isComponentReady &&
-              <ScanBoxDetails address={this.props.address} /> }
+              <ScanBoxDetails address={this.props.address} offeringType={information.offeringType || 'ICO'} /> }
           </Grid>
         </div>}
       </div>
@@ -124,7 +124,7 @@ const mapDispatchToProps = dispatch => ({
       dispatch(onModalShow(currentICO));
     } else {
       dispatch(resetRpc());
-      dispatch(showErrorMessage(`Trying to connect to 
+      dispatch(showErrorMessage(`Trying to connect to
       rpc node ${config.rpcHost} received an invalid response.`));
     }
   },

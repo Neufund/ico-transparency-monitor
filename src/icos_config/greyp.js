@@ -6,6 +6,7 @@ export default {
   crowdSaleTokenContract: '0x73E44092B5A886a37bea74bFc90911D0c98F6A15',
   tokenContract: '0x535bfaeb50580f674bd2e076d6073adf28a46fa8',
   baseCurrency: 'EUR',
+  hide: true,
   information: {
     name: 'GRP',
     website: 'https://platform.neufund.org/eto/view/LI/1eb004fd-c44d-4bed-9e76-0e0858649587',

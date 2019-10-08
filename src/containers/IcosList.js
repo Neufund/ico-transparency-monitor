@@ -39,9 +39,10 @@ export default class extends Component {
   loadIcos(page) {
     if (this.state.lockLoadMore) { return; }
     const icosList = getICOsAsList(page);
+    const icos = icosList.icos.filter(i => !i.hide);
     this.setState(
       {
-        icosList: icosList.icos,
+        icosList: icos,
         hasMoreItems: icosList.icos.length < icosList.length,
         page,
       }

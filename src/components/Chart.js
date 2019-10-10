@@ -53,7 +53,7 @@ export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, projec
                 />
                 <Bar
                   dataKey="amount"
-                  fill="#8884d8"
+                  fill="#C6D30D"
                   barSize={data && data.length > 250 ? 1 : undefined}
                 />
               </BarChart>

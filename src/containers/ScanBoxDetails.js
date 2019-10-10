@@ -30,7 +30,7 @@ export const getMedian = (numbers) => {
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   <ReactTooltip multiline />
   <Row className="statistics box-container">
-    <Col md={12} className="scan-content">
+    <Col md={12} sm={12} xs={12} className="scan-content">
       <GeneralDates {...props.stats.time} />
       <TokenIssued
         totalSupply={props.totalSupply}
@@ -64,7 +64,7 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         }
       />
     </Col>
-    <Col md={6} sm={12} xs={12}>
+    <Col md={6} sm={12} xs={12} className="relative">
       <Chart
         projectName={props.name}
         title="Transactions over time"

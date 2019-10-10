@@ -1,6 +1,6 @@
 .scanbox {
-  background-color: #FFFFFF;
-  padding-top:0px;
+  background-color: transparent;
+  padding: 0;
 }
 
 .section-top {
@@ -11,7 +11,7 @@
   height: 24px;
   width: 328px;
   color: #000000;
-  font-family: 'Montserrat';
+  font-family: 'Lato';
   font-size: 22px;
   font-weight: 300;
   line-height: 24px;
@@ -37,7 +37,12 @@ textarea.console {
 }
 
 .scan-content .token-distribution-table {
-  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 1.5625rem;
+  color: #656b72;
+  margin-top: 14px;
+  margin-bottom: 14px;
 }
 
 .box-container {
@@ -45,10 +50,11 @@ textarea.console {
 }
 
 .scanbox-details .statistics .title , .scan-content .title {
-  color: #000000;
-  font-family: 'Montserrat';
-  font-size: 22px;
-  font-weight: 300;
+  color: #2b2b2b;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
   line-height: 24px;
   margin-bottom: 20px;
 }
@@ -56,22 +62,27 @@ textarea.console {
 /* special case for gini index*/
 .scanbox-details .scan-content .stats {
   margin-bottom: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 1.5625rem;
+  color: #656b72;
+  font-size: 14px;
 }
 
 .scanbox-details .stats {
   margin-bottom: 30px;
 }
 
-.scanbox-details .stats table {
-  margin-left:39px;
+.scanbox-details .stats table th {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 1.5;
 }
 
-.scanbox-details .stats table th {
-  color: #4A4A4A;
-  font-family: 'Montserrat';
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 20px;
+.scanbox-details .stats table th i {
+  font-size: 10px;
 }
 
 .scanbox-details .tooltip {
@@ -164,7 +175,7 @@ textarea.console {
   width: 100%;
   border: solid thin;
   border-collapse: collapse;
-
+  border-color: #656b72;
 }
 .table td {
   white-space: nowrap;
@@ -174,6 +185,7 @@ textarea.console {
 }
 
 .table th {
+  color: #2b2b2b;
   font-weight: normal;
   padding: 0.2em;
   vertical-align: middle;
@@ -181,8 +193,9 @@ textarea.console {
 
 }
 .table td , .table th {
-  border: solid thin;
+  border: solid thin ;
   padding: 0.5rem 2rem;
+  border-color: #656b72;
 }
 
 .ico-scan-header {
@@ -238,11 +251,18 @@ textarea.console {
 
 .chart-parent{
   position: relative;
-  height:351px;
-  padding-bottom:20px;
+  height: 351px;
+  padding-bottom: 26px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 4px;
+  margin-top: 14px;
 }
 
-.chart-body{
+.chart-body {
+  color: #2b2b2b;
   position: absolute;
   margin-top:26px;
   width: 100%;
@@ -250,8 +270,8 @@ textarea.console {
 
 .chart-parent .x-axis-label {
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 4px;
+  bottom: 4px;
   font-size: 13px;
 }
 
@@ -265,13 +285,20 @@ textarea.console {
   left: 20px;
   font-size: 13px;
 }
-.chart-btn{
+.chart-btn {
   background: none;
   border: 0;
-  color: #2f89ba;
+  color: #556877;
   font-size: 16px;
-  font-weight:500;
+  font-weight: 500;
   cursor: pointer;
+  left: 0;
+  bottom: -8px;
+  position: absolute;
+}
+
+.chart-btn:hover, .chart-btn:focus {
+  color: #C6D30D;
 }
 
 .chart-btn .fa {

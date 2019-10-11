@@ -29,6 +29,17 @@ class ICOStatsPage extends Component {
     }
   }
 
+  componentDidUpdate() {
+    const { scrollHeight: height } = document.body;
+
+    if (window.parent) {
+      /* Send message to parent with it's current height
+        only if it's loadede within iframe
+       */
+      window.parent.postMessage(height, '*');
+    }
+  }
+
   render() {
     if (typeof config.ICOs[this.props.address] === 'undefined') { return <Error404 message={`Address ${this.props.address}`} />; }
 

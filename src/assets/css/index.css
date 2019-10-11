@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .right{
@@ -110,4 +110,5 @@ body {
 
 .top-header{
   padding:7px;
+  width: 100%;
 }

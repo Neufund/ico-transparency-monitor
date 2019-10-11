@@ -86,7 +86,7 @@
   },
   "scripts": {
     "start": "(cp -n src/env.example.json src/env.json || true) && react-scripts start",
-    "serve": "NODE_ENV=development babel-node node_modules/.bin/webpack-dev-server --https --colors --progress --history-api-fallback --host 192.168.8.178",
+    "serve": "NODE_ENV=development babel-node node_modules/.bin/webpack-dev-server --https --colors --progress --history-api-fallback",
     "build": "NODE_ENV=production babel-node node_modules/.bin/webpack",
     "test": "(cp -n src/env.example.json src/env.json || true) && NODE_ENV=test babel-node node_modules/.bin/babel-istanbul cover _mocha --delay -- --require ignore-styles --require test/mochaConfig.js ./test/**/*.test.js",
     "eslint": "(cp -n src/env.example.json src/env.json || true) && eslint --ignore-path .gitignore .",

@@ -193,9 +193,8 @@ textarea.console {
 
 }
 .table td , .table th {
-  border: solid thin ;
+  border: solid thin #656b72;
   padding: 0.5rem 2rem;
-  border-color: #656b72;
 }
 
 .ico-scan-header {

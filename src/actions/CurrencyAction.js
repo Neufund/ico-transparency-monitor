@@ -19,7 +19,7 @@ export const getExchangeRate = async (base, to, provider, time) => {
       const converted = base === 'ETH' ? to : base;
       const key = `ETH-${converted}`.toUpperCase();
       result = await axios.get(`https://api.coinbase.com/v2/prices/${key}/spot?date=${time.toISOString()}`);
-      return base === 'ETH' ? result.data.data.amount : (1 / result.data.data.amount);
+      return to === 'ETH' ? (1 / result.data.data.amount) : result.data.data.amount;
     } case 'fixer': {
       const timeFormated = moment(time).format('YYYY-MM-DD');
       result = await axios.get(`https://api.fixer.io/${timeFormated}?base=${base}`);

@@ -16,7 +16,7 @@ export default ({ startDate, endDate, duration }) => (
           </tr>
           <tr>
             <th>Duration</th>
-            <td>{duration}</td>
+            <td className="wrap">{duration}</td>
           </tr>
         </tbody>
       </table>

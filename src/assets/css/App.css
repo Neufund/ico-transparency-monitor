@@ -220,12 +220,16 @@ body {
   bottom: -32px;
 }
 
-.container {
-  box-sizing: border-box;
-  padding: .5em;
+.container,
+.container-fluid {
   max-width: 1140px;
   margin: 0 auto;
   width: 100%;
+}
+
+.container {
+  box-sizing: border-box;
+  padding: .5em;
 }
 
 .transparency-button {
@@ -1011,4 +1015,8 @@ tspan {
   padding: 1.5625rem;
   color: #656b72;
   margin-bottom: 10px;
+}
+
+.container[data-id="tooltip"] {
+  max-width: 70vw
 }

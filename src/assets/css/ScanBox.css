@@ -79,6 +79,15 @@ textarea.console {
   font-weight: 400;
   text-transform: uppercase;
   line-height: 1.5;
+  width: auto;
+}
+
+.scanbox-details .stats table td {
+  white-space: nowrap;
+}
+
+.scanbox-details .stats table td.wrap {
+  white-space: normal;
 }
 
 .scanbox-details .stats table th i {
@@ -251,12 +260,9 @@ textarea.console {
 .chart-parent{
   position: relative;
   height: 351px;
-  padding-bottom: 26px;
   background-color: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-top: 4px;
+  padding: 4px 4px 48px;
   margin-top: 14px;
 }
 
@@ -270,7 +276,7 @@ textarea.console {
 .chart-parent .x-axis-label {
   position: absolute;
   right: 4px;
-  bottom: 4px;
+  bottom: 28px;
   font-size: 13px;
 }
 
@@ -280,7 +286,7 @@ textarea.console {
 
 .chart-parent .y-axis-label {
   position: absolute;
-  top: 40px;
+  top: 48px;
   left: 20px;
   font-size: 13px;
 }
@@ -292,7 +298,7 @@ textarea.console {
   font-weight: 500;
   cursor: pointer;
   left: 0;
-  bottom: -8px;
+  bottom: -28px;
   position: absolute;
 }
 
@@ -322,6 +328,7 @@ textarea.console {
 }
 
 .section {
+  position: relative;
   padding-top: 20px;
 }
 

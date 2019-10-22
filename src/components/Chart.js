@@ -39,7 +39,7 @@ export default ({ title, data, dataKey, xLabel, yLabel, isVisible = true, projec
         <div >
           <div className="chart-body">
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={data} margin={{ top: 5, right: 20, left: 50, bottom: 5 }}>
+              <BarChart data={data} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                 <XAxis dataKey="name" />
                 <YAxis tickFormatter={value => kFormatter(value)} />
                 <CartesianGrid strokeDasharray="1 3" />

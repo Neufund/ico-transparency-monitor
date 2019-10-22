@@ -31,8 +31,9 @@ class ICOStatsPage extends Component {
 
   componentDidUpdate() {
     const { scrollHeight: height } = document.body;
+    const { isLoading, isComponentReady } = this.props;
 
-    if (window.parent) {
+    if (window.parent && !isLoading && isComponentReady) {
       /* Send message to parent with it's current height
         only if it's loadede within iframe
        */

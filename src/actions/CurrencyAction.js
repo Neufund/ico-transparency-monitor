@@ -13,11 +13,16 @@ export const setExchangeProviderInfo = provider => async (dispatch, getState) =>
 
 export const getExchangeRate = async (base, to, provider, time) => {
   let result = null;
+
   switch (provider) {
     case 'coinbase': {
       // coinbase requires UTC string
-      const converted = base === 'ETH' ? to : base;
-      const key = `ETH-${converted}`.toUpperCase();
+      let key;
+      if (to === 'ETH') {
+        key = `ETH-${base}`.toUpperCase();
+      } else {
+        key = `${base}-${to}`.toUpperCase();
+      }
       result = await axios.get(`https://api.coinbase.com/v2/prices/${key}/spot?date=${time.toISOString()}`);
       return to === 'ETH' ? (1 / result.data.data.amount) : result.data.data.amount;
     } case 'fixer': {
@@ -48,8 +53,8 @@ export const getExchangeProviderInfo = (key) => {
     case 'EUR-USD':
     case 'USD-EUR':
       return {
-        name: 'fixer',
-        link: 'https://api.fixer.io/',
+        name: 'coinbase',
+        link: 'https://api.coinbase.com/v2/prices',
       };
     case 'ETH-ETH':
     case 'USD-USD':

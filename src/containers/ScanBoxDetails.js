@@ -11,6 +11,7 @@ import TokenDistribution from '../components/TokenDistribution';
 import Chart from '../components/Chart';
 import { downloadCSV } from '../utils';
 import config from '../config';
+import GiniIndex from '../components/GiniIndex';
 
 export const getMedian = (numbers) => {
   let median = 0;
@@ -84,12 +85,25 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
   </Row>
 
   <div className="scan-content">
-
+    <Row>
+      <Col xs={12}>
+        <h3 className="title">
+          <span
+            className="tooltip"
+            data-tip="This section shows level of inequality among token holders.<br/>How much tokens
+         1% of wealthiest investors have?<br/> How much tokens are owned by small investors?"
+          >
+        Token distribution
+          </span>
+        </h3>
+      </Col>
+    </Row>
+    <Row>
+      <GiniIndex giniIndex={props.stats.general.giniIndex} />
+    </Row>
     <Row className="box-container">
-
       <Col md={6} sm={12} xs={12} className="scan-content">
         <TokenDistribution
-          giniIndex={props.stats.general.giniIndex}
           tokenHolders={props.stats.charts.tokenHolders}
           isVisible={props.stats.money.tokenIssued !== 0}
           isNotVisibleMessage={`No Token distribution table: This ${props.offeringType}

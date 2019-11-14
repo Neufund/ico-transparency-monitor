@@ -745,10 +745,6 @@ a.back-main {
     display: none !important;
   }
 
-  .container {
-    width: 48rem !important;
-  }
-
   .ico-box-container .clearfix {
     width: 600px;
     padding: 20px;

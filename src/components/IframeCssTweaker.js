@@ -18,7 +18,7 @@ export class IframeCssTweaker extends Component {
 
   setBackgroundColor() {
     const root = document.documentElement;
-
+    console.log(">>--->> this is an iframe:", this.checkIframe())
     if(this.checkIframe()){
       const body = document.getElementsByTagName('body')[0]
       body.classList.add('body-iframe')

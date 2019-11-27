@@ -15,6 +15,7 @@ import IcosList from './containers/IcosList';
 import InnerIcoPage from './containers/InnerIcoPage';
 import ICOStatsPage from './containers/ICOStatsPage';
 import './assets/css/index.css';
+import { IframeCssTweaker } from './components/IframeCssTweaker';
 
 ReactPixel.init(env.fbPixelId);
 ReactPixel.pageView();
@@ -25,13 +26,15 @@ const render = (store) => {
   ReactDOM.render(
     <Provider store={store}>
       <RPCProvider>
-        <HashRouter>
-          <Switch>
-            <Route exact path="/" component={withTracker(IcosList)} />
-            <Route exact path="/:name" component={withTracker(InnerIcoPage)} />
-            <Route exact path="/stats/:name" component={withTracker(ICOStatsPage)} />
-          </Switch>
-        </HashRouter>
+        <IframeCssTweaker >
+          <HashRouter>
+            <Switch>
+              <Route exact path="/" component={withTracker(IcosList)} />
+              <Route exact path="/:name" component={withTracker(InnerIcoPage)} />
+              <Route exact path="/stats/:name" component={withTracker(ICOStatsPage)} />
+            </Switch>
+          </HashRouter>
+        </IframeCssTweaker>
         <MessageBoxModal />
       </RPCProvider>
     </Provider>, root);

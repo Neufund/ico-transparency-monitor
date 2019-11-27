@@ -3,6 +3,10 @@ body {
   background-color: #f3f5f7;
 }
 
+.body-iframe {
+  background-color: transparent;
+}
+
 @media (min-width: 992px) {
   .App {
     margin: 0;

@@ -98,9 +98,9 @@ const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
         </h3>
       </Col>
     </Row>
-    <Row>
+    {props.stats.general.giniIndex && <Row>
       <GiniIndex giniIndex={props.stats.general.giniIndex} />
-    </Row>
+    </Row>}
     <Row className="box-container">
       <Col md={6} sm={12} xs={12} className="scan-content">
         <TokenDistribution

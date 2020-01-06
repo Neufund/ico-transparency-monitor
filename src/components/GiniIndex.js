@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const GiniIndex = ({ giniIndex }) => (giniIndex && <div className="stats-no-box">
+const GiniIndex = ({ giniIndex }) => (<div className="stats-no-box">
   <table>
     <tbody>
       <tr>
@@ -10,11 +10,10 @@ const GiniIndex = ({ giniIndex }) => (giniIndex && <div className="stats-no-box"
       </tr>
     </tbody>
   </table>
-</div>
-);
+</div>);
 
 GiniIndex.propTypes = {
-  giniIndex: PropTypes.number,
+  giniIndex: PropTypes.number.isRequired,
 };
 
 export default GiniIndex;

@@ -47,7 +47,7 @@ class CurrencyButton extends Component {
     return (
       <div>
         <Row className="group-buttons">
-          <Col>
+          <Col md={12} className="buttons-container">
             <div>
               <p>Convert to:</p>
               <ul className="currency-buttons">
@@ -58,6 +58,8 @@ class CurrencyButton extends Component {
                   }}
                 >{item}</a></li>))}
               </ul>
+            </div>
+            <div>
               <p>Rate from:</p>
               <ul className="currency-buttons">
                 {['NOW', 'END'].map(item =>
@@ -74,15 +76,12 @@ class CurrencyButton extends Component {
                 }
               </ul>
             </div>
-          </Col>
-          <Col md={6} className="exchangeRate">
-            <p>
+            <div className="exchangeRate">
               <strong>{this.props.baseCurrency || 'ETH'} 1 = {this.props.currency} {this.props.currencyValue}</strong>
               <br />
               <small>{this.props.provider} on {this.state.exchangeRateDate.formatDate()}
-
               </small>
-            </p>
+            </div>
           </Col>
         </Row>
       </div>

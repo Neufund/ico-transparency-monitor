@@ -11,20 +11,41 @@
 }
 
 .group-buttons p, .group-buttons ul {
-  float: left;
+  display: inline-block;
   padding-left: 10px
 }
 
+.group-buttons .buttons-container {
+  display: flex;
+  align-self: center;
+  flex-wrap: wrap;
+}
+
 .exchangeRate {
-  position: absolute;
-  right: 0;
+  padding: .5625rem;
+  text-align: right;
+  justify-self: flex-end;
+  align-self: center;
+  margin-left: auto;
+}
+
+@media screen and (max-width: 1024px) {
+  .exchangeRate {
+    text-align: left;
+    margin-left: 0;
+    justify-self: flex-start;
+  }
+
+  .group-buttons .buttons-container {
+    justify-content: space-between;
+  }
 }
 
 ul.currency-buttons {
-  display: block;
   list-style: none;
   overflow: hidden;
   margin-left: 5px;
+  vertical-align: middle;
 }
 
 ul.currency-buttons > li {

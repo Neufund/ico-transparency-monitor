@@ -21,7 +21,7 @@ export default {
         sender: 'investor',
       },
       firstTransactionBlockNumber: 8670835,
-      lastTransactionBlockNumber: null,
+      lastTransactionBlockNumber: 9009242,
       countTransactions: true,
     },
   },

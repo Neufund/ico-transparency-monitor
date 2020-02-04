@@ -17,10 +17,36 @@ export default class extends Component {
       icosList: [],
       hasMoreItems: true,
       lockLoadMore: false,
+      etoData: null,
       page: 0,
       searchTerm: '',
     };
     this.onChange = this.onChange.bind(this);
+
+    fetch('https://platform.neufund.org/api/eto-listing/etos/0x73E44092B5A886a37bea74bFc90911D0c98F6A15')
+      .then(response => response.json())
+      .then((data) => {
+        this.setState({ etoData: {
+            maxCap: data.equity_tokens_per_share * data.minimum_new_shares_to_issue,
+            minCap: data.equity_tokens_per_share * data.new_shares_to_issue,
+            equity_token_symbol: data.equity_token_symbol,
+            equity_token_image: data.equity_token_image,
+            previewCode: data.previewCode,
+            start_date: data.start_date,
+            duration: data.duration,
+            state: data.state,
+            on_chain_state: data.on_chain_state,
+            equity_token_contract_address: data.equity_token_contract_address,
+            currencies: data.currencies,
+            public_duration_days: data.public_duration_days,
+          }});
+        console.log(data);
+        fetch('https://platform.neufund.org/api/eto-listing/companies/' + data.company_id)
+          .then(response => response.json())
+          .then((companyData) => {
+            console.log(companyData);
+          });
+      });
   }
 
   onChange(e) {

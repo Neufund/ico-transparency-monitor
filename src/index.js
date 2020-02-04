@@ -16,6 +16,7 @@ import InnerIcoPage from './containers/InnerIcoPage';
 import ICOStatsPage from './containers/ICOStatsPage';
 import './assets/css/index.css';
 import { IframeCssTweaker } from './components/IframeCssTweaker';
+import ETOStatsPage from './containers/ETOStatsPage';
 
 ReactPixel.init(env.fbPixelId);
 ReactPixel.pageView();
@@ -32,6 +33,7 @@ const render = (store) => {
               <Route exact path="/" component={withTracker(IcosList)} />
               <Route exact path="/:name" component={withTracker(InnerIcoPage)} />
               <Route exact path="/stats/:name" component={withTracker(ICOStatsPage)} />
+              <Route exact path="/eto-stats/:name" component={withTracker(ETOStatsPage)} />
             </Switch>
           </HashRouter>
         </IframeCssTweaker>

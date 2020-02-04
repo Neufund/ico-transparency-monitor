@@ -73,6 +73,7 @@ export const getValueOrDefault = value => value || 'Not Available';
 export const trimString = value => value.replace(/ /g, '');
 
 export const getICOLogs = (blockRange, icoConfig, contracts, callback) => {
+  console.log(icoConfig);
   const eventName = blockRange[2];
   const event = icoConfig.events[eventName];
   const contract = contracts[event.address || icoConfig.address];
@@ -158,7 +159,7 @@ export const downloadCSV = fileName => async (dispatch, getState) => {
     const dataString = item.join(',');
     csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
   });
-  
+
   const csvData = new Blob([csvContent], { type: 'application/csv;charset=utf-8;' });
   // FOR OTHER BROWSERS
   const link = document.createElement('a');

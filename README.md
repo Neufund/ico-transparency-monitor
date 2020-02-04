@@ -133,7 +133,7 @@ To add your own ICO/STO you would have to:
 1. Fork the project - Github won't allow you to create pull request otherwise.
 
 2. Include the ICO/STO Smart-Contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) in the [Smart_Contracts](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/smart_contracts) folder, the name of ABI file should be exactly like the contract address,
-    this ABI is generated from the smart-contract source code and can be found in some cases in [etherscan](https://etherscan.io/), In some cases, you will need to add two ABI files, crowd-sale ABI and token contract ABI. 
+    this ABI is generated from the smart-contract source code and can be found in some cases in [etherscan](https://etherscan.io/), In some cases, you will need to add two ABI files, crowd-sale ABI and token contract ABI.
 
 3. Create a new file for your ICO/STO configurations and add it to [icos_config](https://github.com/Neufund/ico-transparency-monitor/tree/master/src/icos_config) directory this file should include all the configuration and will be added automatically. This will require some JavaScript modifications
 
@@ -297,7 +297,7 @@ export default {
       },
       firstTransactionBlockNumber: 3932884,
       lastTransactionBlockNumber: null, // follow last block
-      maxBlocksInChunk: 12960, // scan in 3 days blocks, last one is 
+      maxBlocksInChunk: 12960, // scan in 3 days blocks, last one is
       countTransactions: false,
     },
   },
@@ -449,11 +449,16 @@ Run Server
 yarn run serve
 ```
 
-Testing 
+When running locally against remote node install ModHead plugin for chrome and import following profile to it:
+```
+{"title":"ICOMONITOR","hideComment":true,"headers":[{"enabled":true,"name":"Origin","value":"icomonitor.io","comment":""}],"respHeaders":[{"enabled":true,"name":"Access-Control-Allow-Origin","value":"https://localhost:3000","comment":""},{"enabled":true,"name":"Access-Control-Allow-Credentials","value":"true","comment":""},{"enabled":true,"name":"Access-Control-Allow-Headers","value":"Content-Type","comment":""}],"filters":[],"appendMode":"","urlReplacements":[{"enabled":true,"name":"http://localhost:3000","value":"http://localhost:3000","comment":""}]}
+```
+
+Testing
 ```
 yarn test
 ```
-Check that everything is ok 
+Check that everything is ok
 ```
 yarn lint:fix
 ```

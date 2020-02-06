@@ -114,3 +114,25 @@ export const setConversionRate = (address, currency, time) => async (dispatch, g
 
   return conversionRate;
 };
+
+export const setETOConversionRate = (icoConfig, currency, time) => async (dispatch, getState) => {
+  const address = icoConfig.address;
+  const baseCurrency = icoConfig.baseCurrency || 'ETH';
+
+  const smartContractConversionRate = getState().ICO.icos[address].currencyRate;
+
+  let conversionRate = null;
+  let currencyProviderKey = `${baseCurrency}-${currency}`;
+
+  if (smartContractConversionRate && currencyProviderKey === 'EUR-ETH') {
+    conversionRate = smartContractConversionRate;
+    currencyProviderKey = 'ETH-EUR-SM';
+  } else {
+    conversionRate = await getCurrencyConversionRate(currency, baseCurrency, time);
+  }
+
+  const providerInfo = getExchangeProviderInfo(currencyProviderKey);
+  dispatch(setExchangeProviderInfo(providerInfo.link));
+
+  return conversionRate;
+};

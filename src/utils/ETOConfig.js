@@ -1,13 +1,16 @@
-import { formatNumber, toPromise } from '../utils';
+import { formatNumber } from '../utils';
+import { BigNumber } from 'bignumber.js';
 import moment from 'moment';
+import * as ETOContractABI  from '../assets/ETOContractABI';
 
-class IcoParameters {
+class ETOParameters {
   constructor(parameters) {
-    this.maxCap = parameters.maxCamp;
+    this.maxCap = parameters.maxCap;
     this.minCap = parameters.minCap;
-    this.onChainState = parameters.on_chain_state;
+    this.onChainState = parameters.onChainState;
     this.icoStartDate = moment(parameters.startDate, 'DD-MM-YYYY');
-    this.icoEndDate = moment(parameters.startDate, 'DD-MM-YYYY').add(parameters.public_duration_days, 'days');
+    this.icoEndDate = moment(parameters.startDate, 'DD-MM-YYYY').add(parameters.duration, 'days');
+    this.equityTokenSymbol = parameters.equity_token_symbol;
   }
 
   cap() {
@@ -37,19 +40,21 @@ class IcoParameters {
 }
 
 class EtoConfig {
-  constructor(etoInformation, options) {
-    this.minTokenCap = 0;
-    this.maxTokenCap = 0;
-
-    this.crowdSaleTokenContract = options.crowdSaleTokenContract;
-    this.tokenContract = options.tokenContract;
-    this.baseCurrency = options.baseCurrency;
-    this.hide = options.hide;
+  constructor(etoData) {
+    this.abi = ETOContractABI;
+    this.crowdSaleTokenContract = etoData.eto_id;
+    this.tokenContract = etoData.equity_token_contract_address;
+    this.baseCurrency = 'ETH';
+    this.hide = true;
+    this.address = etoData.eto_id;
+    this.alternativeLoadingMsg = `EOS ICO is generating hundreds of
+  thousands of events that we need to analyze. Loading
+  will take more than one minute.`;
 
     this.information = {
-      name: etoInformation.equity_token_symbol,
-      website: `https://platform.neufund.org/eto/view/LI/${etoInformation.preview_code}`,
-      logo: etoInformation.equity_token_image,
+      name: etoData.equity_token_symbol,
+      website: `https://platform.neufund.org/eto/view/LI/${etoData.preview_code}`,
+      logo: etoData.equity_token_image,
       offeringType: 'ETO',
     };
     this.events = {
@@ -64,7 +69,13 @@ class EtoConfig {
         countTransactions: true,
       },
     };
-    this.icoParameters = new IcoParameters(30000000, 60000000);
+    this.icoParameters = new ETOParameters({
+      minCap: etoData.equity_tokens_per_share * etoData.minimum_new_shares_to_issue,
+      maxCap: etoData.equity_tokens_per_share * etoData.new_shares_to_issue,
+      onChainState: etoData.on_chain_state,
+      icoStartDate: etoData.start_date,
+      duration: etoData.public_duration_days,
+    });
 
     this.matrix = {
       q1: { answer: true },
@@ -102,7 +113,7 @@ class EtoConfig {
     platform operator to do that`
       },
     };
-    this.decimals = 0;
+    this.decimals = new BigNumber(0);
     this.addedBy = 'rudolfix';
     this.dateAdded = '03-10-2019';
   }

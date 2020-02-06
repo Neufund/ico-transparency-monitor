@@ -68,6 +68,18 @@ export const getSmartContract = (web3, address) => {
   }
 };
 
+export const getSmartContractByAddress = async (web3, address) => {
+  if (!address) { return null; }
+  try {
+    const contractAbi = await fetch(`https://api.etherscan.io/api?module=contract&action=getabi&address=${address}`)
+      .then(result => result.json());
+    return web3.eth.contract(contractAbi).at(address);
+  } catch (err) {
+    console.log(`smart contract json with address ${address} not found`);
+    return null;
+  }
+};
+
 export const getCurrentBlock = () => undefined;
 
 const getERC20Parameters = async (smartContract) => {
@@ -100,11 +112,38 @@ export const getTokenSmartContract = (web3, address) => {
   return getSmartContract(web3, tokenContractAddress);
 };
 
+export const getETOTokenSmartContract = (web3, etoConfig) => {
+
+  if (!web3) { return null; }
+  try {
+    return web3.eth.contract(etoConfig.abi).at(etoConfig.address);
+  } catch (err) {
+    console.log(`smart contract json with address ${etoConfig.address} not found`);
+    return null;
+  }
+};
 
 export const getICOParameters = async (web3, address) => {
   const configFile = config.ICOs;
   // tokenContract may be different that ICO contract that governs ICO process
   const tokenContract = getTokenSmartContract(web3, address);
+  // read standard ERC20 parameters
+  const result = await getERC20Parameters(tokenContract);
+
+  const tokenContractAddress = configFile[address].tokenContract || address;
+  const icoContract = tokenContractAddress === address ?
+    tokenContract : getSmartContract(web3, address);
+  const icoParameters = configFile[address].icoParameters;
+  Object.keys(icoParameters).forEach((prop) => {
+    if (icoParameters[prop] !== null) {
+      result[prop] = icoParameters[prop](web3, icoContract, tokenContract);
+    }
+  });
+  return result;
+};
+export const getETOParameters = async (web3, etoConfig) => {
+  // tokenContract may be different that ICO contract that governs ICO process
+  const tokenContract = getETOTokenSmartContract(web3, etoConfig.address);
   // read standard ERC20 parameters
   const result = await getERC20Parameters(tokenContract);
 

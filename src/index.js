@@ -3,8 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactPixel from 'react-facebook-pixel';
 import thunk from 'redux-thunk';
+
 import { Route, Switch, HashRouter } from 'react-router-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import RPCProvider from './components/RPCProvider';
 import MessageBoxModal from './components/modals';
@@ -43,4 +44,5 @@ const render = (store) => {
 };
 
 const store = createStore(reducer, applyMiddleware(thunk));
+
 render(store);

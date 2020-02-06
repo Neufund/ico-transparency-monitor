@@ -4,16 +4,22 @@ import { connect } from 'react-redux';
 import { Grid } from 'react-flexbox-grid';
 import '../assets/css/App.css';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
-import ScanBoxDetails from './ScanBoxDetails';
+import ScanBoxETODetails from './ScanBoxETODetails';
 import config, { appendICO } from '../config';
 import Error404 from '../components/Error404';
-import { getLogs, readSmartContract } from '../actions/web3';
+import {
+  getETOLogs,
+  getLogs,
+  readETOSmartContract,
+} from '../actions/web3';
 import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import { resetRpc } from '../actions/ScanAction';
 import { isConnected } from '../utils/web3';
 import { getICOByAddress } from '../icos_config';
+import getEtoData from '../actions/EtoActions';
+import EtoConfig from '../utils/ETOConfig';
 
-class ICOStatsPage extends Component {
+class ETOStatsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,11 +28,14 @@ class ICOStatsPage extends Component {
   }
 
   componentDidMount() {
-    appendICO(this.props.address, getICOByAddress(this.props.address));
+    const etoId = this.props.match.params.name;
+    this.props.getEtoData(etoId);
 
-    if (this.props.web3 && typeof config.ICOs[this.props.address] !== 'undefined') {
-      this.props.readSmartContract(this.props.address);
-    }
+    setTimeout(() => {
+      if (this.props.web3 && this.props.etoConfig) {
+        this.props.readSmartContract(this.props.etoConfig);
+      }
+    }, 2000);
   }
 
   componentDidUpdate() {
@@ -42,30 +51,29 @@ class ICOStatsPage extends Component {
   }
 
   render() {
-    if (typeof config.ICOs[this.props.address] === 'undefined') { return <Error404 message={`Address ${this.props.address}`} />; }
+    if (!this.props.address) { return <Error404 message={`Address ${this.props.address}`} />; }
 
     if (this.props.isSmartContractLoaded
       && this.props.blocks && this.state.isBlockMounted === false) {
       this.setState({ isBlockMounted: true });
-      this.props.getLogs(this.props.address);
+      this.props.getLogs(this.props.etoConfig);
     }
-
-    const { information } = this.props.ico;
 
     return (
       <div className="App">
-        {this.state.isBlockMounted && <div>
+        {this.state.isBlockMounted && this.props.etoConfig && <div>
           <Grid className="scanbox ico-box-scan">
             {this.props.isLoading &&
               <ScanBoxLoadingMessage
-                alternativeLoadingMsg={this.props.ico.alternativeLoadingMsg}
+                alternativeLoadingMsg={this.props.etoConfig.alternativeLoadingMsg}
               />}
             {this.props.hasNoTransactions &&
               <ScanBoxLoadingMessage
                 alternativeLoadingMsg="No transactions were found, please check later"
               />}
             {!this.props.isLoading && this.props.isComponentReady &&
-              <ScanBoxDetails address={this.props.address} offeringType={information.offeringType || 'ICO'} /> }
+              <ScanBoxETODetails address={this.props.address} etoConfig={this.props.etoConfig} offeringType={this.props.etoConfig.information.offeringType || 'ICO'} />
+            }
           </Grid>
         </div>}
       </div>
@@ -75,10 +83,11 @@ class ICOStatsPage extends Component {
 
 const mapStateToProps = (state, props) => {
   const address = props.match.params.name;
-  console.log(config.ICOs[address])
   return {
     address,
     ico: config.ICOs[address],
+    etoData: state.ETO.etoData,
+    etoConfig: state.ETO.etoData && state.ETO.etoData.eto_id && new EtoConfig(state.ETO.etoData),
     smartContractProps: state.ICO.icos[address],
     currencyValue: state.currency.value,
     isComponentReady: state.scan.showStats,
@@ -91,11 +100,14 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getLogs: (address) => {
-    dispatch(getLogs(address));
+  getLogs: (etoConfig) => {
+    dispatch(getETOLogs(etoConfig));
   },
-  readSmartContract: (address) => {
-    dispatch(readSmartContract(address));
+  getEtoData: (etoId) => {
+    dispatch(getEtoData(etoId));
+  },
+  readSmartContract: (etoConfig) => {
+    dispatch(readETOSmartContract(etoConfig));
   },
   onModalShow: (currentICO) => {
     if (isConnected()) {
@@ -111,4 +123,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ICOStatsPage);
+)(ETOStatsPage);

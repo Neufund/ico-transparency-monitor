@@ -93,8 +93,8 @@ export const setStatisticsByCurrency = (currency, value, time) => async (dispatc
   dispatch({ type: 'DRAW_STATS', stats: currentStatistics });
 };
 
-export const setConversionRate = (address, currency, time) => async (dispatch, getState) => {
-  const icoConfig = config.ICOs[address];
+export const setConversionRate = (address, currency, time, etoConfig) => async (dispatch, getState) => {
+  const icoConfig = etoConfig || config.ICOs[address];
   const baseCurrency = icoConfig.baseCurrency || 'ETH';
 
   const smartContractConversionRate = getState().ICO.icos[address].currencyRate;
@@ -115,24 +115,3 @@ export const setConversionRate = (address, currency, time) => async (dispatch, g
   return conversionRate;
 };
 
-export const setETOConversionRate = (icoConfig, currency, time) => async (dispatch, getState) => {
-  const address = icoConfig.address;
-  const baseCurrency = icoConfig.baseCurrency || 'ETH';
-
-  const smartContractConversionRate = getState().ICO.icos[address].currencyRate;
-
-  let conversionRate = null;
-  let currencyProviderKey = `${baseCurrency}-${currency}`;
-
-  if (smartContractConversionRate && currencyProviderKey === 'EUR-ETH') {
-    conversionRate = smartContractConversionRate;
-    currencyProviderKey = 'ETH-EUR-SM';
-  } else {
-    conversionRate = await getCurrencyConversionRate(currency, baseCurrency, time);
-  }
-
-  const providerInfo = getExchangeProviderInfo(currencyProviderKey);
-  dispatch(setExchangeProviderInfo(providerInfo.link));
-
-  return conversionRate;
-};

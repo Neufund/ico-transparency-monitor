@@ -12,8 +12,7 @@ import { computeICOTransparency, getICOLogs } from '../utils';
 import { initStatistics, getStatistics } from '../utils/stats';
 import {
   setStatisticsByCurrency,
-  setConversionRate,
-  setETOConversionRate
+  setConversionRate
 } from './CurrencyAction';
 
 import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
@@ -264,7 +263,7 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
   const initialCurrency = baseCurrency === 'EUR' ? 'ETH' : 'EUR';
   await dispatch(readETOSmartContract(etoConfig));
   const time = new Date();
-  const conversionRate = await dispatch(setETOConversionRate(etoConfig, initialCurrency, time));
+  const conversionRate = await dispatch(setConversionRate(address, initialCurrency, time, etoConfig));
   // load logs for all events
   const logRequests = [];
   Object.keys(icoConfig.events).forEach((eventName) => {
@@ -300,7 +299,7 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
       index number 1 for csv content */
       dispatch(drawStatistics(statistics[0]));
       dispatch(allocateCSVFile(statistics[1]));
-
+      console.log(initialCurrency);
       dispatch(setStatisticsByCurrency(initialCurrency, conversionRate, time));
       dispatch(showStatistics());
     } else {

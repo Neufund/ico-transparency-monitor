@@ -149,6 +149,7 @@ const ScanBoxETODetails = ({ ...props }) => (<div className="scanbox-details">
         />
         <GroupButtons
           address={props.address}
+          etoConfig={props.etoConfig}
           smartContractCurrencyRate={props.currencyRate}
           baseCurrency={props.baseCurrency}
           currencyValue={props.currencyValue}

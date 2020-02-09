@@ -1,7 +1,8 @@
 import { formatNumber } from '../utils';
 import { BigNumber } from 'bignumber.js';
 import moment from 'moment';
-import * as ETOContractABI  from '../assets/ETOContractABI';
+const ETOContractABI = require('../assets/ETOContractABI');
+import { toChecksumAddress } from 'web3-utils';
 
 class ETOParameters {
   constructor(parameters) {
@@ -10,22 +11,22 @@ class ETOParameters {
     this.onChainState = parameters.onChainState;
     this.icoStartDate = moment(parameters.startDate, 'DD-MM-YYYY');
     this.icoEndDate = moment(parameters.startDate, 'DD-MM-YYYY').add(parameters.duration, 'days');
-    this.equityTokenSymbol = parameters.equity_token_symbol;
+    this.equityTokenSymbol = parameters.equityTokenSymbol;
   }
 
-  cap() {
-    return [`Max: ${formatNumber(this.minCap)} ${this.equity_token_symbol}`, `Min: ${formatNumber(this.maxCap)} ${this.equity_token_symbol}`];
+  async cap() {
+    return [`Max: ${formatNumber(this.maxCap)} ${this.equityTokenSymbol}`, `Min: ${formatNumber(this.minCap)} ${this.equityTokenSymbol}`];
   }
 
-  startDate() {
+  async startDate() {
     return this.icoStartDate;
   }
 
-  endDate() {
+  async endDate() {
     return this.icoEndDate;
   }
 
-  status() {
+  async status() {
     const commitmentState = {
       0: 'not started',
       1: 'pre-sale',
@@ -42,11 +43,11 @@ class ETOParameters {
 class EtoConfig {
   constructor(etoData) {
     this.abi = ETOContractABI;
-    this.crowdSaleTokenContract = etoData.eto_id;
-    this.tokenContract = etoData.equity_token_contract_address;
-    this.baseCurrency = 'ETH';
+    this.crowdSaleTokenContract = toChecksumAddress(etoData.eto_id);
+    this.tokenContract = toChecksumAddress(etoData.equity_token_contract_address);
+    this.baseCurrency = 'EUR';
     this.hide = true;
-    this.address = etoData.eto_id;
+    this.address = toChecksumAddress(etoData.eto_id);
     this.alternativeLoadingMsg = `EOS ICO is generating hundreds of
   thousands of events that we need to analyze. Loading
   will take more than one minute.`;
@@ -73,6 +74,7 @@ class EtoConfig {
       minCap: etoData.equity_tokens_per_share * etoData.minimum_new_shares_to_issue,
       maxCap: etoData.equity_tokens_per_share * etoData.new_shares_to_issue,
       onChainState: etoData.on_chain_state,
+      equityTokenSymbol: etoData.equity_token_symbol,
       icoStartDate: etoData.start_date,
       duration: etoData.public_duration_days,
     });
@@ -114,8 +116,7 @@ class EtoConfig {
       },
     };
     this.decimals = new BigNumber(0);
-    this.addedBy = 'rudolfix';
-    this.dateAdded = '03-10-2019';
+    this.addedBy = 'platform';
   }
 }
 

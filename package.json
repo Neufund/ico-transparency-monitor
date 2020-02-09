@@ -50,6 +50,7 @@
     "url-loader": "^0.5.9",
     "web3": "^0.20.1",
     "web3-provider-engine": "^13.0.0",
+    "web3-utils": "^1.2.6",
     "webpack": "^3.3.0"
   },
   "devDependencies": {

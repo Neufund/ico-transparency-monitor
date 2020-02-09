@@ -34,7 +34,7 @@ const render = (store) => {
               <Route exact path="/" component={withTracker(IcosList)} />
               <Route exact path="/:name" component={withTracker(InnerIcoPage)} />
               <Route exact path="/stats/:name" component={withTracker(ICOStatsPage)} />
-              <Route exact path="/eto-stats/:name" component={withTracker(ETOStatsPage)} />
+              <Route exact path="/eto-stats/:etoId" component={withTracker(ETOStatsPage)} />
             </Switch>
           </HashRouter>
         </IframeCssTweaker>

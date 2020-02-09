@@ -40,7 +40,6 @@ export default class extends Component {
             currencies: data.currencies,
             public_duration_days: data.public_duration_days,
           }});
-        console.log(data);
         fetch('https://platform.neufund.org/api/eto-listing/companies/' + data.company_id)
           .then(response => response.json())
           .then((companyData) => {

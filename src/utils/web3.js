@@ -63,10 +63,11 @@ export const getSmartContract = (web3, address) => {
     const abi = require(`../smart_contracts/${address}.json`);
     return web3.eth.contract(abi).at(address);
   } catch (err) {
-    console.log(`smart contract json with address ${address} not found`);
+    console.error(`smart contract json with address ${address} not found`);
     return null;
   }
 };
+
 
 export const getSmartContractByAddress = async (web3, address) => {
   if (!address) { return null; }
@@ -113,12 +114,12 @@ export const getTokenSmartContract = (web3, address) => {
 };
 
 export const getETOTokenSmartContract = (web3, etoConfig) => {
-
   if (!web3) { return null; }
+
   try {
-    return web3.eth.contract(etoConfig.abi).at(etoConfig.address);
+    return web3.eth.contract(etoConfig.abi).at(etoConfig.tokenContract);
   } catch (err) {
-    console.log(`smart contract json with address ${etoConfig.address} not found`);
+    console.error(err);
     return null;
   }
 };
@@ -141,19 +142,14 @@ export const getICOParameters = async (web3, address) => {
   });
   return result;
 };
-export const getETOParameters = async (web3, etoConfig) => {
-  // tokenContract may be different that ICO contract that governs ICO process
-  const tokenContract = getETOTokenSmartContract(web3, etoConfig.address);
+export const getETOParameters = async (web3, etoConfig, tokenContract) => {
   // read standard ERC20 parameters
   const result = await getERC20Parameters(tokenContract);
+  const icoParameters = etoConfig.icoParameters;
 
-  const tokenContractAddress = configFile[address].tokenContract || address;
-  const icoContract = tokenContractAddress === address ?
-    tokenContract : getSmartContract(web3, address);
-  const icoParameters = configFile[address].icoParameters;
   Object.keys(icoParameters).forEach((prop) => {
-    if (icoParameters[prop] !== null) {
-      result[prop] = icoParameters[prop](web3, icoContract, tokenContract);
+    if (icoParameters[prop] !== null && typeof icoParameters[prop] === 'function') {
+      result[prop] = icoParameters[prop]();
     }
   });
   return result;

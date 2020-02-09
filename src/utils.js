@@ -73,7 +73,6 @@ export const getValueOrDefault = value => value || 'Not Available';
 export const trimString = value => value.replace(/ /g, '');
 
 export const getICOLogs = (blockRange, icoConfig, contracts, callback) => {
-  console.log(icoConfig);
   const eventName = blockRange[2];
   const event = icoConfig.events[eventName];
   const contract = contracts[event.address || icoConfig.address];

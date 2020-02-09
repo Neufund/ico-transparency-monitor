@@ -6,7 +6,7 @@ import {
   getSmartContract,
   getAbiAsDictionary,
   getTokenSmartContract,
-  getETOTokenSmartContract, getSmartContractByAddress
+  getETOTokenSmartContract, getSmartContractByAddress, getETOParameters
 } from '../utils/web3';
 import { computeICOTransparency, getICOLogs } from '../utils';
 import { initStatistics, getStatistics } from '../utils/stats';
@@ -83,6 +83,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
   if (!web3) { return; }
+
   const address = etoConfig.address;
   const answers = etoConfig.matrix;
   const transparencyDecision = computeICOTransparency(answers)[0];
@@ -95,9 +96,10 @@ export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
     dispatch(setSmartContractLoaded(true));
     return;
   }
-  const abiAsDictionary = getAbiAsDictionary(tokenContract.abi);
 
-  const parameters = await getICOParameters(web3, address);
+  const abiAsDictionary = getAbiAsDictionary(Object.values(tokenContract.abi));
+
+  const parameters = await getETOParameters(web3, etoConfig, tokenContract);
 
   Object.keys(parameters).forEach((par) => {
     const parameter = parameters[par];
@@ -167,7 +169,6 @@ export const getLogs = address => async (dispatch, getState) => {
 
     const firstTxBlockNumber = event.firstTransactionBlockNumber || 0;
     const lastTxBlockNumber = event.lastTransactionBlockNumber || lastBlockNumber;
-    console.log(eventName, firstTxBlockNumber, lastTxBlockNumber);
     // if event needs ABI for not yet loaded smart contract
     if (event.address && !contracts[event.address]) {
       contracts[event.address] = getSmartContract(web3, event.address);
@@ -253,7 +254,8 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
     dispatch(showStatistics());
     return;
   }
-  const tokenContract = icoConfig.tokenContract ? getETOTokenSmartContract(web3, etoConfig) : null;
+  const tokenContract = getETOTokenSmartContract(web3, etoConfig);
+
   const contracts = {
     [address]: icoContract,
     [icoConfig.tokenContract]: tokenContract,
@@ -271,7 +273,7 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
 
     const firstTxBlockNumber = event.firstTransactionBlockNumber || 0;
     const lastTxBlockNumber = event.lastTransactionBlockNumber || lastBlockNumber;
-    console.log(eventName, firstTxBlockNumber, lastTxBlockNumber);
+
     // if event needs ABI for not yet loaded smart contract
     if (event.address && !contracts[event.address]) {
       contracts[event.address] = getSmartContract(web3, event.address);
@@ -299,7 +301,7 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
       index number 1 for csv content */
       dispatch(drawStatistics(statistics[0]));
       dispatch(allocateCSVFile(statistics[1]));
-      console.log(initialCurrency);
+
       dispatch(setStatisticsByCurrency(initialCurrency, conversionRate, time));
       dispatch(showStatistics());
     } else {

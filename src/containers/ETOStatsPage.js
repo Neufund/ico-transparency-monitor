@@ -5,17 +5,11 @@ import { Grid } from 'react-flexbox-grid';
 import '../assets/css/App.css';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxETODetails from './ScanBoxETODetails';
-import config, { appendICO } from '../config';
 import Error404 from '../components/Error404';
 import {
   getETOLogs,
-  getLogs,
   readETOSmartContract,
 } from '../actions/web3';
-import { onModalShow, showErrorMessage } from '../actions/ModalAction';
-import { resetRpc } from '../actions/ScanAction';
-import { isConnected } from '../utils/web3';
-import { getICOByAddress } from '../icos_config';
 import getEtoData from '../actions/EtoActions';
 import EtoConfig from '../utils/ETOConfig';
 
@@ -28,7 +22,7 @@ class ETOStatsPage extends Component {
   }
 
   componentDidMount() {
-    const etoId = this.props.match.params.name;
+    const etoId = this.props.match.params.etoId;
     this.props.getEtoData(etoId);
 
     setTimeout(() => {
@@ -58,7 +52,6 @@ class ETOStatsPage extends Component {
       this.setState({ isBlockMounted: true });
       this.props.getLogs(this.props.etoConfig);
     }
-
     return (
       <div className="App">
         {this.state.isBlockMounted && this.props.etoConfig && <div>
@@ -72,7 +65,7 @@ class ETOStatsPage extends Component {
                 alternativeLoadingMsg="No transactions were found, please check later"
               />}
             {!this.props.isLoading && this.props.isComponentReady &&
-              <ScanBoxETODetails address={this.props.address} etoConfig={this.props.etoConfig} offeringType={this.props.etoConfig.information.offeringType || 'ICO'} />
+              <ScanBoxETODetails address={this.props.address} symbol={this.props.etoConfig.information.name} etoConfig={this.props.etoConfig} offeringType={this.props.etoConfig.information.offeringType || 'ICO'} />
             }
           </Grid>
         </div>}
@@ -82,10 +75,9 @@ class ETOStatsPage extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const address = props.match.params.name;
+  const address = props.match.params.etoId;
   return {
     address,
-    ico: config.ICOs[address],
     etoData: state.ETO.etoData,
     etoConfig: state.ETO.etoData && state.ETO.etoData.eto_id && new EtoConfig(state.ETO.etoData),
     smartContractProps: state.ICO.icos[address],
@@ -108,15 +100,6 @@ const mapDispatchToProps = dispatch => ({
   },
   readSmartContract: (etoConfig) => {
     dispatch(readETOSmartContract(etoConfig));
-  },
-  onModalShow: (currentICO) => {
-    if (isConnected()) {
-      dispatch(onModalShow(currentICO));
-    } else {
-      dispatch(resetRpc());
-      dispatch(showErrorMessage(`Trying to connect to
-      rpc node ${config.rpcHost} received an invalid response.`));
-    }
   },
 });
 

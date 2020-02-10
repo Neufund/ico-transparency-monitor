@@ -91,8 +91,9 @@ export const readSmartContract = address => async (dispatch, getState) => {
 };
 
 export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
+  if(!etoConfig) { return; }
   const web3 = getState().modal.web3;
-  if (!web3 || !etoConfig) { return; }
+  if (!web3) { return; }
 
   const address = etoConfig.address;
   const answers = etoConfig.matrix;

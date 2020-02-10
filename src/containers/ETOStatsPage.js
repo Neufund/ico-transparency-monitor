@@ -23,7 +23,11 @@ class ETOStatsPage extends Component {
 
   componentDidMount() {
     const etoId = this.props.address;
-    this.props.getEtoData(etoId);
+    this.props.getEtoData(etoId).then(() => {
+      if (this.props.web3 && this.props.etoData && this.props.etoConfig) {
+        this.props.readSmartContract(this.props.etoConfig);
+      }
+    });
   }
 
   componentDidUpdate() {
@@ -35,9 +39,6 @@ class ETOStatsPage extends Component {
         only if it's loadede within iframe
        */
       window.parent.postMessage(height, '*');
-    }
-    if (this.props.etoConfig && !this.props.isSmartContractLoaded) {
-      this.props.readSmartContract(this.props.etoConfig);
     }
   }
 
@@ -81,7 +82,7 @@ const mapStateToProps = (state, props) => {
     address,
     etoData: state.ETO.etoData,
     etoConfig: state.ETO.etoData && new EtoConfig(state.ETO.etoData),
-    smartContractProps: state.ICO.icos[address],
+    smartContractProps: state.ETO.properties[address],
     currencyValue: state.currency.value,
     isComponentReady: state.scan.showStats,
     isLoading: state.scan.showLoader,
@@ -97,7 +98,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getETOLogs(etoConfig));
   },
   getEtoData: (etoId) => {
-    dispatch(getEtoData(etoId));
+    return dispatch(getEtoData(etoId));
   },
   readSmartContract: (etoConfig) => {
     dispatch(readETOSmartContract(etoConfig));

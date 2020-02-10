@@ -22,7 +22,7 @@ class ETOStatsPage extends Component {
   }
 
   componentDidMount() {
-    const etoId = this.props.match.params.etoId;
+    const etoId = this.props.address;
     this.props.getEtoData(etoId);
 
     setTimeout(() => {
@@ -79,7 +79,7 @@ const mapStateToProps = (state, props) => {
   return {
     address,
     etoData: state.ETO.etoData,
-    etoConfig: state.ETO.etoData && state.ETO.etoData.eto_id && new EtoConfig(state.ETO.etoData),
+    etoConfig: state.ETO.etoData && new EtoConfig(state.ETO.etoData),
     smartContractProps: state.ICO.icos[address],
     currencyValue: state.currency.value,
     isComponentReady: state.scan.showStats,

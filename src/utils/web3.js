@@ -113,11 +113,19 @@ export const getTokenSmartContract = (web3, address) => {
   return getSmartContract(web3, tokenContractAddress);
 };
 
-export const getETOTokenSmartContract = (web3, etoConfig) => {
+export const getETOTokenSmartContract = (web3, etoConfig, isCrowdSale) => {
   if (!web3) { return null; }
-
+  let address;
+  let abi;
+  if (isCrowdSale) {
+    address = etoConfig.address;
+    abi = etoConfig.crowdSaleABI;
+  } else {
+    address = etoConfig.tokenContract;
+    abi = etoConfig.abi;
+  }
   try {
-    return web3.eth.contract(etoConfig.abi).at(etoConfig.tokenContract);
+    return web3.eth.contract(abi).at(address);
   } catch (err) {
     console.error(err);
     return null;

@@ -15,8 +15,18 @@ import {
   setConversionRate
 } from './CurrencyAction';
 
-import { drawStatistics, showStatistics, hideLoader, showLoader, allocateCSVFile,
-  setSmartContractLoaded, setProperties, resetRpc, showIcoNotStarted } from './ScanAction';
+import {
+  drawStatistics,
+  showStatistics,
+  hideLoader,
+  showLoader,
+  allocateCSVFile,
+  setSmartContractLoaded,
+  setProperties,
+  resetRpc,
+  showIcoNotStarted,
+  setEtoProperties
+} from './ScanAction';
 import { showErrorMessage } from './ModalAction';
 
 export const web3Connection = () => async (dispatch, getState) => {
@@ -88,7 +98,7 @@ export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
   const answers = etoConfig.matrix;
   const transparencyDecision = computeICOTransparency(answers)[0];
 
-  dispatch(setProperties(address, { decision: transparencyDecision }));
+  dispatch(setEtoProperties(address, { decision: transparencyDecision }));
 
   const tokenContract = await getETOTokenSmartContract(web3, etoConfig);
 
@@ -110,7 +120,7 @@ export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
       // check if it has value
       tempResult[par] = asciiValue.replace(/\00+/g, '').length > 0 ?
         asciiValue.replace(/\00+/g, '') : null;
-      dispatch(setProperties(address, tempResult));
+      dispatch(setEtoProperties(address, tempResult));
     } else if (typeof parameter === 'object' && typeof parameter.then === 'function') {
       parameter.then(async (value) => {
         if (typeof value === 'function') {
@@ -118,11 +128,11 @@ export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
         } else {
           tempResult[par] = value;
         }
-        dispatch(setProperties(address, tempResult));
+        dispatch(setEtoProperties(address, tempResult));
       });
     } else {
       tempResult[par] = parameter;
-      dispatch(setProperties(address, tempResult));
+      dispatch(setEtoProperties(address, tempResult));
     }
   });
   dispatch(setSmartContractLoaded(true));
@@ -151,6 +161,7 @@ export const getLogs = address => async (dispatch, getState) => {
     dispatch(showStatistics());
     return;
   }
+
   const tokenContract = icoConfig.tokenContract ? getTokenSmartContract(web3, address) : null;
   const contracts = {
     [address]: icoContract,
@@ -243,10 +254,8 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
     return;
   }
 
-  const icoConfig = etoConfig;
-
   // create interfaces for all smart contracts
-  const icoContract = getSmartContract(web3, address);
+  const icoContract = getETOTokenSmartContract(web3, etoConfig, true);
   if (icoContract === null) { // doesn't have smart contract
     dispatch(hideLoader());
     dispatch(drawStatistics(initStatistics()));
@@ -254,22 +263,23 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
     dispatch(showStatistics());
     return;
   }
-  const tokenContract = getETOTokenSmartContract(web3, etoConfig);
 
+  const tokenContract = getETOTokenSmartContract(web3, etoConfig);
+  console.log(tokenContract);
   const contracts = {
     [address]: icoContract,
-    [icoConfig.tokenContract]: tokenContract,
+    [etoConfig.tokenContract]: tokenContract,
   };
 
-  const baseCurrency = icoConfig.baseCurrency || 'ETH';
+  const baseCurrency = etoConfig.baseCurrency || 'ETH';
   const initialCurrency = baseCurrency === 'EUR' ? 'ETH' : 'EUR';
   await dispatch(readETOSmartContract(etoConfig));
   const time = new Date();
   const conversionRate = await dispatch(setConversionRate(address, initialCurrency, time, etoConfig));
   // load logs for all events
   const logRequests = [];
-  Object.keys(icoConfig.events).forEach((eventName) => {
-    const event = icoConfig.events[eventName];
+  Object.keys(etoConfig.events).forEach((eventName) => {
+    const event = etoConfig.events[eventName];
 
     const firstTxBlockNumber = event.firstTransactionBlockNumber || 0;
     const lastTxBlockNumber = event.lastTransactionBlockNumber || lastBlockNumber;
@@ -296,7 +306,7 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
   const allLogs = {};
   const finalProcessor = () => {
     if (Object.keys(allLogs).length > 0) {
-      const statistics = getStatistics(icoConfig, allLogs);
+      const statistics = getStatistics(etoConfig, allLogs);
       /* statistics array of two elements, index number 0 for statistcs,
       index number 1 for csv content */
       dispatch(drawStatistics(statistics[0]));
@@ -312,7 +322,7 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
     const range = logRequests.shift();
     const eventName = range[2];
 
-    getICOLogs(range, icoConfig, contracts, async (error, logs) => {
+    getICOLogs(range, etoConfig, contracts, async (error, logs) => {
       if (error) {
         dispatch(hideLoader());
         dispatch({ type: error, message: logs });

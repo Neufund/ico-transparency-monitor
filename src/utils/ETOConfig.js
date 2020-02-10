@@ -2,6 +2,7 @@ import { formatNumber } from '../utils';
 import { BigNumber } from 'bignumber.js';
 import moment from 'moment';
 const ETOContractABI = require('../assets/ETOContractABI');
+const CrowdSaleABI = require('../assets/CrowdSaleABI');
 import { toChecksumAddress } from 'web3-utils';
 
 class ETOParameters {
@@ -43,6 +44,7 @@ class ETOParameters {
 class EtoConfig {
   constructor(etoData) {
     this.abi = ETOContractABI;
+    this.crowdSaleABI = CrowdSaleABI;
     this.crowdSaleTokenContract = toChecksumAddress(etoData.eto_id);
     this.tokenContract = toChecksumAddress(etoData.equity_token_contract_address);
     this.baseCurrency = 'EUR';

@@ -10,7 +10,6 @@ import TokenIssued from '../components/TokenIssued';
 import TokenDistribution from '../components/TokenDistribution';
 import Chart from '../components/Chart';
 import { downloadCSV } from '../utils';
-import config from '../config';
 import GiniIndex from '../components/GiniIndex';
 
 export const getMedian = (numbers) => {
@@ -267,7 +266,7 @@ const mapStateToProps = (state, props) =>
     currencyValue: state.currency.value,
     investedMoney: state.scan.stats.investors.sortedByETH.map(investor => investor.value),
     stats: state.scan.stats,
-    ...state.ICO.icos[props.address],
+    ...state.ETO.properties[props.address],
     name: props.etoConfig.information.name,
     matrix: props.etoConfigmatrix,
     baseCurrency: props.etoConfig.baseCurrency || 'ETH',

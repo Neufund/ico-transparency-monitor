@@ -92,7 +92,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 
 export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
   const web3 = getState().modal.web3;
-  if (!web3) { return; }
+  if (!web3 || !etoConfig) { return; }
 
   const address = etoConfig.address;
   const answers = etoConfig.matrix;
@@ -265,7 +265,6 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
   }
 
   const tokenContract = getETOTokenSmartContract(web3, etoConfig);
-  console.log(tokenContract);
   const contracts = {
     [address]: icoContract,
     [etoConfig.tokenContract]: tokenContract,
@@ -315,6 +314,7 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
       dispatch(setStatisticsByCurrency(initialCurrency, conversionRate, time));
       dispatch(showStatistics());
     } else {
+      console.log("Sho eto has not started");
       dispatch(showIcoNotStarted());
     }
   };

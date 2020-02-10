@@ -8,9 +8,7 @@ const setEdtoData = etoData => ({
 const getEtoData = etoId => (dispatch) => {
   return fetch(`${apiUrl}/api/eto-listing/etos/${etoId}`)
     .then(response => response.json())
-    .then((data) => {
-      dispatch(setEdtoData(data));
-    });
+    .then(data => dispatch(setEdtoData(data)));
 }
 
 export default getEtoData;

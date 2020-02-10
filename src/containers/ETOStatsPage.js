@@ -24,12 +24,6 @@ class ETOStatsPage extends Component {
   componentDidMount() {
     const etoId = this.props.address;
     this.props.getEtoData(etoId);
-
-    setTimeout(() => {
-      if (this.props.web3 && this.props.etoConfig) {
-        this.props.readSmartContract(this.props.etoConfig);
-      }
-    }, 2000);
   }
 
   componentDidUpdate() {
@@ -41,6 +35,9 @@ class ETOStatsPage extends Component {
         only if it's loadede within iframe
        */
       window.parent.postMessage(height, '*');
+    }
+    if (this.props.etoConfig && !this.props.isSmartContractLoaded) {
+      this.props.readSmartContract(this.props.etoConfig);
     }
   }
 
@@ -64,6 +61,10 @@ class ETOStatsPage extends Component {
               <ScanBoxLoadingMessage
                 alternativeLoadingMsg="No transactions were found, please check later"
               />}
+            {this.props.etoConfig && this.props.etoConfig.icoParameters.status() === 'not started' &&
+            <ScanBoxLoadingMessage
+              alternativeLoadingMsg="ETO has not started yet"
+            />}
             {!this.props.isLoading && this.props.isComponentReady &&
               <ScanBoxETODetails address={this.props.address} symbol={this.props.etoConfig.information.name} etoConfig={this.props.etoConfig} offeringType={this.props.etoConfig.information.offeringType || 'ICO'} />
             }

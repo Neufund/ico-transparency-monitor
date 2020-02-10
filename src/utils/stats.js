@@ -1,7 +1,7 @@
 import moment from 'moment';
 import gini from 'gini';
 import config from '../config';
-import { BigNumber} from 'bignumber.js';
+import { BigNumber } from 'bignumber.js';
 
 export const initStatistics = () => ({
   general: {

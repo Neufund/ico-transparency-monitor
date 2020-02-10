@@ -21,12 +21,12 @@ export default () => (
             </p>
             <div>
               <p>We evaluate all STOs (and previously ICOs) based on their smart contracts, and assign
-                 each a status as follows:</p>
+                each a status as follows:</p>
               <ul>
                 <li><p>Non-transparent: One or more essential dimensions of trust and security receive
-                   an unfavorable rating.</p></li>
+                  an unfavorable rating.</p></li>
                 <li><p>Transparent with issues: One or more non-essential dimensions of trust and security
-                   receive an unfavorable rating.</p></li>
+                  receive an unfavorable rating.</p></li>
                 <li>
                   <p>Transparent: All dimension of trust and security receive a favorable rating.</p>
                 </li>
@@ -40,8 +40,8 @@ export default () => (
               </p>
             </div>
             <p>
-               The Transparency Monitor is an open platform. We take no responsibility for the information published or data provided, nor assume any
-               liability of their accuracy.
+              The Transparency Monitor is an open platform. We take no responsibility for the information published or data provided, nor assume any
+              liability of their accuracy.
 
             </p>
             <p className="center">

@@ -6,13 +6,13 @@ import {
   getSmartContract,
   getAbiAsDictionary,
   getTokenSmartContract,
-  getETOTokenSmartContract, getSmartContractByAddress, getETOParameters
+  getETOTokenSmartContract, getSmartContractByAddress, getETOParameters,
 } from '../utils/web3';
 import { computeICOTransparency, getICOLogs } from '../utils';
 import { initStatistics, getStatistics } from '../utils/stats';
 import {
   setStatisticsByCurrency,
-  setConversionRate
+  setConversionRate,
 } from './CurrencyAction';
 
 import {
@@ -25,7 +25,7 @@ import {
   setProperties,
   resetRpc,
   showIcoNotStarted,
-  setEtoProperties
+  setEtoProperties,
 } from './ScanAction';
 import { showErrorMessage } from './ModalAction';
 
@@ -91,7 +91,7 @@ export const readSmartContract = address => async (dispatch, getState) => {
 };
 
 export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
-  if(!etoConfig) { return; }
+  if (!etoConfig) { return; }
   const web3 = getState().modal.web3;
   if (!web3) { return; }
 
@@ -315,7 +315,7 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
       dispatch(setStatisticsByCurrency(initialCurrency, conversionRate, time));
       dispatch(showStatistics());
     } else {
-      console.log("Sho eto has not started");
+      console.log('Sho eto has not started');
       dispatch(showIcoNotStarted());
     }
   };

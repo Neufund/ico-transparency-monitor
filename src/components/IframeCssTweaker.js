@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import { web3Connection } from '../actions/web3';
 
 export class IframeCssTweaker extends Component {
-
   componentWillMount() {
     this.setBackgroundColor();
   }
 
-  checkIframe () {
+  checkIframe() {
     try {
       return window.self !== window.top;
     } catch (e) {
@@ -18,9 +17,9 @@ export class IframeCssTweaker extends Component {
 
   setBackgroundColor() {
     const root = document.documentElement;
-    if(this.checkIframe()){
-      const body = document.getElementsByTagName('body')[0]
-      body.classList.add('body-iframe')
+    if (this.checkIframe()) {
+      const body = document.getElementsByTagName('body')[0];
+      body.classList.add('body-iframe');
     }
   }
 
@@ -28,7 +27,4 @@ export class IframeCssTweaker extends Component {
     return this.props.children;
   }
 }
-
-
-
 

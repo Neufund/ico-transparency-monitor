@@ -4,7 +4,7 @@ const initialState = {
   etoData: {},
   etoConfig: null,
   properties: {},
-}
+};
 
 const ETO = (state = initialState, action) => {
   switch (action.type) {

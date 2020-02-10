@@ -1,17 +1,20 @@
-import { formatNumber } from '../utils';
 import { BigNumber } from 'bignumber.js';
 import moment from 'moment';
+import { toChecksumAddress } from 'web3-utils';
+import { apiUrl } from '../env.json';
+import { formatNumber } from '../utils';
+import GENERAL from '../constants/general';
+
 const ETOContractABI = require('../assets/ETOContractABI');
 const CrowdSaleABI = require('../assets/CrowdSaleABI');
-import { toChecksumAddress } from 'web3-utils';
 
 class ETOParameters {
   constructor(parameters) {
     this.maxCap = parameters.maxCap;
     this.minCap = parameters.minCap;
     this.onChainState = parameters.onChainState;
-    this.icoStartDate = moment(parameters.startDate, 'DD-MM-YYYY');
-    this.icoEndDate = moment(parameters.startDate, 'DD-MM-YYYY').add(parameters.duration, 'days');
+    this.icoStartDate = moment(parameters.startDate, GENERAL.FORMATS.DATE_FORMAT);
+    this.icoEndDate = moment(parameters.startDate, GENERAL.FORMATS.DATE_FORMAT).add(parameters.duration, 'days');
     this.equityTokenSymbol = parameters.equityTokenSymbol;
   }
 
@@ -56,7 +59,7 @@ class EtoConfig {
 
     this.information = {
       name: etoData.equity_token_symbol,
-      website: `https://platform.neufund.org/eto/view/LI/${etoData.preview_code}`,
+      website: `${apiUrl}eto/view/LI/${etoData.preview_code}`,
       logo: etoData.equity_token_image,
       offeringType: 'ETO',
     };
@@ -90,31 +93,31 @@ class EtoConfig {
       q6: { answer: true },
       q7: {
         answer: true, comment: `committed funds are under control of
-    investors stored in LockedAccount contract`
+    investors stored in LockedAccount contract`,
       },
       q8: {
         answer: true, comment: `stable coin pegged 1:1 to Euro is implemented
-     in EuroToken contract`
+     in EuroToken contract`,
       },
       q9: {
         answer: true, comment: `withdrawal and deposit happen via bank account,
-     this is not trustless but unavoidable`
+     this is not trustless but unavoidable`,
       },
       q10: { answer: true },
       q11: {
         answer: true, comment: `token holders are legally protected by combination
-    of legal and smart contracts which give them equivalent of shareholder rights in Fifth Force GmbH`
+    of legal and smart contracts which give them equivalent of shareholder rights in Fifth Force GmbH`,
       },
       q12: {
         answer: true,
-        comment: 'reward is controlled by exponential curve'
+        comment: 'reward is controlled by exponential curve',
       },
       q13: { answer: true },
       q14: {
         answer: true, comment: `ETO ends on specified date, there is no mechanism
     to stop it earlier or halt it. it should be however noted that admin may revoke
     ISSUER right to Commitment contract, there is however 0 incentive for
-    platform operator to do that`
+    platform operator to do that`,
       },
     };
     this.decimals = new BigNumber(0);

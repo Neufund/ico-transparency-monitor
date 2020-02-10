@@ -92,7 +92,7 @@ const ScanBoxETODetails = ({ ...props }) => (<div className="scanbox-details">
             data-tip="This section shows level of inequality among token holders.<br/>How much tokens
          1% of wealthiest investors have?<br/> How much tokens are owned by small investors?"
           >
-        Token distribution
+            Token distribution
           </span>
         </h3>
       </Col>

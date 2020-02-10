@@ -97,9 +97,7 @@ const mapDispatchToProps = dispatch => ({
   getLogs: (etoConfig) => {
     dispatch(getETOLogs(etoConfig));
   },
-  getEtoData: (etoId) => {
-    return dispatch(getEtoData(etoId));
-  },
+  getEtoData: etoId => dispatch(getEtoData(etoId)),
   readSmartContract: (etoConfig) => {
     dispatch(readETOSmartContract(etoConfig));
   },

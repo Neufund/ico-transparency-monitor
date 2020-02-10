@@ -149,10 +149,9 @@ export const kFormatter = (num) => {
 };
 
 /* eslint-disable */
-export const downloadCSV = fileName => async (dispatch, getState) => {
+export const downloadCSV = (fileName, icoConfig) => async (dispatch, getState) => {
   const csvContentArray = getState().scan.csvContent;
-
-  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value',
+  let csvContent = ['Investor Address', 'Token Amount', `Investment Amount ${icoConfig.baseCurrency}`, 'Transaction Date',
     'Timestamp', 'Block Number', '\n'].join(',');
   csvContentArray.forEach((item, index) => {
     const dataString = item.join(',');

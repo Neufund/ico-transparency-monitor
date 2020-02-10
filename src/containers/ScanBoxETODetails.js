@@ -254,7 +254,7 @@ const ScanBoxETODetails = ({ ...props }) => (<div className="scanbox-details">
 
   </div>
 
-  <button className="chart-btn" onClick={() => props.downloadCSV(props.address)}>
+  <button className="chart-btn" onClick={() => props.downloadCSV(props.address, props.etoConfig)}>
     <i className="fa fa-download" />
     Download Raw Data as CSV
   </button>
@@ -273,8 +273,8 @@ const mapStateToProps = (state, props) =>
   });
 
 const mapDispatchToProps = dispatch => ({
-  downloadCSV: (fileName) => {
-    dispatch(downloadCSV(fileName));
+  downloadCSV: (fileName, icoConfig) => {
+    dispatch(downloadCSV(fileName, icoConfig));
   },
 });
 

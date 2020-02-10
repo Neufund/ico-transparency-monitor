@@ -65,7 +65,7 @@ class ICOStatsPage extends Component {
                 alternativeLoadingMsg="No transactions were found, please check later"
               />}
             {!this.props.isLoading && this.props.isComponentReady &&
-              <ScanBoxDetails address={this.props.address} offeringType={information.offeringType || 'ICO'} /> }
+              <ScanBoxDetails address={this.props.address} icoConfig={config.ICOs[this.props.address]} offeringType={information.offeringType || 'ICO'} /> }
           </Grid>
         </div>}
       </div>

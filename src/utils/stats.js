@@ -1,6 +1,7 @@
 import moment from 'moment';
 import gini from 'gini';
 import config from '../config';
+import { BigNumber} from 'bignumber.js';
 
 export const initStatistics = () => ({
   general: {
@@ -129,6 +130,8 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket,
         parseFloat(item.args[eventArgs.tokens].valueOf()) / precision : 0;
 
       let etherValue = null;
+      let etherValueCSV = null;
+      const tokenValueCSV = eventArgs.tokens ? new BigNumber(item.args[eventArgs.tokens].valueOf()).dividedBy(precision) : 0;
       if (eventArgs.ether) {
         if (typeof eventArgs.ether === 'function') {
           etherValue = eventArgs.ether(tokenValue * precision);
@@ -138,10 +141,11 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket,
       } else {
         etherValue = parseInt(item.value, 16);
       }
+      etherValueCSV = new BigNumber((item.args[eventArgs.ether].valueOf())).dividedBy(10 ** 18);
       etherValue = parseFloat(etherValue) / (10 ** 18);
 
       const investor = item.args[eventArgs.sender];
-      csvContentArray.push([investor, tokenValue, etherValue,
+      csvContentArray.push([investor, tokenValueCSV, etherValueCSV, moment(item.timestamp * 1000).format('MM-DD-YYYY'),
         item.timestamp, item.blockNumber]);
 
       // only if event is transaction event

@@ -3,6 +3,7 @@ import GENERAL from '../constants/general';
 const initialState = {
   etoData: {},
   etoConfig: null,
+  etoBlocks: null,
   properties: {},
 };
 
@@ -12,6 +13,12 @@ const ETO = (state = initialState, action) => {
       return {
         ...state,
         etoData: action.etoData,
+      };
+    }
+    case GENERAL.ACTIONS.SET_ETO_BLOCKS: {
+      return {
+        ...state,
+        etoBlocks: action.etoBlocks,
       };
     }
     case GENERAL.ACTIONS.SET_ETO_PROPERTY: {

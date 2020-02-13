@@ -10,11 +10,12 @@ const CrowdSaleABI = require('../assets/CrowdSaleABI');
 
 class ETOParameters {
   constructor(parameters) {
+    console.log(parameters);
     this.maxCap = parameters.maxCap;
     this.minCap = parameters.minCap;
     this.onChainState = parameters.onChainState;
-    this.icoStartDate = moment(parameters.startDate, GENERAL.FORMATS.DATE_FORMAT);
-    this.icoEndDate = moment(parameters.startDate, GENERAL.FORMATS.DATE_FORMAT).add(parameters.duration, 'days');
+    this.icoStartDate = new Date(parameters.icoStartDate).getTime();
+    this.icoEndDate = this.icoStartDate + parameters.duration * 24 * 60 * 60 * 1000;
     this.equityTokenSymbol = parameters.equityTokenSymbol;
   }
 
@@ -45,7 +46,7 @@ class ETOParameters {
 }
 
 class EtoConfig {
-  constructor(etoData) {
+  constructor(etoData, blocksData) {
     this.abi = ETOContractABI;
     this.crowdSaleABI = CrowdSaleABI;
     this.crowdSaleTokenContract = toChecksumAddress(etoData.eto_id);
@@ -70,8 +71,8 @@ class EtoConfig {
           ether: 'baseCurrencyEquivalent',
           sender: 'investor',
         },
-        firstTransactionBlockNumber: 8670835,
-        lastTransactionBlockNumber: 9009242,
+        firstTransactionBlockNumber: blocksData && blocksData[0].blockNumber,
+        lastTransactionBlockNumber: blocksData && blocksData[1].blockNumber,
         countTransactions: true,
       },
     };

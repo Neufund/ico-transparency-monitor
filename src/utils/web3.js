@@ -68,19 +68,6 @@ export const getSmartContract = (web3, address) => {
   }
 };
 
-
-export const getSmartContractByAddress = async (web3, address) => {
-  if (!address) { return null; }
-  try {
-    const contractAbi = await fetch(`https://api.etherscan.io/api?module=contract&action=getabi&address=${address}`)
-      .then(result => result.json());
-    return web3.eth.contract(contractAbi).at(address);
-  } catch (err) {
-    console.log(`smart contract json with address ${address} not found`);
-    return null;
-  }
-};
-
 export const getCurrentBlock = () => undefined;
 
 const getERC20Parameters = async (smartContract) => {

@@ -6,13 +6,10 @@ import '../assets/css/App.css';
 import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxETODetails from './ScanBoxETODetails';
 import Error404 from '../components/Error404';
-import {
-  getETOLogs,
-  readETOSmartContract,
-} from '../actions/web3';
 import { getEtoBlocks, getEtoData } from '../actions/EtoActions';
 import EtoConfig from '../utils/ETOConfig';
 import { getEtoDates } from '../utils/stats';
+import { getETOLogs, readETOSmartContract } from '../utils/ETO';
 
 class ETOStatsPage extends Component {
   constructor(props) {

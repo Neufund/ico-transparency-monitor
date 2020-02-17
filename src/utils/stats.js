@@ -213,6 +213,15 @@ const getMoneyFromEvents = (icoConfig, allLogs, investors, toTimeBucket,
 export const getDatesDuration = (endTime, startTime) =>
   moment.duration(moment(endTime).diff(moment(startTime)));
 
+export const getEtoDates = (etoData) => {
+  const startDate = new Date(etoData.start_date).getTime();
+  const endDate = startDate + etoData.public_duration_days * 24 * 60 * 60 * 1000;
+  return {
+    startDate,
+    endDate,
+  };
+};
+
 
 const getTimeFromLogs = (transactionLogs) => {
   const startTimestamp = transactionLogs[0].timestamp;

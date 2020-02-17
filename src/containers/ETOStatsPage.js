@@ -10,8 +10,9 @@ import {
   getETOLogs,
   readETOSmartContract,
 } from '../actions/web3';
-import { getEtoBlocks, getEtoData, getEtoDates } from '../actions/EtoActions';
+import { getEtoBlocks, getEtoData } from '../actions/EtoActions';
 import EtoConfig from '../utils/ETOConfig';
+import { getEtoDates } from '../utils/stats';
 
 class ETOStatsPage extends Component {
   constructor(props) {
@@ -24,25 +25,14 @@ class ETOStatsPage extends Component {
   componentDidMount() {
     const etoId = this.props.address;
     this.props.getEtoData(etoId).then(() => {
-      if (this.props.web3 && this.props.etoData && this.props.etoConfig) {
-        this.props.readSmartContract(this.props.etoConfig);
-      }
       const etoDates = getEtoDates(this.props.etoData);
       const blockTimestamps = [etoDates.startDate / 1000];
       if (Date.now() > etoDates.endDate) {
         blockTimestamps.push(etoDates.endDate / 1000);
       }
       return this.props.getEtoBlocks(blockTimestamps);
-      /*
-        .then((etoData) => {
-    const etoDates = getEtoDates(etoData);
-    const blockTimestamps = [etoDates.startDate / 1000];
-    if (Date.now() > etoDates.endDate) {
-      blockTimestamps.push(etoDates.endDate / 1000);
-    }
-    return getEtoBlocks(blockTimestamps);
-  })
-       */
+    }).then(() => {
+      this.props.readSmartContract(this.props.etoConfig);
     });
   }
 
@@ -60,8 +50,6 @@ class ETOStatsPage extends Component {
 
   render() {
     if (!this.props.address) { return <Error404 message={`Address ${this.props.address}`} />; }
-    console.log(this.props.etoConfig.icoParameters.startDate());
-    console.log(this.props.etoConfig.icoParameters.endDate());
     if (this.props.isSmartContractLoaded
       && this.props.blocks && this.state.isBlockMounted === false) {
       this.setState({ isBlockMounted: true });
@@ -95,7 +83,6 @@ class ETOStatsPage extends Component {
 
 const mapStateToProps = (state, props) => {
   const address = props.match.params.etoId;
-  console.log(state.ETO.etoBlocks);
   return {
     address,
     etoData: state.ETO.etoData,

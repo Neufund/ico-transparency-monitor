@@ -3,18 +3,16 @@ import moment from 'moment';
 import { toChecksumAddress } from 'web3-utils';
 import { apiUrl } from '../env.json';
 import { formatNumber } from '../utils';
-import GENERAL from '../constants/general';
 
 const ETOContractABI = require('../assets/ETOContractABI');
 const CrowdSaleABI = require('../assets/CrowdSaleABI');
 
 class ETOParameters {
   constructor(parameters) {
-    console.log(parameters);
     this.maxCap = parameters.maxCap;
     this.minCap = parameters.minCap;
     this.onChainState = parameters.onChainState;
-    this.icoStartDate = new Date(parameters.icoStartDate).getTime();
+    this.icoStartDate = moment.utc(parameters.icoStartDate).valueOf();
     this.icoEndDate = this.icoStartDate + parameters.duration * 24 * 60 * 60 * 1000;
     this.equityTokenSymbol = parameters.equityTokenSymbol;
   }

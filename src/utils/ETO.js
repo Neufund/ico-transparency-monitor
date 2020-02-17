@@ -4,19 +4,38 @@ import {
   drawStatistics,
   hideLoader,
   setEtoProperties,
-  setSmartContractLoaded, showIcoNotStarted, showLoader, showStatistics
+  setSmartContractLoaded, showIcoNotStarted, showLoader, showStatistics,
 } from '../actions/ScanAction';
 import {
-  getAbiAsDictionary,
-  getETOParameters,
-  getETOTokenSmartContract, getSmartContract
+  getAbiAsDictionary, getERC20Parameters,
+  getSmartContract,
 } from './web3';
 import { showErrorMessage } from '../actions/ModalAction';
 import { getStatistics, initStatistics } from './stats';
 import {
   setConversionRate,
-  setStatisticsByCurrency
+  setStatisticsByCurrency,
 } from '../actions/CurrencyAction';
+
+
+export const getETOTokenSmartContract = (web3, etoConfig, isCrowdSale) => {
+  if (!web3) { return null; }
+  let address;
+  let abi;
+  if (isCrowdSale) {
+    address = etoConfig.address;
+    abi = etoConfig.crowdSaleABI;
+  } else {
+    address = etoConfig.tokenContract;
+    abi = etoConfig.abi;
+  }
+  try {
+    return web3.eth.contract(abi).at(address);
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
 
 export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
   if (!etoConfig) { return; }
@@ -169,4 +188,26 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
     });
   };
   logProcessor();
+};
+
+export const getEtoDates = (etoData) => {
+  const startDate = new Date(etoData.start_date).getTime();
+  const endDate = startDate + etoData.public_duration_days * 24 * 60 * 60 * 1000;
+  return {
+    startDate,
+    endDate,
+  };
+};
+
+export const getETOParameters = async (web3, etoConfig, tokenContract) => {
+  // read standard ERC20 parameters
+  const result = await getERC20Parameters(tokenContract);
+  const icoParameters = etoConfig.icoParameters;
+
+  Object.keys(icoParameters).forEach((prop) => {
+    if (icoParameters[prop] !== null && typeof icoParameters[prop] === 'function') {
+      result[prop] = icoParameters[prop]();
+    }
+  });
+  return result;
 };

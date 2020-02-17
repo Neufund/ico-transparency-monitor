@@ -8,8 +8,7 @@ import ScanBoxETODetails from './ScanBoxETODetails';
 import Error404 from '../components/Error404';
 import { getEtoBlocks, getEtoData } from '../actions/EtoActions';
 import EtoConfig from '../utils/ETOConfig';
-import { getEtoDates } from '../utils/stats';
-import { getETOLogs, readETOSmartContract } from '../utils/ETO';
+import { getEtoDates, getETOLogs, readETOSmartContract } from '../utils/ETO';
 
 class ETOStatsPage extends Component {
   constructor(props) {
@@ -39,7 +38,7 @@ class ETOStatsPage extends Component {
 
     if (window.parent && !isLoading && isComponentReady) {
       /* Send message to parent with it's current height
-        only if it's loadede within iframe
+        only if it's loaded within iframe
        */
       window.parent.postMessage(height, '*');
     }

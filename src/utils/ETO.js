@@ -37,28 +37,7 @@ export const getETOTokenSmartContract = (web3, etoConfig, isCrowdSale) => {
   }
 };
 
-export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
-  if (!etoConfig) { return; }
-  const web3 = getState().modal.web3;
-  if (!web3) { return; }
-
-  const address = etoConfig.address;
-  const answers = etoConfig.matrix;
-  const transparencyDecision = computeICOTransparency(answers)[0];
-
-  dispatch(setEtoProperties(address, { decision: transparencyDecision }));
-
-  const tokenContract = await getETOTokenSmartContract(web3, etoConfig);
-
-  if (tokenContract === null) { // Doesn't have smart contract
-    dispatch(setSmartContractLoaded(true));
-    return;
-  }
-
-  const abiAsDictionary = getAbiAsDictionary(Object.values(tokenContract.abi));
-
-  const parameters = await getETOParameters(web3, etoConfig, tokenContract);
-
+const setETOPropertiesFromParameters = (dispatch, web3, parameters, abiAsDictionary, address) => {
   Object.keys(parameters).forEach((par) => {
     const parameter = parameters[par];
     if (parameter === null) return;
@@ -83,8 +62,104 @@ export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
       dispatch(setEtoProperties(address, tempResult));
     }
   });
+}
+
+export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
+  if (!etoConfig) { return; }
+  const web3 = getState().modal.web3;
+  if (!web3) { return; }
+
+  const address = etoConfig.address;
+  const answers = etoConfig.matrix;
+  const transparencyDecision = computeICOTransparency(answers)[0];
+
+  dispatch(setEtoProperties(address, { decision: transparencyDecision }));
+
+  const tokenContract = await getETOTokenSmartContract(web3, etoConfig);
+
+  if (tokenContract === null) { // Doesn't have smart contract
+    dispatch(setSmartContractLoaded(true));
+    return;
+  }
+
+  const abiAsDictionary = getAbiAsDictionary(Object.values(tokenContract.abi));
+
+  const parameters = await getETOParameters(web3, etoConfig, tokenContract);
+  setETOPropertiesFromParameters(dispatch, web3, parameters, abiAsDictionary, address);
   dispatch(setSmartContractLoaded(true));
 };
+
+const finalProcessor = (dispatch, allLogs, etoConfig, currency) => {
+  if (Object.keys(allLogs).length > 0) {
+    const statistics = getStatistics(etoConfig, allLogs);
+    /* statistics array of two elements, index number 0 for statistcs,
+    index number 1 for csv content */
+    dispatch(drawStatistics(statistics[0]));
+    dispatch(allocateCSVFile(statistics[1]));
+
+    dispatch(setStatisticsByCurrency(currency.initialCurrency, currency.conversionRate, currency.time));
+    dispatch(showStatistics());
+  } else {
+    console.log('Sho eto has not started');
+    dispatch(showIcoNotStarted());
+  }
+};
+const logProcessor = (dispatch, logsData, etoConfig, contracts, currency) => {
+  const range = logsData.logRequests.shift();
+  const eventName = range[2];
+
+  getICOLogs(range, etoConfig, contracts, async (error, logs) => {
+    if (error) {
+      dispatch(hideLoader());
+      dispatch({ type: error, message: logs });
+    } else {
+      // store logs, for each event separately
+      if (logs.length > 0) {
+        if (eventName in logsData.allLogs) {
+          logsData.allLogs[eventName].push(...logs);
+        } else {
+          logsData.allLogs[eventName] = logs;
+        }
+      }
+      if (logsData.logRequests.length === 0) {
+        dispatch(hideLoader());
+        finalProcessor(dispatch, logsData.allLogs, etoConfig, currency);
+      } else {
+        logProcessor();
+      }
+    }
+  });
+};
+
+const getLogRequests = (etoConfig, contracts, blocks) => {
+  const logRequests = [];
+  Object.keys(etoConfig.events).forEach((eventName) => {
+    const event = etoConfig.events[eventName];
+
+    const firstTxBlockNumber = event.firstTransactionBlockNumber || 0;
+    const lastTxBlockNumber = event.lastTransactionBlockNumber || blocks.lastBlockNumber;
+
+    // if event needs ABI for not yet loaded smart contract
+    if (event.address && !contracts[event.address]) {
+      contracts[event.address] = getSmartContract(web3, event.address);
+    }
+    // now partition into many smaller calls
+    if (!event.maxBlocksInChunk || !firstTxBlockNumber || lastTxBlockNumber === 'latest') {
+      // do in one request
+      logRequests.push([firstTxBlockNumber, lastTxBlockNumber, eventName]);
+    } else {
+      let i = firstTxBlockNumber;
+      const lastFullBlockNumber = lastTxBlockNumber - event.maxBlocksInChunk;
+      for (; i < lastFullBlockNumber; i += event.maxBlocksInChunk) {
+        logRequests.push([i, (i + event.maxBlocksInChunk) - 1, eventName]);
+      }
+      // push last block which is variable
+      logRequests.push([i, lastTxBlockNumber, eventName]);
+    }
+  });
+
+  return logRequests;
+}
 
 export const getETOLogs = etoConfig => async (dispatch, getState) => {
   dispatch(showLoader());
@@ -119,75 +194,11 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
   const time = new Date();
   const conversionRate = await dispatch(setConversionRate(address, initialCurrency, time, etoConfig));
   // load logs for all events
-  const logRequests = [];
-  Object.keys(etoConfig.events).forEach((eventName) => {
-    const event = etoConfig.events[eventName];
+  const logRequests = getLogRequests(etoConfig, contracts, {lastBlockNumber});
 
-    const firstTxBlockNumber = event.firstTransactionBlockNumber || 0;
-    const lastTxBlockNumber = event.lastTransactionBlockNumber || lastBlockNumber;
-
-    // if event needs ABI for not yet loaded smart contract
-    if (event.address && !contracts[event.address]) {
-      contracts[event.address] = getSmartContract(web3, event.address);
-    }
-    // now partition into many smaller calls
-    if (!event.maxBlocksInChunk || !firstTxBlockNumber || lastTxBlockNumber === 'latest') {
-      // do in one request
-      logRequests.push([firstTxBlockNumber, lastTxBlockNumber, eventName]);
-    } else {
-      let i = firstTxBlockNumber;
-      const lastFullBlockNumber = lastTxBlockNumber - event.maxBlocksInChunk;
-      for (; i < lastFullBlockNumber; i += event.maxBlocksInChunk) {
-        logRequests.push([i, (i + event.maxBlocksInChunk) - 1, eventName]);
-      }
-      // push last block which is variable
-      logRequests.push([i, lastTxBlockNumber, eventName]);
-    }
-  });
 
   const allLogs = {};
-  const finalProcessor = () => {
-    if (Object.keys(allLogs).length > 0) {
-      const statistics = getStatistics(etoConfig, allLogs);
-      /* statistics array of two elements, index number 0 for statistcs,
-      index number 1 for csv content */
-      dispatch(drawStatistics(statistics[0]));
-      dispatch(allocateCSVFile(statistics[1]));
-
-      dispatch(setStatisticsByCurrency(initialCurrency, conversionRate, time));
-      dispatch(showStatistics());
-    } else {
-      console.log('Sho eto has not started');
-      dispatch(showIcoNotStarted());
-    }
-  };
-  const logProcessor = () => {
-    const range = logRequests.shift();
-    const eventName = range[2];
-
-    getICOLogs(range, etoConfig, contracts, async (error, logs) => {
-      if (error) {
-        dispatch(hideLoader());
-        dispatch({ type: error, message: logs });
-      } else {
-        // store logs, for each event separately
-        if (logs.length > 0) {
-          if (eventName in allLogs) {
-            allLogs[eventName].push(...logs);
-          } else {
-            allLogs[eventName] = logs;
-          }
-        }
-        if (logRequests.length === 0) {
-          dispatch(hideLoader());
-          finalProcessor();
-        } else {
-          logProcessor();
-        }
-      }
-    });
-  };
-  logProcessor();
+  logProcessor(dispatch, {allLogs, logRequests}, etoConfig, contracts, {initialCurrency, conversionRate, time});
 };
 
 export const getEtoDates = (etoData) => {

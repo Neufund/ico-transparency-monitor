@@ -20,7 +20,9 @@ class ETOStatsPage extends Component {
 
   componentDidMount() {
     const etoId = this.props.address;
+    // get ETO data from backend API
     this.props.getEtoData(etoId).then(() => {
+      // get dates from eto and provide top backend in seconds
       const etoDates = getEtoDates(this.props.etoData);
       const blockTimestamps = [etoDates.startDate / 1000];
       if (Date.now() > etoDates.endDate) {
@@ -68,7 +70,7 @@ class ETOStatsPage extends Component {
               alternativeLoadingMsg="ETO has not started yet"
             />}
             {!this.props.isLoading && this.props.isComponentReady &&
-              <ScanBoxETODetails address={this.props.address} symbol={this.props.etoConfig.information.name} etoConfig={this.props.etoConfig} offeringType={this.props.etoConfig.information.offeringType || 'ICO'} />
+              <ScanBoxETODetails address={this.props.address} symbol={this.props.etoConfig.information.name} etoConfig={this.props.etoConfig} offeringType={this.props.etoConfig.information.offeringType} />
             }
           </Grid>
         </div>}

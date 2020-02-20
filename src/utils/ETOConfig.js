@@ -52,7 +52,7 @@ class EtoConfig {
     this.baseCurrency = 'EUR';
     this.hide = true;
     this.address = toChecksumAddress(etoData.eto_id);
-    this.alternativeLoadingMsg = `EOS ICO is generating hundreds of
+    this.alternativeLoadingMsg = `The ICO is generating hundreds of
   thousands of events that we need to analyze. Loading
   will take more than one minute.`;
 

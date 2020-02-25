@@ -60,7 +60,6 @@ export default {
       // assert(time() >= openTime && today() <= numberOfDays);
       const today = await toPromise(icoContract.today)().valueOf();
       const noDays = await toPromise(icoContract.numberOfDays)().valueOf();
-      console.log(`${today} ${noDays}`);
       return today <= noDays ? 'in progress' : 'successful';
     },
   },

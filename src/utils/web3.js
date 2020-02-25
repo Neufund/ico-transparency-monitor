@@ -63,7 +63,7 @@ export const getSmartContract = (web3, address) => {
     const abi = require(`../smart_contracts/${address}.json`);
     return web3.eth.contract(abi).at(address);
   } catch (err) {
-    console.log(`smart contract json with address ${address} not found`);
+    console.error(`smart contract json with address ${address} not found`);
     return null;
   }
 };

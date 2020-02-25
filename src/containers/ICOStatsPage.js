@@ -7,7 +7,7 @@ import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxDetails from './ScanBoxDetails';
 import config, { appendICO } from '../config';
 import Error404 from '../components/Error404';
-import { getLogs, readSmartContract } from '../actions/web3';
+import { getLogs as getIcoLogs, readSmartContract } from '../actions/web3';
 import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import { resetRpc } from '../actions/ScanAction';
 import { isConnected } from '../utils/web3';
@@ -42,30 +42,30 @@ class ICOStatsPage extends Component {
   }
 
   render() {
-    if (typeof config.ICOs[this.props.address] === 'undefined') { return <Error404 message={`Address ${this.props.address}`} />; }
-
-    if (this.props.isSmartContractLoaded
-      && this.props.blocks && this.state.isBlockMounted === false) {
+    const { isSmartContractLoaded, blocks, address, isLoading, hasNoTransactions, isComponentReady, ico, getLogs } = this.props;
+    if (typeof config.ICOs[address] === 'undefined') { return <Error404 message={`Address ${address}`} />; }
+    if (isSmartContractLoaded
+      && blocks && this.state.isBlockMounted === false) {
       this.setState({ isBlockMounted: true });
-      this.props.getLogs(this.props.address);
+      getLogs(address);
     }
 
-    const { information } = this.props.ico;
+    const { information } = ico;
 
     return (
       <div className="App">
         {this.state.isBlockMounted && <div>
           <Grid className="scanbox ico-box-scan">
-            {this.props.isLoading &&
+            {isLoading &&
               <ScanBoxLoadingMessage
-                alternativeLoadingMsg={this.props.ico.alternativeLoadingMsg}
+                alternativeLoadingMsg={ico.alternativeLoadingMsg}
               />}
-            {this.props.hasNoTransactions &&
+            {hasNoTransactions &&
               <ScanBoxLoadingMessage
                 alternativeLoadingMsg="No transactions were found, please check later"
               />}
-            {!this.props.isLoading && this.props.isComponentReady &&
-              <ScanBoxDetails address={this.props.address} icoConfig={config.ICOs[this.props.address]} offeringType={information.offeringType || 'ICO'} /> }
+            {!isLoading && isComponentReady &&
+              <ScanBoxDetails address={address} icoConfig={config.ICOs[this.props.address]} offeringType={information.offeringType || 'ICO'} /> }
           </Grid>
         </div>}
       </div>
@@ -91,7 +91,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   getLogs: (address) => {
-    dispatch(getLogs(address));
+    dispatch(getIcoLogs(address));
   },
   readSmartContract: (address) => {
     dispatch(readSmartContract(address));

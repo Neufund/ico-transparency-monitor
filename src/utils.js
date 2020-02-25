@@ -106,7 +106,6 @@ export const getICOLogs = (blockRange, icoConfig, contracts, callback) => {
         callback('SHOW_MODAL_ERROR', `Error when getting logs ${response.error.message}`);
       } else {
         const res = response.result;
-        console.log(`formatting ${res.length} log entries`);
         const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
         callback(null, logsFormat);
       }

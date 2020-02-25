@@ -7,8 +7,17 @@ import ScanBoxLoadingMessage from '../components/ScanBoxLoadingMessage';
 import ScanBoxETODetails from './ScanBoxETODetails';
 import Error404 from '../components/Error404';
 import { getEtoBlocks, getEtoData } from '../actions/EtoActions';
-import EtoConfig from '../utils/ETOConfig';
 import { getEtoDates, getETOLogs, readETOSmartContract } from '../utils/ETO';
+import {
+  blocksSelector,
+  currencySelector,
+  etoConfigSelector,
+  etoDataSelector, etoPropertiesSelector, hasNoTransactionsSelector,
+  isComponentReadySelector,
+  isLoadingSelector,
+  isSmartContractLoadedSelector,
+  web3Selector,
+} from '../selectors/ETO.selectors';
 
 class ETOStatsPage extends Component {
   constructor(props) {
@@ -29,7 +38,7 @@ class ETOStatsPage extends Component {
         blockTimestamps.push(etoDates.endDate / 1000);
       }
       return this.props.getEtoBlocks(blockTimestamps);
-    }).then(() => {
+    }).then((data) => {
       this.props.readSmartContract(this.props.etoConfig);
     });
   }
@@ -47,30 +56,31 @@ class ETOStatsPage extends Component {
   }
 
   render() {
-    if (!this.props.address) { return <Error404 message={`Address ${this.props.address}`} />; }
-    if (this.props.isSmartContractLoaded
-      && this.props.blocks && this.state.isBlockMounted === false) {
+    const { isLoading, hasNoTransactions, etoConfig, address, isSmartContractLoaded, blocks, getLogs, isComponentReady } = this.props;
+    if (!address) { return <Error404 message={`Address ${this.props.address}`} />; }
+    if (isSmartContractLoaded
+      && blocks && this.state.isBlockMounted === false) {
       this.setState({ isBlockMounted: true });
-      this.props.getLogs(this.props.etoConfig);
+      getLogs(etoConfig);
     }
     return (
       <div className="App">
-        {this.state.isBlockMounted && this.props.etoConfig && <div>
+        {this.state.isBlockMounted && etoConfig && <div>
           <Grid className="scanbox ico-box-scan">
-            {this.props.isLoading &&
+            {isLoading &&
               <ScanBoxLoadingMessage
-                alternativeLoadingMsg={this.props.etoConfig.alternativeLoadingMsg}
+                alternativeLoadingMsg={etoConfig.alternativeLoadingMsg}
               />}
-            {this.props.hasNoTransactions &&
+            {hasNoTransactions &&
               <ScanBoxLoadingMessage
                 alternativeLoadingMsg="No transactions were found, please check later"
               />}
-            {this.props.etoConfig && this.props.etoConfig.icoParameters.status() === 'not started' &&
+            {etoConfig && etoConfig.icoParameters.status() === 'not started' &&
             <ScanBoxLoadingMessage
               alternativeLoadingMsg="ETO has not started yet"
             />}
-            {!this.props.isLoading && this.props.isComponentReady &&
-              <ScanBoxETODetails address={this.props.address} symbol={this.props.etoConfig.information.name} etoConfig={this.props.etoConfig} offeringType={this.props.etoConfig.information.offeringType} />
+            {!isLoading && isComponentReady &&
+              <ScanBoxETODetails address={address} symbol={etoConfig.information.name} etoConfig={etoConfig} offeringType={etoConfig.information.offeringType} />
             }
           </Grid>
         </div>}
@@ -83,16 +93,16 @@ const mapStateToProps = (state, props) => {
   const address = props.match.params.etoId;
   return {
     address,
-    etoData: state.ETO.etoData,
-    etoConfig: state.ETO.etoData && new EtoConfig(state.ETO.etoData, state.ETO.etoBlocks),
-    smartContractProps: state.ETO.properties[address],
-    currencyValue: state.currency.value,
-    isComponentReady: state.scan.showStats,
-    isLoading: state.scan.showLoader,
-    web3: state.modal.web3,
-    blocks: state.blocks,
-    isSmartContractLoaded: state.scan.isSmartContractLoaded,
-    hasNoTransactions: state.scan.hasNoTransactions,
+    etoData: etoDataSelector(state),
+    etoConfig: etoConfigSelector(state),
+    smartContractProps: etoPropertiesSelector(state, address),
+    currencyValue: currencySelector(state),
+    isComponentReady: isComponentReadySelector(state),
+    isLoading: isLoadingSelector(state),
+    web3: web3Selector(state),
+    blocks: blocksSelector(state),
+    isSmartContractLoaded: isSmartContractLoadedSelector(state),
+    hasNoTransactions: hasNoTransactionsSelector(state),
   };
 };
 

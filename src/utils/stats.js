@@ -242,7 +242,6 @@ const getChartData = (timeScale, chartData, format = 'numbers') => {
   // skip on empty charts
   if (keys.length === 0) { return {}; }
   if (format === 'numbers' || timeScale === 'blocks' || timeScale === 'hours') {
-    console.log(format, timeScale);
     // when building charts fill empty days and hours with 0
     const timeIterator = timeScale !== 'blocks' ?
       Array.from(new Array(Math.max.apply(null, keys)), (x, i) => i + 1) :
@@ -283,9 +282,6 @@ export const getStatistics = (icoConfig, allLogs) => {
 
   // Time statistics
   statsResult.time = getTimeFromLogs(transactionLogs);
-
-  console.log('Block info', transactionLogs[0].blockNumber,
-    transactionLogs[transactionLogs.length - 1].blockNumber);
 
   const toTimeBucket = statsResult.time.toTimeBucket;
   const timeScale = statsResult.time.scale;

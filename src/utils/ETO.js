@@ -16,6 +16,7 @@ import {
   setConversionRate,
   setStatisticsByCurrency,
 } from '../actions/CurrencyAction';
+import moment from 'moment';
 
 
 export const getETOTokenSmartContract = (web3, etoConfig, isCrowdSale) => {
@@ -100,14 +101,12 @@ const finalProcessor = (dispatch, allLogs, etoConfig, currency) => {
     dispatch(setStatisticsByCurrency(currency.initialCurrency, currency.conversionRate, currency.time));
     dispatch(showStatistics());
   } else {
-    console.log('Sho eto has not started');
     dispatch(showIcoNotStarted());
   }
 };
 const logProcessor = (dispatch, logsData, etoConfig, contracts, currency) => {
   const range = logsData.logRequests.shift();
   const eventName = range[2];
-
   getICOLogs(range, etoConfig, contracts, async (error, logs) => {
     if (error) {
       dispatch(hideLoader());
@@ -203,7 +202,7 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
 
 export const getEtoDates = (etoData) => {
   const startDate = new Date(etoData.start_date).getTime();
-  const endDate = startDate + etoData.public_duration_days * 24 * 60 * 60 * 1000;
+  const endDate = startDate + (etoData.public_duration_days + etoData.voting_finalization_duration_days) * 24 * 60 * 60 * 1000;
   return {
     startDate,
     endDate,

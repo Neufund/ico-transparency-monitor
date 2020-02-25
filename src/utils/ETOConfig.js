@@ -13,7 +13,7 @@ class ETOParameters {
     this.minCap = parameters.minCap;
     this.onChainState = parameters.onChainState;
     this.icoStartDate = moment.utc(parameters.icoStartDate).valueOf();
-    this.icoEndDate = this.icoStartDate + parameters.duration * 24 * 60 * 60 * 1000;
+    this.icoEndDate = moment.utc(this.icoStartDate + (parameters.duration + parameters.voting_finalization_duration_days) * 24 * 60 * 60 * 1000).valueOf();
     this.equityTokenSymbol = parameters.equityTokenSymbol;
   }
 
@@ -69,8 +69,8 @@ class EtoConfig {
           ether: 'baseCurrencyEquivalent',
           sender: 'investor',
         },
-        firstTransactionBlockNumber: blocksData && blocksData[0].blockNumber,
-        lastTransactionBlockNumber: blocksData && blocksData[1].blockNumber,
+        firstTransactionBlockNumber: blocksData && blocksData[0].blocknumber,
+        lastTransactionBlockNumber: blocksData && blocksData[1].blocknumber,
         countTransactions: true,
       },
     };
@@ -81,6 +81,7 @@ class EtoConfig {
       equityTokenSymbol: etoData.equity_token_symbol,
       icoStartDate: etoData.start_date,
       duration: etoData.public_duration_days,
+      voting_finalization_duration_days: etoData.voting_finalization_duration_days,
     });
 
     this.matrix = {

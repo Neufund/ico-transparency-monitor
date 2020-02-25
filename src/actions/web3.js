@@ -111,7 +111,6 @@ export const getLogs = address => async (dispatch, getState) => {
 
     const firstTxBlockNumber = event.firstTransactionBlockNumber || 0;
     const lastTxBlockNumber = event.lastTransactionBlockNumber || lastBlockNumber;
-    console.log(eventName, firstTxBlockNumber, lastTxBlockNumber);
     // if event needs ABI for not yet loaded smart contract
     if (event.address && !contracts[event.address]) {
       contracts[event.address] = getSmartContract(web3, event.address);

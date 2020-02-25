@@ -23,7 +23,9 @@ const ETO = (state = initialState, action) => {
     }
     case GENERAL.ACTIONS.SET_ETO_PROPERTY: {
       const key = Object.keys(action.prop)[0];
-      if (typeof state.properties[action.address] === 'undefined') { state.properties[action.address] = {}; }
+      if (typeof state.properties[action.address] === 'undefined') {
+        state.properties[action.address] = {};
+      }
       state.properties[action.address][key] = action.prop[key];
 
       return {

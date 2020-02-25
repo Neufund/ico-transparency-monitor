@@ -12,6 +12,7 @@ import Chart from '../components/Chart';
 import { downloadCSV as downloadCSVUtil } from '../utils';
 import GiniIndex from '../components/GiniIndex';
 
+// TODO: refactor "Number heresy",
 export const getMedian = (numbers) => {
   let median = 0;
   const numsLen = numbers.length;

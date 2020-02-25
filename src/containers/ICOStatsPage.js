@@ -12,6 +12,14 @@ import { onModalShow, showErrorMessage } from '../actions/ModalAction';
 import { resetRpc } from '../actions/ScanAction';
 import { isConnected } from '../utils/web3';
 import { getICOByAddress } from '../icos_config';
+import {
+  blocksSelector, currencySelector,
+  hasNoTransactionsSelector,
+  isComponentReadySelector,
+  isLoadingSelector,
+  isSmartContractLoadedSelector,
+  web3Selector
+} from '../selectors/ETO.selectors';
 
 class ICOStatsPage extends Component {
   constructor(props) {
@@ -79,13 +87,13 @@ const mapStateToProps = (state, props) => {
     address,
     ico: config.ICOs[address],
     smartContractProps: state.ICO.icos[address],
-    currencyValue: state.currency.value,
-    isComponentReady: state.scan.showStats,
-    isLoading: state.scan.showLoader,
-    web3: state.modal.web3,
-    blocks: state.blocks,
-    isSmartContractLoaded: state.scan.isSmartContractLoaded,
-    hasNoTransactions: state.scan.hasNoTransactions,
+    currencyValue: currencySelector(state),
+    isComponentReady: isComponentReadySelector(state),
+    isLoading: isLoadingSelector(state),
+    web3: web3Selector(state),
+    blocks: blocksSelector(state),
+    isSmartContractLoaded: isSmartContractLoadedSelector(state),
+    hasNoTransactions: hasNoTransactionsSelector(state),
   };
 };
 

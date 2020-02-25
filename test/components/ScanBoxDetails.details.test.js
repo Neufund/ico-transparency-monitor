@@ -44,7 +44,7 @@ describe('<RaisedAmount/>', () => {
     />);
     expect(component.find('.stats > table > tbody')).to.contain(
       (<td>
-          10000
+        10000
       </td>)
     );
   });

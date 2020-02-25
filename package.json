@@ -41,7 +41,7 @@
     "recharts": "^0.20.0",
     "redux": "^3.7.2",
     "redux-devtools": "^3.4.1",
-    "redux-devtools-extension": "^2.13.2",
+    "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "4.2.1",
     "redux-thunk": "^2.2.0",
@@ -50,6 +50,7 @@
     "url-loader": "^0.5.9",
     "web3": "^0.20.1",
     "web3-provider-engine": "^13.0.0",
+    "web3-utils": "^1.2.6",
     "webpack": "^3.3.0"
   },
   "devDependencies": {

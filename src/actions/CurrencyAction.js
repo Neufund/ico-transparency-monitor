@@ -25,11 +25,14 @@ export const getExchangeRate = async (base, to, provider, time) => {
       }
       result = await axios.get(`https://api.coinbase.com/v2/prices/${key}/spot?date=${time.toISOString()}`);
       return to === 'ETH' ? (1 / result.data.data.amount) : result.data.data.amount;
-    } case 'fixer': {
-      const timeFormated = moment(time).format('YYYY-MM-DD');
+    }
+    case 'fixer': {
+      const timeFormated = moment(time)
+        .format('YYYY-MM-DD');
       result = await axios.get(`https://api.fixer.io/${timeFormated}?base=${base}`);
       return result.data.rates[to];
-    } default: {
+    }
+    default: {
       throw new Error('Not supported exchange');
     }
   }
@@ -89,15 +92,18 @@ export const setStatisticsByCurrency = (currency, value, time) => async (dispatc
   currentStatistics.charts.investmentDistribution = distribution[1];
 
   currentStatistics.charts.etherCount =
-  generateMoneyChartDataset(currentStatistics.charts.baseCurrencyCount, value);
+    generateMoneyChartDataset(currentStatistics.charts.baseCurrencyCount, value);
   dispatch({ type: 'DRAW_STATS', stats: currentStatistics });
 };
 
-export const setConversionRate = (address, currency, time) => async (dispatch, getState) => {
-  const icoConfig = config.ICOs[address];
+export const setConversionRate = (
+  address,
+  currency,
+  time,
+  etoConfig) => async (dispatch, getState) => {
+  const icoConfig = etoConfig || config.ICOs[address];
   const baseCurrency = icoConfig.baseCurrency || 'ETH';
-
-  const smartContractConversionRate = getState().ICO.icos[address].currencyRate;
+  const smartContractConversionRate = etoConfig ? getState().ETO.properties[address].currencyRate : getState().ICO.icos[address].currencyRate;
 
   let conversionRate = null;
   let currencyProviderKey = `${baseCurrency}-${currency}`;
@@ -114,3 +120,4 @@ export const setConversionRate = (address, currency, time) => async (dispatch, g
 
   return conversionRate;
 };
+

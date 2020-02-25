@@ -37,7 +37,7 @@ class CurrencyButton extends Component {
     }
 
     currency = currency || this.props.currency;
-    await this.props.setCurrency(currency, this.props.baseCurrency || 'ETH', rateDate);
+    await this.props.setCurrency(currency, this.props.baseCurrency || 'ETH', rateDate, this.props.etoConfig);
     this.setState({ exchangeRateActiveClass: dayClass,
       exchangeRateDate: rateDate,
       currencyActiveClass: currency });
@@ -98,8 +98,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  setCurrency: async (currency, baseCurrency, time) => {
-    const conversionRate = await dispatch(setConversionRate(props.address, currency, time));
+  setCurrency: async (currency, baseCurrency, time, etoConfig) => {
+    const conversionRate = await dispatch(setConversionRate(props.address, currency, time, etoConfig));
     dispatch(setStatisticsByCurrency(currency, conversionRate, time));
   },
 });

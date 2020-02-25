@@ -60,7 +60,6 @@ export default {
       // assert(time() >= openTime && today() <= numberOfDays);
       const today = await toPromise(icoContract.today)().valueOf();
       const noDays = await toPromise(icoContract.numberOfDays)().valueOf();
-      console.log(`${today} ${noDays}`);
       return today <= noDays ? 'in progress' : 'successful';
     },
   },
@@ -73,34 +72,34 @@ export default {
     q6: { answer: true },
     q7: {
       answer: true,
-      comment: `Mind that owners can take ETH whenever thay 
-      want - nothing is locked! In principle this allows 
+      comment: `Mind that owners can take ETH whenever thay
+      want - nothing is locked! In principle this allows
       to manipulate daily EOS price`,
     },
     q8: { answer: null },
     q9: { answer: null },
     q10: {
       answer: false,
-      comment: `Code is short but full of tricks: 
-      for example EOS day has 23 hours, claimAll method will 
-        soon throw out of gas (it is a gas eater!), one day 
+      comment: `Code is short but full of tricks:
+      for example EOS day has 23 hours, claimAll method will
+        soon throw out of gas (it is a gas eater!), one day
       after ICO ends claims are blocked etc.`,
     },
     q11: {
       answer: true,
-      comment: `Contract is designed to be an ETH sucking 
-      mechanism without any shame, but as it is done 
-      transparently and in a trustless way, we say 
+      comment: `Contract is designed to be an ETH sucking
+      mechanism without any shame, but as it is done
+      transparently and in a trustless way, we say
       Yes here. code is law ;>`,
     },
-    q12: { answer: true, comment: `Price set due to demand 
+    q12: { answer: true, comment: `Price set due to demand
     each day, mind to claim your tokens!` },
     q13: { answer: true },
-    q14: { answer: false, comment: `EOS day has 23 hours 
+    q14: { answer: false, comment: `EOS day has 23 hours
     and after ICO is closed you lose your ability to claim` },
   },
-  alternativeLoadingMsg: `EOS ICO is generating hundreds of 
-  thousands of events that we need to analyze. Loading 
+  alternativeLoadingMsg: `The ETO is generating hundreds of
+  thousands of events that we need to analyze. Loading
   will take more than one minute.`,
   addedBy: 'Rudolfix',
   dateAdded: '17-07-2017',

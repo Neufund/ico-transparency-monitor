@@ -63,14 +63,14 @@ export const getSmartContract = (web3, address) => {
     const abi = require(`../smart_contracts/${address}.json`);
     return web3.eth.contract(abi).at(address);
   } catch (err) {
-    console.log(`smart contract json with address ${address} not found`);
+    console.error(`smart contract json with address ${address} not found`);
     return null;
   }
 };
 
 export const getCurrentBlock = () => undefined;
 
-const getERC20Parameters = async (smartContract) => {
+export const getERC20Parameters = async (smartContract) => {
   const name = smartContract.name ? await toPromise(smartContract.name)() : null;
   const totalSupply = smartContract.totalSupply ?
     await toPromise(smartContract.totalSupply)() : null;

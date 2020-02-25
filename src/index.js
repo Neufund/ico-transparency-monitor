@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactPixel from 'react-facebook-pixel';
 import thunk from 'redux-thunk';
+
 import { Route, Switch, HashRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -16,6 +17,7 @@ import InnerIcoPage from './containers/InnerIcoPage';
 import ICOStatsPage from './containers/ICOStatsPage';
 import './assets/css/index.css';
 import { IframeCssTweaker } from './components/IframeCssTweaker';
+import ETOStatsPage from './containers/ETOStatsPage';
 
 ReactPixel.init(env.fbPixelId);
 ReactPixel.pageView();
@@ -32,6 +34,7 @@ const render = (store) => {
               <Route exact path="/" component={withTracker(IcosList)} />
               <Route exact path="/:name" component={withTracker(InnerIcoPage)} />
               <Route exact path="/stats/:name" component={withTracker(ICOStatsPage)} />
+              <Route exact path="/eto-stats/:etoId" component={withTracker(ETOStatsPage)} />
             </Switch>
           </HashRouter>
         </IframeCssTweaker>
@@ -41,4 +44,5 @@ const render = (store) => {
 };
 
 const store = createStore(reducer, applyMiddleware(thunk));
+
 render(store);

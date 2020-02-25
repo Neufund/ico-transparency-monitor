@@ -1,0 +1,306 @@
+// SEND ETH
+{
+  pendingTransaction: {
+    storedAt: 1580314963.3691058,
+    transaction: {
+      from: '0x6d65815Fcd587FAAe5dac7D6ce65De5d56BCF5E7',
+      gas: '0x5208',
+      gasPrice: '0x8f0d1800',
+      hash: '0xa80e1241bb1fb5a0588a12e13d91f0803b5fed95ed02acf218b824778e3755c2',
+      input: '0x0',
+      nonce: '0x0',
+      status: 'pending',
+      to: '0xA443d169CCF4a1Bb955e8756205d8DB288061731',
+      value: '0x98a7d9b8314c0000'
+    },
+    transactionAdditionalData: {
+      amount: '11000000000000000000',
+      amountEur: '1.76421181764996905e+21',
+      to: '0xA443d169CCF4a1Bb955e8756205d8DB288061731',
+      tokenDecimals: 18,
+      tokenImage: '/images/1b0f8ccf.svg',
+      tokenSymbol: 'eth',
+      total: '11000050400000000000',
+      totalEur: '1.76421990094775173713092e+21'
+    },
+    transactionStatus: 'DONE',
+    transactionTimestamp: 1580314963074,
+    transactionType: 'WITHDRAW'
+  }
+}
+
+
+// REDEEM NEUR
+{
+  pendingTransaction: {
+    storedAt: 1580315055.9241207,
+    transaction: {
+      from: '0x6d65815Fcd587FAAe5dac7D6ce65De5d56BCF5E7',
+      gas: '0xe1c5',
+      gasPrice: '0x8f0d1800',
+      hash: '0x7b95fc1161594d39fada8531170ec08d3704b3ca6d45a95115125644f6a8d6f2',
+      input: '0x2e1a7d4d000000000000000000000000000000000000000000000006046f37e5945c0000',
+      nonce: '0x0',
+      status: 'pending',
+      to: '0xBD888d812397F16dB80428c6512372Cc6556082F',
+      value: '0x0'
+    },
+    transactionAdditionalData: {
+      amount: '111',
+      bankAccount: {
+        accountNumberLast4: '2193',
+        bankName: 'Sparkasse Berlin'
+      },
+      bankFee: '0'
+    },
+    transactionStatus: 'DONE',
+    transactionTimestamp: 1580315055663,
+    transactionType: 'NEUR_REDEEM'
+  }
+}
+
+// INVEST ETH
+{
+  pendingTransaction: {
+    storedAt: 1580315129.5853076,
+    transaction: {
+      from: '0x6d65815Fcd587FAAe5dac7D6ce65De5d56BCF5E7',
+      gas: '0x54338',
+      gasPrice: '0x8f0d1800',
+      hash: '0x9a838abdf3bd64323e34967d28e91d9bbd9ba5f19a75e5bd0651c1ed0993f429',
+      input: '0x926c196a0000000000000000000000005610d63da0655ec61e8a1fdb203441d08dd9249800000000000000000000000000000000000000000000000098a7d9b8314c0000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+      nonce: '0x0',
+      status: 'pending',
+      to: '0x8843Fd9a6e5078ab538dd49f6e106E822508225A',
+      value: '0x98a7d9b8314c0000'
+    },
+    transactionAdditionalData: {
+      equityTokens: '2940',
+      estimatedReward: '5.247121677084731327724e+21',
+      etherPriceEur: '160.38289251363355',
+      eto: {
+        companyName: 'Blokke',
+        equityTokenInfo: {
+          equityTokenImage: 'https://documents.neufund.io/0x36Cec7081d2528a42D56fC1571D6D234dd2608EC/b6fe5515-6d2f-4a90-9517-1e4dc6ee3a95.png',
+          equityTokenName: 'Blok',
+          equityTokenSymbol: 'BLKK'
+        },
+        equityTokensPerShare: 10000,
+        etoId: '0x5610d63dA0655EC61E8a1fdb203441D08dD92498',
+        sharePrice: 6000
+      },
+      gasCostEth: '827731200000000',
+      investmentEth: '11000000000000000000',
+      investmentEur: '1764211817649969050000',
+      investmentType: 'ETH',
+      isIcbm: false
+    },
+    transactionStatus: 'DONE',
+    transactionTimestamp: 1580315129320,
+    transactionType: 'INVEST'
+  }
+}
+
+// INVEST EUTO TOKEN
+{
+  pendingTransaction: {
+    storedAt: 1580315217.8889759,
+    transaction: {
+      from: '0x6d65815Fcd587FAAe5dac7D6ce65De5d56BCF5E7',
+      gas: '0x51bd8',
+      gasPrice: '0x8f0d1800',
+      hash: '0x113ac3c607acd89b2cd0831070f467e17df16ff6bce4f0f8809782c4f862f570',
+      input: '0xbe45fd620000000000000000000000005610d63da0655ec61e8a1fdb203441d08dd92498000000000000000000000000000000000000000000000006046f37e5945c0000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+      nonce: '0x0',
+      status: 'pending',
+      to: '0xBD888d812397F16dB80428c6512372Cc6556082F',
+      value: '0x0'
+    },
+    transactionAdditionalData: {
+      equityTokens: '185',
+      estimatedReward: '330135040442250524322',
+      etherPriceEur: '160.38289251363355',
+      eto: {
+        companyName: 'Blokke',
+        equityTokenInfo: {
+          equityTokenImage: 'https://documents.neufund.io/0x36Cec7081d2528a42D56fC1571D6D234dd2608EC/b6fe5515-6d2f-4a90-9517-1e4dc6ee3a95.png',
+          equityTokenName: 'Blok',
+          equityTokenSymbol: 'BLKK'
+        },
+        equityTokensPerShare: 10000,
+        etoId: '0x5610d63dA0655EC61E8a1fdb203441D08dD92498',
+        sharePrice: 6000
+      },
+      gasCostEth: '803539200000000',
+      investmentEth: '692093765490383019',
+      investmentEur: '111000000000000000000',
+      investmentType: 'NEUR',
+      isIcbm: false
+    },
+    transactionStatus: 'DONE',
+    transactionTimestamp: 1580315217731,
+    transactionType: 'INVEST'
+  }
+}
+
+// INVEST ICBM BALANCE
+{
+  pendingTransaction: {
+    storedAt: 1580315300.4966264,
+    transaction: {
+      from: '0x6d65815Fcd587FAAe5dac7D6ce65De5d56BCF5E7',
+      gas: '0x54346',
+      gasPrice: '0x8f0d1800',
+      hash: '0x3afbd945df85b09adf43843e1e7f5a95238d0d9925a91f8a9045ca51d530bbe3',
+      input: '0x926c196a0000000000000000000000005610d63da0655ec61e8a1fdb203441d08dd92498000000000000000000000000000000000000000000000006046f37e5945c0000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+      nonce: '0x0',
+      status: 'pending',
+      to: '0x8843Fd9a6e5078ab538dd49f6e106E822508225A',
+      value: '0x6046f37e5945c0000'
+    },
+    transactionAdditionalData: {
+      equityTokens: '29670',
+      estimatedReward: '5.2945957709964143303135e+22',
+      etherPriceEur: '160.38289251363355',
+      eto: {
+        companyName: 'Blokke',
+        equityTokenInfo: {
+          equityTokenImage: 'https://documents.neufund.io/0x36Cec7081d2528a42D56fC1571D6D234dd2608EC/b6fe5515-6d2f-4a90-9517-1e4dc6ee3a95.png',
+          equityTokenName: 'Blok',
+          equityTokenSymbol: 'BLKK'
+        },
+        equityTokensPerShare: 10000,
+        etoId: '0x5610d63dA0655EC61E8a1fdb203441D08dD92498',
+        sharePrice: 6000
+      },
+      gasCostEth: '827764800000000',
+      investmentEth: '111000000000000000000',
+      investmentEur: '17802501069013324050000',
+      investmentType: 'ETH',
+      isIcbm: false
+    },
+    transactionStatus: 'DONE',
+    transactionTimestamp: 1580315300248,
+    transactionType: 'INVEST'
+  }
+}
+
+// SEND TOKEN
+{
+  pendingTransaction: {
+    storedAt: 1580315419.4391236,
+    transaction: {
+      from: '0x6d65815Fcd587FAAe5dac7D6ce65De5d56BCF5E7',
+      gas: '0x1627b',
+      gasPrice: '0x8f0d1800',
+      hash: '0x505711d051469533987b31f5b849a26af89118171e0804494bfa56a8de54ead9',
+      input: '0xa9059cbb000000000000000000000000a443d169ccf4a1bb955e8756205d8db288061731000000000000000000000000000000000000000000000006046f37e5945c0000',
+      nonce: '0x0',
+      status: 'pending',
+      to: '0x027A7A3991c4dd1Dcb9Db3f9A4DDa8BAb4D58F2f',
+      value: '0x0'
+    },
+    transactionAdditionalData: {
+      amount: '111000000000000000000',
+      amountEur: '0',
+      to: '0xA443d169CCF4a1Bb955e8756205d8DB288061731',
+      tokenDecimals: 18,
+      tokenImage: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzBweCIgaGVpZ2h0PSIzMHB4IiB2aWV3Qm94PSIwIDAgMzAgMzAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8ZyBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNzkyLjAwMDAwMCwgLTQ3OS4wMDAwMDApIj4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3OTIuMDAwMDAwLCA0NzkuMDAwMDAwKSI+CiAgICAgICAgICAgIDxjaXJjbGUgaWQ9Ik92YWwiIGZpbGw9IiNENUUyMEYiIGN4PSIxNSIgY3k9IjE1IiByPSIxNSI+PC9jaXJjbGU+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik02Ljk5NzkzMzMzLDEwLjY3NDc0MTkgTDYuOTk3OTMzMzMsMjAuNjQzMTY1OCBMMTUuNDEyNTc4OSwyNS42Mjc3MzIyIEwyMy44Mjc5MzMzLDIwLjY0MzE2NTggTDIzLjgyNzkzMzMsMTAuNjc0NzQxOSBMMTUuNDEyNTc4OSw1LjY4OTQ2NjY3IEw2Ljk5NzkzMzMzLDEwLjY3NDc0MTkgWiBNMTEuNDM4MTEwMiw4Ljk5OTA0Mjk1IEwxMS42MDgyMzE5LDguODk3Njc4NzYgTDE1LjQxMjU3ODksNi42NDQ5ODM2NiBMMTkuMzgzNTAzMyw4Ljk5NTQ5ODc1IEwxOS4zODM1MDMzLDIxLjU0ODM1NTEgTDExLjQzODExMDIsOC45OTkwNDI5NSBaIE0yMC4wOTQ0NzA0LDkuNDE3MjU4ODQgTDIzLjAyMTk4MTYsMTEuMTUxMDgyNyBMMjMuMDIxOTgxNiwyMC4xNjU0MDczIEwyMC4wOTQ0NzA0LDIxLjkwMDY0ODggTDIwLjA5NDQ3MDQsOS40MTcyNTg4NCBaIE03LjgwMzg4NDk4LDIwLjE2NTQwNzMgTDcuODAzODg0OTgsMTEuMTUxMDgyNyBMMTAuNjQyMDgyMyw5LjQ3MDQyMTg4IEwxMC42NDIwODIzLDIxLjg0NzQ4NTggTDcuODAzODg0OTgsMjAuMTY1NDA3MyBaIE0xMS4zNTIzNDA1LDIyLjI2NzgyODIgTDExLjM1MjM0MDUsMTAuMjAxOTQ1MyBMMTkuMTIxOTQxMiwyMi40NzU1MTg1IEwxNS40MTI1Nzg5LDI0LjY3MjkyNCBMMTEuMzUyMzQwNSwyMi4yNjc4MjgyIFoiIGlkPSJGaWxsLTYiIGZpbGw9IiMxRTMwMzgiPjwvcGF0aD4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPgo=',
+      tokenSymbol: 'NEU',
+      total: null,
+      totalEur: null
+    },
+    transactionStatus: 'DONE',
+    transactionTimestamp: 1580315419158,
+    transactionType: 'TRANSFER_TOKENS'
+  }
+}
+
+// SEND NEU
+{
+  pendingTransaction: {
+    storedAt: 1580315419.4391236,
+    transaction: {
+      from: '0x6d65815Fcd587FAAe5dac7D6ce65De5d56BCF5E7',
+      gas: '0x1627b',
+      gasPrice: '0x8f0d1800',
+      hash: '0x505711d051469533987b31f5b849a26af89118171e0804494bfa56a8de54ead9',
+      input: '0xa9059cbb000000000000000000000000a443d169ccf4a1bb955e8756205d8db288061731000000000000000000000000000000000000000000000006046f37e5945c0000',
+      nonce: '0x0',
+      status: 'pending',
+      to: '0x027A7A3991c4dd1Dcb9Db3f9A4DDa8BAb4D58F2f',
+      value: '0x0'
+    },
+    transactionAdditionalData: {
+      amount: '111000000000000000000',
+      amountEur: '0',
+      to: '0xA443d169CCF4a1Bb955e8756205d8DB288061731',
+      tokenDecimals: 18,
+      tokenImage: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzBweCIgaGVpZ2h0PSIzMHB4IiB2aWV3Qm94PSIwIDAgMzAgMzAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8ZyBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNzkyLjAwMDAwMCwgLTQ3OS4wMDAwMDApIj4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3OTIuMDAwMDAwLCA0NzkuMDAwMDAwKSI+CiAgICAgICAgICAgIDxjaXJjbGUgaWQ9Ik92YWwiIGZpbGw9IiNENUUyMEYiIGN4PSIxNSIgY3k9IjE1IiByPSIxNSI+PC9jaXJjbGU+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik02Ljk5NzkzMzMzLDEwLjY3NDc0MTkgTDYuOTk3OTMzMzMsMjAuNjQzMTY1OCBMMTUuNDEyNTc4OSwyNS42Mjc3MzIyIEwyMy44Mjc5MzMzLDIwLjY0MzE2NTggTDIzLjgyNzkzMzMsMTAuNjc0NzQxOSBMMTUuNDEyNTc4OSw1LjY4OTQ2NjY3IEw2Ljk5NzkzMzMzLDEwLjY3NDc0MTkgWiBNMTEuNDM4MTEwMiw4Ljk5OTA0Mjk1IEwxMS42MDgyMzE5LDguODk3Njc4NzYgTDE1LjQxMjU3ODksNi42NDQ5ODM2NiBMMTkuMzgzNTAzMyw4Ljk5NTQ5ODc1IEwxOS4zODM1MDMzLDIxLjU0ODM1NTEgTDExLjQzODExMDIsOC45OTkwNDI5NSBaIE0yMC4wOTQ0NzA0LDkuNDE3MjU4ODQgTDIzLjAyMTk4MTYsMTEuMTUxMDgyNyBMMjMuMDIxOTgxNiwyMC4xNjU0MDczIEwyMC4wOTQ0NzA0LDIxLjkwMDY0ODggTDIwLjA5NDQ3MDQsOS40MTcyNTg4NCBaIE03LjgwMzg4NDk4LDIwLjE2NTQwNzMgTDcuODAzODg0OTgsMTEuMTUxMDgyNyBMMTAuNjQyMDgyMyw5LjQ3MDQyMTg4IEwxMC42NDIwODIzLDIxLjg0NzQ4NTggTDcuODAzODg0OTgsMjAuMTY1NDA3MyBaIE0xMS4zNTIzNDA1LDIyLjI2NzgyODIgTDExLjM1MjM0MDUsMTAuMjAxOTQ1MyBMMTkuMTIxOTQxMiwyMi40NzU1MTg1IEwxNS40MTI1Nzg5LDI0LjY3MjkyNCBMMTEuMzUyMzQwNSwyMi4yNjc4MjgyIFoiIGlkPSJGaWxsLTYiIGZpbGw9IiMxRTMwMzgiPjwvcGF0aD4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPgo=',
+      tokenSymbol: 'NEU',
+      total: null,
+      totalEur: null
+    },
+    transactionStatus: 'DONE',
+    transactionTimestamp: 1580315419158,
+    transactionType: 'TRANSFER_TOKENS'
+  }
+}
+// CLAIM TOKEN
+{
+  pendingTransaction: {
+    storedAt: 1580315493.5288048,
+    transaction: {
+      from: '0x6d65815Fcd587FAAe5dac7D6ce65De5d56BCF5E7',
+      gas: '0x36646',
+      gasPrice: '0x8f0d1800',
+      hash: '0x709e79b5d2d0b48a9f9265002bca42b5252a831e74927118ac3e675d9579b187',
+      input: '0x4e71d92d',
+      nonce: '0x0',
+      status: 'pending',
+      to: '0x818c93dbD533F9f2a4f4e441Cfc2c8d2bad8d0a0',
+      value: '0x0'
+    },
+    transactionAdditionalData: {
+      costUlps: '534696000000000',
+      etoId: '0x818c93dbD533F9f2a4f4e441Cfc2c8d2bad8d0a0',
+      neuRewardUlps: '0',
+      tokenName: '6-SHARES',
+      tokenQuantity: '686419'
+    },
+    transactionStatus: 'DONE',
+    transactionTimestamp: 1580315493284,
+    transactionType: 'USER_CLAIM'
+  }
+}
+
+// Payout
+{
+  pendingTransaction: {
+    storedAt: 1580315939.7656267,
+    transaction: {
+      from: '0x6d65815Fcd587FAAe5dac7D6ce65De5d56BCF5E7',
+      gas: '0x3d114',
+      gasPrice: '0x8f0d1800',
+      hash: '0xaadf918983757f689ae51977d26d6160a896029c060586703f752f88f83a0a16',
+      input: '0x861151650000000000000000000000008843fd9a6e5078ab538dd49f6e106e822508225a000000000000000000000000027a7a3991c4dd1dcb9db3f9a4dda8bab4d58f2fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+      nonce: '0x0',
+      status: 'pending',
+      to: '0x57f1DC60dfBA309E84e752ff8d08A2B808eaBE4c',
+      value: '0x0'
+    },
+    transactionAdditionalData: {
+      tokensDisbursals: [
+        {
+          amountToBeClaimed: '3342116974431905516',
+          timeToFirstDisbursalRecycle: 1706411905000,
+          token: 'eth',
+          totalDisbursedAmount: '165807026200000000000'
+        }
+      ]
+    },
+    transactionStatus: 'DONE',
+    transactionTimestamp: 1580315939514,
+    transactionType: 'INVESTOR_ACCEPT_PAYOUT'
+  }
+}

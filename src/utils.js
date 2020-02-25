@@ -106,7 +106,6 @@ export const getICOLogs = (blockRange, icoConfig, contracts, callback) => {
         callback('SHOW_MODAL_ERROR', `Error when getting logs ${response.error.message}`);
       } else {
         const res = response.result;
-        console.log(`formatting ${res.length} log entries`);
         const logsFormat = res.map(log => filter.formatter ? filter.formatter(log) : log);
         callback(null, logsFormat);
       }
@@ -149,16 +148,15 @@ export const kFormatter = (num) => {
 };
 
 /* eslint-disable */
-export const downloadCSV = fileName => async (dispatch, getState) => {
+export const downloadCSV = (fileName, icoConfig) => async (dispatch, getState) => {
   const csvContentArray = getState().scan.csvContent;
-
-  let csvContent = ['Investor Address', 'Token Amount', 'Ether Value',
+  let csvContent = ['Investor Address', 'Token Amount', `Investment Amount ${icoConfig.baseCurrency}`, 'Transaction Date',
     'Timestamp', 'Block Number', '\n'].join(',');
   csvContentArray.forEach((item, index) => {
     const dataString = item.join(',');
     csvContent += index < csvContentArray.length ? `${dataString}\n` : dataString;
   });
-  
+
   const csvData = new Blob([csvContent], { type: 'application/csv;charset=utf-8;' });
   // FOR OTHER BROWSERS
   const link = document.createElement('a');

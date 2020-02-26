@@ -1,5 +1,5 @@
 import GENERAL from '../constants/general';
-import { apiUrl } from '../env';
+import { apiUrl } from '../env.json';
 
 const setEdtoData = etoData => ({
   type: GENERAL.ACTIONS.SET_ETO_DATA,
@@ -20,5 +20,5 @@ const getEtoData = etoId => dispatch => fetch(`${apiUrl}/api/eto-listing/etos/${
 
 export {
   getEtoData,
-  getEtoBlocks
+  getEtoBlocks,
 };

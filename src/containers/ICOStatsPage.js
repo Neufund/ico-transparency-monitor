@@ -18,7 +18,7 @@ import {
   isComponentReadySelector,
   isLoadingSelector,
   isSmartContractLoadedSelector,
-  web3Selector
+  web3Selector,
 } from '../selectors/ETO.selectors';
 
 class ICOStatsPage extends Component {

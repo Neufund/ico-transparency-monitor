@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { web3Connection } from '../actions/web3';
 
-export class IframeCssTweaker extends Component {
+export default class IframeCssTweaker extends Component {
   componentWillMount() {
     this.setBackgroundColor();
+  }
+
+  setBackgroundColor() {
+    const root = document.documentElement;
+    if (this.checkIframe()) {
+      const body = document.getElementsByTagName('body')[0];
+      body.classList.add('body-iframe');
+    }
   }
 
   checkIframe() {
@@ -15,13 +21,6 @@ export class IframeCssTweaker extends Component {
     }
   }
 
-  setBackgroundColor() {
-    const root = document.documentElement;
-    if (this.checkIframe()) {
-      const body = document.getElementsByTagName('body')[0];
-      body.classList.add('body-iframe');
-    }
-  }
 
   render() {
     return this.props.children;

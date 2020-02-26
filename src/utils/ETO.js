@@ -16,8 +16,6 @@ import {
   setConversionRate,
   setStatisticsByCurrency,
 } from '../actions/CurrencyAction';
-import moment from 'moment';
-
 
 export const getETOTokenSmartContract = (web3, etoConfig, isCrowdSale) => {
   if (!web3) { return null; }
@@ -36,6 +34,19 @@ export const getETOTokenSmartContract = (web3, etoConfig, isCrowdSale) => {
     console.error(err);
     return null;
   }
+};
+
+export const getETOParameters = async (web3, etoConfig, tokenContract) => {
+  // read standard ERC20 parameters
+  const result = await getERC20Parameters(tokenContract);
+  const icoParameters = etoConfig.icoParameters;
+
+  Object.keys(icoParameters).forEach((prop) => {
+    if (icoParameters[prop] !== null && typeof icoParameters[prop] === 'function') {
+      result[prop] = icoParameters[prop]();
+    }
+  });
+  return result;
 };
 
 const setETOPropertiesFromParameters = (dispatch, web3, parameters, abiAsDictionary, address) => {
@@ -63,7 +74,7 @@ const setETOPropertiesFromParameters = (dispatch, web3, parameters, abiAsDiction
       dispatch(setEtoProperties(address, tempResult));
     }
   });
-}
+};
 
 export const readETOSmartContract = etoConfig => async (dispatch, getState) => {
   if (!etoConfig) { return; }
@@ -158,7 +169,7 @@ const getLogRequests = (etoConfig, contracts, blocks) => {
   });
 
   return logRequests;
-}
+};
 
 export const getETOLogs = etoConfig => async (dispatch, getState) => {
   dispatch(showLoader());
@@ -193,11 +204,11 @@ export const getETOLogs = etoConfig => async (dispatch, getState) => {
   const time = new Date();
   const conversionRate = await dispatch(setConversionRate(address, initialCurrency, time, etoConfig));
   // load logs for all events
-  const logRequests = getLogRequests(etoConfig, contracts, {lastBlockNumber});
+  const logRequests = getLogRequests(etoConfig, contracts, { lastBlockNumber });
 
 
   const allLogs = {};
-  logProcessor(dispatch, {allLogs, logRequests}, etoConfig, contracts, {initialCurrency, conversionRate, time});
+  logProcessor(dispatch, { allLogs, logRequests }, etoConfig, contracts, { initialCurrency, conversionRate, time });
 };
 
 export const getEtoDates = (etoData) => {
@@ -207,17 +218,4 @@ export const getEtoDates = (etoData) => {
     startDate,
     endDate,
   };
-};
-
-export const getETOParameters = async (web3, etoConfig, tokenContract) => {
-  // read standard ERC20 parameters
-  const result = await getERC20Parameters(tokenContract);
-  const icoParameters = etoConfig.icoParameters;
-
-  Object.keys(icoParameters).forEach((prop) => {
-    if (icoParameters[prop] !== null && typeof icoParameters[prop] === 'function') {
-      result[prop] = icoParameters[prop]();
-    }
-  });
-  return result;
 };

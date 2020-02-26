@@ -16,7 +16,7 @@ import IcosList from './containers/IcosList';
 import InnerIcoPage from './containers/InnerIcoPage';
 import ICOStatsPage from './containers/ICOStatsPage';
 import './assets/css/index.css';
-import { IframeCssTweaker } from './components/IframeCssTweaker';
+import IframeCssTweaker from './components/IframeCssTweaker';
 import ETOStatsPage from './containers/ETOStatsPage';
 
 ReactPixel.init(env.fbPixelId);

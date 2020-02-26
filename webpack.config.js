@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -23,6 +24,7 @@ const config = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
+    new UglifyJsPlugin(),
   ],
   devtool: isProduction ? '(none)' : 'inline-source-map',
   node: {
@@ -76,9 +78,5 @@ const config = {
   },
 };
 
-
-if (isProduction) {
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin());
-}
 
 module.exports = config;

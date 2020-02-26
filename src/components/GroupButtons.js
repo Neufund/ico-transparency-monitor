@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
 import '../assets/css/GroupButtons.css';
-import { setStatisticsByCurrency, setConversionRate } from '../actions/CurrencyAction';
+import {
+  setStatisticsByCurrency,
+  setConversionRate,
+} from '../actions/CurrencyAction';
 
 class CurrencyButton extends Component {
   static mapButtonKeysToText(key) {
@@ -38,9 +41,11 @@ class CurrencyButton extends Component {
 
     currency = currency || this.props.currency;
     await this.props.setCurrency(currency, this.props.baseCurrency || 'ETH', rateDate, this.props.etoConfig);
-    this.setState({ exchangeRateActiveClass: dayClass,
+    this.setState({
+      exchangeRateActiveClass: dayClass,
       exchangeRateDate: rateDate,
-      currencyActiveClass: currency });
+      currencyActiveClass: currency,
+    });
   }
 
   render() {
@@ -77,7 +82,8 @@ class CurrencyButton extends Component {
               </ul>
             </div>
             <div className="exchangeRate">
-              <strong>{this.props.baseCurrency || 'ETH'} 1 = {this.props.currency} {this.props.currencyValue}</strong>
+              <strong>{this.props.baseCurrency || 'ETH'} 1
+                = {this.props.currency} {this.props.currencyValue}</strong>
               <br />
               <small>{this.props.provider} on {this.state.exchangeRateDate.formatDate()}
               </small>

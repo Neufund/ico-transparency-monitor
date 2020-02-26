@@ -37,7 +37,7 @@ export class IcoDataRow extends Component {
     return (
       <Row className="ico-container">
         <Grid>
-          <Row className="ico-box" onClick={function redirect() { window.location = `/#/${address}`; }}>
+          <Row className="ico-box" onClick={() => { window.location = `/#/${address}`; }}>
             <Col lg={3} md={12} sm={12} xs={12} className="name no-right-gutter">
               <Row className="ico-box-container">
                 <Col lg={12} md={12} sm={12} xs={12} className="no-right-gutter">

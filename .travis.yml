@@ -4,10 +4,10 @@ language: node_js
 notifications:
   email: false
 node_js:
-  - "7"
+  - "8"
 cache: yarn
 install:
   - yarn --pure-lockfile
 script:
-  - yarn eslint src
+  - yarn lint
   - yarn test

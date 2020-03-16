@@ -7,7 +7,8 @@ export default ({ tokenIssued, tokensOverflow, totalInvestors, totalTransactions
       <span
         className="tooltip"
         data-tip={`This section shows ${offeringType}  activity over time.<br/> Were most transactions done
-         first day? Were there any spikes? Activity at the end?`}
+        first day? Were there any spikes? Activity at the end?`}
+        data-placement={'right'}
       >
         Tokens issuance
       </span>

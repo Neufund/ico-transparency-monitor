@@ -29,7 +29,7 @@ export const getMedian = (numbers) => {
 };
 // totalSupply, stats, totalSupply, offeringType, name, symbol, baseCurrency, etoConfig, currencyValue, currency, investedMoney
 const ScanBoxETODetails = ({ totalSupply, stats, offeringType, name, symbol, baseCurrency, etoConfig, currencyValue, currency, investedMoney, address, downloadCSV, currencyRate }) => (<div className="scanbox-details">
-  <ReactTooltip multiline className="container" />
+  <ReactTooltip multiline className="container" place={'right'} />
   <Row className="statistics box-container">
     <Col md={12} sm={12} xs={12} className="scan-content">
       <GeneralDates {...stats.time} />
@@ -204,6 +204,7 @@ const ScanBoxETODetails = ({ totalSupply, stats, offeringType, name, symbol, bas
          shows which ticket size generated most funds. Were those
          few large 1M EUR tickets? Or rather many smaller 10k
          tickets?`}
+          data-placement={'right'}
         >Funds distribution</span>
       </h3>
       <Row className="box-container">

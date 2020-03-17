@@ -9,7 +9,7 @@ import RaisedAmount from '../components/RaisedAmount';
 import TokenIssued from '../components/TokenIssued';
 import TokenDistribution from '../components/TokenDistribution';
 import Chart from '../components/Chart';
-import { downloadCSV } from '../utils';
+import { downloadCSV, manageTooltipPosition } from '../utils';
 import config from '../config';
 import GiniIndex from '../components/GiniIndex';
 
@@ -29,7 +29,11 @@ export const getMedian = (numbers) => {
 };
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
-  <ReactTooltip multiline className="container" place={'right'}  />
+  <ReactTooltip
+    multiline
+    className="container"
+    overridePosition={manageTooltipPosition}
+  />
   <Row className="statistics box-container">
     <Col md={12} sm={12} xs={12} className="scan-content">
       <GeneralDates {...props.stats.time} />

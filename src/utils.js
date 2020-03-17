@@ -205,3 +205,6 @@ export const getEtherDistribution = (sortedInvestors, currencyPerEther) => {
   return [investorsChartXAxis, investmentChartXAxis];
 };
 
+export const manageTooltipPosition = ({ left, top }) => {
+  return { left: left < 10 ? 20 : left, top };
+};

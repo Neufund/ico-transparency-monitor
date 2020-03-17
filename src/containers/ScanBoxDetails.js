@@ -9,7 +9,7 @@ import RaisedAmount from '../components/RaisedAmount';
 import TokenIssued from '../components/TokenIssued';
 import TokenDistribution from '../components/TokenDistribution';
 import Chart from '../components/Chart';
-import { downloadCSV } from '../utils';
+import { downloadCSV, manageTooltipPosition } from '../utils';
 import config from '../config';
 import GiniIndex from '../components/GiniIndex';
 
@@ -26,10 +26,6 @@ export const getMedian = (numbers) => {
     median = numbers[(numsLen - 1) / 2];
   }
   return median;
-};
-
-const manageTooltipPosition = ({ left, top }) => {
-  return { left: left < 10 ? 20 : left, top };
 };
 
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">

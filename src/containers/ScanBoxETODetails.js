@@ -9,7 +9,10 @@ import RaisedAmount from '../components/RaisedAmount';
 import TokenIssued from '../components/TokenIssued';
 import TokenDistribution from '../components/TokenDistribution';
 import Chart from '../components/Chart';
-import { downloadCSV as downloadCSVUtil } from '../utils';
+import {
+  downloadCSV as downloadCSVUtil,
+  manageTooltipPosition,
+} from '../utils';
 import GiniIndex from '../components/GiniIndex';
 
 // TODO: refactor "Number heresy",
@@ -28,9 +31,6 @@ export const getMedian = (numbers) => {
   return median;
 };
 
-const manageTooltipPosition = ({ left, top }) => {
-  return { left: left < 10 ? 20 : left, top };
-};
 
 
 // totalSupply, stats, totalSupply, offeringType, name, symbol, baseCurrency, etoConfig, currencyValue, currency, investedMoney

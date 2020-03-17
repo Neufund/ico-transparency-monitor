@@ -28,8 +28,16 @@ export const getMedian = (numbers) => {
   return median;
 };
 
+const manageTooltipPosition = ({ left, top }) => {
+  return { left: left < 10 ? 20 : left, top };
+};
+
 const ScanBoxDetails = ({ ...props }) => (<div className="scanbox-details">
-  <ReactTooltip multiline  />
+  <ReactTooltip
+    multiline
+    className="container"
+    overridePosition={manageTooltipPosition}
+  />
   <Row className="statistics box-container">
     <Col md={12} sm={12} xs={12} className="scan-content">
       <GeneralDates {...props.stats.time} />

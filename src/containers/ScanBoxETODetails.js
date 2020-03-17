@@ -27,9 +27,7 @@ export const getMedian = (numbers) => {
   }
   return median;
 };
-const placement = {
-  place: "top"
-}
+
 const manageTooltipPosition = ({ left, top }) => {
   return { left: left < 10 ? 20 : left, top };
 };
@@ -40,7 +38,6 @@ const ScanBoxETODetails = ({ totalSupply, stats, offeringType, name, symbol, bas
   <ReactTooltip
     multiline
     className="container"
-    place={placement.place}
     overridePosition={manageTooltipPosition}
   />
   <Row className="statistics box-container">

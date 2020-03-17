@@ -1020,3 +1020,8 @@ tspan {
 .container[data-id="tooltip"] {
   max-width: 350px;
 }
+@media (max-width: 400px) {
+  .container[data-id="tooltip"]::after {
+    margin-left: -45px;
+  }
+}

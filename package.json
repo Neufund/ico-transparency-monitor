@@ -71,7 +71,7 @@
     "chai-enzyme": "^0.8.0",
     "chai-http": "^3.0.0",
     "code-notes": "^1.0.1",
-    "codecov": "^2.2.0",
+    "codecov": "^3.7.1",
     "copy-webpack-plugin": "^4.0.1",
     "enzyme": "^2.9.1",
     "eslint": "^4.3.0",

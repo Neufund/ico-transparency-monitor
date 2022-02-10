@@ -21,7 +21,7 @@
     "jsdom-global": "^3.0.2",
     "mocha": "^3.4.2",
     "moment": "^2.0.0",
-    "node-sass": "^4.0.0",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-addons-test-utils": "^15.6.0",
